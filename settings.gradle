@@ -1,0 +1,50 @@
+def initLocalGradleEnvironment() {
+    Properties properties = new Properties()
+    File propertyFile = new File(rootDir.getAbsolutePath() + "/local.properties")
+    properties.load(propertyFile.newDataInputStream())
+    gradle.ext.sdkDir = properties.getProperty('sdk.dir')
+    gradle.ext.ndkDir = properties.getProperty('ndk.dir')
+    gradle.ext.localDir = properties.getProperty('local.dir')
+    gradle.ext.debugKeystore = properties.getProperty('debug.keystore')
+}
+
+def initVersion() {
+    gradle.ext.compileSdkVersion = 27
+    gradle.ext.targetVersion = 27
+    gradle.ext.minSdkVersion = 26
+    gradle.ext.supportVersion = '27.0.2'
+    gradle.ext.versionCode = 1
+    gradle.ext.versionName = '1.0.0'
+
+    //base
+    gradle.ext.materialprogressbar = '1.4.2'
+    gradle.ext.butterknife = '8.8.1'
+    gradle.ext.gson = '2.8.1'
+    gradle.ext.toasty = "1.3.0"
+    gradle.ext.circleimageview = '2.2.0'
+
+    //core dependencies
+    gradle.ext.stetho ='1.5.0'
+    gradle.ext.leakcanary ='1.5.4'
+    gradle.ext.bugly_crashreport_upgrade ='1.3.4'
+
+    gradle.ext.lifecycle_extensions = '1.1.0'
+    gradle.ext.lifecycle_compiler = '1.1.0'
+    gradle.ext.room_runtime ='1.1.0-beta3'
+    gradle.ext.room_compiler = '1.1.0-beta3'
+
+    //
+    gradle.ext.danmaku = '0.9.25'
+    gradle.ext.danmaku_ndk = '0.9.21'
+
+    gradle.ext.literouter_core = '1.1.0'
+    gradle.ext.literouter_compiler = '1.0.2'
+    gradle.ext.litetask = '1.0.5'
+
+    gradle.ext.kotlin = '1.1.2-4'
+}
+
+initLocalGradleEnvironment()
+initVersion()
+
+include ':base', ':core', ':plugins', ':edge'

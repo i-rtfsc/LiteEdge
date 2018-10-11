@@ -1,0 +1,83 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.antfortune.freeline'
+
+android {
+    compileSdkVersion gradle.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.journeyOS.edge"
+        minSdkVersion gradle.minSdkVersion
+        targetSdkVersion gradle.targetVersion
+        versionCode gradle.versionCode
+        versionName gradle.versionName
+
+        ndk {
+            abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
+
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    signingConfigs {
+        release {
+            File strFile = new File("../keystore/platform.keystore")
+            storeFile file(strFile)
+            keyAlias 'platform'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+        debug {
+            File strFile = new File("../keystore/platform.keystore")
+            storeFile file(strFile)
+            keyAlias 'platform'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            main.java.srcDirs = ['src']
+            aidl.srcDirs = ['aidl']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == 'release') {
+            variant.outputs.all {
+                outputFileName = new File("./../../../../../app_release/", "LiteEdge.apk")
+            }
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation project(':core')
+    implementation project(':plugins')
+
+    annotationProcessor "com.journeyOS:literouter-compiler:$gradle.literouter_compiler"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$gradle.butterknife"
+}
+
+defaultTasks 'clean', 'assembleRelease'

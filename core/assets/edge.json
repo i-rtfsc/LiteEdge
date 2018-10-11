@@ -1,0 +1,17 @@
+{
+  "version": "1",
+  "edge": [
+    {
+      "packageName": "com.tencent.tmgp.sgame",
+      "postion": "1"
+    },
+    {
+      "packageName": "com.tencent.tmgp.pubgmhd",
+      "postion": "2"
+    },
+    {
+      "packageName": "com.android.settings",
+      "postion": "3"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2018 anqi.huang@outlook.com
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<resources>
+    <dimen name="mask_background_height">10px</dimen>
+    <dimen name="parent_width">1080px</dimen>
+    <dimen name="parent_height">2960px</dimen>
+    <dimen name="vertical_item_group_width">350px</dimen>
+    <dimen name="vertical_item_group_height">1770px</dimen>
+    <dimen name="landscape_item_group_width">1770px</dimen>
+    <dimen name="landscape_item_group_height">384px</dimen>
+    <dimen name="icon_image_view_size">132px</dimen>
+    <dimen name="icon_view_size">132px</dimen>
+    <dimen name="item_text_margin_top">15px</dimen>
+    <dimen name="textSize">27px</dimen>
+    <dimen name="statusTextSize">33px</dimen>
+    <dimen name="status_bar_width">960px</dimen>
+    <dimen name="status_bar_height">144px</dimen>
+    <dimen name="child_text_drawable_padding">9px</dimen>
+    <!-- Height of the battery icon in the status bar. -->
+    <dimen name="status_bar_battery_icon_height">10dp</dimen>
+    <!-- Width of the battery icon in the status bar. -->
+    <dimen name="status_bar_battery_icon_width">26dp</dimen>
+    <dimen name="backspace_marginLeft">8dp</dimen>
+
+    <dimen name="layout11_portrait_left">40px</dimen>
+    <dimen name="layout12_portrait_left">110px</dimen>
+    <dimen name="layout13_portrait_left">155px</dimen>
+    <dimen name="layout14_portrait_left">155px</dimen>
+    <dimen name="layout15_portrait_left">110px</dimen>
+    <dimen name="layout16_portrait_left">45px</dimen>
+
+    <dimen name="layout11_portrait_right">40px</dimen>
+    <dimen name="layout12_portrait_right">110px</dimen>
+    <dimen name="layout13_portrait_right">155px</dimen>
+    <dimen name="layout14_portrait_right">155px</dimen>
+    <dimen name="layout15_portrait_right">110px</dimen>
+    <dimen name="layout16_portrait_right">45px</dimen>
+
+</resources>
