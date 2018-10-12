@@ -53,7 +53,5 @@ dependencies {
     debugApi "com.squareup.leakcanary:leakcanary-android:$gradle.leakcanary"
     releaseApi "com.squareup.leakcanary:leakcanary-android-no-op:$gradle.leakcanary"
 
-    // implementation library , can only be used in current module ,using JsonHelper
-    implementation "com.google.code.gson:gson:$gradle.gson"
-
+    api "com.google.code.gson:gson:$gradle.gson"
 }

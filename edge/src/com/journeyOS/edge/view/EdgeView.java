@@ -37,6 +37,7 @@ import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.api.edgeprovider.EdgeConfig;
 import com.journeyOS.core.api.thread.ICoreExecutorsApi;
 import com.journeyOS.core.type.EdgeDirection;
+import com.journeyOS.core.weather.Weather;
 import com.journeyOS.edge.EdgeService;
 import com.journeyOS.edge.R;
 
@@ -46,6 +47,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EdgeView extends RelativeLayout implements View.OnClickListener, View.OnLongClickListener, View.OnAttachStateChangeListener {
     private static final String TAG = EdgeView.class.getSimpleName();
+
+    //temperature
+    private static final String TEMPERATURE = "℃";
+    private static final String REGION = " ~ ";
 
     private EdgeDirection mEd;
 
@@ -161,9 +166,9 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         mStatusBarText2 = (TextView) findViewById(R.id.statusbar_text2);
         mStatusBarText3 = (TextView) findViewById(R.id.statusbar_text3);
 
-        mStatusBarText1.setText("晴转多云");
-        mStatusBarText2.setText("16℃");
-        mStatusBarText3.setText("空气质量：优");
+//        mStatusBarText1.setText("晴转多云");
+//        mStatusBarText2.setText("16℃");
+//        mStatusBarText3.setText("空气质量：优");
 
         addOnAttachStateChangeListener(this);
     }
@@ -278,6 +283,29 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                             }
                         }
                     });
+                }
+            });
+
+            CoreManager.getDefault().getImpl(ICoreExecutorsApi.class).networkIOThread().execute(new Runnable() {
+                @Override
+                public void run() {
+                    final Weather weather = mListener.getWeather();
+                    if (weather != null) {
+                        CoreManager.getDefault().getImpl(ICoreExecutorsApi.class).mainThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mStatusBarText1 != null) {
+                                    mStatusBarText1.setText(weather.name);
+                                }
+                                if (mStatusBarText2 != null) {
+                                    mStatusBarText2.setText(weather.low + REGION + weather.high + TEMPERATURE);
+                                }
+                                if (mStatusBarText3 != null) {
+                                    mStatusBarText3.setText(weather.textDay);
+                                }
+                            }
+                        });
+                    }
                 }
             });
         }
@@ -514,5 +542,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         void onItemClick(int postion);
 
         void onItemLongClick(int postion);
+
+        Weather getWeather();
     }
 }

@@ -32,7 +32,9 @@ import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.api.edgeprovider.EdgeConfig;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.api.plugins.IPluginsApi;
+import com.journeyOS.core.api.weather.IFetchWeatherApi;
 import com.journeyOS.core.type.EdgeDirection;
+import com.journeyOS.core.weather.Weather;
 import com.journeyOS.edge.EdgeService;
 import com.journeyOS.edge.R;
 import com.journeyOS.edge.view.EdgeView;
@@ -158,6 +160,11 @@ public class EdgeManager {
                 public void onItemLongClick(int postion) {
                     LogUtils.d(TAG, "on item long click = " + postion);
                     CoreManager.getDefault().getImpl(IPluginsApi.class).navigationSelectorActivity(mContext, postion, EdgeService.getEdgeDirection());
+                }
+
+                @Override
+                public Weather getWeather() {
+                    return CoreManager.getDefault().getImpl(IFetchWeatherApi.class).queryWeather("shanghai");
                 }
             });
 
