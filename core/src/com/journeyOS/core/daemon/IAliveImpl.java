@@ -14,43 +14,31 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.api.thread;
+package com.journeyOS.core.daemon;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.content.Context;
 
+import com.journeyOS.core.api.daemon.IAlive;
 import com.journeyOS.literouter.annotation.ARouterInject;
 
-import java.util.concurrent.Executor;
+@ARouterInject(api = IAlive.class)
+public class IAliveImpl implements IAlive {
+    private static final String TAG = IAliveImpl.class.getCanonicalName();
 
-
-@ARouterInject(api = ICoreExecutorsApi.class)
-public class CoreExecutorsImpl implements ICoreExecutorsApi {
-    CoreExecutors mCoreExecutors;
 
     @Override
     public void onCreate() {
-        mCoreExecutors = new CoreExecutors();
+
     }
 
     @Override
-    public Executor diskIOThread() {
-        return mCoreExecutors.diskIO();
+    public void keepAlive(Context context) {
+        AliveActivity.navigationActivity(context);
     }
 
     @Override
-    public Executor networkIOThread() {
-        return mCoreExecutors.networkIO();
-    }
-
-    @Override
-    public Executor mainThread() {
-        return mCoreExecutors.mainThread();
-    }
-
-    @Override
-    public Handler handler() {
-        return new Handler(Looper.getMainLooper());
+    public void destroy() {
+        AliveActivity.destroy();
     }
 
 }

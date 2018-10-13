@@ -170,6 +170,14 @@ public class SpUtils {
     }
 
     public void remove(@NonNull String key) {
-        sp.edit().remove(key);
+        remove(key, false);
+    }
+
+    public void remove(@NonNull String key, final boolean isCommit) {
+        if (isCommit) {
+            sp.edit().remove(key).commit();
+        } else {
+            sp.edit().remove(key).apply();
+        }
     }
 }

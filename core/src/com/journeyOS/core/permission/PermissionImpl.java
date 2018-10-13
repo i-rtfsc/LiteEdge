@@ -31,8 +31,8 @@ import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.literouter.annotation.ARouterInject;
 
 
-@ARouterInject(api = IPermissionApi.class)
-public class PermissionImpl implements IPermissionApi {
+@ARouterInject(api = IPermission.class)
+public class PermissionImpl implements IPermission {
     private static final String TAG = PermissionImpl.class.getSimpleName();
     private static final int URGENT_PERMISSION = 0x01;
 

@@ -25,7 +25,7 @@ import android.view.MenuItem;
 
 import com.journeyOS.base.utils.ActivityUtil;
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.permission.IPermissionApi;
+import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.literouter.Router;
 
 import butterknife.ButterKnife;
@@ -90,6 +90,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        CoreManager.getDefault().getImpl(IPermissionApi.class).onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        CoreManager.getDefault().getImpl(IPermission.class).onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 }

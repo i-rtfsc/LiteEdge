@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.api.edgeprovider;
+package com.journeyOS.core.weather;
 
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.support.annotation.NonNull;
+public interface WeatherServiceApi {
 
-@Entity(tableName = DBConfigs.BALL_TABLE, primaryKeys = {DBConfigs.BALL_ORIENTATION})
-public class BallConfig {
-
-    @NonNull
-    @ColumnInfo(name = DBConfigs.BALL_ORIENTATION)
-    public int orientation;
-
-    @ColumnInfo(name = DBConfigs.BALL_LAYOUT_X)
-    public int layoutX;
-
-    @ColumnInfo(name = DBConfigs.BALL_LAYOUT_Y)
-    public int layoutY;
+    @GET("weather")
+    Call<Weather> getWeather(@Query("key") String key, @Query("location") String location);
 
 }

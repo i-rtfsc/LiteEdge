@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.database;
+package com.journeyOS.core.database.ball;
 
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.api.edgeprovider.BallConfig;
-import com.journeyOS.core.api.edgeprovider.DBConfigs;
+import com.journeyOS.core.database.DBConfigs;
 import com.journeyOS.core.api.edgeprovider.IBallProvider;
+import com.journeyOS.core.database.EdgeDatabase;
 import com.journeyOS.core.repository.DBHelper;
 import com.journeyOS.literouter.annotation.ARouterInject;
 
@@ -36,21 +36,21 @@ public class BallRepositoryImpl implements IBallProvider {
     }
 
     @Override
-    public BallConfig getConfig(int orientation) {
+    public Ball getConfig(int orientation) {
         synchronized (mLock) {
             return ballDao.searchConfig(orientation);
         }
     }
 
     @Override
-    public void insertOrUpdateConfig(BallConfig config) {
+    public void insertOrUpdateConfig(Ball config) {
         synchronized (mLock) {
             ballDao.insert(config);
         }
     }
 
     @Override
-    public void deleteConfig(BallConfig config) {
+    public void deleteConfig(Ball config) {
         synchronized (mLock) {
             ballDao.delete(config);
         }

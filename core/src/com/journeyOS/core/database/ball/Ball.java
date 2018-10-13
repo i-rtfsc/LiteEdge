@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.permission;
+package com.journeyOS.core.database.ball;
 
 
-import android.content.Context;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
 import android.support.annotation.NonNull;
 
-import com.journeyOS.core.api.ICoreApi;
-import com.journeyOS.core.base.BaseActivity;
+import com.journeyOS.core.database.DBConfigs;
 
-public interface IPermissionApi extends ICoreApi {
-    void initUrgentPermission(BaseActivity activity);
+@Entity(tableName = DBConfigs.BALL_TABLE, primaryKeys = {DBConfigs.BALL_ORIENTATION})
+public class Ball {
 
-    void onRequestPermissionsResult(BaseActivity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
+    @NonNull
+    @ColumnInfo(name = DBConfigs.BALL_ORIENTATION)
+    public int orientation;
 
-    boolean canDrawOverlays(Context activity);
+    @ColumnInfo(name = DBConfigs.BALL_LAYOUT_X)
+    public int layoutX;
+
+    @ColumnInfo(name = DBConfigs.BALL_LAYOUT_Y)
+    public int layoutY;
+
 }

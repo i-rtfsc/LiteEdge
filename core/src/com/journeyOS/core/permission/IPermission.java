@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
+package com.journeyOS.core.permission;
 
-package com.journeyOS.core.api.edgeprovider;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.journeyOS.core.api.ICoreApi;
-import com.journeyOS.core.database.ball.Ball;
+import com.journeyOS.core.base.BaseActivity;
 
-public interface IBallProvider extends ICoreApi {
+public interface IPermission extends ICoreApi {
+    void initUrgentPermission(BaseActivity activity);
 
-    Ball getConfig(int orientation);
+    void onRequestPermissionsResult(BaseActivity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
 
-    void insertOrUpdateConfig(Ball config);
-
-    void deleteConfig(Ball config);
-
-    void deleteAll();
+    boolean canDrawOverlays(Context activity);
 }

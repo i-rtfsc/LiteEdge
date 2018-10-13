@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.api.edgeprovider;
+package com.journeyOS.core.database;
 
 public class DBConfigs {
     //database name
     public static final String DB_NAME = "edge";
 
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
 
     //table
     public static final String EDGE_TABLE = "edge";
@@ -39,5 +39,24 @@ public class DBConfigs {
     public static final String BALL_LAYOUT_X = "x";
     //column
     public static final String BALL_LAYOUT_Y = "y";
+
+    //table
+    public static final String CITY_TABLE = "city";
+    //column
+    public static final String CITY_ID = "cityId";
+    //column
+    public static final String COUNTRY = "country";
+    //column
+    public static final String COUNTRY_EN = "countryEn";
+    //column
+    public static final String CITY_NAME = "cityName";
+    //column
+    public static final String PROVINCE = "province";
+    //column
+    public static final String PROVINCE_EN = "provinceEn";
+    //column
+    public static final String LONGITUDE = "longitude";
+    //column
+    public static final String LATITUDE = "latitude";
 
 }

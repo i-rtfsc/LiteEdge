@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.api.thread
+package com.journeyOS.core.thread
 
 import android.os.Handler
 import android.os.Looper

@@ -22,9 +22,13 @@ public class Constant {
     public static final String SEPARATOR = "#";
     public static final int LENGTH = 4;
 
+    public static final String DEFAULT_CITY = "CN101020100";
+
     //SharedPreferences KEY
     public static final String DAEMON = "daemon";
     public static final String BALL = "ball";
     public static final String DB_INITED = "dbInited";
+    public static final String CITY_INITED = "cityInited";
+    public static final String CITY_ID = "cityId";
 
 }

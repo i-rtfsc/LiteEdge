@@ -17,7 +17,9 @@
 package com.journeyOS.core.daemon;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.Gravity;
@@ -29,7 +31,21 @@ import com.journeyOS.base.utils.LogUtils;
 
 public class AliveActivity extends Activity {
     private static final String TAG = AliveActivity.class.getSimpleName();
+    private static final String KEEP_ALIVE = "com.journeyOS.core.daemon.keep_alive";
+
     private static Activity activity = null;
+
+    public static void navigationActivity(Context context) {
+        try {
+            LogUtils.d(TAG, "start daemon activity!");
+            Intent intent = new Intent();
+            intent.setAction(KEEP_ALIVE);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            LogUtils.d(TAG, e);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

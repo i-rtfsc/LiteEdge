@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.database;
+package com.journeyOS.core.database.ball;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -22,8 +22,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.journeyOS.core.api.edgeprovider.BallConfig;
-import com.journeyOS.core.api.edgeprovider.DBConfigs;
+import com.journeyOS.core.database.DBConfigs;
 
 import java.util.List;
 
@@ -31,19 +30,19 @@ import java.util.List;
 public interface BallDao {
 
     @Query("SELECT * FROM " + DBConfigs.BALL_TABLE)
-    List<BallConfig> getConfigs();
+    List<Ball> getConfigs();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(List<BallConfig> configs);
+    void insert(List<Ball> configs);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(BallConfig config);
+    void insert(Ball config);
 
     @Query("SELECT * FROM " + DBConfigs.BALL_TABLE + " WHERE " + DBConfigs.BALL_ORIENTATION + " LIKE :orientation  LIMIT 1")
-    BallConfig searchConfig(int orientation);
+    Ball searchConfig(int orientation);
 
     @Delete
-    void delete(BallConfig config);
+    void delete(Ball config);
 
     @Query("DELETE FROM " + DBConfigs.BALL_TABLE)
     void deleteAll();

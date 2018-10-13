@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.api.edgeprovider;
+package com.journeyOS.core.database.edge;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.support.annotation.NonNull;
 
+import com.journeyOS.core.database.DBConfigs;
+
 @Entity(tableName = DBConfigs.EDGE_TABLE, primaryKeys = {DBConfigs.EDGE_ITEM})
-public class EdgeConfig {
+public class Edge {
     /**
      * direction+"-"+postion
      */
@@ -44,7 +46,7 @@ public class EdgeConfig {
 
     @Override
     public String toString() {
-        return "EdgeConfig{" +
+        return "Edge{" +
                 "item='" + item + '\'' +
                 ", packageName='" + packageName + '\'' +
                 ", direction='" + direction + '\'' +

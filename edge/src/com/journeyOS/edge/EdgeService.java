@@ -31,10 +31,10 @@ import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.receiver.ScreenObserver;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.api.daemon.IAliveApi;
-import com.journeyOS.core.api.edge.IEdgeApi;
+import com.journeyOS.core.api.daemon.IAlive;
+import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
-import com.journeyOS.core.api.thread.ICoreExecutorsApi;
+import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.type.Direction;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.edge.utils.NotificationUtils;
@@ -64,7 +64,7 @@ public class EdgeService extends Service {
         @Override
         public void showingBall(final boolean isShowing) throws RemoteException {
             LogUtils.d(TAG, "showing ball = " + isShowing);
-            CoreManager.getDefault().getImpl(ICoreExecutorsApi.class).mainThread().execute(new Runnable() {
+            CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
                 @Override
                 public void run() {
                     if (isShowing) {
@@ -85,12 +85,12 @@ public class EdgeService extends Service {
 
         @Override
         public void showingEdge(int direction) throws RemoteException {
-            CoreManager.getDefault().getImpl(IEdgeApi.class).showingEdge(direction);
+            CoreManager.getDefault().getImpl(IEdge.class).showingEdge(direction);
         }
 
         @Override
         public void hidingEdge() throws RemoteException {
-            CoreManager.getDefault().getImpl(IEdgeApi.class).hidingEdge();
+            CoreManager.getDefault().getImpl(IEdge.class).hidingEdge();
         }
     };
 
@@ -129,7 +129,7 @@ public class EdgeService extends Service {
         intent.setAction("com.journeyOS.edge.action.FakeService");
         mContext.bindService(intent, mFakeConnection, Context.BIND_AUTO_CREATE);
 
-        CoreManager.getDefault().getImpl(ICoreExecutorsApi.class).diskIOThread().execute(new Runnable() {
+        CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
             @Override
             public void run() {
                 CoreManager.getDefault().getImpl(IEdgeProvider.class).initConfig();
@@ -145,9 +145,9 @@ public class EdgeService extends Service {
                         LogUtils.d(TAG, "edge service listener screen changed = " + isScreenOn);
                     }
                     if (isScreenOn) {
-                        CoreManager.getDefault().getImpl(IAliveApi.class).destroy();
+                        CoreManager.getDefault().getImpl(IAlive.class).destroy();
                     } else {
-                        CoreManager.getDefault().getImpl(IAliveApi.class).keepAlive(mContext);
+                        CoreManager.getDefault().getImpl(IAlive.class).keepAlive(mContext);
                     }
                 }
             });

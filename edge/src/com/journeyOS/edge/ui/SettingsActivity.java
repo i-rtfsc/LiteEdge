@@ -25,8 +25,10 @@ import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.base.widget.SettingSwitch;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.api.edgeprovider.ICityProvider;
+import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.base.BaseActivity;
-import com.journeyOS.core.permission.IPermissionApi;
+import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.edge.EdgeController;
 import com.journeyOS.edge.R;
 import com.journeyOS.plugins.R2;
@@ -75,6 +77,13 @@ public class SettingsActivity extends BaseActivity {
         if (ball) {
             EdgeController.getDefault().showingOrHidingBall(true);
         }
+
+        CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
+            @Override
+            public void run() {
+                CoreManager.getDefault().getImpl(ICityProvider.class).loadCitys();
+            }
+        });
     }
 
     @OnClick({R.id.daemon})
@@ -94,12 +103,11 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick({R.id.overflow})
     public void overflowPermission() {
-        boolean hasPermission = CoreManager.getDefault().getImpl(IPermissionApi.class).canDrawOverlays(mContext);
+        boolean hasPermission = CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext);
         if (hasPermission) {
             String message = mContext.getString(R.string.has_permission) + mContext.getString(R.string.overflow);
             Toasty.success(mContext, message, Toast.LENGTH_SHORT).show();
         }
     }
-
 
 }

@@ -30,10 +30,10 @@ import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.Messages;
-import com.journeyOS.core.api.edge.IEdgeApi;
-import com.journeyOS.core.api.edgeprovider.EdgeConfig;
+import com.journeyOS.core.api.edge.IEdge;
+import com.journeyOS.core.database.edge.Edge;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
-import com.journeyOS.core.api.thread.ICoreExecutorsApi;
+import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.viewmodel.ModelProvider;
@@ -70,7 +70,7 @@ public class SelectorActivity extends BaseActivity implements RouterListener {
             intent.putExtra(EXTRA_POSTION, postion);
             intent.putExtra(EXTRA_DIRECTION, direction);
             from.startActivity(intent);
-            CoreManager.getDefault().getImpl(IEdgeApi.class).hidingEdge();
+            CoreManager.getDefault().getImpl(IEdge.class).hidingEdge();
         } catch (ActivityNotFoundException e) {
             LogUtils.d(TAG, e);
         }
@@ -83,7 +83,7 @@ public class SelectorActivity extends BaseActivity implements RouterListener {
         intent.putExtra(EXTRA_POSTION, postion);
         intent.putExtra(EXTRA_DIRECTION, direction);
         from.startActivity(intent);
-        CoreManager.getDefault().getImpl(IEdgeApi.class).hidingEdge();
+        CoreManager.getDefault().getImpl(IEdge.class).hidingEdge();
     }
 
     public void save(final String packageName) {
@@ -93,12 +93,12 @@ public class SelectorActivity extends BaseActivity implements RouterListener {
             return;
         }
 
-        CoreManager.getDefault().getImpl(ICoreExecutorsApi.class).diskIOThread().execute(new Runnable() {
+        CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
             @Override
             public void run() {
                 if (sDirection != null || sPostion != -1) {
                     String item = CoreManager.getDefault().getImpl(IEdgeProvider.class).encodeItem(sDirection, sPostion);
-                    EdgeConfig config = new EdgeConfig();
+                    Edge config = new Edge();
                     config.item = item;
                     config.direction = sDirection.name().toLowerCase();
                     config.packageName = packageName;
@@ -111,7 +111,7 @@ public class SelectorActivity extends BaseActivity implements RouterListener {
 
     private void finishActivity() {
         this.finish();
-        CoreManager.getDefault().getImpl(IEdgeApi.class).showingEdge(sDirection);
+        CoreManager.getDefault().getImpl(IEdge.class).showingEdge(sDirection);
     }
 
 

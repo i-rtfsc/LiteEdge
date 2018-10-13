@@ -21,7 +21,7 @@ import android.content.res.Configuration;
 
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.api.edge.IEdgeApi;
+import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.type.Direction;
 import com.journeyOS.core.type.EdgeDirection;
 
@@ -48,7 +48,7 @@ public class Dispatcher {
         switch (direction) {
             case LEFT:
                 if (isPortrait) {
-                    CoreManager.getDefault().getImpl(IEdgeApi.class).showingEdge(EdgeDirection.RIGHT);
+                    CoreManager.getDefault().getImpl(IEdge.class).showingEdge(EdgeDirection.RIGHT);
                 } else {
 
                 }
@@ -57,7 +57,7 @@ public class Dispatcher {
 
             case LONG_LEFT:
                 if (isPortrait) {
-                    CoreManager.getDefault().getImpl(IEdgeApi.class).showingEdge(EdgeDirection.RIGHT);
+                    CoreManager.getDefault().getImpl(IEdge.class).showingEdge(EdgeDirection.RIGHT);
                 } else {
 
                 }
@@ -66,7 +66,7 @@ public class Dispatcher {
 
             case RIGHT:
                 if (isPortrait) {
-                    CoreManager.getDefault().getImpl(IEdgeApi.class).showingEdge(EdgeDirection.LEFT);
+                    CoreManager.getDefault().getImpl(IEdge.class).showingEdge(EdgeDirection.LEFT);
                 } else {
 
                 }
@@ -74,7 +74,7 @@ public class Dispatcher {
 
             case LONG_RIGHT:
                 if (isPortrait) {
-                    CoreManager.getDefault().getImpl(IEdgeApi.class).showingEdge(EdgeDirection.LEFT);
+                    CoreManager.getDefault().getImpl(IEdge.class).showingEdge(EdgeDirection.LEFT);
                 } else {
 
                 }
@@ -84,7 +84,7 @@ public class Dispatcher {
                 if (isPortrait) {
 
                 } else {
-                    CoreManager.getDefault().getImpl(IEdgeApi.class).showingEdge(EdgeDirection.UP);
+                    CoreManager.getDefault().getImpl(IEdge.class).showingEdge(EdgeDirection.UP);
                 }
                 break;
 
@@ -92,7 +92,7 @@ public class Dispatcher {
                 if (isPortrait) {
 
                 } else {
-                    CoreManager.getDefault().getImpl(IEdgeApi.class).showingEdge(EdgeDirection.UP);
+                    CoreManager.getDefault().getImpl(IEdge.class).showingEdge(EdgeDirection.UP);
                 }
                 break;
 

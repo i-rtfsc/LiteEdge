@@ -29,10 +29,11 @@ import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.api.edgeprovider.EdgeConfig;
+import com.journeyOS.core.api.edgeprovider.ICityProvider;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
-import com.journeyOS.core.api.plugins.IPluginsApi;
+import com.journeyOS.core.api.plugins.IPlugins;
 import com.journeyOS.core.api.weather.IFetchWeatherApi;
+import com.journeyOS.core.database.edge.Edge;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.weather.Weather;
 import com.journeyOS.edge.EdgeService;
@@ -56,7 +57,7 @@ public class EdgeManager {
     private EdgeView mEdgeView;
     private EdgeView mLastEdgeView;
 
-    private static final Map<Integer, EdgeConfig> sCache = new HashMap<Integer, EdgeConfig>(6);
+    private static final Map<Integer, Edge> sCache = new HashMap<Integer, Edge>(6);
 
     private EdgeManager() {
         mContext = CoreManager.getDefault().getContext();
@@ -122,14 +123,14 @@ public class EdgeManager {
                 }
 
                 @Override
-                public List<EdgeConfig> getConfigs(EdgeDirection direction) {
+                public List<Edge> getConfigs(EdgeDirection direction) {
                     if (sCache != null) {
                         sCache.clear();
                     }
 
-                    List<EdgeConfig> configs = CoreManager.getDefault().getImpl(IEdgeProvider.class).getConfigs(direction.name().toLowerCase());
+                    List<Edge> configs = CoreManager.getDefault().getImpl(IEdgeProvider.class).getConfigs(direction.name().toLowerCase());
                     LogUtils.d(TAG, "get " + direction.name().toLowerCase() + " configs " + configs);
-                    for (EdgeConfig config : configs) {
+                    for (Edge config : configs) {
                         int postion = -1;
                         String[] items = config.item.split(Constant.SEPARATOR);
                         if (items != null) {
@@ -146,12 +147,12 @@ public class EdgeManager {
                 public void onItemClick(int postion) {
                     LogUtils.d(TAG, "on item click = " + postion);
                     if (sCache != null) {
-                        EdgeConfig config = sCache.get(postion);
+                        Edge config = sCache.get(postion);
                         if (config != null) {
                             AppUtils.startApp(mContext, config.packageName);
                             if (mEdgeView != null) mEdgeView.hideEdgeView();
                         } else {
-                            CoreManager.getDefault().getImpl(IPluginsApi.class).navigationSelectorActivity(mContext, postion, EdgeService.getEdgeDirection());
+                            CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, EdgeService.getEdgeDirection());
                         }
                     }
                 }
@@ -159,12 +160,13 @@ public class EdgeManager {
                 @Override
                 public void onItemLongClick(int postion) {
                     LogUtils.d(TAG, "on item long click = " + postion);
-                    CoreManager.getDefault().getImpl(IPluginsApi.class).navigationSelectorActivity(mContext, postion, EdgeService.getEdgeDirection());
+                    CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, EdgeService.getEdgeDirection());
                 }
 
                 @Override
                 public Weather getWeather() {
-                    return CoreManager.getDefault().getImpl(IFetchWeatherApi.class).queryWeather("shanghai");
+                    String city = CoreManager.getDefault().getImpl(ICityProvider.class).getCity();
+                    return CoreManager.getDefault().getImpl(IFetchWeatherApi.class).queryWeather(city);
                 }
             });
 

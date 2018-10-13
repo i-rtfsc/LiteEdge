@@ -18,13 +18,13 @@ package com.journeyOS.plugins.provider;
 
 import android.content.Context;
 
-import com.journeyOS.core.api.plugins.IPluginsApi;
+import com.journeyOS.core.api.plugins.IPlugins;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.literouter.annotation.ARouterInject;
 import com.journeyOS.plugins.SelectorActivity;
 
-@ARouterInject(api = IPluginsApi.class)
-public class PluginsImpl implements IPluginsApi {
+@ARouterInject(api = IPlugins.class)
+public class PluginsImpl implements IPlugins {
 
     @Override
     public void onCreate() {

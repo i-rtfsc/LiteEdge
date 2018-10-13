@@ -19,11 +19,10 @@ package com.journeyOS.core.appconfig;
 import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
 
 import com.facebook.stetho.Stetho;
 import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.utils.FileIOUtils;
 import com.journeyOS.core.BuildConfig;
 import com.journeyOS.core.R;
 import com.tencent.bugly.Bugly;
@@ -39,6 +38,7 @@ public class AppConfig {
     public static void initialize(Application context) {
         initANRWatch(context);
         initCrashReport(context);
+        initFile();
         initSharedPreference(context);
         initToastyConfig(context);
     }
@@ -60,6 +60,10 @@ public class AppConfig {
             Stetho.initializeWithDefaults(context);
             // LeakCanary.install(context);
         }
+    }
+
+    private static void initFile() {
+        FileIOUtils.init(APP_NAME);
     }
 
     private static void initSharedPreference(Context context) {

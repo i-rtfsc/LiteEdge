@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.database;
+package com.journeyOS.core.database.edge;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -22,8 +22,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.journeyOS.core.api.edgeprovider.DBConfigs;
-import com.journeyOS.core.api.edgeprovider.EdgeConfig;
+import com.journeyOS.core.database.DBConfigs;
 
 import java.util.List;
 
@@ -31,22 +30,22 @@ import java.util.List;
 public interface EdgeDao {
 
     @Query("SELECT * FROM " + DBConfigs.EDGE_TABLE)
-    List<EdgeConfig> getConfigs();
+    List<Edge> getConfigs();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(List<EdgeConfig> configs);
+    void insert(List<Edge> configs);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(EdgeConfig config);
+    void insert(Edge config);
 
     @Query("SELECT * FROM " + DBConfigs.EDGE_TABLE + " WHERE " + DBConfigs.EDGE_ITEM + " LIKE :item LIMIT 1")
-    EdgeConfig searchConfig(String item);
+    Edge searchConfig(String item);
 
     @Query("SELECT * FROM " + DBConfigs.EDGE_TABLE + " WHERE " + DBConfigs.EDGE_DIRECTION + " LIKE :direction LIMIT 6")
-    List<EdgeConfig> findConfig(String direction);
+    List<Edge> findConfig(String direction);
 
     @Delete
-    void delete(EdgeConfig config);
+    void delete(Edge config);
 
     @Query("DELETE FROM " + DBConfigs.EDGE_TABLE)
     void deleteAll();

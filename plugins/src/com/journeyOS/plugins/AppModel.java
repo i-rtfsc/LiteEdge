@@ -23,7 +23,7 @@ import android.graphics.drawable.Drawable;
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.api.thread.ICoreExecutorsApi;
+import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.viewmodel.BaseViewModel;
 import com.journeyOS.plugins.adapter.AppInfoData;
 
@@ -41,7 +41,7 @@ public class AppModel extends BaseViewModel {
     }
 
     void getAllApps() {
-        CoreManager.getDefault().getImpl(ICoreExecutorsApi.class).diskIOThread().execute(new Runnable() {
+        CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
             @Override
             public void run() {
                 List<String> apps = AppUtils.getLauncherApp(mContext);

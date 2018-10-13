@@ -48,6 +48,9 @@ dependencies {
     api "android.arch.persistence.room:runtime:$gradle.room_runtime"
     api "com.github.GrenderG:Toasty:$gradle.toasty"
 
+    api "com.squareup.retrofit2:retrofit:$gradle.retrofit2"
+    api "com.squareup.retrofit2:converter-gson:$gradle.retrofit2"
+
     api "de.hdodenhof:circleimageview:$gradle.circleimageview"
 
     debugApi "com.squareup.leakcanary:leakcanary-android:$gradle.leakcanary"

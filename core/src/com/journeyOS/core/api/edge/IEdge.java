@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.api.daemon;
-
-import android.content.Context;
+package com.journeyOS.core.api.edge;
 
 import com.journeyOS.core.api.ICoreApi;
+import com.journeyOS.core.type.EdgeDirection;
 
-public interface IAliveApi extends ICoreApi {
-    void keepAlive(Context context);
-    void destroy();
+public interface IEdge extends ICoreApi {
+    void showingEdge(int direction);
+    void showingEdge(int direction, long delayMillis);
+    void showingEdge(EdgeDirection direction);
+    void showingEdge(EdgeDirection direction, long delayMillis);
+    void hidingEdge();
+    void hidingEdge(long delayMillis);
 }

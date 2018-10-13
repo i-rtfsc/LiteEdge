@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.api.thread;
+package com.journeyOS.core.api.plugins;
 
-
-import android.os.Handler;
+import android.content.Context;
 
 import com.journeyOS.core.api.ICoreApi;
+import com.journeyOS.core.type.EdgeDirection;
 
-import java.util.concurrent.Executor;
-
-public interface ICoreExecutorsApi extends ICoreApi {
-    Executor diskIOThread();
-
-    Executor networkIOThread();
-
-    Executor mainThread();
-
-    Handler handler();
+public interface IPlugins extends ICoreApi {
+    void navigationSelectorActivity(Context context, int postion, EdgeDirection direction);
 }
-

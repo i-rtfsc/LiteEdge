@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.database;
+package com.journeyOS.core.database.edge;
 
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
@@ -22,9 +22,9 @@ import com.journeyOS.base.utils.FileIOUtils;
 import com.journeyOS.base.utils.JsonHelper;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.api.edgeprovider.DBConfigs;
-import com.journeyOS.core.api.edgeprovider.EdgeConfig;
+import com.journeyOS.core.database.DBConfigs;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
+import com.journeyOS.core.database.EdgeDatabase;
 import com.journeyOS.core.database.entity.EdgeBean;
 import com.journeyOS.core.repository.DBHelper;
 import com.journeyOS.core.type.EdgeDirection;
@@ -48,35 +48,35 @@ public class EdgeRepositoryImpl implements IEdgeProvider {
     }
 
     @Override
-    public List<EdgeConfig> getConfigs() {
+    public List<Edge> getConfigs() {
         synchronized (mLock) {
             return edgeDao.getConfigs();
         }
     }
 
     @Override
-    public List<EdgeConfig> getConfigs(String direction) {
+    public List<Edge> getConfigs(String direction) {
         synchronized (mLock) {
             return edgeDao.findConfig(direction);
         }
     }
 
     @Override
-    public EdgeConfig getConfig(String item) {
+    public Edge getConfig(String item) {
         synchronized (mLock) {
             return edgeDao.searchConfig(item);
         }
     }
 
     @Override
-    public void insertOrUpdateConfig(EdgeConfig config) {
+    public void insertOrUpdateConfig(Edge config) {
         synchronized (mLock) {
             edgeDao.insert(config);
         }
     }
 
     @Override
-    public void deleteConfig(EdgeConfig config) {
+    public void deleteConfig(Edge config) {
         synchronized (mLock) {
             edgeDao.delete(config);
         }
@@ -102,7 +102,7 @@ public class EdgeRepositoryImpl implements IEdgeProvider {
             if (bean != null) {
                 List<EdgeBean.Edge> edges = bean.edge;
                 for (EdgeBean.Edge edge : edges) {
-                    EdgeConfig config = new EdgeConfig();
+                    Edge config = new Edge();
                     config.packageName = edge.packageName;
 
                     //left

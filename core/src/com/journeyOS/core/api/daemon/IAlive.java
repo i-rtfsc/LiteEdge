@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.api.plugins;
+package com.journeyOS.core.api.daemon;
 
 import android.content.Context;
 
 import com.journeyOS.core.api.ICoreApi;
-import com.journeyOS.core.type.EdgeDirection;
 
-public interface IPluginsApi extends ICoreApi {
-    void navigationSelectorActivity(Context context, int postion, EdgeDirection direction);
+public interface IAlive extends ICoreApi {
+    void keepAlive(Context context);
+    void destroy();
 }

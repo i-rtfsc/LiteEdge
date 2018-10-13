@@ -34,8 +34,8 @@ import com.journeyOS.base.utils.AnimationUtil;
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.api.edgeprovider.EdgeConfig;
-import com.journeyOS.core.api.thread.ICoreExecutorsApi;
+import com.journeyOS.core.api.thread.ICoreExecutors;
+import com.journeyOS.core.database.edge.Edge;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.weather.Weather;
 import com.journeyOS.edge.EdgeService;
@@ -219,15 +219,15 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
 
     public void initDatas() {
         if (mListener != null) {
-            CoreManager.getDefault().getImpl(ICoreExecutorsApi.class).diskIOThread().execute(new Runnable() {
+            CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
                 @Override
                 public void run() {
-                    final List<EdgeConfig> configs = mListener.getConfigs(mEd);
-                    CoreManager.getDefault().getImpl(ICoreExecutorsApi.class).mainThread().execute(new Runnable() {
+                    final List<Edge> configs = mListener.getConfigs(mEd);
+                    CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
                         @Override
                         public void run() {
                             if (configs != null) {
-                                for (EdgeConfig config : configs) {
+                                for (Edge config : configs) {
                                     int postion = -1;
                                     String[] items = config.item.split(Constant.SEPARATOR);
                                     if (items != null) {
@@ -286,25 +286,33 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                 }
             });
 
-            CoreManager.getDefault().getImpl(ICoreExecutorsApi.class).networkIOThread().execute(new Runnable() {
+            CoreManager.getDefault().getImpl(ICoreExecutors.class).networkIOThread().execute(new Runnable() {
                 @Override
                 public void run() {
-                    final Weather weather = mListener.getWeather();
-                    if (weather != null) {
-                        CoreManager.getDefault().getImpl(ICoreExecutorsApi.class).mainThread().execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (mStatusBarText1 != null) {
-                                    mStatusBarText1.setText(weather.name);
+                    Weather weather = mListener.getWeather();
+                    if (weather != null && weather.HeWeather6 != null) {
+                        final Weather.HeWeather6Bean heWeather = weather.HeWeather6.get(0);
+                        if (heWeather != null) {
+                            CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (heWeather.daily_forecast != null) {
+                                        Weather.HeWeather6Bean.DailyForecastBean daily = heWeather.daily_forecast.get(0);
+                                        if (daily != null) {
+                                            if (mStatusBarText1 != null) {
+                                                mStatusBarText1.setText(daily.cond_txt_d);
+                                            }
+                                            if (mStatusBarText2 != null) {
+                                                mStatusBarText2.setText(daily.tmp_min + REGION + daily.tmp_max + TEMPERATURE);
+                                            }
+                                            if (mStatusBarText3 != null) {
+                                                mStatusBarText3.setText("风速 " + daily.wind_spd);
+                                            }
+                                        }
+                                    }
                                 }
-                                if (mStatusBarText2 != null) {
-                                    mStatusBarText2.setText(weather.low + REGION + weather.high + TEMPERATURE);
-                                }
-                                if (mStatusBarText3 != null) {
-                                    mStatusBarText3.setText(weather.textDay);
-                                }
-                            }
-                        });
+                            });
+                        }
                     }
                 }
             });
@@ -517,7 +525,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
     void notifyViewDetached() {
         //onViewDetachedFromWindow not be called!
         if (mListener != null) {
-            CoreManager.getDefault().getImpl(ICoreExecutorsApi.class).handler().postDelayed(new Runnable() {
+            CoreManager.getDefault().getImpl(ICoreExecutors.class).handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mListener.onViewDetachedFromWindow();
@@ -537,7 +545,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
 
         void onViewDetachedFromWindow();
 
-        List<EdgeConfig> getConfigs(EdgeDirection direction);
+        List<Edge> getConfigs(EdgeDirection direction);
 
         void onItemClick(int postion);
 

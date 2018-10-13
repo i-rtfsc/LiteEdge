@@ -27,9 +27,9 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.api.edgeprovider.BallConfig;
+import com.journeyOS.core.api.thread.ICoreExecutors;
+import com.journeyOS.core.database.ball.Ball;
 import com.journeyOS.core.api.edgeprovider.IBallProvider;
-import com.journeyOS.core.api.thread.ICoreExecutorsApi;
 import com.journeyOS.core.type.Direction;
 import com.journeyOS.edge.R;
 
@@ -211,11 +211,11 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
         mParams.x = (int) (xInScreen - xInView);
         mParams.y = (int) (yInScreen - yInView);
 
-        CoreManager.getDefault().getImpl(ICoreExecutorsApi.class).diskIOThread().execute(new Runnable() {
+        CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
             @Override
             public void run() {
                 int orientation = mContext.getResources().getConfiguration().orientation;
-                BallConfig config = new BallConfig();
+                Ball config = new Ball();
                 config.orientation = orientation;
                 config.layoutX = mParams.x;
                 config.layoutY = mParams.y;

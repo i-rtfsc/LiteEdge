@@ -18,6 +18,7 @@
 package com.journeyOS.base.utils;
 
 import android.content.Context;
+import android.os.Environment;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -31,10 +32,57 @@ public class FileIOUtils {
     private static final String TAG = FileIOUtils.class.getSimpleName();
     private static final String LINE_SEP = System.getProperty("line.separator");
 
+    private static String mAppName;
+
+    public static void init(String appName) {
+        mAppName = appName;
+    }
+
     public static boolean isFileExists(final File file) {
         return file != null && file.exists();
     }
 
+    /**
+     * SDCard root
+     */
+    public static String sdcardRoot() {
+        return Environment.getExternalStorageDirectory().toString();
+    }
+
+    public static String getAppFolder() {
+        // Create the application workspace
+        File cacheDir = new File(sdcardRoot() + File.separator + mAppName + File.separator);
+        if (!cacheDir.exists()) {
+            makeDir(cacheDir);
+        }
+        return cacheDir.getPath();
+    }
+
+    public static boolean makeDir(File dir) {
+        if (!dir.exists()) {
+            return dir.mkdirs();
+        }
+        return (dir.exists() && dir.isDirectory());
+    }
+
+    /**
+     * Build a file, used to be inserted in the disk cache.
+     *
+     * @param fileId The name build the file.
+     * @return A valid file.
+     */
+    public static File buildFile(String fileId) {
+        File file = new File(getAppFolder(), fileId);
+
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
+    }
 
     public static String readFile2String(final File file) {
         return readFile2String(file, null);

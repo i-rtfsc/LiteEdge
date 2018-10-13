@@ -17,20 +17,21 @@
 package com.journeyOS.core.api.edgeprovider;
 
 import com.journeyOS.core.api.ICoreApi;
+import com.journeyOS.core.database.edge.Edge;
 import com.journeyOS.core.type.EdgeDirection;
 
 import java.util.List;
 
 public interface IEdgeProvider extends ICoreApi {
-    List<EdgeConfig> getConfigs();
+    List<Edge> getConfigs();
 
-    List<EdgeConfig> getConfigs(String direction);
+    List<Edge> getConfigs(String direction);
 
-    EdgeConfig getConfig(String item);
+    Edge getConfig(String item);
 
-    void insertOrUpdateConfig(EdgeConfig config);
+    void insertOrUpdateConfig(Edge config);
 
-    void deleteConfig(EdgeConfig config);
+    void deleteConfig(Edge config);
 
     void deleteAll();
 

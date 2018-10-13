@@ -14,16 +14,22 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.api.edge;
+package com.journeyOS.core.api.thread;
+
+
+import android.os.Handler;
 
 import com.journeyOS.core.api.ICoreApi;
-import com.journeyOS.core.type.EdgeDirection;
 
-public interface IEdgeApi extends ICoreApi {
-    void showingEdge(int direction);
-    void showingEdge(int direction, long delayMillis);
-    void showingEdge(EdgeDirection direction);
-    void showingEdge(EdgeDirection direction, long delayMillis);
-    void hidingEdge();
-    void hidingEdge(long delayMillis);
+import java.util.concurrent.Executor;
+
+public interface ICoreExecutors extends ICoreApi {
+    Executor diskIOThread();
+
+    Executor networkIOThread();
+
+    Executor mainThread();
+
+    Handler handler();
 }
+

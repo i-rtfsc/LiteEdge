@@ -1,94 +1,59 @@
+/*
+ * Copyright (c) 2018 anqi.huang@outlook.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.journeyOS.core.weather;
 
-import com.journeyOS.base.utils.JsonHelper;
-import com.journeyOS.base.utils.LogUtils;
+import com.journeyOS.base.utils.Base64Util;
+import com.journeyOS.core.AppHttpClient;
 import com.journeyOS.core.api.weather.IFetchWeatherApi;
 import com.journeyOS.literouter.annotation.ARouterInject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 @ARouterInject(api = IFetchWeatherApi.class)
 public class FetchWeatherImpl implements IFetchWeatherApi {
     private static final String TAG = FetchWeatherImpl.class.getSimpleName();
-    private static final String SECRET_KEY = "4ayrycuognrqhdmu";
-    //https://api.seniverse.com/v3/weather/now.json?key=4ayrycuognrqhdmu&location=shanghai&language=zh-Hans&unit=c
-    private static final String WEATHER_URL = "https://api.seniverse.com/v3/weather/daily.json?key=" + SECRET_KEY;
-    private static final String DAY = "1";
+    private static final String WEATHER_KEY = "OGFlZWM3NzAxNzcyNGI1MThhNWYwYmE1ZDE4ODg4MjA";
+
+    private WeatherServiceApi mWsa;
 
     @Override
     public void onCreate() {
-
+        mWsa = AppHttpClient.getDefault().getService(WeatherServiceApi.class);
     }
 
     @Override
     public Weather queryWeather(String city) {
-        String json = getWeather(city, DAY);
-        Weather weather = JsonHelper.fromJson(json, Weather.class);
-        if (weather != null) LogUtils.d(TAG, " weather = " + weather.toString());
-        return weather;
-    }
-
-
-    public static String getWeather(String... params) {
-        StringBuilder weatherUrl = new StringBuilder();
-        weatherUrl.append(WEATHER_URL).append("&location=").append(params[0]).append("&language=zh-Hans&unit=c&start=0").append("&days=").append(params[1]);
-
-        InputStream inputStream = null;
-
-        HttpURLConnection urlConnection = null;
-
-        String result = null;
         try {
-            /* forming th java.net.URL object */
-            URL url = new URL(weatherUrl.toString());
-
-            urlConnection = (HttpURLConnection) url.openConnection();
-
-            /* optional request header */
-            urlConnection.setRequestProperty("Content-Type", "application/json");
-
-            /* optional request header */
-            urlConnection.setRequestProperty("Accept", "application/json");
-
-            /* for Get request */
-            urlConnection.setRequestMethod("GET");
-
-            int statusCode = urlConnection.getResponseCode();
-
-            /* 200 represents HTTP OK */
-            if (statusCode == 200) {
-                inputStream = new BufferedInputStream(urlConnection.getInputStream());
-                result = convertInputStreamToString(inputStream);
-                LogUtils.d("result", "get weather success, json = " + result);
+            Call<Weather> weatherCall = mWsa.getWeather(Base64Util.fromBase64(WEATHER_KEY), city);
+            Response<Weather> response = weatherCall.execute();
+            if (response.isSuccessful()) {
+                Weather weather = response.body();
+                return weather;
             } else {
-                result = null; //"Failed to fetch data!";
-            }
 
-        } catch (Exception e) {
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return result == null ? null : result.substring(0, result.length() - 2);
+        return null;
     }
 
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while ((line = bufferedReader.readLine()) != null) {
-            result += line;
-        }
-        /* Close Stream */
-        if (null != inputStream) {
-            inputStream.close();
-        }
-
-        return result.substring(12);
-    }
 }

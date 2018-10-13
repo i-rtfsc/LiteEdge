@@ -19,15 +19,15 @@ package com.journeyOS.edge.provider;
 import android.os.Handler;
 import android.os.Message;
 
-import com.journeyOS.core.api.edge.IEdgeApi;
+import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.edge.wm.EdgeManager;
 import com.journeyOS.literouter.annotation.ARouterInject;
 import com.journeyOS.litetask.TaskScheduler;
 
 
-@ARouterInject(api = IEdgeApi.class)
-public class EdgeImpl implements IEdgeApi {
+@ARouterInject(api = IEdge.class)
+public class EdgeImpl implements IEdge {
     private final Handler mHandler = TaskScheduler.getInstance().getMainHandler();
     private static final long DELAY_TIME = 25;
     private static final int MSG_SHOWING = 1;

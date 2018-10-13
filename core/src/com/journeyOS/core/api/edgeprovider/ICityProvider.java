@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.database;
+package com.journeyOS.core.api.edgeprovider;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.RoomDatabase;
-
-import com.journeyOS.core.database.ball.Ball;
-import com.journeyOS.core.database.ball.BallDao;
+import com.journeyOS.core.api.ICoreApi;
 import com.journeyOS.core.database.city.City;
-import com.journeyOS.core.database.city.CityDao;
-import com.journeyOS.core.database.edge.Edge;
-import com.journeyOS.core.database.edge.EdgeDao;
 
-@Database(entities = {Edge.class, Ball.class, City.class}, version = DBConfigs.DB_VERSION, exportSchema = false)
-public abstract class EdgeDatabase extends RoomDatabase {
-    public abstract EdgeDao edgeDao();
+public interface ICityProvider extends ICoreApi {
 
-    public abstract BallDao ballDao();
+    City searchCity(String cityId);
 
-    public abstract CityDao cityDao();
+    City searchCity(String cityName, final String county);
+
+    void loadCitys();
+
+    //以下三个都是操作sp
+    void saveCity(String cityId);
+
+    void deleteCity(String cityId);
+
+    String getCity();
 }

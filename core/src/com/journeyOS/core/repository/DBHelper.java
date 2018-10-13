@@ -16,13 +16,25 @@
 
 package com.journeyOS.core.repository;
 
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 public class DBHelper {
+
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(@NonNull final SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE city (id INTEGER NOT NULL, cityId TEXT, country TEXT, countryEn TEXT, cityName TEXT, province TEXT, provinceEn TEXT, longitude TEXT, latitude TEXT, PRIMARY KEY(id))");
+        }
+    };
+
     public static <T extends RoomDatabase> T provider(Context context, Class<T> dbCls, String dbName) {
-        return Room.databaseBuilder(context,
-                dbCls, dbName).fallbackToDestructiveMigration().build();
+        return Room.databaseBuilder(context, dbCls, dbName)
+                .addMigrations(MIGRATION_1_2)
+                .fallbackToDestructiveMigration().build();
     }
 }
