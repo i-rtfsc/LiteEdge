@@ -25,4 +25,6 @@ public interface WeatherServiceApi {
     @GET("weather")
     Call<Weather> getWeather(@Query("key") String key, @Query("location") String location);
 
+    @GET("air/now")
+    Call<Air> getAqi(@Query("key") String key, @Query("location") String location);
 }

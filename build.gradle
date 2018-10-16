@@ -6,10 +6,10 @@ buildscript {
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         classpath 'com.antfortune.freeline:gradle:0.8.7'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.4.0'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.2-4'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.51'
     }
 }
 

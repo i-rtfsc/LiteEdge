@@ -24,12 +24,32 @@ import com.journeyOS.core.api.ICoreApi;
 import java.util.concurrent.Executor;
 
 public interface ICoreExecutors extends ICoreApi {
+    /**
+     * 文件操作线程
+     *
+     * @return 线程
+     */
     Executor diskIOThread();
 
+    /**
+     * 网络线程
+     *
+     * @return 线程
+     */
     Executor networkIOThread();
 
+    /**
+     * 主线程
+     *
+     * @return 线程
+     */
     Executor mainThread();
 
+    /**
+     * 主handler
+     *
+     * @return
+     */
     Handler handler();
 }
 

@@ -27,6 +27,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.api.location.ILocation;
 import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.literouter.annotation.ARouterInject;
 
@@ -42,12 +43,14 @@ public class PermissionImpl implements IPermission {
 
     @TargetApi(Build.VERSION_CODES.M)
     public void initUrgentPermission(final BaseActivity activity) {
-        final String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         ActivityCompat.requestPermissions(activity, permissions, URGENT_PERMISSION);
 
         for (final String permission : permissions) {
             if ((ActivityCompat.checkSelfPermission(CoreManager.getDefault().getContext(), permission) != PackageManager.PERMISSION_GRANTED)) {
                 if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equals(permission)) {
+                } else if (Manifest.permission.ACCESS_FINE_LOCATION.equals(permission)) {
+                    CoreManager.getDefault().getImpl(ILocation.class).startLocation();
                 }
             }
         }
@@ -63,6 +66,8 @@ public class PermissionImpl implements IPermission {
         if (requestCode == URGENT_PERMISSION) {
             for (int index = 0; index < permissions.length; index++) {
                 if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equals(permissions[index]) && grantResults[index] == PackageManager.PERMISSION_GRANTED) {
+                } else if (Manifest.permission.ACCESS_FINE_LOCATION.equals(permissions[index]) && grantResults[index] == PackageManager.PERMISSION_GRANTED) {
+                    CoreManager.getDefault().getImpl(ILocation.class).startLocation();
                 }
             }
         }

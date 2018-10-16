@@ -23,21 +23,67 @@ import com.journeyOS.core.type.EdgeDirection;
 import java.util.List;
 
 public interface IEdgeProvider extends ICoreApi {
+    /**
+     * 获取全部Edge的配置
+     *
+     * @return 获取全部Edge的配置
+     */
     List<Edge> getConfigs();
 
+    /**
+     * 根据方向获取Edge的配置
+     *
+     * @param direction 方向
+     * @return Edge的配置
+     */
     List<Edge> getConfigs(String direction);
 
+    /**
+     * 根据item获取Edge的配置
+     *
+     * @param item 具体的位置
+     * @return Edge的配置
+     */
     Edge getConfig(String item);
 
+    /**
+     * 更新Edge的配置
+     *
+     * @param config Edge的配置
+     */
     void insertOrUpdateConfig(Edge config);
 
+    /**
+     * 删除Edge的配置
+     *
+     * @param config Edge的配置
+     */
     void deleteConfig(Edge config);
 
+    /**
+     * 删除所以Edge的配置
+     */
     void deleteAll();
 
+    /**
+     * 初始化
+     */
     void initConfig();
 
+    /**
+     * 非数据库操作，EdgeDirection+postion转化成item
+     *
+     * @param direction edge方向
+     * @param postion   egde中item的位置
+     * @return item
+     */
     String encodeItem(EdgeDirection direction, int postion);
 
+    /**
+     * 通过item获取位置
+     *
+     * @param item
+     * @return
+     */
     int getPostion(String item);
 }

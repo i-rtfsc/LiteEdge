@@ -15,6 +15,10 @@
   -->
 
 <resources>
-    <string name="tool_bar_title">应用程序</string>
-    <string name="detail">选择您想支持弹幕消息的应用程序。</string>
+    <string name="city_located">定位城市</string>
+    <string name="city_locating">正在定位</string>
+    <string name="city_hot">热门城市</string>
+    <string name="city_hint_search_box">输入城市名或拼音</string>
+    <string name="city_nothing_found">没有搜索结果!</string>
+    <string name="city_located_failed">定位失败</string>
 </resources>

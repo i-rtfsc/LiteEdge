@@ -22,5 +22,19 @@ import com.journeyOS.core.api.ICoreApi;
 import com.journeyOS.core.type.EdgeDirection;
 
 public interface IPlugins extends ICoreApi {
+    /**
+     * 启动选择app的activity
+     *
+     * @param context
+     * @param postion   edge具体元素的位置
+     * @param direction edge的方向
+     */
     void navigationSelectorActivity(Context context, int postion, EdgeDirection direction);
+
+    /**
+     * 启动搜索城市的activity
+     *
+     * @param context
+     */
+    void navigationSearchActivity(Context context);
 }

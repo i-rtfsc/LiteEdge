@@ -15,4 +15,8 @@
   -->
 
 <resources>
+    <style name="core_CommonIconImageSmall">
+        <item name="android:layout_width">@dimen/common_icon_size_small</item>
+        <item name="android:layout_height">@dimen/common_icon_size_small</item>
+    </style>
 </resources>

@@ -32,9 +32,10 @@ import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.api.edgeprovider.ICityProvider;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.api.plugins.IPlugins;
-import com.journeyOS.core.api.weather.IFetchWeatherApi;
+import com.journeyOS.core.api.weather.IFetchWeather;
 import com.journeyOS.core.database.edge.Edge;
 import com.journeyOS.core.type.EdgeDirection;
+import com.journeyOS.core.weather.Air;
 import com.journeyOS.core.weather.Weather;
 import com.journeyOS.edge.EdgeService;
 import com.journeyOS.edge.R;
@@ -164,9 +165,20 @@ public class EdgeManager {
                 }
 
                 @Override
+                public void onLongClickStatusbar() {
+                    CoreManager.getDefault().getImpl(IPlugins.class).navigationSearchActivity(mContext);
+                }
+
+                @Override
                 public Weather getWeather() {
                     String city = CoreManager.getDefault().getImpl(ICityProvider.class).getCity();
-                    return CoreManager.getDefault().getImpl(IFetchWeatherApi.class).queryWeather(city);
+                    return CoreManager.getDefault().getImpl(IFetchWeather.class).queryWeather(city, false);
+                }
+
+                @Override
+                public Air getAir() {
+                    String city = CoreManager.getDefault().getImpl(ICityProvider.class).getCity();
+                    return CoreManager.getDefault().getImpl(IFetchWeather.class).queryAir(city, false);
                 }
             });
 

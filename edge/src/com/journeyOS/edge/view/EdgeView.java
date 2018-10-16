@@ -37,6 +37,7 @@ import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.edge.Edge;
 import com.journeyOS.core.type.EdgeDirection;
+import com.journeyOS.core.weather.Air;
 import com.journeyOS.core.weather.Weather;
 import com.journeyOS.edge.EdgeService;
 import com.journeyOS.edge.R;
@@ -124,6 +125,8 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         mRootView = findViewById(R.id.root_view);
         mMask = findViewById(R.id.mask_bg);
         mLayoutStatus = findViewById(R.id.layout_statusbar);
+        mLayoutStatus.setOnLongClickListener(this);
+
         mLayoutGroups = findViewById(R.id.layout_groups);
 
         mLayout1 = findViewById(R.id.layout1);
@@ -165,10 +168,6 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         mStatusBarText1 = (TextView) findViewById(R.id.statusbar_text1);
         mStatusBarText2 = (TextView) findViewById(R.id.statusbar_text2);
         mStatusBarText3 = (TextView) findViewById(R.id.statusbar_text3);
-
-//        mStatusBarText1.setText("晴转多云");
-//        mStatusBarText2.setText("16℃");
-//        mStatusBarText3.setText("空气质量：优");
 
         addOnAttachStateChangeListener(this);
     }
@@ -298,17 +297,30 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                                 public void run() {
                                     if (heWeather.daily_forecast != null) {
                                         Weather.HeWeather6Bean.DailyForecastBean daily = heWeather.daily_forecast.get(0);
-                                        if (daily != null) {
+                                        Weather.HeWeather6Bean.BasicBean basic = heWeather.basic;
+                                        if (daily != null && basic != null) {
                                             if (mStatusBarText1 != null) {
-                                                mStatusBarText1.setText(daily.cond_txt_d);
+                                                mStatusBarText1.setText(basic.location + "：" + daily.cond_txt_d);
                                             }
                                             if (mStatusBarText2 != null) {
                                                 mStatusBarText2.setText(daily.tmp_min + REGION + daily.tmp_max + TEMPERATURE);
                                             }
-                                            if (mStatusBarText3 != null) {
-                                                mStatusBarText3.setText("风速 " + daily.wind_spd);
-                                            }
                                         }
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+                    Air air = mListener.getAir();
+                    if (air != null && air.HeWeather6 != null) {
+                        final Air.HeWeather6Bean.AirNowCityBean airNowCity = air.HeWeather6.get(0).air_now_city;
+                        if (airNowCity != null) {
+                            CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (mStatusBarText3 != null) {
+                                        mStatusBarText3.setText(getContext().getString(R.string.weather_air_alty) + airNowCity.qlty);
                                     }
                                 }
                             });
@@ -518,6 +530,14 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         if (mListener != null) {
             mListener.onItemLongClick(postion);
         }
+
+        switch (view.getId()) {
+            case R.id.layout_statusbar:
+                if (mListener != null) {
+                    mListener.onLongClickStatusbar();
+                }
+                break;
+        }
         return true;
     }
 
@@ -551,6 +571,10 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
 
         void onItemLongClick(int postion);
 
+        void onLongClickStatusbar();
+
         Weather getWeather();
+
+        Air getAir();
     }
 }

@@ -21,6 +21,13 @@ import android.content.Context;
 import com.journeyOS.core.api.ICoreApi;
 
 public interface IAlive extends ICoreApi {
+    /**
+     * 启动1像素activity，主要为了进程保活
+     */
     void keepAlive(Context context);
+
+    /**
+     * 关闭1像素activity
+     */
     void destroy();
 }

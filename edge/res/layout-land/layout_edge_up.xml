@@ -16,9 +16,11 @@
 
 
 <com.journeyOS.edge.view.EdgeView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="MissingDefaultResource">
 
     <View
         android:id="@+id/mask_bg"
@@ -270,8 +272,9 @@
                 android:format24Hour="EE HH:mm"
                 android:gravity="center"
                 android:maxLines="1"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/statusTextSize" />
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/statusTextSize"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/statusbar_text1"

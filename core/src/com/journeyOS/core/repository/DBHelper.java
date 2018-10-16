@@ -32,9 +32,16 @@ public class DBHelper {
         }
     };
 
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull final SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE weather (cityId TEXT NOT NULL, weather TEXT, air TEXT, time TEXT, PRIMARY KEY(cityId))");
+        }
+    };
+
     public static <T extends RoomDatabase> T provider(Context context, Class<T> dbCls, String dbName) {
         return Room.databaseBuilder(context, dbCls, dbName)
-                .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                 .fallbackToDestructiveMigration().build();
     }
 }

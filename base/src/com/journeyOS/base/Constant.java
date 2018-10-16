@@ -21,6 +21,8 @@ public class Constant {
 
     public static final String SEPARATOR = "#";
     public static final int LENGTH = 4;
+    //update weather time interval
+    public static final long TIME_INTERVAL = 4 * 60 * 60 * 1000;
 
     public static final String DEFAULT_CITY = "CN101020100";
 

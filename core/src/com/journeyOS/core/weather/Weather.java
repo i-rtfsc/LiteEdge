@@ -21,7 +21,6 @@ import java.util.List;
 /**
  * 和风天气接口
  * https://www.heweather.com/documents/api/s6/weather
- * https://www.heweather.com/documents/api/s6/air-now
  */
 public class Weather {
     public List<HeWeather6Bean> HeWeather6;

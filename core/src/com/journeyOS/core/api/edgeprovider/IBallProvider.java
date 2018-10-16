@@ -22,11 +22,30 @@ import com.journeyOS.core.database.ball.Ball;
 
 public interface IBallProvider extends ICoreApi {
 
+    /**
+     * 获取悬浮球的配置
+     *
+     * @param orientation 屏幕的方向
+     * @return 悬浮球的配置
+     */
     Ball getConfig(int orientation);
 
+    /**
+     * 更新悬浮球的配置
+     *
+     * @param config 悬浮球的配置
+     */
     void insertOrUpdateConfig(Ball config);
 
+    /**
+     * 删除悬浮球的配置
+     *
+     * @param config 悬浮球的配置
+     */
     void deleteConfig(Ball config);
 
+    /**
+     * 删除全部悬浮球的配置
+     */
     void deleteAll();
 }

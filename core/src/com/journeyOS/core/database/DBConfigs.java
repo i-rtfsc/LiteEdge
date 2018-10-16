@@ -20,7 +20,7 @@ public class DBConfigs {
     //database name
     public static final String DB_NAME = "edge";
 
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 3;
 
     //table
     public static final String EDGE_TABLE = "edge";
@@ -58,5 +58,16 @@ public class DBConfigs {
     public static final String LONGITUDE = "longitude";
     //column
     public static final String LATITUDE = "latitude";
+
+    //table
+    public static final String WEATHER_TABLE = "weather";
+    //column
+    public static final String WEATHER_CITY = "cityId";
+    //column
+    public static final String WEATHER_WEATHER = "weather";
+    //column
+    public static final String WEATHER_AIR = "air";
+    //column
+    public static final String WEATHER_TIME = "time";
 
 }

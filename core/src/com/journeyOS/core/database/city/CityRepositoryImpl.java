@@ -51,6 +51,13 @@ public class CityRepositoryImpl implements ICityProvider {
     }
 
     @Override
+    public List<City> queryAllCities() {
+        synchronized (mLock) {
+            return cityDao.getAll();
+        }
+    }
+
+    @Override
     public City searchCity(String cityId) {
         synchronized (mLock) {
             return cityDao.searchCity(cityId);
@@ -61,6 +68,13 @@ public class CityRepositoryImpl implements ICityProvider {
     public City searchCity(String cityName, String county) {
         synchronized (mLock) {
             return cityDao.searchCity(cityName, county);
+        }
+    }
+
+    @Override
+    public List<City> matchingCity(String keyword) {
+        synchronized (mLock) {
+            return cityDao.matchCity(keyword);
         }
     }
 

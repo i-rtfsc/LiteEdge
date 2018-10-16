@@ -19,18 +19,65 @@ package com.journeyOS.core.api.edgeprovider;
 import com.journeyOS.core.api.ICoreApi;
 import com.journeyOS.core.database.city.City;
 
+import java.util.List;
+
 public interface ICityProvider extends ICoreApi {
 
+    /**
+     * 查询全部城市
+     *
+     * @return
+     */
+    List<City> queryAllCities();
+
+    /**
+     * 通过城市id查询城市
+     *
+     * @param cityId 城市id
+     * @return 城市
+     */
     City searchCity(String cityId);
 
+    /**
+     * 通过城市名称、国家查询城市
+     *
+     * @param cityName 城市名称
+     * @param county   国家
+     * @return 城市
+     */
     City searchCity(String cityName, final String county);
 
+    /**
+     * 匹配城市
+     *
+     * @param keyword 城市关键字
+     * @return 是否匹配
+     */
+    List<City> matchingCity(final String keyword);
+
+    /**
+     * 初始化城市
+     */
     void loadCitys();
 
-    //以下三个都是操作sp
+    /**
+     * 保存当前城市ID到sp中
+     *
+     * @param cityId 城市ID
+     */
     void saveCity(String cityId);
 
+    /**
+     * 删除sp的城市id
+     *
+     * @param cityId
+     */
     void deleteCity(String cityId);
 
+    /**
+     * 获取sp中的城市ID
+     *
+     * @return 城市ID
+     */
     String getCity();
 }

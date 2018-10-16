@@ -22,6 +22,7 @@ import com.journeyOS.core.api.plugins.IPlugins;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.literouter.annotation.ARouterInject;
 import com.journeyOS.plugins.SelectorActivity;
+import com.journeyOS.plugins.search.SearchActivity;
 
 @ARouterInject(api = IPlugins.class)
 public class PluginsImpl implements IPlugins {
@@ -36,5 +37,10 @@ public class PluginsImpl implements IPlugins {
     public void navigationSelectorActivity(Context context, int postion, EdgeDirection direction) {
 //        SelectorActivity.navigationActivity(context, postion, direction);
         SelectorActivity.navigationFromApplication(context, postion, direction);
+    }
+
+    @Override
+    public void navigationSearchActivity(Context context) {
+        SearchActivity.navigationFromApplication(context);
     }
 }

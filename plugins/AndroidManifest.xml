@@ -8,9 +8,19 @@
         <activity
             android:name=".SelectorActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/plugins_Settings">
+            android:theme="@style/settings">
             <intent-filter>
                 <action android:name="com.journeyOS.plugins.SELECTOR" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".search.SearchActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/settings">
+            <intent-filter>
+                <action android:name="com.journeyOS.plugins.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
