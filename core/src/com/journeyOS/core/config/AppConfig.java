@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.appconfig;
+package com.journeyOS.core.config;
 
 import android.app.Application;
 import android.content.Context;

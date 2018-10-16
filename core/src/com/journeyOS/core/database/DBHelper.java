@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.repository;
+package com.journeyOS.core.database;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;

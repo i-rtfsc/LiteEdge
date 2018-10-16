@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.utils.AnimationUtil;
 import com.journeyOS.base.utils.AppUtils;
+import com.journeyOS.base.utils.BaseUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.api.thread.ICoreExecutors;
@@ -222,66 +223,52 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                 @Override
                 public void run() {
                     final List<Edge> configs = mListener.getConfigs(mEd);
-                    CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (configs != null) {
+                    if (!BaseUtils.isNull(configs)) {
+                        CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
                                 for (Edge config : configs) {
+                                    CircleImageView icon = null;
+                                    TextView title = null;
+
                                     int postion = -1;
                                     String[] items = config.item.split(Constant.SEPARATOR);
                                     if (items != null) {
                                         postion = Integer.parseInt(items[1]);
                                     }
+                                    if (postion == 1) {
+                                        icon = mIcon1;
+                                        title = mText1;
+                                    } else if (postion == 2) {
+                                        icon = mIcon2;
+                                        title = mText2;
+                                    } else if (postion == 3) {
+                                        icon = mIcon3;
+                                        title = mText3;
+                                    } else if (postion == 4) {
+                                        icon = mIcon4;
+                                        title = mText4;
+                                    } else if (postion == 5) {
+                                        icon = mIcon5;
+                                        title = mText5;
+                                    } else if (postion == 6) {
+                                        icon = mIcon6;
+                                        title = mText6;
+                                    }
 
                                     Drawable drawable = AppUtils.getAppIcon(getContext(), config.packageName);
                                     String name = AppUtils.getAppName(getContext(), config.packageName, Constant.LENGTH);
-                                    if (postion == 1) {
-                                        if (mIcon1 != null || drawable != null) {
-                                            mIcon1.setImageDrawable(drawable);
-                                        }
-                                        if (mText1 != null || name != null) {
-                                            mText1.setText(name);
-                                        }
-                                    } else if (postion == 2) {
-                                        if (mIcon2 != null || drawable != null) {
-                                            mIcon2.setImageDrawable(drawable);
-                                        }
-                                        if (mText2 != null || name != null) {
-                                            mText2.setText(name);
-                                        }
-                                    } else if (postion == 3) {
-                                        if (mIcon3 != null || drawable != null) {
-                                            mIcon3.setImageDrawable(drawable);
-                                        }
-                                        if (mText3 != null || name != null) {
-                                            mText3.setText(name);
-                                        }
-                                    } else if (postion == 4) {
-                                        if (mIcon4 != null || drawable != null) {
-                                            mIcon4.setImageDrawable(drawable);
-                                        }
-                                        if (mText4 != null || name != null) {
-                                            mText4.setText(name);
-                                        }
-                                    } else if (postion == 5) {
-                                        if (mIcon5 != null || drawable != null) {
-                                            mIcon5.setImageDrawable(drawable);
-                                        }
-                                        if (mText5 != null || name != null) {
-                                            mText5.setText(name);
-                                        }
-                                    } else if (postion == 6) {
-                                        if (mIcon6 != null || drawable != null) {
-                                            mIcon6.setImageDrawable(drawable);
-                                        }
-                                        if (mText6 != null || name != null) {
-                                            mText6.setText(name);
-                                        }
+                                    if (icon != null || drawable != null) {
+                                        icon.setImageDrawable(drawable);
+                                    }
+                                    if (title != null || name != null) {
+                                        title.setText(name);
                                     }
                                 }
+
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             });
 

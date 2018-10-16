@@ -130,7 +130,7 @@ public class EdgeManager {
                     }
 
                     List<Edge> configs = CoreManager.getDefault().getImpl(IEdgeProvider.class).getConfigs(direction.name().toLowerCase());
-                    LogUtils.d(TAG, "get " + direction.name().toLowerCase() + " configs " + configs);
+                    if (Constant.DEBUG) LogUtils.d(TAG, "get " + direction.name().toLowerCase() + " configs " + configs);
                     for (Edge config : configs) {
                         int postion = -1;
                         String[] items = config.item.split(Constant.SEPARATOR);
@@ -138,7 +138,7 @@ public class EdgeManager {
                             postion = Integer.parseInt(items[1]);
                         }
                         String packageName = config.packageName;
-                        LogUtils.d(TAG, "get " + direction.name().toLowerCase() + " edge, postion = " + postion + " , packageName = " + packageName);
+                        if (Constant.DEBUG) LogUtils.d(TAG, "get " + direction.name().toLowerCase() + " edge, postion = " + postion + " , packageName = " + packageName);
                         if (postion != -1) sCache.put(postion, config);
                     }
                     return configs;

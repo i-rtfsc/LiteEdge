@@ -21,7 +21,7 @@ import android.app.Application;
 
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.api.ICoreApi;
-import com.journeyOS.core.appconfig.AppConfig;
+import com.journeyOS.core.config.AppConfig;
 import com.journeyOS.literouter.ARouter;
 
 public class CoreManager {

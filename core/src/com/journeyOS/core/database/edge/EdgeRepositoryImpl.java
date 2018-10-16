@@ -26,7 +26,7 @@ import com.journeyOS.core.database.DBConfigs;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.database.EdgeDatabase;
 import com.journeyOS.core.database.entity.EdgeBean;
-import com.journeyOS.core.repository.DBHelper;
+import com.journeyOS.core.database.DBHelper;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.literouter.annotation.ARouterInject;
 

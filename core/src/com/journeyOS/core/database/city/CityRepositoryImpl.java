@@ -25,7 +25,7 @@ import com.journeyOS.core.api.edgeprovider.ICityProvider;
 import com.journeyOS.core.database.DBConfigs;
 import com.journeyOS.core.database.EdgeDatabase;
 import com.journeyOS.core.database.entity.CityBean;
-import com.journeyOS.core.repository.DBHelper;
+import com.journeyOS.core.database.DBHelper;
 import com.journeyOS.literouter.annotation.ARouterInject;
 
 import org.json.JSONArray;
