@@ -89,6 +89,11 @@ public class EdgeService extends Service {
         }
 
         @Override
+        public void showingEdgeDelayed(int direction, long delayMillis) throws RemoteException {
+            CoreManager.getDefault().getImpl(IEdge.class).showingEdge(direction, delayMillis);
+        }
+
+        @Override
         public void hidingEdge() throws RemoteException {
             CoreManager.getDefault().getImpl(IEdge.class).hidingEdge();
         }
@@ -119,6 +124,7 @@ public class EdgeService extends Service {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         BallManager.getDefault().updateViewLayout();
+        CoreManager.getDefault().getImpl(IEdge.class).hidingEdge();
     }
 
     void prepraJob() {

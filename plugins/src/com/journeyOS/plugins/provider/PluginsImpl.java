@@ -18,6 +18,7 @@ package com.journeyOS.plugins.provider;
 
 import android.content.Context;
 
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.core.api.plugins.IPlugins;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.literouter.annotation.ARouterInject;
@@ -26,6 +27,7 @@ import com.journeyOS.plugins.search.SearchActivity;
 
 @ARouterInject(api = IPlugins.class)
 public class PluginsImpl implements IPlugins {
+    private static final String WEATHER_PKG = "com.journeyOS.liteweather";
 
     @Override
     public void onCreate() {
@@ -42,5 +44,15 @@ public class PluginsImpl implements IPlugins {
     @Override
     public void navigationSearchActivity(Context context) {
         SearchActivity.navigationFromApplication(context);
+    }
+
+    @Override
+    public boolean isWeatherAppExisted(Context context) {
+        return AppUtils.isPackageExisted(context, WEATHER_PKG);
+    }
+
+    @Override
+    public void navigationWeatherApp(Context context) {
+        AppUtils.startApp(context, WEATHER_PKG);
     }
 }

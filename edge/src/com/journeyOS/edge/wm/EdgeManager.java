@@ -166,7 +166,12 @@ public class EdgeManager {
 
                 @Override
                 public void onLongClickStatusbar() {
-                    CoreManager.getDefault().getImpl(IPlugins.class).navigationSearchActivity(mContext);
+                    boolean appExisted = CoreManager.getDefault().getImpl(IPlugins.class).isWeatherAppExisted(mContext);
+                    if (appExisted) {
+                        CoreManager.getDefault().getImpl(IPlugins.class).navigationWeatherApp(mContext);
+                    } else {
+                        CoreManager.getDefault().getImpl(IPlugins.class).navigationSearchActivity(mContext);
+                    }
                 }
 
                 @Override

@@ -25,7 +25,7 @@
     <View
         android:id="@+id/mask_bg"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/mask_background_height"
+        android:layout_height="match_parent"
         android:background="@drawable/mask_up" />
 
     <RelativeLayout

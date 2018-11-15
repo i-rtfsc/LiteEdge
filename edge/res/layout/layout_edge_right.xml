@@ -20,7 +20,7 @@
 
     <View
         android:id="@+id/mask_bg"
-        android:layout_width="@dimen/mask_background_height"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:background="@drawable/mask_right" />
