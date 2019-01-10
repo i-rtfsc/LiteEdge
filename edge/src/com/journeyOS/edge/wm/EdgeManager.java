@@ -29,6 +29,7 @@ import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.edgeprovider.ICityProvider;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.api.plugins.IPlugins;
@@ -37,7 +38,6 @@ import com.journeyOS.core.database.edge.Edge;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.weather.Air;
 import com.journeyOS.core.weather.Weather;
-import com.journeyOS.edge.EdgeService;
 import com.journeyOS.edge.R;
 import com.journeyOS.edge.view.EdgeView;
 import com.journeyOS.edge.view.EdgeView.OnEdgeViewListener;
@@ -93,7 +93,7 @@ public class EdgeManager {
     }
 
     public void showEdge(EdgeDirection direction) {
-        EdgeService.setEdgeDirection(direction);
+        StateMachine.setEdgeDirection(direction);
 
         getView(direction);
 
@@ -113,13 +113,12 @@ public class EdgeManager {
             mEdgeView.setOnEdgeViewListener(new OnEdgeViewListener() {
                 @Override
                 public void onViewAttachedToWindow() {
-
                 }
 
                 @Override
                 public void onViewDetachedFromWindow() {
                     LogUtils.d(TAG, "edge view has been hidden!");
-                    EdgeService.setEdgeDirection(EdgeDirection.NONE);
+                    StateMachine.setEdgeDirection(EdgeDirection.NONE);
                     hideEdge();
                 }
 
@@ -130,7 +129,8 @@ public class EdgeManager {
                     }
 
                     List<Edge> configs = CoreManager.getDefault().getImpl(IEdgeProvider.class).getConfigs(direction.name().toLowerCase());
-                    if (Constant.DEBUG) LogUtils.d(TAG, "get " + direction.name().toLowerCase() + " configs " + configs);
+                    if (Constant.DEBUG)
+                        LogUtils.d(TAG, "get " + direction.name().toLowerCase() + " configs " + configs);
                     for (Edge config : configs) {
                         int postion = -1;
                         String[] items = config.item.split(Constant.SEPARATOR);
@@ -138,7 +138,8 @@ public class EdgeManager {
                             postion = Integer.parseInt(items[1]);
                         }
                         String packageName = config.packageName;
-                        if (Constant.DEBUG) LogUtils.d(TAG, "get " + direction.name().toLowerCase() + " edge, postion = " + postion + " , packageName = " + packageName);
+                        if (Constant.DEBUG)
+                            LogUtils.d(TAG, "get " + direction.name().toLowerCase() + " edge, postion = " + postion + " , packageName = " + packageName);
                         if (postion != -1) sCache.put(postion, config);
                     }
                     return configs;
@@ -153,7 +154,7 @@ public class EdgeManager {
                             AppUtils.startApp(mContext, config.packageName);
                             if (mEdgeView != null) mEdgeView.hideEdgeView();
                         } else {
-                            CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, EdgeService.getEdgeDirection());
+                            CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, StateMachine.getEdgeDirection());
                         }
                     }
                 }
@@ -161,7 +162,7 @@ public class EdgeManager {
                 @Override
                 public void onItemLongClick(int postion) {
                     LogUtils.d(TAG, "on item long click = " + postion);
-                    CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, EdgeService.getEdgeDirection());
+                    CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, StateMachine.getEdgeDirection());
                 }
 
                 @Override
@@ -213,6 +214,16 @@ public class EdgeManager {
                 mEdgeView = mUpEdgeView;
                 break;
         }
+    }
+
+    public void updateBattery(int progress) {
+        if (mEdgeView != null) {
+            mEdgeView.setBattery(progress);
+        }
+    }
+
+    boolean isLandscape() {
+        return mEdgeView == mUpEdgeView;
     }
 
     LayoutParams getLayoutParams() {

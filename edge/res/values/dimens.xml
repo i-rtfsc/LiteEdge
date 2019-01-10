@@ -16,17 +16,17 @@
 
 <resources>
     <dimen name="mask_background_height">10px</dimen>
-    <dimen name="parent_width">1080px</dimen>
-    <dimen name="parent_height">2960px</dimen>
-    <dimen name="vertical_item_group_width">350px</dimen>
-    <dimen name="vertical_item_group_height">1770px</dimen>
-    <dimen name="landscape_item_group_width">1770px</dimen>
-    <dimen name="landscape_item_group_height">384px</dimen>
+    <dimen name="parent_width">1080dp</dimen>
+    <dimen name="parent_height">2960dp</dimen>
+    <dimen name="vertical_item_group_width">100dp</dimen>
+    <dimen name="vertical_item_group_height">600dp</dimen>
+    <dimen name="landscape_item_group_width">600dp</dimen>
+    <dimen name="landscape_item_group_height">110dp</dimen>
     <dimen name="icon_image_view_size">132px</dimen>
     <dimen name="icon_view_size">132px</dimen>
     <dimen name="item_text_margin_top">15px</dimen>
     <dimen name="textSize">27px</dimen>
-    <dimen name="statusTextSize">33px</dimen>
+    <dimen name="statusTextSize">10dp</dimen>
     <dimen name="status_bar_width">960px</dimen>
     <dimen name="status_bar_height">144px</dimen>
     <dimen name="child_text_drawable_padding">9px</dimen>

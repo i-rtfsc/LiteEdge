@@ -25,6 +25,8 @@ public class EdgeBean {
 
     public static class Edge {
 
+        public String direction;
+
         public String packageName;
 
         public int postion;

@@ -22,6 +22,7 @@ import android.app.Application;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.api.ICoreApi;
 import com.journeyOS.core.config.AppConfig;
+import com.journeyOS.i007Service.core.I007Core;
 import com.journeyOS.literouter.ARouter;
 
 public class CoreManager {
@@ -40,10 +41,12 @@ public class CoreManager {
         return gDefault.get();
     }
 
-    private Application sContext;
+    private static Application sContext;
+    private static boolean sRunning;
 
     public void init(Application context) {
         sContext = context;
+        I007Core.getCore().running(context);
         AppConfig.initialize(context);
     }
 
@@ -55,4 +58,12 @@ public class CoreManager {
         return ARouter.getImpl(api);
     }
 
+
+    public void setRunning(boolean running) {
+        sRunning = running;
+    }
+
+    public boolean isRunning() {
+        return sRunning;
+    }
 }

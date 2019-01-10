@@ -2,16 +2,94 @@
   "version": "1",
   "edge": [
     {
+      "direction": "left",
+      "packageName": "com.cto51.student",
+      "postion": "1"
+    },
+    {
+      "direction": "left",
+      "packageName": "com.jianshu.haruki",
+      "postion": "2"
+    },
+    {
+      "direction": "left",
+      "packageName": "com.tencent.qqmusic",
+      "postion": "3"
+    },
+    {
+      "direction": "left",
+      "packageName": "com.netease.cloudmusic",
+      "postion": "4"
+    },
+    {
+      "direction": "left",
+      "packageName": "fm.xiami.main",
+      "postion": "5"
+    },
+    {
+      "direction": "left",
+      "packageName": "com.journeyOS.github",
+      "postion": "5"
+    },
+    {
+      "direction": "right",
+      "packageName": "com.tencent.qqlive",
+      "postion": "1"
+    },
+    {
+      "direction": "right",
+      "packageName": "com.youku.phone",
+      "postion": "2"
+    },
+    {
+      "direction": "right",
+      "packageName": "com.tencent.mm",
+      "postion": "3"
+    },
+    {
+      "direction": "right",
+      "packageName": "com.jiongji.andriod.card",
+      "postion": "4"
+    },
+    {
+      "direction": "right",
+      "packageName": "com.eg.android.AlipayGphone",
+      "postion": "5"
+    },
+    {
+      "direction": "right",
+      "packageName": "com.taobao.idlefish",
+      "postion": "6"
+    },
+    {
+      "direction": "up",
       "packageName": "com.tencent.tmgp.sgame",
       "postion": "1"
     },
     {
+      "direction": "up",
       "packageName": "com.tencent.tmgp.pubgmhd",
       "postion": "2"
     },
     {
-      "packageName": "com.android.settings",
+      "direction": "up",
+      "packageName": "com.youku.phone",
       "postion": "3"
+    },
+    {
+      "direction": "up",
+      "packageName": "com.tencent.qqlive",
+      "postion": "4"
+    },
+    {
+      "direction": "up",
+      "packageName": "com.duowan.kiwi",
+      "postion": "5"
+    },
+    {
+      "direction": "up",
+      "packageName": "com.tencent.tmgp.speedmobile",
+      "postion": "6"
     }
   ]
 }

@@ -18,16 +18,10 @@
 -->
 
 <resources>
-    <!--<dimen name="parent_width">1080px</dimen>-->
-    <!--<dimen name="parent_height">2960px</dimen>-->
-    <!--<dimen name="vertical_item_group_width">339px</dimen>-->
-    <!--<dimen name="vertical_item_group_height">1770px</dimen>-->
-    <!--<dimen name="landscape_item_group_width">1770px</dimen>-->
-    <!--<dimen name="landscape_item_group_height">384px</dimen>-->
-    <dimen name="parent_width">1080px</dimen>
-    <dimen name="parent_height">2960px</dimen>
-    <dimen name="vertical_item_group_width">350px</dimen>
-    <dimen name="vertical_item_group_height">1770px</dimen>
-    <dimen name="landscape_item_group_width">1770px</dimen>
-    <dimen name="landscape_item_group_height">384px</dimen>
+    <dimen name="parent_width">1080dp</dimen>
+    <dimen name="parent_height">2960dp</dimen>
+    <dimen name="vertical_item_group_width">100dp</dimen>
+    <dimen name="vertical_item_group_height">600dp</dimen>
+    <dimen name="landscape_item_group_width">600dp</dimen>
+    <dimen name="landscape_item_group_height">110dp</dimen>
 </resources>

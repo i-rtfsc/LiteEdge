@@ -17,10 +17,8 @@
 package com.journeyOS.edge;
 
 import android.app.Service;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -36,29 +34,24 @@ import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.type.Direction;
-import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.edge.utils.NotificationUtils;
 import com.journeyOS.edge.wm.BallManager;
+import com.journeyOS.edge.wm.EdgeManager;
+import com.journeyOS.i007Service.DataResource.FACTORY;
+import com.journeyOS.i007Service.I007Manager;
+import com.journeyOS.i007Service.interfaces.II007Listener;
 
 public class EdgeService extends Service {
     private static final String TAG = EdgeService.class.getSimpleName();
 
     private Context mContext;
 
-    private static Object mLock = new Object();
-    private static EdgeDirection mEd = EdgeDirection.LEFT;
-
-    public static void setEdgeDirection(EdgeDirection direction) {
-        synchronized (mLock) {
-            mEd = direction;
+    private II007Listener mII007Listener = new II007Listener.Stub() {
+        @Override
+        public void onSceneChanged(long l, String s, String s1) throws RemoteException {
+            handleSceneChanged(l, s, s1);
         }
-    }
-
-    public static EdgeDirection getEdgeDirection() {
-        synchronized (mLock) {
-            return mEd;
-        }
-    }
+    };
 
     final IEdgeInterface.Stub mBinder = new IEdgeInterface.Stub() {
         @Override
@@ -109,6 +102,7 @@ public class EdgeService extends Service {
     public void onCreate() {
         super.onCreate();
         mContext = CoreManager.getDefault().getContext();
+        CoreManager.getDefault().setRunning(true);
         LogUtils.d(TAG, "edge service create!");
         prepraJob();
     }
@@ -118,6 +112,8 @@ public class EdgeService extends Service {
         super.onDestroy();
         LogUtils.e(TAG, "edge service destroy!");
         ScreenObserver.getDefault().stopScreenStateUpdate(mContext);
+        CoreManager.getDefault().setRunning(false);
+        I007Manager.unregisterListener(mII007Listener);
     }
 
     @Override
@@ -130,10 +126,9 @@ public class EdgeService extends Service {
     void prepraJob() {
         this.startForeground(NotificationUtils.NOTIFICATION_ID, NotificationUtils.getNotification(mContext));
 //        this.stopForeground(true);
-        Intent intent = new Intent();
-        intent.setPackage(getPackageName());
-        intent.setAction("com.journeyOS.edge.action.FakeService");
-        mContext.bindService(intent, mFakeConnection, Context.BIND_AUTO_CREATE);
+
+        final long factors = I007Manager.SCENE_FACTOR_LCD | I007Manager.SCENE_FACTOR_BATTERY;
+        I007Manager.registerListener(factors, mII007Listener);
 
         CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
             @Override
@@ -141,36 +136,35 @@ public class EdgeService extends Service {
                 CoreManager.getDefault().getImpl(IEdgeProvider.class).initConfig();
             }
         });
-        boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, true);
-        if (daemon) {
-            ScreenObserver.getDefault().startScreenBroadcastReceiver(getApplicationContext());
-            ScreenObserver.getDefault().setOnScreenStateListener(new ScreenObserver.ScreenStateListener() {
-                @Override
-                public void onScreenChanged(boolean isScreenOn) {
-                    if (Constant.DEBUG) {
-                        LogUtils.d(TAG, "edge service listener screen changed = " + isScreenOn);
-                    }
-                    if (isScreenOn) {
-                        CoreManager.getDefault().getImpl(IAlive.class).destroy();
-                    } else {
-                        CoreManager.getDefault().getImpl(IAlive.class).keepAlive(mContext);
-                    }
-                }
-            });
+    }
+
+    void handleSceneChanged(long factorId, String status, String packageName) {
+        FACTORY factory = I007Manager.getFactory(factorId);
+        LogUtils.d(TAG, "handle scene changed factorId = [" + factorId + "], status = [" + status + "], packageName = [" + packageName + "]");
+        switch (factory) {
+            case LCD:
+                boolean isScreenOn = I007Manager.isScreenOn(status);
+                handleScreen(isScreenOn);
+                break;
+            case BATTERY:
+                int progress = I007Manager.getBatteryLevel(status);
+                EdgeManager.getDefault().updateBattery(progress);
+                break;
         }
     }
 
-    private ServiceConnection mFakeConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            LogUtils.d(TAG, "fake service connected!");
-//            Service fakeService = ((FakeService.LocalBinder) service).getService();
+    void handleScreen(boolean isScreenOn) {
+        boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, true);
+        if (daemon) {
+            if (Constant.DEBUG) {
+                LogUtils.d(TAG, "edge service listener screen changed = " + isScreenOn);
+            }
+            if (isScreenOn) {
+                CoreManager.getDefault().getImpl(IAlive.class).destroy();
+            } else {
+                CoreManager.getDefault().getImpl(IAlive.class).keepAlive(mContext);
+            }
         }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            LogUtils.i(TAG, "fake service disconnected!");
-        }
-    };
+    }
 
 }

@@ -27,6 +27,9 @@ import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.api.edgeprovider.IBallProvider;
+import com.journeyOS.core.api.thread.ICoreExecutors;
+import com.journeyOS.core.database.ball.Ball;
 import com.journeyOS.core.type.Direction;
 import com.journeyOS.edge.view.OutterView;
 
@@ -40,10 +43,12 @@ public class BallManager {
 
     private OutterView mOv;
 
+    private BallState mBallState = BallState.HIDE;
+
     private BallManager() {
         mContext = CoreManager.getDefault().getContext();
         mWm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        createBall();
+        //createBall();
     }
 
     private static final Singleton<BallManager> gDefault = new Singleton<BallManager>() {
@@ -60,18 +65,21 @@ public class BallManager {
 
     void createBall() {
         if (mOv == null) {
-            mOv = new OutterView(mContext);
-            LayoutParams params = getLayoutParams();
-            mOv.setParams(params);
-            mWm.addView(mOv, params);
-            mOv.setVisibility(View.VISIBLE);
-            LogUtils.d(TAG, "add ball to windows manager");
-            mOv.setOnGestureListener(new OutterView.OnGestureListener() {
+            CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
                 @Override
-                public void onGesture(Direction direction) {
-                    if (mListener != null) {
-                        mListener.onGesture(direction);
-                    }
+                public void run() {
+                    final LayoutParams params = getLayoutParams();
+                    CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            mOv = new OutterView(mContext);
+                            mOv.setParams(params);
+                            mWm.addView(mOv, params);
+                            mOv.setVisibility(View.VISIBLE);
+                            LogUtils.d(TAG, "add ball to windows manager");
+                            mOv.setOnGestureListener(mGestureListener);
+                        }
+                    });
                 }
             });
         }
@@ -79,7 +87,18 @@ public class BallManager {
 
     public void updateViewLayout() {
         if (mWm != null && mOv != null) {
-            mWm.updateViewLayout(mOv, getLayoutParams());
+            CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
+                @Override
+                public void run() {
+                    final LayoutParams params = getLayoutParams();
+                    CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            mWm.updateViewLayout(mOv, params);
+                        }
+                    });
+                }
+            });
         }
     }
 
@@ -88,15 +107,6 @@ public class BallManager {
         if (mOv == null) {
             createBall();
         }
-
-//        if (!mOv.isAttachedToWindow()) {
-//            LayoutParams params = getLayoutParams();
-//            mOv.setParams(params);
-//            mWm.addView(mOv, params);
-//            mOv.setVisibility(View.VISIBLE);
-//        } else {
-//            mOv.setVisibility(View.VISIBLE);
-//        }
     }
 
     public void Hiding() {
@@ -108,7 +118,13 @@ public class BallManager {
         }
     }
 
+    public boolean isBallShowing() {
+        return mBallState == BallState.SHOW;
+    }
+
     LayoutParams getLayoutParams() {
+        int orientation = mContext.getResources().getConfiguration().orientation;
+        Ball ball = CoreManager.getDefault().getImpl(IBallProvider.class).getConfig(orientation);
         LayoutParams params = new WindowManager.LayoutParams();
         params.type = LayoutParams.TYPE_APPLICATION_OVERLAY;
         params.format = PixelFormat.TRANSPARENT;
@@ -116,8 +132,13 @@ public class BallManager {
         params.gravity = Gravity.LEFT | Gravity.TOP;
         params.width = BALL_SIEZ;
         params.height = BALL_SIEZ;
-        params.x = UIUtils.getScreenWidth(mContext) / 2;
-        params.y = UIUtils.getScreenHeight(mContext) / 2;
+        if (ball != null) {
+            params.x = ball.layoutX;
+            params.y = ball.layoutY;
+        } else {
+            params.x = UIUtils.getScreenWidth(mContext) / 2;
+            params.y = UIUtils.getScreenHeight(mContext) / 2;
+        }
         return params;
     }
 
@@ -129,5 +150,30 @@ public class BallManager {
 
     public interface OnBallViewListener {
         void onGesture(Direction direction);
+    }
+
+    private OutterView.OnGestureListener mGestureListener = new OutterView.OnGestureListener() {
+        @Override
+        public void onGesture(Direction direction) {
+            if (mListener != null) {
+                mListener.onGesture(direction);
+            }
+        }
+
+        @Override
+        public void onViewAttachedToWindow() {
+            mBallState = BallState.SHOW;
+
+        }
+
+        @Override
+        public void onViewDetachedFromWindow() {
+            mBallState = BallState.HIDE;
+        }
+    };
+
+    public enum BallState {
+        SHOW,
+        HIDE
     }
 }

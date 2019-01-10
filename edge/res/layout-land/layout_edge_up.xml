@@ -263,27 +263,26 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/edge_statusbar">
 
-            <TextClock
-                android:id="@+id/clock"
-                android:layout_width="210px"
-                android:layout_height="72px"
+            <TextView
+                android:id="@+id/statusbar_text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:format24Hour="EE HH:mm"
-                android:gravity="center"
-                android:maxLines="1"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="8dp"
                 android:textColor="@color/textColor"
-                android:textSize="@dimen/statusTextSize"
-                android:textStyle="bold" />
+                android:textSize="@dimen/statusTextSize" />
 
             <TextView
                 android:id="@+id/statusbar_text1"
-                android:layout_width="210px"
-                android:layout_height="72px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_toLeftOf="@+id/clock"
-                android:format24Hour="HH:mm"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toLeftOf="@+id/statusbar_text2"
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="@color/textColor"
@@ -291,27 +290,46 @@
 
             <TextView
                 android:id="@+id/statusbar_text3"
-                android:layout_width="210px"
-                android:layout_height="72px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/backspace_marginLeft"
-                android:layout_toRightOf="@id/clock"
-                android:format24Hour="HH:mm"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toRightOf="@id/statusbar_text2"
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/statusTextSize" />
 
-            <TextView
-                android:id="@+id/statusbar_text2"
+            <TextClock
+                android:id="@+id/clock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/clock"
+                android:layout_below="@id/statusbar_text2"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="8dp"
+                android:format24Hour="EE HH:mm"
+                android:gravity="center"
+                android:maxLines="1"
                 android:textColor="@color/textColor"
-                android:textSize="@dimen/statusTextSize" />
+                android:textSize="@dimen/statusTextSize"
+                android:textStyle="bold" />
+
+            <com.iigo.library.PowerView
+                android:id="@+id/battery"
+                android:layout_width="25dp"
+                android:layout_height="10dp"
+                android:layout_below="@id/statusbar_text2"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toLeftOf="@+id/clock"
+                android:gravity="center" />
 
         </RelativeLayout>
 

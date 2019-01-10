@@ -35,7 +35,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api "com.journeyOS:litetask:$gradle.litetask"
+    api "com.journeyOS:liteprovider:$gradle.liteprovider"
+    api "com.journeyOS:i007Service:$gradle.i007Service"
     api "com.journeyOS:literouter:$gradle.literouter_core"
     api "com.android.support:appcompat-v7:$gradle.supportVersion"
     api "com.android.support:design:$gradle.supportVersion"
@@ -59,4 +60,6 @@ dependencies {
     releaseApi "com.squareup.leakcanary:leakcanary-android-no-op:$gradle.leakcanary"
 
     api "com.google.code.gson:gson:$gradle.gson"
+
+    api "com.github.samlss:PowerView:$gradle.power_view"
 }

@@ -27,7 +27,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.journeyOS.base.Constant;
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
+import com.journeyOS.core.CoreManager;
 
 public class AliveActivity extends Activity {
     private static final String TAG = AliveActivity.class.getSimpleName();
@@ -74,6 +76,10 @@ public class AliveActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         if (Constant.DEBUG) LogUtils.d(TAG, "onDestroy() called");
+
+        if (!CoreManager.getDefault().isRunning()) {
+            AppUtils.startEdge(activity);
+        }
     }
 
 
@@ -91,4 +97,5 @@ public class AliveActivity extends Activity {
             activity = null;
         }
     }
+
 }

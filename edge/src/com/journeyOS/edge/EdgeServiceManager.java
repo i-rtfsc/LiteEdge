@@ -29,8 +29,8 @@ import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
 
-public class EdgeController {
-    private static final String TAG = EdgeController.class.getSimpleName();
+public class EdgeServiceManager {
+    private static final String TAG = EdgeServiceManager.class.getSimpleName();
 
     private static final String EDGE_PACKAGE = "com.journeyOS.edge";
     private static final String EDGE_SERVICE = "com.journeyOS.edge.EdgeService";
@@ -41,19 +41,19 @@ public class EdgeController {
 
     private IEdgeInterface asInterface = null;
 
-    private EdgeController() {
+    private EdgeServiceManager() {
         mContext = CoreManager.getDefault().getContext();
         bindEgdeService();
     }
 
-    private static final Singleton<EdgeController> gDefault = new Singleton<EdgeController>() {
+    private static final Singleton<EdgeServiceManager> gDefault = new Singleton<EdgeServiceManager>() {
         @Override
-        protected EdgeController create() {
-            return new EdgeController();
+        protected EdgeServiceManager create() {
+            return new EdgeServiceManager();
         }
     };
 
-    public static EdgeController getDefault() {
+    public static EdgeServiceManager getDefault() {
         return gDefault.get();
     }
 
@@ -116,4 +116,7 @@ public class EdgeController {
         }
     }
 
+    public boolean isEdgeRunning() {
+        return mBound;
+    }
 }

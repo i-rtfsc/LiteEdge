@@ -25,7 +25,7 @@ import com.journeyOS.core.database.DBConfigs;
 @Entity(tableName = DBConfigs.EDGE_TABLE, primaryKeys = {DBConfigs.EDGE_ITEM})
 public class Edge {
     /**
-     * direction+"-"+postion
+     * direction+"#"+postion
      */
     @NonNull
     @ColumnInfo(name = DBConfigs.EDGE_ITEM)

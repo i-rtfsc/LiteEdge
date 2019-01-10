@@ -23,6 +23,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,20 @@ import java.util.List;
 import static android.content.pm.PackageManager.NameNotFoundException;
 
 public class AppUtils {
+    private static final String EDGE_PACKAGE = "com.journeyOS.edge";
+    private static final String EDGE_SERVICE_AIDL = "com.journeyOS.edge.action.EdgeService";
+
+    public static void startEdge(Context context) {
+        Intent intent = new Intent();
+        intent.setPackage(EDGE_PACKAGE);
+        intent.setAction(EDGE_SERVICE_AIDL);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
+    }
 
     public static List<String> getLauncherApp(Context context) {
         PackageManager pm = context.getPackageManager();

@@ -22,11 +22,11 @@ import com.journeyOS.base.utils.FileIOUtils;
 import com.journeyOS.base.utils.JsonHelper;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.database.DBConfigs;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
+import com.journeyOS.core.database.DBConfigs;
+import com.journeyOS.core.database.DBHelper;
 import com.journeyOS.core.database.EdgeDatabase;
 import com.journeyOS.core.database.entity.EdgeBean;
-import com.journeyOS.core.database.DBHelper;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.literouter.annotation.ARouterInject;
 
@@ -105,19 +105,14 @@ public class EdgeRepositoryImpl implements IEdgeProvider {
                     Edge config = new Edge();
                     config.packageName = edge.packageName;
 
-                    //left
-                    config.direction = EdgeDirection.LEFT.name().toLowerCase();
-                    config.item = encodeItem(EdgeDirection.LEFT, edge.postion);
-                    edgeDao.insert(config);
-
-                    //right
-                    config.direction = EdgeDirection.RIGHT.name().toLowerCase();
-                    config.item = encodeItem(EdgeDirection.RIGHT, edge.postion);
-                    edgeDao.insert(config);
-
-                    //up
-                    config.direction = EdgeDirection.UP.name().toLowerCase();
-                    config.item = encodeItem(EdgeDirection.UP, edge.postion);
+                    config.direction = edge.direction.toLowerCase();
+                    if (EdgeDirection.LEFT.name().toLowerCase().equals(config.direction)) {
+                        config.item = encodeItem(EdgeDirection.LEFT, edge.postion);
+                    } else if (EdgeDirection.RIGHT.name().toLowerCase().equals(config.direction)) {
+                        config.item = encodeItem(EdgeDirection.RIGHT, edge.postion);
+                    } else if (EdgeDirection.UP.name().toLowerCase().equals(config.direction)) {
+                        config.item = encodeItem(EdgeDirection.UP, edge.postion);
+                    }
                     edgeDao.insert(config);
                 }
                 SpUtils.getInstant().put(Constant.DB_INITED, true);

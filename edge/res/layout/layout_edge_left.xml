@@ -266,28 +266,19 @@
             android:paddingTop="45px"
             android:paddingRight="120px">
 
-            <RelativeLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/statusbar_text1"
+                android:layout_width="wrap_content"
                 android:layout_height="72px"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/statusbar_text1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="72px"
-                    android:layout_centerInParent="true"
-                    android:drawablePadding="@dimen/child_text_drawable_padding"
-                    android:gravity="center"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/statusTextSize" />
-            </RelativeLayout>
+                android:gravity="center"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/statusTextSize" />
 
             <TextView
                 android:id="@+id/statusbar_text2"
                 android:layout_width="0dp"
                 android:layout_height="72px"
                 android:layout_weight="1"
-                android:drawablePadding="@dimen/child_text_drawable_padding"
                 android:gravity="center_vertical|center_horizontal"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/statusTextSize" />
@@ -297,7 +288,6 @@
                 android:layout_width="0dp"
                 android:layout_height="72px"
                 android:layout_weight="1"
-                android:drawablePadding="@dimen/child_text_drawable_padding"
                 android:gravity="center_vertical"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/statusTextSize" />

@@ -29,18 +29,19 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.iigo.library.PowerView;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.utils.AnimationUtil;
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.BaseUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.edge.Edge;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.weather.Air;
 import com.journeyOS.core.weather.Weather;
-import com.journeyOS.edge.EdgeService;
 import com.journeyOS.edge.R;
 
 import java.util.List;
@@ -86,6 +87,8 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
     private TextView mText5;
     private TextView mText6;
 
+    private PowerView mPowerView;
+
     private float mStatusBarHeight, mIconGroupHeight;
     private float mStatusBarWidth, mIconGroupWidth;
 
@@ -107,7 +110,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
 
         initCommonView();
 
-        mEd = EdgeService.getEdgeDirection();
+        mEd = StateMachine.getEdgeDirection();
         LogUtils.d(TAG, "on view inflate, edge direction = " + mEd);
         switch (mEd) {
             case UP:
@@ -215,6 +218,8 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
 
         mStatusBarHeight = 144f;
         mIconGroupHeight = 384f;
+
+        mPowerView = (PowerView) findViewById(R.id.battery);
     }
 
     public void initDatas() {
@@ -333,6 +338,12 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         maskDismiss();
         mainIconGroupDismiss(isLandscape);
         statusBarDismiss(isLandscape);
+    }
+
+    public void setBattery(int progress) {
+        if (mPowerView != null) {
+            mPowerView.setProgress(progress);
+        }
     }
 
     private void maskShow() {

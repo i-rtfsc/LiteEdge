@@ -29,7 +29,7 @@ import com.journeyOS.core.api.edgeprovider.ICityProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.core.permission.IPermission;
-import com.journeyOS.edge.EdgeController;
+import com.journeyOS.edge.EdgeServiceManager;
 import com.journeyOS.edge.R;
 import com.journeyOS.plugins.R2;
 
@@ -68,14 +68,14 @@ public class SettingsActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        EdgeController.getDefault().bindEgdeService();
+        EdgeServiceManager.getDefault().bindEgdeService();
         boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, true);
         mDaemon.setCheck(daemon);
 
         boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, false);
         mBall.setCheck(ball);
         if (ball) {
-            EdgeController.getDefault().showingOrHidingBall(true);
+            EdgeServiceManager.getDefault().showingOrHidingBall(true);
         }
 
         CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
@@ -98,7 +98,7 @@ public class SettingsActivity extends BaseActivity {
         boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, false);
         mBall.setCheck(!ball);
         SpUtils.getInstant().put(Constant.BALL, !ball);
-        EdgeController.getDefault().showingOrHidingBall(!ball);
+        EdgeServiceManager.getDefault().showingOrHidingBall(!ball);
     }
 
     @OnClick({R.id.overflow})

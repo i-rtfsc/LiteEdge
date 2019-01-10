@@ -22,6 +22,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -35,7 +36,7 @@ import com.journeyOS.edge.R;
 
 import java.lang.reflect.Field;
 
-public class OutterView extends FrameLayout implements InnerView.OnGestureListener {
+public class OutterView extends FrameLayout implements InnerView.OnGestureListener, View.OnAttachStateChangeListener{
 
     private static final String TAG = OutterView.class.getSimpleName();
 
@@ -114,11 +115,13 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
     public OutterView(Context context) {
         this(context, null);
         this.mContext = context;
+        addOnAttachStateChangeListener(this);
     }
 
     public OutterView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
         this.mContext = context;
+        addOnAttachStateChangeListener(this);
     }
 
     public OutterView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -132,6 +135,7 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
         view.setOnGestureListener(this);
         viewWidth = view.getLayoutParams().width;
         viewHeight = view.getLayoutParams().height;
+        addOnAttachStateChangeListener(this);
     }
 
     @Override
@@ -324,7 +328,24 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
         gestureListener = inf;
     }
 
+    @Override
+    public void onViewAttachedToWindow(View view) {
+        if (gestureListener != null) {
+            gestureListener.onViewAttachedToWindow();
+        }
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(View view) {
+        if (gestureListener != null) {
+            gestureListener.onViewDetachedFromWindow();
+        }
+    }
+
     public interface OnGestureListener {
         void onGesture(Direction direction);
+        void onViewAttachedToWindow();
+
+        void onViewDetachedFromWindow();
     }
 }

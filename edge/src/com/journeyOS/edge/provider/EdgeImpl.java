@@ -23,34 +23,19 @@ import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.edge.wm.EdgeManager;
 import com.journeyOS.literouter.annotation.ARouterInject;
-import com.journeyOS.litetask.TaskScheduler;
 
 
 @ARouterInject(api = IEdge.class)
 public class EdgeImpl implements IEdge {
-    private final Handler mHandler = TaskScheduler.getInstance().getMainHandler();
+    //    private final H mHandler = new Handler(Looper.getMainLooper());
+    private final H mHandler = new H();
+
     private static final long DELAY_TIME = 25;
-    private static final int MSG_SHOWING = 1;
-    private static final int MSG_HIDING = 2;
+    private static final int MSG_SHOWING = 0x01;
+    private static final int MSG_HIDING = 0x02;
 
     @Override
     public void onCreate() {
-        TaskScheduler.getInstance().setOnMessageListener(mHandler, new TaskScheduler.OnMessageListener() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case MSG_SHOWING:
-                        EdgeDirection direction = (EdgeDirection) msg.obj;
-                        EdgeManager.getDefault().showEdge(direction);
-                        break;
-                    case MSG_HIDING:
-                        EdgeManager.getDefault().hideEdge();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
     }
 
     @Override
@@ -100,5 +85,22 @@ public class EdgeImpl implements IEdge {
             mHandler.removeMessages(MSG_HIDING);
         }
         mHandler.sendEmptyMessageDelayed(MSG_HIDING, delayMillis);
+    }
+
+    private final class H extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_SHOWING:
+                    EdgeDirection direction = (EdgeDirection) msg.obj;
+                    EdgeManager.getDefault().showEdge(direction);
+                    break;
+                case MSG_HIDING:
+                    EdgeManager.getDefault().hideEdge();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
