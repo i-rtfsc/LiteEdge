@@ -18,6 +18,18 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            main.java.srcDirs = ['src']
+            aidl.srcDirs = ['aidl']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     signingConfigs {
         release {
             File strFile = new File("../keystore/liteedge.keystore")
@@ -37,26 +49,16 @@ android {
 
     buildTypes {
         release {
+            minifyEnabled false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            minifyEnabled false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-            main.java.srcDirs = ['src']
-            aidl.srcDirs = ['aidl']
-            assets.srcDirs = ['assets']
-            jniLibs.srcDirs = ['libs']
         }
     }
 

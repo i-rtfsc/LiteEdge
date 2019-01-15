@@ -16,14 +16,20 @@
 
 package com.journeyOS.plugins.provider;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.core.api.plugins.IPlugins;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.literouter.annotation.ARouterInject;
 import com.journeyOS.plugins.SelectorActivity;
+import com.journeyOS.plugins.about.AboutFragment;
+import com.journeyOS.plugins.permission.PermissionFragment;
 import com.journeyOS.plugins.search.SearchActivity;
+import com.journeyOS.plugins.settings.SettingsFragment;
+import com.journeyOS.plugins.user.LoginFragment;
 
 @ARouterInject(api = IPlugins.class)
 public class PluginsImpl implements IPlugins {
@@ -54,5 +60,25 @@ public class PluginsImpl implements IPlugins {
     @Override
     public void navigationWeatherApp(Context context) {
         AppUtils.startApp(context, WEATHER_PKG);
+    }
+
+    @Override
+    public Fragment provideSettingsFragment(Activity activity) {
+        return SettingsFragment.newInstance(activity);
+    }
+
+    @Override
+    public Fragment provideAboutFragment(Activity activity) {
+        return AboutFragment.newInstance(activity);
+    }
+
+    @Override
+    public Fragment providePermissionFragment(Activity activity) {
+        return PermissionFragment.newInstance(activity);
+    }
+
+    @Override
+    public Fragment provideLoginFragment(Activity activity) {
+        return LoginFragment.newInstance(activity);
     }
 }

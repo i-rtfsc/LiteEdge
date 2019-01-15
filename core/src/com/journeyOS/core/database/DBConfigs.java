@@ -20,7 +20,7 @@ public class DBConfigs {
     //database name
     public static final String DB_NAME = "edge";
 
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 4;
 
     //table
     public static final String EDGE_TABLE = "edge";
@@ -69,5 +69,20 @@ public class DBConfigs {
     public static final String WEATHER_AIR = "air";
     //column
     public static final String WEATHER_TIME = "time";
+
+    //table
+    public static final String USER_TABLE = "user";
+    //column
+    public static final String USER_ID = "objectId";
+    //column
+    public static final String USER_NAME = "userName";
+    //column
+    public static final String USER_ICON = "icon";
+    //column
+    public static final String USER_PHONE = "phone";
+    //column
+    public static final String USER_EMAIL = "email";
+    //column
+    public static final String USER_TOKEN = "token";
 
 }

@@ -18,7 +18,7 @@ package com.journeyOS.core.base;
 
 
 public interface BaseViewInit {
-    int getContentViewId();
+    int attachLayoutRes();
 
     void initViews();
 

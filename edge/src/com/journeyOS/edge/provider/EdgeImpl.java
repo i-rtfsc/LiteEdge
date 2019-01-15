@@ -21,6 +21,7 @@ import android.os.Message;
 
 import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.type.EdgeDirection;
+import com.journeyOS.edge.EdgeServiceManager;
 import com.journeyOS.edge.wm.EdgeManager;
 import com.journeyOS.literouter.annotation.ARouterInject;
 
@@ -36,6 +37,11 @@ public class EdgeImpl implements IEdge {
 
     @Override
     public void onCreate() {
+    }
+
+    @Override
+    public void showingOrHidingBall(boolean isShowing) {
+        EdgeServiceManager.getDefault().showingOrHidingBall(isShowing);
     }
 
     @Override

@@ -18,12 +18,49 @@
     <style name="OnePixelTheme" parent="android:Theme.Holo.Light.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
     </style>
+    <!-- Base application theme. -->
+    <style name="base_AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="toolbarNavigationButtonStyle">@style/base_ToolbarNavigationButtonStyle</item>
+        <item name="android:itemBackground">@color/white</item>
+    </style>
+
+    <style name="base_BaseAppTheme" parent="base_AppTheme">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="base_ToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:width">24dp</item>
+        <item name="android:height">24dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="base_DividerLineHorizontal" parent="base_DividerLine">
+        <item name="android:layout_height">@dimen/divider_size</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="base_DividerLineVertical" parent="base_DividerLine">
+        <item name="android:layout_width">@dimen/divider_size</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="base_DividerLine">
+        <item name="android:background">@color/divider</item>
+    </style>
+
     <!-- toolbar菜单样式 -->
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <!-- <item name="contentInsetStart">0dp</item> --> <!-- 设置该属性边距为0dp-->
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="titleTextColor">@android:color/white</item>
         <item name="actionMenuTextColor">@android:color/white</item>
         <item name="actionMenuTextAppearance">@style/ToolbarMenuTextSize</item>
-        <item name="selectableItemBackground">@drawable/toolbar_button_bg</item>
+        <item name="android:background">?attr/colorPrimary</item>
     </style>
     <!-- toolbar弹出菜单样式 -->
     <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat">
@@ -36,5 +73,27 @@
     <!-- toolbar菜单文字尺寸 -->
     <style name="ToolbarMenuTextSize" parent="@style/TextAppearance.AppCompat.Menu">
         <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="CornersAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--<item name="android:colorBackground">@color/colorPrimary</item>-->
+        <!--<item name="android:textColor">@color/text_primary</item>-->
+        <item name="colorAccent">@color/deeppink</item>
+        <item name="textColorAlertDialogListItem">@color/text_primary_dark</item>
+        <item name="android:textColorPrimary">@color/text_primary_dark</item>
+        <!--item RadioButton or CheckBox color-->
+        <item name="colorControlNormal">@color/text_primary_dark</item>
+        <item name="colorControlActivated">@color/deeppink</item>
+        <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless </item>
+    </style>
+    <style name="TextLabel" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorControlActivated">#FFCC00</item>
     </style>
 </resources>

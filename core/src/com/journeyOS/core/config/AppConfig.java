@@ -28,6 +28,7 @@ import com.journeyOS.core.R;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 
+import cn.bmob.v3.Bmob;
 import es.dmoral.toasty.Toasty;
 
 
@@ -41,6 +42,7 @@ public class AppConfig {
         initFile();
         initSharedPreference(context);
         initToastyConfig(context);
+        initBmob(context);
     }
 
     private static void initCrashReport(Context context) {
@@ -79,5 +81,9 @@ public class AppConfig {
                 .setTextColor(context.getResources().getColor(R.color.white))
                 .tintIcon(true)
                 .apply();
+    }
+
+    private static void initBmob(Application context) {
+        Bmob.initialize(context, "6aa0fcc54f48025459d573c92e95870b");
     }
 }

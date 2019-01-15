@@ -22,6 +22,7 @@ import com.journeyOS.base.utils.FileIOUtils;
 import com.journeyOS.base.utils.JsonHelper;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.SyncManager;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.database.DBConfigs;
 import com.journeyOS.core.database.DBHelper;
@@ -72,6 +73,7 @@ public class EdgeRepositoryImpl implements IEdgeProvider {
     public void insertOrUpdateConfig(Edge config) {
         synchronized (mLock) {
             edgeDao.insert(config);
+            SyncManager.getDefault().sync();
         }
     }
 
@@ -79,6 +81,7 @@ public class EdgeRepositoryImpl implements IEdgeProvider {
     public void deleteConfig(Edge config) {
         synchronized (mLock) {
             edgeDao.delete(config);
+            SyncManager.getDefault().sync();
         }
     }
 
@@ -86,6 +89,7 @@ public class EdgeRepositoryImpl implements IEdgeProvider {
     public void deleteAll() {
         synchronized (mLock) {
             edgeDao.deleteAll();
+//            SyncManager.getDefault().sync();
         }
     }
 
@@ -135,4 +139,5 @@ public class EdgeRepositoryImpl implements IEdgeProvider {
         }
         return postion;
     }
+
 }

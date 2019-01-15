@@ -23,6 +23,38 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            File strFile = new File("../keystore/liteedge.keystore")
+            storeFile file(strFile)
+            keyAlias 'journeyOS'
+            keyPassword 'liteedge'
+            storePassword 'qazwsxedc'
+        }
+        debug {
+            File strFile = new File("../keystore/liteedge.keystore")
+            storeFile file(strFile)
+            keyAlias 'journeyOS'
+            keyPassword 'liteedge'
+            storePassword 'qazwsxedc'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+
 }
 
 dependencies {

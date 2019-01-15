@@ -15,4 +15,42 @@
   -->
 
 <resources>
+    <string name="app_name">Edge</string>
+    <string name="daemon">守护进程</string>
+    <string name="overflow">浮窗权限</string>
+    <string name="ball">悬浮球</string>
+    <string name="has_permission">已经获得</string>
+    <string name="add">添加</string>
+    <string name="weather_air_alty">空气质量：</string>
+
+    <string name="menu_account">账号</string>
+    <string name="menu_permission">权限</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_about">关于</string>
+    <string name="version">版本</string>
+    <string name="email">邮箱</string>
+    <string name="open_in_market">在应用市场中打开</string>
+    <string name="no_market_clients">未安装应用市场客户端</string>
+    <string name="send_email">发送邮件</string>
+    <string name="no_email_clients">未安装邮件客户端</string>
+
+    <string name="login_success">登录成功</string>
+    <string name="login">登录</string>
+    <string name="login_username">用户</string>
+    <string name="login_password">密码</string>
+    <string name="regiter_phone">手机号</string>
+    <string name="regiter_code">验证码</string>
+    <string name="forgot_your_password">忘记密码</string>
+    <string name="login_go">登录</string>
+    <string name="repeat_password">重复密码</string>
+    <string name="next">注册</string>
+    <string name="register">注册</string>
+    <string name="get_sms_code">获取验证码</string>
+    <string name="reget_sms_code">重新获取</string>
+    <string name="millis">秒</string>
+    <string name="auto_sync">自动同步</string>
+    <string name="userid">用户ID</string>
+    <string name="userphone">电话</string>
+    <string name="useremail">邮箱</string>
+    <string name="not_set">未设置</string>
 </resources>

@@ -59,15 +59,15 @@ public abstract class BaseFragment extends Fragment implements BaseViewInit {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(getContentViewId(), container, false);
+        View rootView = inflater.inflate(attachLayoutRes(), container, false);
         ButterKnife.bind(this, rootView);
         Router.getDefault().register(this);
         initViews();
-        initDataObserver();
+        initDataObserver(savedInstanceState);
         return rootView;
     }
 
-    protected void initDataObserver() {
+    protected void initDataObserver(Bundle savedInstanceState) {
     }
 
 }

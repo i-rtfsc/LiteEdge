@@ -23,6 +23,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.journeyOS.base.R;
@@ -78,7 +79,9 @@ public class SettingText extends SettingView {
         mText = new TextView(getContext());
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
+//        params.rightMargin = px2dp(12);
         mText.setLayoutParams(params);
+//        mText.setAlpha(0.8f);
         return mText;
     }
 

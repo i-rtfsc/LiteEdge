@@ -1,0 +1,29 @@
+<!--
+  Copyright (c) 2019 anqi.huang@outlook.com
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+    <path
+        android:fillColor="#00DDF4"
+        android:pathData="M201.25,942.93V81.07a81.07,81.07 0,0 1,81.07 -81.07h459.37a81.07,81.07 0,0 1,81.07 81.07v875.38a67.56,67.56 0,0 1,-67.56 67.56H282.31a81.07,81.07 0,0 1,-81.07 -81.07" />
+    <path
+        android:fillColor="#2169F9"
+        android:pathData="M623.2,54.04H400.8a54.04,54.04 0,0 1,-45.26 -24.59L336.36,0h351.29l-19.19,29.45A54.04,54.04 0,0 1,623.2 54.04M613.33,986.3h-202.67a6.76,6.76 0,0 1,0 -13.51h202.67a6.76,6.76 0,0 1,0 13.51" />
+</vector>

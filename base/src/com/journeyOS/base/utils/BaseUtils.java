@@ -16,8 +16,18 @@
 
 package com.journeyOS.base.utils;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+
+import com.journeyOS.base.R;
+
 import java.util.Collection;
 import java.util.Map;
+
+import es.dmoral.toasty.Toasty;
 
 public class BaseUtils {
 
@@ -43,5 +53,30 @@ public class BaseUtils {
 
     public static boolean isNull(Object o) {
         return o == null;
+    }
+
+    public static void openInMarket(@NonNull Context context) {
+        Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            context.startActivity(Intent.createChooser(intent, context.getString(R.string.open_in_market))
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        } catch (ActivityNotFoundException e) {
+            Toasty.warning(context, context.getString(R.string.no_market_clients)).show();
+        }
+    }
+
+    public static void launchEmail(@NonNull Context context, @NonNull String email) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            context.startActivity(Intent.createChooser(intent, context.getString(R.string.send_email))
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        } catch (ActivityNotFoundException e) {
+            Toasty.warning(context, context.getString(R.string.no_email_clients)).show();
+        }
     }
 }

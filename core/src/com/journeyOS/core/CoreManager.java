@@ -48,6 +48,7 @@ public class CoreManager {
         sContext = context;
         I007Core.getCore().running(context);
         AppConfig.initialize(context);
+        AccountManager.getDefault().login();
     }
 
     public Application getContext() {

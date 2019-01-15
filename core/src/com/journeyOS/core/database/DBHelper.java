@@ -39,9 +39,16 @@ public class DBHelper {
         }
     };
 
+    static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(@NonNull final SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE user (userId TEXT NOT NULL, userName TEXT, icon TEXT, phone TEXT, email TEXT, token TEXT, PRIMARY KEY(userId))");
+        }
+    };
+
     public static <T extends RoomDatabase> T provider(Context context, Class<T> dbCls, String dbName) {
         return Room.databaseBuilder(context, dbCls, dbName)
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                 .fallbackToDestructiveMigration().build();
     }
 }

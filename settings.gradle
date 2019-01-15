@@ -13,8 +13,8 @@ def initVersion() {
     gradle.ext.targetVersion = 27
     gradle.ext.minSdkVersion = 26
     gradle.ext.supportVersion = '27.0.2'
-    gradle.ext.versionCode = 1
-    gradle.ext.versionName = '1.0.0'
+    gradle.ext.versionCode = 2
+    gradle.ext.versionName = '1.1.0'
 
     //base
     gradle.ext.materialprogressbar = '1.4.2'
@@ -24,6 +24,12 @@ def initVersion() {
     gradle.ext.circleimageview = '2.2.0'
     gradle.ext.retrofit2 = '2.3.0'
     gradle.ext.power_view = '1.0'
+    gradle.ext.bmob_sdk = '3.6.9'
+    gradle.ext.okio = '2.1.0'
+    gradle.ext.rxjava = '2.2.2'
+    gradle.ext.rxandroid = '2.1.0'
+    gradle.ext.slidingrootnav = '1.1.0'
+    gradle.ext.cardview = '25.1.1'
 
     //core dependencies
     gradle.ext.stetho = '1.5.0'

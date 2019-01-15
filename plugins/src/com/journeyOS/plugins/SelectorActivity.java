@@ -20,6 +20,7 @@ import android.arch.lifecycle.Observer;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -116,7 +117,7 @@ public class SelectorActivity extends BaseActivity implements RouterListener {
 
 
     @Override
-    public int getContentViewId() {
+    public int attachLayoutRes() {
         return R.layout.activity_selector;
     }
 
@@ -132,8 +133,8 @@ public class SelectorActivity extends BaseActivity implements RouterListener {
     }
 
     @Override
-    protected void initDataObserver() {
-        super.initDataObserver();
+    protected void initDataObserver(Bundle savedInstanceState) {
+        super.initDataObserver(savedInstanceState);
         LogUtils.d(TAG, "data observer has been called!");
         mAppModel = ModelProvider.getModel(this, AppModel.class);
         mAppModel.getAllApps();

@@ -20,6 +20,7 @@ package com.journeyOS.plugins.search;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -86,7 +87,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
-    public int getContentViewId() {
+    public int attachLayoutRes() {
         return R.layout.activity_search;
     }
 
@@ -99,8 +100,8 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
-    protected void initDataObserver() {
-        super.initDataObserver();
+    protected void initDataObserver(Bundle savedInstanceState) {
+        super.initDataObserver(savedInstanceState);
         mSearchModel = ModelProvider.getModel(this, SearchModel.class);
         mSearchModel.getAllCities();
         mSearchModel.getAllCityData().observe(this, new Observer<List<CityInfoData>>() {

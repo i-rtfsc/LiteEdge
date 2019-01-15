@@ -129,17 +129,15 @@ public class EdgeManager {
                     }
 
                     List<Edge> configs = CoreManager.getDefault().getImpl(IEdgeProvider.class).getConfigs(direction.name().toLowerCase());
-                    if (Constant.DEBUG)
+                    if (Constant.DEBUG) {
                         LogUtils.d(TAG, "get " + direction.name().toLowerCase() + " configs " + configs);
+                    }
                     for (Edge config : configs) {
-                        int postion = -1;
-                        String[] items = config.item.split(Constant.SEPARATOR);
-                        if (items != null) {
-                            postion = Integer.parseInt(items[1]);
-                        }
+                        int postion = CoreManager.getDefault().getImpl(IEdgeProvider.class).getPostion(config.item);
                         String packageName = config.packageName;
-                        if (Constant.DEBUG)
+                        if (Constant.DEBUG) {
                             LogUtils.d(TAG, "get " + direction.name().toLowerCase() + " edge, postion = " + postion + " , packageName = " + packageName);
+                        }
                         if (postion != -1) sCache.put(postion, config);
                     }
                     return configs;
@@ -222,10 +220,6 @@ public class EdgeManager {
         }
     }
 
-    boolean isLandscape() {
-        return mEdgeView == mUpEdgeView;
-    }
-
     LayoutParams getLayoutParams() {
         LayoutParams params = new LayoutParams();
         params.type = LayoutParams.TYPE_APPLICATION_OVERLAY;
@@ -239,5 +233,4 @@ public class EdgeManager {
         params.height = LayoutParams.MATCH_PARENT;
         return params;
     }
-
 }

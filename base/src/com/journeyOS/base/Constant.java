@@ -32,5 +32,17 @@ public class Constant {
     public static final String DB_INITED = "dbInited";
     public static final String CITY_INITED = "cityInited";
     public static final String CITY_ID = "cityId";
+    public static final String AUTO_SYNC = "autoSync";
 
+    //menu key
+    public static final int MENU_USER = 0;
+    public static final int MENU_SETTINGS = 1;
+    public static final int MENU_PERMISSION = 2;
+    public static final int MENU_ABOUT = 3;
+
+
+    public static final String USER = "Solo";
+    public static final String EMAIL = "anqi.huang@outlook.com";
+
+    public static final String DEFAULT_PASSWORD = "123456";
 }

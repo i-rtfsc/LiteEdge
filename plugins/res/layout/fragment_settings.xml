@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  Copyright (c) 2018 anqi.huang@outlook.com
+  Copyright (c) 2019 anqi.huang@outlook.com
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -21,17 +21,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="?attr/colorPrimary"
-        android:minHeight="45dp"
-        settings:popupTheme="@style/ToolbarPopupTheme"
-        settings:theme="@style/ToolbarTheme"
-        settings:titleTextAppearance="@style/ToolbarTitle" />
-
-    <!-- 全圆角-->
     <LinearLayout style="@style/wrap_layout">
 
         <com.journeyOS.base.widget.SettingSwitch
@@ -40,27 +29,16 @@
             android:theme="@style/CheckBox"
             settings:settingIcon="@drawable/svg_daemon"
             settings:settingTitle="@string/daemon" />
-    </LinearLayout>
 
-    <!--基础设置-->
-    <LinearLayout style="@style/wrap_layout">
+        <View style="@style/bg_line" />
 
         <com.journeyOS.base.widget.SettingSwitch
             android:id="@+id/ball"
-            style="@style/top_layout"
+            style="@style/bottom_layout"
             android:theme="@style/CheckBox"
             settings:settingIcon="@drawable/svg_ball"
             settings:settingTitle="@string/ball" />
 
-        <View style="@style/bg_line" />
-
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/overflow"
-            style="@style/bottom_layout"
-            settings:settingIcon="@drawable/svg_overflow"
-            settings:settingTitle="@string/overflow" />
-
     </LinearLayout>
-
 
 </LinearLayout>

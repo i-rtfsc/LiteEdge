@@ -20,6 +20,9 @@ import com.journeyOS.core.api.ICoreApi;
 import com.journeyOS.core.type.EdgeDirection;
 
 public interface IEdge extends ICoreApi {
+
+    void showingOrHidingBall(boolean isShowing);
+
     /**
      * 显示edge
      *

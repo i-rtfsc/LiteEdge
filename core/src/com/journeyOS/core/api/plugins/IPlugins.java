@@ -16,7 +16,9 @@
 
 package com.journeyOS.core.api.plugins;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import com.journeyOS.core.api.ICoreApi;
 import com.journeyOS.core.type.EdgeDirection;
@@ -47,4 +49,24 @@ public interface IPlugins extends ICoreApi {
      * 启动com.journeyOS.liteweather
      */
     void navigationWeatherApp(Context context);
+
+    /**
+     * 获取设置Fragment
+     */
+    Fragment provideSettingsFragment(Activity activity);
+
+    /**
+     * 获取关于Fragment
+     */
+    Fragment provideAboutFragment(Activity activity);
+
+    /**
+     * 获取权限Fragment
+     */
+    Fragment providePermissionFragment(Activity activity);
+
+    /**
+     * 获取登陆注册Fragment
+     */
+    Fragment provideLoginFragment(Activity activity);
 }
