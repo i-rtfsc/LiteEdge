@@ -17,19 +17,23 @@
 package com.journeyOS.plugins.user;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.BaseUtils;
+import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.PhoneUtil;
 import com.journeyOS.base.widget.SettingSwitch;
-import com.journeyOS.base.widget.SettingText;
 import com.journeyOS.base.widget.SettingView;
 import com.journeyOS.base.widget.TimingButton;
 import com.journeyOS.core.AccountManager;
@@ -41,18 +45,32 @@ import com.journeyOS.core.viewmodel.ModelProvider;
 import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.R2;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import cn.bmob.v3.BmobSMS;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
+import es.dmoral.toasty.Toasty;
 
 public class LoginFragment extends BaseFragment {
     private static final String TAG = LoginFragment.class.getSimpleName();
     static Activity mContext;
+
+    @IntDef({User.USER_NAME, User.PHONE, User.EMAIL})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface User {
+        int USER_NAME = 1;
+        int PHONE = 2;
+        int EMAIL = 3;
+    }
 
     //login
     @BindView(R2.id.user_info)
@@ -62,10 +80,10 @@ public class LoginFragment extends BaseFragment {
     SettingSwitch mAutoSync;
 
     @BindView(R2.id.user_id)
-    SettingText mUserIdView;
+    SettingView mUserIdView;
 
     @BindView(R2.id.user_phone)
-    SettingText mPhoneView;
+    SettingView mPhoneView;
 
     @BindView(R2.id.user_email)
     SettingView mEmailView;
@@ -81,7 +99,6 @@ public class LoginFragment extends BaseFragment {
     @BindView(R2.id.smsButton)
     TimingButton smsButton;
 
-
     String mPhone = null;
     String mPassword = null;
     String mCode = null;
@@ -90,6 +107,7 @@ public class LoginFragment extends BaseFragment {
     String mToken = null;
 
     LoginModel mLoginModel;
+    EdgeUser mEdgeUser;
 
     final Observer<StatusDataResource> userInfoObserver = new Observer<StatusDataResource>() {
         @Override
@@ -242,34 +260,67 @@ public class LoginFragment extends BaseFragment {
         SpUtils.getInstant().put(Constant.AUTO_SYNC, !daemon);
     }
 
+    @OnClick({R2.id.user_id})
+    public void listenerUserID() {
+        if (!BaseUtils.isNull(mEdgeUser)) {
+            String username = mEdgeUser.getUsername();
+            if (BaseUtils.isNull(username)) {
+                updateInfoDialog(User.USER_NAME);
+            } else {
+                Toasty.info(mActivity, mContext.getString(R.string.has_been_set));
+            }
+        }
+    }
+
+    @OnClick({R2.id.user_phone})
+    public void listenerUserPhone() {
+        if (!BaseUtils.isNull(mEdgeUser)) {
+            String phone = mEdgeUser.getMobilePhoneNumber();
+            if (BaseUtils.isNull(phone)) {
+                updateInfoDialog(User.PHONE);
+            } else {
+                Toasty.info(mActivity, mContext.getString(R.string.has_been_set));
+            }
+        }
+    }
+
+    @OnClick({R2.id.user_email})
+    public void listenerUserEamil() {
+        if (!BaseUtils.isNull(mEdgeUser)) {
+            String email = mEdgeUser.getEmail();
+            if (BaseUtils.isNull(email)) {
+                updateInfoDialog(User.EMAIL);
+            } else {
+                Toasty.info(mActivity, mContext.getString(R.string.has_been_set));
+            }
+        }
+    }
+
     void handleUserInfoObserver(final StatusDataResource statusDataResource) {
         String notSet = mContext.getString(R.string.not_set);
         switch (statusDataResource.status) {
             case SUCCESS:
-                EdgeUser user = (EdgeUser) statusDataResource.data;
+                mEdgeUser = (EdgeUser) statusDataResource.data;
 
-                String username = user.getUsername();
+                String username = mEdgeUser.getUsername();
                 if (!BaseUtils.isNull(username)) {
-                    mUserIdView.setRightText(username);
-                    mUserIdView.setEnabled(false);
+                    mUserIdView.setRightSummary(username);
                 } else {
-                    mUserIdView.setRightText(notSet);
+                    mUserIdView.setRightSummary(notSet);
                 }
 
-                String phone = user.getMobilePhoneNumber();
+                String phone = mEdgeUser.getMobilePhoneNumber();
                 if (!BaseUtils.isNull(phone)) {
-                    mPhoneView.setRightText(phone);
-                    mPhoneView.setEnabled(false);
+                    mPhoneView.setRightSummary(phone);
                 } else {
-                    mPhoneView.setRightText(notSet);
+                    mPhoneView.setRightSummary(notSet);
                 }
 
-                String email = user.getEmail();
+                String email = mEdgeUser.getEmail();
                 if (!BaseUtils.isNull(email)) {
-                    mEmailView.setSummary(email);
-                    mEmailView.setEnabled(false);
+                    mEmailView.setRightSummary(email);
                 } else {
-                    mEmailView.setSummary(notSet);
+                    mEmailView.setRightSummary(notSet);
                 }
 
                 break;
@@ -277,6 +328,67 @@ public class LoginFragment extends BaseFragment {
 
                 break;
         }
+    }
 
+    void updateInfoDialog(final @User int user) {
+        String setUserInfo = mContext.getString(R.string.set_user_info);
+        String title = null;
+        switch (user) {
+            case User.USER_NAME:
+                title = setUserInfo + mContext.getString(R.string.userid);
+                break;
+            case User.PHONE:
+                title = setUserInfo + mContext.getString(R.string.userphone);
+                break;
+            case User.EMAIL:
+                title = setUserInfo + mContext.getString(R.string.useremail);
+                break;
+        }
+
+        final EditText et = new EditText(mActivity);
+        final AlertDialog dialog = new AlertDialog.Builder(mActivity)
+                .setTitle(title)
+                .setView(et)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String info = et.getText().toString();
+                        if (!BaseUtils.isNull(info)) {
+                            updateUserInfo(user, info);
+                        } else {
+                            Toasty.error(mActivity, mContext.getString(R.string.set_user_info_was_null));
+                        }
+                        //dialog.dismiss();
+                    }
+                }).show();
+
+    }
+
+    void updateUserInfo(@User int user, String info) {
+        LogUtils.d(TAG, "update user info, user = [" + user + "], info = [" + info + "]");
+        final EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+        switch (user) {
+            case User.USER_NAME:
+                edgeUser.setUsername(info);
+                break;
+            case User.PHONE:
+                edgeUser.setMobilePhoneNumber(info);
+                break;
+            case User.EMAIL:
+                edgeUser.setEmail(info);
+                break;
+        }
+
+        edgeUser.update(edgeUser.getObjectId(), new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (BaseUtils.isNull(e)) {
+                    Toasty.info(mActivity, mContext.getString(R.string.set_success));
+                } else {
+                    Toasty.error(mActivity, e.getMessage());
+                }
+            }
+        });
     }
 }

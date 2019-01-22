@@ -53,8 +53,8 @@ public class AboutFragment extends BaseFragment {
 
     @Override
     public void initViews() {
-        mVersion.setSummary(Version.getVersionName(mContext));
-        mEmail.setSummary(Constant.EMAIL);
+        mVersion.setRightSummary(Version.getVersionName(mContext));
+        mEmail.setRightSummary(Constant.EMAIL);
     }
 
     @OnClick({R2.id.version})

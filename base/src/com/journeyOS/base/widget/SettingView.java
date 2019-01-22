@@ -42,6 +42,7 @@ public class SettingView extends RelativeLayout {
     private static final String TAG = SettingView.class.getSimpleName();
     private static final int IMAGE_ICON_ID = 1;
     private static final int TITLE_ID = 2;
+    private static final int ARROW_ICON_ID = 3;
 
     private boolean isProgressing = false;
     private boolean isError = false;
@@ -66,6 +67,11 @@ public class SettingView extends RelativeLayout {
     private String mSummaryText;
     private int mSummaryTextColor;
     private int mSummaryTextSize;
+
+    private TextView mRightSummary;
+    private String mRightSummaryText;
+    private int mRightSummaryTextColor;
+    private int mRightSummaryTextSize;
 
     private String mErrorDesc;
 
@@ -115,6 +121,11 @@ public class SettingView extends RelativeLayout {
                 mSummaryTextSize = ta.getDimensionPixelSize(R.styleable.SettingView_settingSummaryTextSize, 0);
                 Boolean isShowSummary = ta.getBoolean(R.styleable.SettingView_showSummary, false) || (mSummaryText != null);
 
+                mRightSummaryText = ta.getString(R.styleable.SettingView_settingRightSummary);
+                mRightSummaryTextColor = ta.getColor(R.styleable.SettingView_settingRightSummaryTextColor, DEFAULT_SUMMARY_COLOR);
+                mRightSummaryTextSize = ta.getDimensionPixelSize(R.styleable.SettingView_settingRightSummaryTextSize, 0);
+                Boolean isShowRightSummary = ta.getBoolean(R.styleable.SettingView_showRightSummary, false) || (mRightSummaryText != null);
+
                 mArrowRes = ta.getResourceId(R.styleable.SettingView_arrow, R.drawable.setting_view_arrow);
                 mArrowWidth = ta.getDimensionPixelSize(R.styleable.SettingView_arrowWidth, mArrowDefaultSize);
                 mArrowHeight = ta.getDimensionPixelSize(R.styleable.SettingView_arrowHeight, mArrowDefaultSize);
@@ -125,6 +136,7 @@ public class SettingView extends RelativeLayout {
                 initIcon();
                 initTitle(isShowSummary);
                 initSummary(isShowSummary);
+                initRightSummary(isShowRightSummary);
                 initRightLayout();
                 initRightView(isShow);
 
@@ -194,7 +206,7 @@ public class SettingView extends RelativeLayout {
         mSummary.setText(mSummaryText != null ? mSummaryText : "");
         mSummary.setTextColor(mSummaryTextColor);
         if (mSummaryTextSize == 0) {
-            mSummaryTextSize = 11;
+            mSummaryTextSize = 12;
         } else {
             mSummaryTextSize = px2dp(mSummaryTextSize);
         }
@@ -202,6 +214,27 @@ public class SettingView extends RelativeLayout {
 
         addView(mSummary);
         mSummary.setVisibility(isShowSummary ? VISIBLE : GONE);
+    }
+
+    private void initRightSummary(boolean isShowSummary) {
+        mRightSummary = new TextView(getContext());
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.LEFT_OF, ARROW_ICON_ID);
+        params.addRule(CENTER_VERTICAL, TRUE);
+        params.rightMargin = dp2px(6);
+        mRightSummary.setLayoutParams(params);
+        mRightSummary.setText(mRightSummaryText != null ? mRightSummaryText : "");
+        mRightSummary.setTextColor(mRightSummaryTextColor);
+        if (mRightSummaryTextSize == 0) {
+            mRightSummaryTextSize = 13;
+        } else {
+            mRightSummaryTextSize = px2dp(mRightSummaryTextSize);
+        }
+        mRightSummary.setTextSize(mRightSummaryTextSize);
+
+        addView(mRightSummary);
+        mRightSummary.setVisibility(isShowSummary ? VISIBLE : GONE);
     }
 
     /**
@@ -254,6 +287,7 @@ public class SettingView extends RelativeLayout {
         mRightLayout.addView(mErrorImageView);
         mRightLayout.addView(mErrorTextView);
 
+        mRightLayout.setId(ARROW_ICON_ID);
         if (!isShow) mRightLayout.setVisibility(GONE);
     }
 
@@ -322,6 +356,17 @@ public class SettingView extends RelativeLayout {
         }
     }
 
+    public void setRightSummary(String summary) {
+        if (mRightSummary != null) {
+            mRightSummary.setText(summary);
+        }
+    }
+
+    public void setRightSummaryColor(int color) {
+        if (mRightSummary != null) {
+            mRightSummary.setTextColor(color);
+        }
+    }
 
     public void setErrorImageRes(int res) {
         mErrorImageView.setImageResource(res);

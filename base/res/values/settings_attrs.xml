@@ -32,6 +32,10 @@
         <attr name="arrowHeight" format="dimension" />
         <attr name="settingError" format="reference" />
         <attr name="showRight" format="boolean" />
+        <attr name="settingRightSummary" format="string" />
+        <attr name="settingRightSummaryTextSize" format="dimension" />
+        <attr name="settingRightSummaryTextColor" format="color" />
+        <attr name="showRightSummary" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="SettingText">

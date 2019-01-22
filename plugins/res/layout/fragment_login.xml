@@ -356,33 +356,32 @@
 
             <View style="@style/bg_line" />
 
-            <com.journeyOS.base.widget.SettingText
+            <com.journeyOS.base.widget.SettingView
                 android:id="@+id/user_id"
                 style="@style/mid_layout"
                 app:settingIcon="@drawable/svg_menu_user"
                 app:settingTextColor="@color/text_secondary_dark"
-                app:settingTitle="@string/userid" />
+                app:settingTitle="@string/userid"
+                app:showRightSummary="true" />
 
             <View style="@style/bg_line" />
 
-            <com.journeyOS.base.widget.SettingText
+            <com.journeyOS.base.widget.SettingView
                 android:id="@+id/user_phone"
-                style="@style/bottom_layout"
+                style="@style/mid_layout"
                 app:settingIcon="@drawable/svg_iphone_x"
                 app:settingTextColor="@color/text_secondary_dark"
-                app:settingTitle="@string/userphone" />
+                app:settingTitle="@string/userphone"
+                app:showRightSummary="true" />
 
-            <View
-                style="@style/bg_line"
-                android:visibility="gone" />
+            <View style="@style/bg_line" />
 
             <com.journeyOS.base.widget.SettingView
                 android:id="@+id/user_email"
                 style="@style/bottom_layout"
-                android:visibility="gone"
                 app:settingIcon="@drawable/svg_email"
                 app:settingTitle="@string/useremail"
-                app:showSummary="true" />
+                app:showRightSummary="true" />
 
         </LinearLayout>
 

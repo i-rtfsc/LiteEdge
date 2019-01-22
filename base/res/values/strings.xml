@@ -53,4 +53,8 @@
     <string name="userphone">电话</string>
     <string name="useremail">邮箱</string>
     <string name="not_set">未设置</string>
+    <string name="has_been_set">已经设置，不可修改</string>
+    <string name="set_user_info">设置</string>
+    <string name="set_user_info_was_null">设置不能为空</string>
+    <string name="set_success">设置成功</string>
 </resources>
