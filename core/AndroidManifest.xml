@@ -29,7 +29,6 @@
         android:supportsRtl="true">
         <activity
             android:name=".daemon.AliveActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/OnePixelTheme">
             <intent-filter>
                 <action android:name="com.journeyOS.core.daemon.keep_alive" />
