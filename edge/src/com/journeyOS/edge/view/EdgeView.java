@@ -318,6 +318,9 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                             });
                         }
                     }
+
+                    int battery = mListener.getBattery();
+                    setBattery(battery);
                 }
             });
         }
@@ -574,5 +577,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         Weather getWeather();
 
         Air getAir();
+
+        int getBattery();
     }
 }

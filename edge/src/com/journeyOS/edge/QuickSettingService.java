@@ -55,8 +55,8 @@ public class QuickSettingService extends TileService implements CoreExecutorsImp
             mHandler = CoreManager.getDefault().getImpl(ICoreExecutors.class).getHandle(ICoreExecutors.HANDLER_QS);
         }
         CoreManager.getDefault().getImpl(ICoreExecutors.class).setOnMessageListener(mHandler, this);
-        mHandler.sendEmptyMessage(MSG_BING_SERVICE);
-
+        boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, true);
+        if (daemon) mHandler.sendEmptyMessage(MSG_BING_SERVICE);
     }
 
     @Override

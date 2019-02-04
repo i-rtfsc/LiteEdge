@@ -184,6 +184,11 @@ public class EdgeManager {
                     String city = CoreManager.getDefault().getImpl(ICityProvider.class).getCity();
                     return CoreManager.getDefault().getImpl(IFetchWeather.class).queryAir(city, false);
                 }
+
+                @Override
+                public int getBattery() {
+                    return StateMachine.getBattery();
+                }
             });
 
             //show after set listener

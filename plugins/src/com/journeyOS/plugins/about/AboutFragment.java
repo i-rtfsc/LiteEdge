@@ -37,7 +37,6 @@ public class AboutFragment extends BaseFragment {
     @BindView(R2.id.email)
     SettingView mEmail;
 
-
     static Activity mContext;
 
     public static Fragment newInstance(Activity activity) {

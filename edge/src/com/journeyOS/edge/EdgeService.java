@@ -29,6 +29,7 @@ import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.receiver.ScreenObserver;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.daemon.IAlive;
 import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
@@ -149,6 +150,7 @@ public class EdgeService extends Service {
             case BATTERY:
                 int progress = I007Manager.getBatteryLevel(status);
                 EdgeManager.getDefault().updateBattery(progress);
+                StateMachine.setBattery(progress);
                 break;
         }
     }
@@ -163,6 +165,7 @@ public class EdgeService extends Service {
                 CoreManager.getDefault().getImpl(IAlive.class).destroy();
             } else {
                 CoreManager.getDefault().getImpl(IAlive.class).keepAlive(mContext);
+                I007Manager.keepAlive();
             }
         }
     }
