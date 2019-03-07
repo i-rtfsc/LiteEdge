@@ -29,7 +29,6 @@ import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.receiver.ScreenObserver;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.daemon.IAlive;
 import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
@@ -37,7 +36,6 @@ import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.type.Direction;
 import com.journeyOS.edge.utils.NotificationUtils;
 import com.journeyOS.edge.wm.BallManager;
-import com.journeyOS.edge.wm.EdgeManager;
 import com.journeyOS.i007Service.DataResource.FACTORY;
 import com.journeyOS.i007Service.I007Manager;
 import com.journeyOS.i007Service.interfaces.II007Listener;
@@ -128,7 +126,7 @@ public class EdgeService extends Service {
         this.startForeground(NotificationUtils.NOTIFICATION_ID, NotificationUtils.getNotification(mContext));
 //        this.stopForeground(true);
 
-        final long factors = I007Manager.SCENE_FACTOR_LCD | I007Manager.SCENE_FACTOR_BATTERY;
+        final long factors = I007Manager.SCENE_FACTOR_LCD;
         I007Manager.registerListener(factors, mII007Listener);
 
         CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
@@ -146,11 +144,6 @@ public class EdgeService extends Service {
             case LCD:
                 boolean isScreenOn = I007Manager.isScreenOn(status);
                 handleScreen(isScreenOn);
-                break;
-            case BATTERY:
-                int progress = I007Manager.getBatteryLevel(status);
-                EdgeManager.getDefault().updateBattery(progress);
-                StateMachine.setBattery(progress);
                 break;
         }
     }

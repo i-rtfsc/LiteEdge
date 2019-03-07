@@ -185,10 +185,6 @@ public class EdgeManager {
                     return CoreManager.getDefault().getImpl(IFetchWeather.class).queryAir(city, false);
                 }
 
-                @Override
-                public int getBattery() {
-                    return StateMachine.getBattery();
-                }
             });
 
             //show after set listener
@@ -216,12 +212,6 @@ public class EdgeManager {
             case UP:
                 mEdgeView = mUpEdgeView;
                 break;
-        }
-    }
-
-    public void updateBattery(int progress) {
-        if (mEdgeView != null) {
-            mEdgeView.setBattery(progress);
         }
     }
 

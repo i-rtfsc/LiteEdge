@@ -29,7 +29,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.iigo.library.PowerView;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.utils.AnimationUtil;
 import com.journeyOS.base.utils.AppUtils;
@@ -86,8 +85,6 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
     private TextView mText4;
     private TextView mText5;
     private TextView mText6;
-
-    private PowerView mPowerView;
 
     private float mStatusBarHeight, mIconGroupHeight;
     private float mStatusBarWidth, mIconGroupWidth;
@@ -218,8 +215,6 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
 
         mStatusBarHeight = 144f;
         mIconGroupHeight = 384f;
-
-        mPowerView = (PowerView) findViewById(R.id.battery);
     }
 
     public void initDatas() {
@@ -318,9 +313,6 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                             });
                         }
                     }
-
-                    int battery = mListener.getBattery();
-                    setBattery(battery);
                 }
             });
         }
@@ -341,12 +333,6 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         maskDismiss();
         mainIconGroupDismiss(isLandscape);
         statusBarDismiss(isLandscape);
-    }
-
-    public void setBattery(int progress) {
-        if (mPowerView != null) {
-            mPowerView.setProgress(progress);
-        }
     }
 
     private void maskShow() {
@@ -577,7 +563,5 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         Weather getWeather();
 
         Air getAir();
-
-        int getBattery();
     }
 }

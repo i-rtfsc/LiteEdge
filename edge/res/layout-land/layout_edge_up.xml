@@ -319,18 +319,6 @@
                 android:textSize="@dimen/statusTextSize"
                 android:textStyle="bold" />
 
-            <com.iigo.library.PowerView
-                android:id="@+id/battery"
-                android:layout_width="25dp"
-                android:layout_height="10dp"
-                android:layout_below="@id/statusbar_text2"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="9dp"
-                android:layout_marginEnd="8dp"
-                android:layout_toLeftOf="@+id/clock"
-                android:gravity="center" />
-
         </RelativeLayout>
 
     </RelativeLayout>

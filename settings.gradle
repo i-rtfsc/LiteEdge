@@ -23,7 +23,6 @@ def initVersion() {
     gradle.ext.toasty = "1.3.0"
     gradle.ext.circleimageview = '2.2.0'
     gradle.ext.retrofit2 = '2.3.0'
-    gradle.ext.power_view = '1.0'
     gradle.ext.bmob_sdk = '3.6.9'
     gradle.ext.okio = '2.1.0'
     gradle.ext.rxjava = '2.2.2'
