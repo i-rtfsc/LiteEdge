@@ -24,6 +24,7 @@ import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.core.api.plugins.IPlugins;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.literouter.annotation.ARouterInject;
+import com.journeyOS.plugins.LearnActivity;
 import com.journeyOS.plugins.SelectorActivity;
 import com.journeyOS.plugins.about.AboutFragment;
 import com.journeyOS.plugins.permission.PermissionFragment;
@@ -50,6 +51,11 @@ public class PluginsImpl implements IPlugins {
     @Override
     public void navigationSearchActivity(Context context) {
         SearchActivity.navigationFromApplication(context);
+    }
+
+    @Override
+    public void navigationLearnActivity(Context context) {
+        LearnActivity.navigationActivity(context);
     }
 
     @Override
@@ -81,4 +87,5 @@ public class PluginsImpl implements IPlugins {
     public Fragment provideLoginFragment(Activity activity) {
         return LoginFragment.newInstance(activity);
     }
+
 }

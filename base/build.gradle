@@ -95,6 +95,8 @@ dependencies {
     api "com.squareup.okio:okio:$gradle.okio"
 
     api "com.android.support:cardview-v7:$gradle.cardview"
+    api "com.android.support.constraint:constraint-layout:$gradle.constraint_layout"
+    api "co.revely:gradient:$gradle.gradient"
 
     implementation('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true;

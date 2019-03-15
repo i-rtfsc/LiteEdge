@@ -20,6 +20,8 @@
     <string name="overflow">浮窗权限</string>
     <string name="ball">悬浮球</string>
     <string name="has_permission">已经获得</string>
+    <string name="hasnot_permission">还未获得</string>
+    <string name="auto_close_ball">自动关闭悬浮球</string>
     <string name="add">添加</string>
     <string name="weather_air_alty">空气质量：</string>
 
@@ -27,6 +29,7 @@
     <string name="menu_permission">权限</string>
     <string name="menu_settings">设置</string>
     <string name="menu_about">关于</string>
+    <string name="menu_learn">使用教程</string>
     <string name="version">版本</string>
     <string name="email">邮箱</string>
     <string name="open_in_market">在应用市场中打开</string>
@@ -57,4 +60,19 @@
     <string name="set_user_info">设置</string>
     <string name="set_user_info_was_null">设置不能为空</string>
     <string name="set_success">设置成功</string>
+
+    <string name="text_next">下一步</string>
+    <string name="text_jump">跳过</string>
+    <string name="guide_menu_open">点击此处打开抽屉</string>
+    <string name="guide_menu_close">关闭抽屉</string>
+    <string name="guide_user">登录后可以同步个人设置的Edge数据</string>
+    <string name="guide_settings">在设置里可以打开悬浮球\n温馨提示：打开悬浮球之前请先获取浮窗权限</string>
+    <string name="guide_permission">先获取浮窗权限，才能使用悬浮球</string>
+    <string name="guide_learn">本应用不同常规应用，请您花半分钟认真阅读使用教程</string>
+    <string name="guide_done">完成</string>
+    <string name="guide_edge_welcome">欢迎观看使用教程</string>
+    <string name="guide_edge_add">Edge图标区域内已经添加应用，点击可启动该应用，长按可以替换该应用。</string>
+    <string name="guide_edge_not_add">Edge图标区域内还未添加应用，点击可添加手机上的应用。</string>
+    <string name="guide_edge_statusbar">此处为Edge的状态栏\n显示天气基本信息\n长按可以切换城市。</string>
+    <string name="guide_edge_done">您已经初步了解如何使用Edge了，祝你使用愉快。</string>
 </resources>

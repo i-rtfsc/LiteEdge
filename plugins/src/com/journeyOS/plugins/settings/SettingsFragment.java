@@ -17,7 +17,9 @@
 package com.journeyOS.plugins.settings;
 
 import android.app.Activity;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
@@ -30,6 +32,7 @@ import com.journeyOS.plugins.R2;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 
 public class SettingsFragment extends BaseFragment {
 
@@ -64,7 +67,7 @@ public class SettingsFragment extends BaseFragment {
 
         boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, false);
         mBall.setCheck(ball);
-        if (ball) {
+        if (ball && Settings.canDrawOverlays(mContext)) {
             CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(true);
         }
     }
@@ -78,6 +81,11 @@ public class SettingsFragment extends BaseFragment {
 
     @OnClick({R2.id.ball})
     public void listenerBall() {
+        if (!Settings.canDrawOverlays(mContext)) {
+            String message = mContext.getString(R.string.hasnot_permission) + mContext.getString(R.string.overflow);
+            Toasty.warning(mContext, message, Toast.LENGTH_SHORT).show();
+            return;
+        }
         boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, false);
         mBall.setCheck(!ball);
         SpUtils.getInstant().put(Constant.BALL, !ball);

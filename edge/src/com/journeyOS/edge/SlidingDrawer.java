@@ -78,7 +78,8 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
                 createItemFor(Constant.MENU_USER),
                 createItemFor(Constant.MENU_PERMISSION),
                 createItemFor(Constant.MENU_SETTINGS).setChecked(true),
-                createItemFor(Constant.MENU_ABOUT)));
+                createItemFor(Constant.MENU_ABOUT),
+                createItemFor(Constant.MENU_LEARN)));
         adapter.setListener(this);
 
         RecyclerView list = mContext.findViewById(R.id.list);
@@ -139,6 +140,10 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
 
     public void openMenu() {
         slidingRootNav.openMenu(true);
+    }
+
+    public void closeMenu() {
+        slidingRootNav.closeMenu(true);
     }
 
     private OnItemSelectedListener listener;

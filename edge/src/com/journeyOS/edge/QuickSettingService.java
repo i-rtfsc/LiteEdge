@@ -88,9 +88,11 @@ public class QuickSettingService extends TileService implements CoreExecutorsImp
                 shoudBeShow();
                 break;
             case MSG_BALL_SHOW:
+                SpUtils.getInstant().put(Constant.BALL, true);
                 showingOrHidingBall(true);
                 break;
             case MSG_BALL_HIDE:
+                SpUtils.getInstant().put(Constant.BALL, false);
                 showingOrHidingBall(false);
                 break;
         }

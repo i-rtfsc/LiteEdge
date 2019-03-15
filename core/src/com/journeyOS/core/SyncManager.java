@@ -122,7 +122,7 @@ public class SyncManager {
                         @Override
                         public void run() {
                             if (BaseUtils.isNull(e)) {
-                                if (!BaseUtils.isNull(list)) {
+                                if (!BaseUtils.isNull(list) && list.size() > 0) {
                                     EdgeAir edgeAir = list.get(0);
                                     if (!BaseUtils.isNull(edgeAir) && !BaseUtils.isNull(edgeAir.config)) {
                                         String objectId = edgeAir.getObjectId();

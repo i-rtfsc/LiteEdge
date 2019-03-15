@@ -17,13 +17,18 @@
 package com.journeyOS.edge.ui.activity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.journeyOS.base.Constant;
+import com.journeyOS.base.guide.LiteGuide;
+import com.journeyOS.base.guide.OnGuideClickListener;
+import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
@@ -49,6 +54,8 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
 
     Activity mContext;
     Bundle mBundle;
+
+    LiteGuide mLiteGuide = null;
 
     @Override
     public int attachLayoutRes() {
@@ -104,6 +111,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     }
 
     void handleItemSelected(int position) {
+        initGuideView();
         LogUtils.d(TAG, "handle item selected, position = [" + position + "]");
         switch (position) {
             case Constant.MENU_USER:
@@ -123,6 +131,96 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                 mToolbar.setTitle(R.string.menu_about);
                 loadFragment(CoreManager.getDefault().getImpl(IPlugins.class).provideAboutFragment(mContext));
                 break;
+            case Constant.MENU_LEARN:
+//                mToolbar.setTitle(R.string.menu_learn);
+                CoreManager.getDefault().getImpl(IPlugins.class).navigationLearnActivity(mContext);
+                break;
+        }
+    }
+
+
+    void initGuideView() {
+        boolean inited = SpUtils.getInstant().getBoolean(Constant.GUIDE_INITED, false);
+        if (inited) {
+            return;
+        }
+
+        if (mLiteGuide == null) {
+            mLiteGuide = new LiteGuide(this);
+            mLiteGuide.addNextTarget(mToolbar,
+                    mContext.getResources().getString(R.string.guide_menu_open),
+                    50, 100);
+
+            mLiteGuide.addNextTarget(SlidingDrawer.getInstance(this).getView(0),
+                    mContext.getResources().getString(R.string.guide_user),
+                    350, -20);
+
+            mLiteGuide.addNextTarget(SlidingDrawer.getInstance(this).getView(1),
+                    mContext.getResources().getString(R.string.guide_permission),
+                    350, -20, 350, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            mLiteGuide.addNextTarget(SlidingDrawer.getInstance(this).getView(2),
+                    mContext.getResources().getString(R.string.guide_settings),
+                    350, -20);
+
+            mLiteGuide.addNextTarget(
+                    SlidingDrawer.getInstance(this).getView(4),
+                    mContext.getResources().getString(R.string.guide_learn),
+                    280, 20, 500, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            mLiteGuide.prepare();
+
+            mLiteGuide.setMaskMoveDuration(500);
+            mLiteGuide.setExpandDuration(500);
+            mLiteGuide.setMaskRefreshTime(30);
+            mLiteGuide.setMaskColor(Color.argb(99, 200, 100, 99));
+
+            mLiteGuide.setOnGuiderListener(new GuideObserver());
+            mLiteGuide.startGuide();
+        }
+    }
+
+    class GuideObserver implements OnGuideClickListener {
+        @Override
+        public void onMask() {
+            LogUtils.d(TAG, "user click mask view.");
+        }
+
+        @Override
+        public void onNext(int nextStep) {
+            LogUtils.d(TAG, "user click next step" + nextStep);
+        }
+
+        @Override
+        public void onJump() {
+            LogUtils.d(TAG, "user jump guide");
+            SpUtils.getInstant().put(Constant.GUIDE_INITED, true);
+        }
+
+        @Override
+        public void onGuideStart() {
+            LogUtils.d(TAG, "guide start");
+        }
+
+        @Override
+        public void onGuideNext(int nextStep) {
+            LogUtils.d(TAG, "user click guide next " + nextStep);
+            if (nextStep == 1) {
+                SlidingDrawer.getInstance(mContext).openMenu();
+            }
+        }
+
+        @Override
+        public void onGuideFinished() {
+            LogUtils.d(TAG, "guide finished");
+            SpUtils.getInstant().put(Constant.GUIDE_INITED, true);
+            handleItemSelected(4);
+            SlidingDrawer.getInstance(mContext).closeMenu();
+        }
+
+        @Override
+        public void onTarget(int index) {
+            handleItemSelected(index - 1);
         }
     }
 }

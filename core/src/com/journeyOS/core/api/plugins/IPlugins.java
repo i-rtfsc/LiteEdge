@@ -41,6 +41,13 @@ public interface IPlugins extends ICoreApi {
     void navigationSearchActivity(Context context);
 
     /**
+     * 启动学习的activity
+     *
+     * @param context
+     */
+    void navigationLearnActivity(Context context);
+
+    /**
      * 检查com.journeyOS.liteweather是否安装
      */
     boolean isWeatherAppExisted(Context context);

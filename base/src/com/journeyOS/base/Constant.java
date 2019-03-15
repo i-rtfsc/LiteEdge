@@ -33,12 +33,14 @@ public class Constant {
     public static final String CITY_INITED = "cityInited";
     public static final String CITY_ID = "cityId";
     public static final String AUTO_SYNC = "autoSync";
+    public static final String GUIDE_INITED = "guide_inited";
 
     //menu key
     public static final int MENU_USER = 0;
-    public static final int MENU_SETTINGS = 1;
-    public static final int MENU_PERMISSION = 2;
+    public static final int MENU_PERMISSION = 1;
+    public static final int MENU_SETTINGS = 2;
     public static final int MENU_ABOUT = 3;
+    public static final int MENU_LEARN = 4;
 
 
     public static final String USER = "Solo";

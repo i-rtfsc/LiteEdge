@@ -20,6 +20,7 @@
         <item>@string/menu_permission</item>
         <item>@string/menu_settings</item>
         <item>@string/menu_about</item>
+        <item>@string/menu_learn</item>
     </string-array>
 
     <array name="slidingDrawerIcons">
@@ -27,5 +28,6 @@
         <item>@drawable/svg_menu_permission</item>
         <item>@drawable/svg_menu_settings</item>
         <item>@drawable/svg_menu_about</item>
+        <item>@drawable/svg_menu_learn</item>
     </array>
 </resources>

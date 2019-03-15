@@ -18,11 +18,15 @@ package com.journeyOS.edge.wm;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.provider.Settings;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.widget.Toast;
 
+import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.base.utils.UIUtils;
@@ -31,7 +35,10 @@ import com.journeyOS.core.api.edgeprovider.IBallProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.ball.Ball;
 import com.journeyOS.core.type.Direction;
+import com.journeyOS.edge.R;
 import com.journeyOS.edge.view.OutterView;
+
+import es.dmoral.toasty.Toasty;
 
 public class BallManager {
     private static final String TAG = BallManager.class.getSimpleName();
@@ -104,6 +111,12 @@ public class BallManager {
 
     public void showing() {
         LogUtils.d(TAG, "wanna showing");
+        if (!Settings.canDrawOverlays(mContext)) {
+            String message = mContext.getString(R.string.hasnot_permission) + mContext.getString(R.string.overflow) + mContext.getString(R.string.auto_close_ball);
+            Toasty.warning(mContext, message, Toast.LENGTH_SHORT).show();
+            SpUtils.getInstant().put(Constant.BALL, false);
+            return;
+        }
         if (mOv == null) {
             createBall();
         }

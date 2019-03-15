@@ -15,4 +15,8 @@
   -->
 
 <resources>
+    <declare-styleable name="TyperTextView">
+        <attr name="typerRefreshTime" format="integer" />
+        <attr name="charIncrease" format="integer" />
+    </declare-styleable>
 </resources>

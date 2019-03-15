@@ -73,4 +73,40 @@
     <dimen name="icon_size_big">36dp</dimen>
     <dimen name="icon_size_x_large">48dp</dimen>
     <dimen name="icon_size_xx_large">56dp</dimen>
+
+
+    <dimen name="mask_background_height">10px</dimen>
+    <dimen name="parent_width">1080dp</dimen>
+    <dimen name="parent_height">2960dp</dimen>
+    <dimen name="vertical_item_group_width">100dp</dimen>
+    <dimen name="vertical_item_group_height">600dp</dimen>
+    <dimen name="landscape_item_group_width">600dp</dimen>
+    <dimen name="landscape_item_group_height">110dp</dimen>
+    <dimen name="icon_image_view_size">132px</dimen>
+    <dimen name="icon_view_size">132px</dimen>
+    <dimen name="item_text_margin_top">15px</dimen>
+    <dimen name="textSize">27px</dimen>
+    <dimen name="statusTextSize">10dp</dimen>
+    <dimen name="status_bar_width">960px</dimen>
+    <dimen name="status_bar_height">144px</dimen>
+    <dimen name="child_text_drawable_padding">9px</dimen>
+    <!-- Height of the battery icon in the status bar. -->
+    <dimen name="status_bar_battery_icon_height">10dp</dimen>
+    <!-- Width of the battery icon in the status bar. -->
+    <dimen name="status_bar_battery_icon_width">26dp</dimen>
+    <dimen name="backspace_marginLeft">8dp</dimen>
+
+    <dimen name="layout11_portrait_left">40px</dimen>
+    <dimen name="layout12_portrait_left">110px</dimen>
+    <dimen name="layout13_portrait_left">155px</dimen>
+    <dimen name="layout14_portrait_left">155px</dimen>
+    <dimen name="layout15_portrait_left">110px</dimen>
+    <dimen name="layout16_portrait_left">45px</dimen>
+
+    <dimen name="layout11_portrait_right">40px</dimen>
+    <dimen name="layout12_portrait_right">110px</dimen>
+    <dimen name="layout13_portrait_right">155px</dimen>
+    <dimen name="layout14_portrait_right">155px</dimen>
+    <dimen name="layout15_portrait_right">110px</dimen>
+    <dimen name="layout16_portrait_right">45px</dimen>
 </resources>
