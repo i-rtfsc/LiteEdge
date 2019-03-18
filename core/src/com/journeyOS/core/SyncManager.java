@@ -87,8 +87,9 @@ public class SyncManager {
             if (Constant.DEBUG) LogUtils.d(TAG, "sync config = " + edgeAir.config);
 
             String objectId = SpUtils.getInstant().getString(OBJECT_ID, null);
+            if (Constant.DEBUG) LogUtils.d(TAG, "sync objectId = " + objectId);
             if (!BaseUtils.isNull(objectId)) {
-                edgeAir.update(new UpdateListener() {
+                edgeAir.update(objectId, new UpdateListener() {
                     @Override
                     public void done(BmobException e) {
                         LogUtils.d(TAG, "sync done(update), e = " + e);

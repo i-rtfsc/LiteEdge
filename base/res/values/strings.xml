@@ -52,6 +52,7 @@
     <string name="reget_sms_code">重新获取</string>
     <string name="millis">秒</string>
     <string name="auto_sync">自动同步</string>
+    <string name="auto_sync_summary">每次同步消耗不到5KB流量</string>
     <string name="userid">用户ID</string>
     <string name="userphone">电话</string>
     <string name="useremail">邮箱</string>

@@ -352,6 +352,7 @@
                 style="@style/single_layout"
                 android:theme="@style/CheckBox"
                 app:settingIcon="@drawable/svg_daemon"
+                app:settingSummary="@string/auto_sync_summary"
                 app:settingTitle="@string/auto_sync" />
 
             <View style="@style/bg_line" />
