@@ -149,8 +149,13 @@ public class EdgeManager {
                     if (sCache != null) {
                         Edge config = sCache.get(postion);
                         if (config != null) {
-                            AppUtils.startApp(mContext, config.packageName);
-                            if (mEdgeView != null) mEdgeView.hideEdgeView();
+                            boolean isAppExisted =  AppUtils.isPackageExisted(mContext, config.packageName);
+                            if (isAppExisted) {
+                                AppUtils.startApp(mContext, config.packageName);
+                                if (mEdgeView != null) mEdgeView.hideEdgeView();
+                            } else {
+                                CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, StateMachine.getEdgeDirection());
+                            }
                         } else {
                             CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, StateMachine.getEdgeDirection());
                         }

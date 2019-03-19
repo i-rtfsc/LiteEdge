@@ -18,7 +18,6 @@ package com.journeyOS.edge.wm;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
-import android.provider.Settings;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,9 +30,12 @@ import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.edgeprovider.IBallProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.ball.Ball;
+import com.journeyOS.core.permission.IPermission;
+import com.journeyOS.core.type.BallState;
 import com.journeyOS.core.type.Direction;
 import com.journeyOS.edge.R;
 import com.journeyOS.edge.view.OutterView;
@@ -48,9 +50,9 @@ public class BallManager {
     private Context mContext;
     private WindowManager mWm;
 
-    private OutterView mOv;
+    private static Object mLock = new Object();
 
-    private BallState mBallState = BallState.HIDE;
+    private OutterView mOv;
 
     private BallManager() {
         mContext = CoreManager.getDefault().getContext();
@@ -93,6 +95,8 @@ public class BallManager {
     }
 
     public void updateViewLayout() {
+//        hiding();
+//        showing();
         if (mWm != null && mOv != null) {
             CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
                 @Override
@@ -110,29 +114,31 @@ public class BallManager {
     }
 
     public void showing() {
-        LogUtils.d(TAG, "wanna showing");
-        if (!Settings.canDrawOverlays(mContext)) {
-            String message = mContext.getString(R.string.hasnot_permission) + mContext.getString(R.string.overflow) + mContext.getString(R.string.auto_close_ball);
-            Toasty.warning(mContext, message, Toast.LENGTH_SHORT).show();
-            SpUtils.getInstant().put(Constant.BALL, false);
-            return;
-        }
-        if (mOv == null) {
-            createBall();
-        }
-    }
-
-    public void Hiding() {
-        LogUtils.d(TAG, "wanna hiding");
-        if (mOv != null) {
-            mOv.setVisibility(View.GONE);
-            mWm.removeView(mOv);
-            mOv = null;
+        synchronized (mLock) {
+            LogUtils.d(TAG, "wanna showing ball");
+            if (!CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
+                String message = mContext.getString(R.string.hasnot_permission) + mContext.getString(R.string.overflow) + mContext.getString(R.string.auto_close_ball);
+                Toasty.warning(mContext, message, Toast.LENGTH_SHORT).show();
+                SpUtils.getInstant().put(Constant.BALL, false);
+                return;
+            }
+            if (mOv == null && StateMachine.getBallState() == BallState.HIDE) {
+                createBall();
+            } else {
+                LogUtils.d(TAG, "ball state was shown");
+            }
         }
     }
 
-    public boolean isBallShowing() {
-        return mBallState == BallState.SHOW;
+    public void hiding() {
+        synchronized (mLock) {
+            LogUtils.d(TAG, "wanna hiding");
+            if (mOv != null) {
+                mOv.setVisibility(View.GONE);
+                mWm.removeView(mOv);
+                mOv = null;
+            }
+        }
     }
 
     LayoutParams getLayoutParams() {
@@ -175,18 +181,13 @@ public class BallManager {
 
         @Override
         public void onViewAttachedToWindow() {
-            mBallState = BallState.SHOW;
-
+            StateMachine.setBallState(BallState.SHOW);
         }
 
         @Override
         public void onViewDetachedFromWindow() {
-            mBallState = BallState.HIDE;
+            StateMachine.setBallState(BallState.HIDE);
         }
     };
 
-    public enum BallState {
-        SHOW,
-        HIDE
-    }
 }

@@ -17,10 +17,10 @@
 package com.journeyOS.core.database;
 
 public class DBConfigs {
-    //database name
+    //database appName
     public static final String DB_NAME = "edge";
 
-    public static final int DB_VERSION = 4;
+    public static final int DB_VERSION = 5;
 
     //table
     public static final String EDGE_TABLE = "edge";
@@ -84,5 +84,14 @@ public class DBConfigs {
     public static final String USER_EMAIL = "email";
     //column
     public static final String USER_TOKEN = "token";
+
+    //table
+    public static final String APP_TABLE = "app";
+    //column
+    public static final String APP_PACKAGE = "packageName";
+    //column
+    public static final String APP_NAME = "appName";
+    //column
+    public static final String APP_BARRAGE = "barrage";
 
 }

@@ -32,8 +32,10 @@ public class EdgeImpl implements IEdge {
     private final H mHandler = new H();
 
     private static final long DELAY_TIME = 25;
-    private static final int MSG_SHOWING = 0x01;
-    private static final int MSG_HIDING = 0x02;
+    private static final int MSG_BALL_SHOWING = 0x01;
+    private static final int MSG_BALL_HIDING = 0x02;
+    private static final int MSG_EDGE_SHOWING = 0x04;
+    private static final int MSG_EDGE_HIDING = 0x08;
 
     @Override
     public void onCreate() {
@@ -41,7 +43,20 @@ public class EdgeImpl implements IEdge {
 
     @Override
     public void showingOrHidingBall(boolean isShowing) {
-        EdgeServiceManager.getDefault().showingOrHidingBall(isShowing);
+        //EdgeServiceManager.getDefault().showingOrHidingBall(isShowing);
+        if (isShowing) {
+            if (mHandler.hasMessages(MSG_BALL_SHOWING)) {
+                mHandler.removeMessages(MSG_BALL_SHOWING);
+            }
+        } else {
+            if (mHandler.hasMessages(MSG_BALL_HIDING)) {
+                mHandler.removeMessages(MSG_BALL_HIDING);
+            }
+        }
+        Message message = Message.obtain();
+        message.what = isShowing ? MSG_BALL_SHOWING : MSG_BALL_HIDING;
+        message.obj = isShowing;
+        mHandler.sendMessageDelayed(message, DELAY_TIME);
     }
 
     @Override
@@ -77,32 +92,38 @@ public class EdgeImpl implements IEdge {
     }
 
     private void sendShowing(EdgeDirection direction, long delayMillis) {
-        if (mHandler.hasMessages(MSG_SHOWING)) {
-            mHandler.removeMessages(MSG_SHOWING);
+        if (mHandler.hasMessages(MSG_EDGE_SHOWING)) {
+            mHandler.removeMessages(MSG_EDGE_SHOWING);
         }
         Message message = Message.obtain();
-        message.what = MSG_SHOWING;
+        message.what = MSG_EDGE_SHOWING;
         message.obj = direction;
         mHandler.sendMessageDelayed(message, delayMillis);
     }
 
     private void senHiding(long delayMillis) {
-        if (mHandler.hasMessages(MSG_HIDING)) {
-            mHandler.removeMessages(MSG_HIDING);
+        if (mHandler.hasMessages(MSG_EDGE_HIDING)) {
+            mHandler.removeMessages(MSG_EDGE_HIDING);
         }
-        mHandler.sendEmptyMessageDelayed(MSG_HIDING, delayMillis);
+        mHandler.sendEmptyMessageDelayed(MSG_EDGE_HIDING, delayMillis);
     }
 
     private final class H extends Handler {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case MSG_SHOWING:
+                case MSG_EDGE_SHOWING:
                     EdgeDirection direction = (EdgeDirection) msg.obj;
                     EdgeManager.getDefault().showEdge(direction);
                     break;
-                case MSG_HIDING:
+                case MSG_EDGE_HIDING:
                     EdgeManager.getDefault().hideEdge();
+                    break;
+                case MSG_BALL_SHOWING:
+                    EdgeServiceManager.getDefault().showingOrHidingBall(true);
+                    break;
+                case MSG_BALL_HIDING:
+                    EdgeServiceManager.getDefault().showingOrHidingBall(false);
                     break;
                 default:
                     break;

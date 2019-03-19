@@ -76,4 +76,9 @@ public interface IPlugins extends ICoreApi {
      * 获取登陆注册Fragment
      */
     Fragment provideLoginFragment(Activity activity);
+
+    /**
+     * 获取弹幕Fragment
+     */
+    Fragment provideBarrageFragment(Activity activity);
 }

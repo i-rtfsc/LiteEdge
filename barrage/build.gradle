@@ -1,0 +1,66 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+
+    compileSdkVersion gradle.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion gradle.minSdkVersion
+        targetSdkVersion gradle.targetVersion
+        versionCode gradle.versionCode
+        versionName gradle.versionName
+
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            main.java.srcDirs = ['src']
+        }
+    }
+
+    signingConfigs {
+        release {
+            File strFile = new File("../keystore/liteedge.keystore")
+            storeFile file(strFile)
+            keyAlias 'journeyOS'
+            keyPassword 'liteedge'
+            storePassword 'qazwsxedc'
+        }
+        debug {
+            File strFile = new File("../keystore/liteedge.keystore")
+            storeFile file(strFile)
+            keyAlias 'journeyOS'
+            keyPassword 'liteedge'
+            storePassword 'qazwsxedc'
+        }
+    }
+
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+//
+    buildTypes {
+        release {
+            minifyEnabled false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+}
+
+dependencies {
+}

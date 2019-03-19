@@ -16,10 +16,17 @@
 
 package com.journeyOS.edge.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,22 +36,35 @@ import com.journeyOS.base.Constant;
 import com.journeyOS.base.guide.LiteGuide;
 import com.journeyOS.base.guide.OnGuideClickListener;
 import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.utils.BitmapUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.api.edgeprovider.IAppProvider;
 import com.journeyOS.core.api.edgeprovider.ICityProvider;
 import com.journeyOS.core.api.plugins.IPlugins;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.core.database.user.EdgeUser;
+import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.edge.EdgeServiceManager;
 import com.journeyOS.edge.R;
 import com.journeyOS.edge.SlidingDrawer;
+import com.journeyOS.i007Service.core.notification.NotificationListenerService;
+
+import java.util.List;
 
 import butterknife.BindView;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadBatchListener;
 
 public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSelectedListener {
-    private static final String TAG = EdgeActivity.class.getSimpleName();
+    public static final String TAG = EdgeActivity.class.getSimpleName();
+
+    private static final int ALBUM_REQUEST_CODE = 0x0000bacd;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -71,8 +91,15 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
             @Override
             public void run() {
                 CoreManager.getDefault().getImpl(ICityProvider.class).loadCitys();
+                CoreManager.getDefault().getImpl(IAppProvider.class).loadApps();
             }
         });
+
+        boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, true);
+        if (barrage) {
+            Intent intent = new Intent(this, NotificationListenerService.class);
+            startService(intent);
+        }
     }
 
     @Override
@@ -85,6 +112,12 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        getPermission();
+    }
+
+    @Override
     protected void initDataObserver(Bundle savedInstanceState) {
         super.initDataObserver(savedInstanceState);
         mBundle = savedInstanceState;
@@ -92,8 +125,84 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (ALBUM_REQUEST_CODE == requestCode) {
+                final Uri uri = data.getData();
+                String photoPath = null;
+                if (DocumentsContract.isDocumentUri(getBaseContext(), uri)) {
+                    photoPath = BitmapUtils.getPicturePath(getBaseContext(), uri);// photos
+                } else {
+                    photoPath = BitmapUtils.getPhotoImage(getBaseContext(), data);// gallery
+                }
+                final String[] filePaths = new String[1];
+                filePaths[0] = photoPath;
+                BmobFile.uploadBatch(filePaths, new UploadBatchListener() {
+                    @Override
+                    public void onSuccess(List<BmobFile> files, List<String> urls) {
+                        LogUtils.d(TAG, "success, urls = [" + urls + "]");
+                        if (urls != null && urls.size() > 0) {
+                            if (BmobUser.isLogin()) {
+                                EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+                                edgeUser.setIcon(urls.get(0));
+                                edgeUser.update(edgeUser.getObjectId(), new UpdateListener() {
+                                    @Override
+                                    public void done(BmobException e) {
+                                        LogUtils.d(TAG, "upload user icon url");
+                                    }
+                                });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onProgress(int i, int i1, int i2, int i3) {
+                        LogUtils.d(TAG, "on progress, current index = [" + i + "]," +
+                                " current percent = [" + i1 + "]," +
+                                " total = [" + i2 + "]," +
+                                " total percent = [" + i3 + "]");
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                        LogUtils.d(TAG, "error, status code = [" + i + "], error mssage = [" + s + "]");
+                    }
+                });
+            }
+        }
+    }
+
+    @Override
     public void onItemSelected(int position) {
         handleItemSelected(position);
+    }
+
+    @Override
+    public void onUpdateUserIcon() {
+        requestReadWriteStorage();
+//        CoreManager.getDefault().getImpl(IPermission.class).initUrgentPermission(this);
+
+        Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
+        albumIntent.setDataAndType(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(albumIntent, ALBUM_REQUEST_CODE);
+    }
+
+    void requestReadWriteStorage() {
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.READ_EXTERNAL_STORAGE) != 0x02) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            } else {
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE},
+                        1);
+            }
+        }
     }
 
     void loadFragment(Fragment fragment) {
@@ -111,7 +220,6 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     }
 
     void handleItemSelected(int position) {
-        initGuideView();
         LogUtils.d(TAG, "handle item selected, position = [" + position + "]");
         switch (position) {
             case Constant.MENU_USER:
@@ -127,17 +235,36 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                 mToolbar.setTitle(R.string.menu_settings);
                 loadFragment(CoreManager.getDefault().getImpl(IPlugins.class).provideSettingsFragment(mContext));
                 break;
+            case Constant.MENU_BARRAGE:
+                mToolbar.setTitle(R.string.menu_barrage);
+                loadFragment(CoreManager.getDefault().getImpl(IPlugins.class).provideBarrageFragment(mContext));
+                break;
             case Constant.MENU_ABOUT:
                 mToolbar.setTitle(R.string.menu_about);
                 loadFragment(CoreManager.getDefault().getImpl(IPlugins.class).provideAboutFragment(mContext));
                 break;
             case Constant.MENU_LEARN:
-//                mToolbar.setTitle(R.string.menu_learn);
                 CoreManager.getDefault().getImpl(IPlugins.class).navigationLearnActivity(mContext);
                 break;
         }
+
+        for (int i = 0; i < 10000; i++) {
+        }
+        initGuideView();
     }
 
+    void getPermission() {
+        boolean inited = SpUtils.getInstant().getBoolean(Constant.GUIDE_INITED, false);
+        if (inited) {
+            if (!CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
+                CoreManager.getDefault().getImpl(IPermission.class).drawOverlays(mContext);
+            } else {
+                if (!CoreManager.getDefault().getImpl(IPermission.class).hasListenerNotification(mContext)) {
+                    CoreManager.getDefault().getImpl(IPermission.class).listenerNotification(mContext);
+                }
+            }
+        }
+    }
 
     void initGuideView() {
         boolean inited = SpUtils.getInstant().getBoolean(Constant.GUIDE_INITED, false);
@@ -147,26 +274,36 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
 
         if (mLiteGuide == null) {
             mLiteGuide = new LiteGuide(this);
-            mLiteGuide.addNextTarget(mToolbar,
-                    mContext.getResources().getString(R.string.guide_menu_open),
-                    50, 100);
+            if (mToolbar != null) {
+                mLiteGuide.addNextTarget(mToolbar,
+                        mContext.getResources().getString(R.string.guide_menu_open),
+                        50, 100);
+            }
 
-            mLiteGuide.addNextTarget(SlidingDrawer.getInstance(this).getView(0),
-                    mContext.getResources().getString(R.string.guide_user),
-                    350, -20);
-
-            mLiteGuide.addNextTarget(SlidingDrawer.getInstance(this).getView(1),
-                    mContext.getResources().getString(R.string.guide_permission),
-                    350, -20, 350, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            mLiteGuide.addNextTarget(SlidingDrawer.getInstance(this).getView(2),
-                    mContext.getResources().getString(R.string.guide_settings),
-                    350, -20);
-
-            mLiteGuide.addNextTarget(
-                    SlidingDrawer.getInstance(this).getView(4),
-                    mContext.getResources().getString(R.string.guide_learn),
-                    280, 20, 500, ViewGroup.LayoutParams.WRAP_CONTENT);
+            View user = SlidingDrawer.getInstance(this).getView(Constant.MENU_USER);
+            if (user != null) {
+                mLiteGuide.addNextTarget(user,
+                        mContext.getResources().getString(R.string.guide_user),
+                        350, 5);
+            }
+            View permission = SlidingDrawer.getInstance(this).getView(Constant.MENU_PERMISSION);
+            if (permission != null) {
+                mLiteGuide.addNextTarget(permission,
+                        mContext.getResources().getString(R.string.guide_permission),
+                        350, -5, 350, ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+            View settings = SlidingDrawer.getInstance(this).getView(Constant.MENU_SETTINGS);
+            if (settings != null) {
+                mLiteGuide.addNextTarget(settings,
+                        mContext.getResources().getString(R.string.guide_settings),
+                        350, -20);
+            }
+            View learn = SlidingDrawer.getInstance(this).getView(Constant.MENU_LEARN);
+            if (learn != null) {
+                mLiteGuide.addNextTarget(learn,
+                        mContext.getResources().getString(R.string.guide_learn),
+                        280, 20, 500, ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
 
             mLiteGuide.prepare();
 
@@ -214,7 +351,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         public void onGuideFinished() {
             LogUtils.d(TAG, "guide finished");
             SpUtils.getInstant().put(Constant.GUIDE_INITED, true);
-            handleItemSelected(4);
+            handleItemSelected(Constant.MENU_LEARN);
             SlidingDrawer.getInstance(mContext).closeMenu();
         }
 

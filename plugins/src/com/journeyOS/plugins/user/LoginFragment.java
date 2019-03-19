@@ -37,8 +37,10 @@ import com.journeyOS.base.widget.SettingSwitch;
 import com.journeyOS.base.widget.SettingView;
 import com.journeyOS.base.widget.TimingButton;
 import com.journeyOS.core.AccountManager;
+import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.StatusDataResource;
 import com.journeyOS.core.SyncManager;
+import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.base.BaseFragment;
 import com.journeyOS.core.database.user.EdgeUser;
 import com.journeyOS.core.viewmodel.ModelProvider;
@@ -263,12 +265,13 @@ public class LoginFragment extends BaseFragment {
     @OnClick({R2.id.user_id})
     public void listenerUserID() {
         if (!BaseUtils.isNull(mEdgeUser)) {
-            String username = mEdgeUser.getUsername();
-            if (BaseUtils.isNull(username)) {
-                updateInfoDialog(User.USER_NAME);
-            } else {
-                Toasty.info(mActivity, mContext.getString(R.string.has_been_set));
-            }
+//            String username = mEdgeUser.getNickname();
+//            if (BaseUtils.isNull(username)) {
+//                updateInfoDialog(User.USER_NAME);
+//            } else {
+//                Toasty.info(mActivity, mContext.getString(R.string.has_been_set));
+//            }
+            updateInfoDialog(User.USER_NAME);
         }
     }
 
@@ -302,7 +305,7 @@ public class LoginFragment extends BaseFragment {
             case SUCCESS:
                 mEdgeUser = (EdgeUser) statusDataResource.data;
 
-                String username = mEdgeUser.getUsername();
+                String username = mEdgeUser.getNickname();
                 if (!BaseUtils.isNull(username)) {
                     mUserIdView.setRightSummary(username);
                 } else {
@@ -365,12 +368,12 @@ public class LoginFragment extends BaseFragment {
 
     }
 
-    void updateUserInfo(@User int user, String info) {
+    void updateUserInfo(@User final int user, final String info) {
         LogUtils.d(TAG, "update user info, user = [" + user + "], info = [" + info + "]");
         final EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
         switch (user) {
             case User.USER_NAME:
-                edgeUser.setUsername(info);
+                edgeUser.setNickname(info);
                 break;
             case User.PHONE:
                 edgeUser.setMobilePhoneNumber(info);
@@ -382,12 +385,31 @@ public class LoginFragment extends BaseFragment {
 
         edgeUser.update(edgeUser.getObjectId(), new UpdateListener() {
             @Override
-            public void done(BmobException e) {
-                if (BaseUtils.isNull(e)) {
-                    Toasty.info(mActivity, mContext.getString(R.string.set_success));
-                } else {
-                    Toasty.error(mActivity, e.getMessage());
-                }
+            public void done(final BmobException e) {
+                LogUtils.d(TAG, "update user info, e = " + e);
+                CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (BaseUtils.isNull(e)) {
+                            switch (user) {
+                                case User.USER_NAME:
+                                    mUserIdView.setRightSummary(info);
+                                    break;
+                                case User.PHONE:
+                                    mPhoneView.setRightSummary(info);
+                                    break;
+                                case User.EMAIL:
+                                    mEmailView.setRightSummary(info);
+                                    break;
+                            }
+
+                            Toasty.info(mActivity, mContext.getString(R.string.set_success));
+                        } else {
+                            Toasty.error(mActivity, e.getMessage());
+                        }
+
+                    }
+                });
             }
         });
     }

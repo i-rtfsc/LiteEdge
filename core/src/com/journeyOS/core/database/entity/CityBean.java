@@ -21,9 +21,9 @@ import java.util.List;
 public class CityBean {
 
     /**
-     * name : 北京
+     * appName : 北京
      * name_en : beijing
-     * city : {"name":"北京","county":[{"name":"北京","code":"CN101010100","name_en":"beijing"},{"name":"海淀","code":"CN101010200","name_en":"haidian"},{"name":"朝阳","code":"CN101010300","name_en":"chaoyang"},{"name":"顺义","code":"CN101010400","name_en":"shunyi"},{"name":"怀柔","code":"CN101010500","name_en":"huairou"},{"name":"通州","code":"CN101010600","name_en":"tongzhou"},{"name":"昌平","code":"CN101010700","name_en":"changping"},{"name":"延庆","code":"CN101010800","name_en":"yanqing"},{"name":"丰台","code":"CN101010900","name_en":"fengtai"},{"name":"石景山","code":"CN101011000","name_en":"shijingshan"},{"name":"大兴","code":"CN101011100","name_en":"daxing"},{"name":"房山","code":"CN101011200","name_en":"fangshan"},{"name":"密云","code":"CN101011300","name_en":"miyun"},{"name":"门头沟","code":"CN101011400","name_en":"mentougou"},{"name":"平谷","code":"CN101011500","name_en":"pinggu"}]}
+     * city : {"appName":"北京","county":[{"appName":"北京","code":"CN101010100","name_en":"beijing"},{"appName":"海淀","code":"CN101010200","name_en":"haidian"},{"appName":"朝阳","code":"CN101010300","name_en":"chaoyang"},{"appName":"顺义","code":"CN101010400","name_en":"shunyi"},{"appName":"怀柔","code":"CN101010500","name_en":"huairou"},{"appName":"通州","code":"CN101010600","name_en":"tongzhou"},{"appName":"昌平","code":"CN101010700","name_en":"changping"},{"appName":"延庆","code":"CN101010800","name_en":"yanqing"},{"appName":"丰台","code":"CN101010900","name_en":"fengtai"},{"appName":"石景山","code":"CN101011000","name_en":"shijingshan"},{"appName":"大兴","code":"CN101011100","name_en":"daxing"},{"appName":"房山","code":"CN101011200","name_en":"fangshan"},{"appName":"密云","code":"CN101011300","name_en":"miyun"},{"appName":"门头沟","code":"CN101011400","name_en":"mentougou"},{"appName":"平谷","code":"CN101011500","name_en":"pinggu"}]}
      */
     public String name;
     public String name_en;
@@ -31,15 +31,15 @@ public class CityBean {
 
     public static class City {
         /**
-         * name : 北京
-         * county : [{"name":"北京","code":"CN101010100","name_en":"beijing"},{"name":"海淀","code":"CN101010200","name_en":"haidian"},{"name":"朝阳","code":"CN101010300","name_en":"chaoyang"},{"name":"顺义","code":"CN101010400","name_en":"shunyi"},{"name":"怀柔","code":"CN101010500","name_en":"huairou"},{"name":"通州","code":"CN101010600","name_en":"tongzhou"},{"name":"昌平","code":"CN101010700","name_en":"changping"},{"name":"延庆","code":"CN101010800","name_en":"yanqing"},{"name":"丰台","code":"CN101010900","name_en":"fengtai"},{"name":"石景山","code":"CN101011000","name_en":"shijingshan"},{"name":"大兴","code":"CN101011100","name_en":"daxing"},{"name":"房山","code":"CN101011200","name_en":"fangshan"},{"name":"密云","code":"CN101011300","name_en":"miyun"},{"name":"门头沟","code":"CN101011400","name_en":"mentougou"},{"name":"平谷","code":"CN101011500","name_en":"pinggu"}]
+         * appName : 北京
+         * county : [{"appName":"北京","code":"CN101010100","name_en":"beijing"},{"appName":"海淀","code":"CN101010200","name_en":"haidian"},{"appName":"朝阳","code":"CN101010300","name_en":"chaoyang"},{"appName":"顺义","code":"CN101010400","name_en":"shunyi"},{"appName":"怀柔","code":"CN101010500","name_en":"huairou"},{"appName":"通州","code":"CN101010600","name_en":"tongzhou"},{"appName":"昌平","code":"CN101010700","name_en":"changping"},{"appName":"延庆","code":"CN101010800","name_en":"yanqing"},{"appName":"丰台","code":"CN101010900","name_en":"fengtai"},{"appName":"石景山","code":"CN101011000","name_en":"shijingshan"},{"appName":"大兴","code":"CN101011100","name_en":"daxing"},{"appName":"房山","code":"CN101011200","name_en":"fangshan"},{"appName":"密云","code":"CN101011300","name_en":"miyun"},{"appName":"门头沟","code":"CN101011400","name_en":"mentougou"},{"appName":"平谷","code":"CN101011500","name_en":"pinggu"}]
          */
         public String name;
         public List<CountyBean> county;
 
         public static class CountyBean {
             /**
-             * name : 北京
+             * appName : 北京
              * code : CN101010100
              * name_en : beijing
              */

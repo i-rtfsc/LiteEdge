@@ -46,14 +46,16 @@ public class AppConfig {
     }
 
     private static void initCrashReport(Context context) {
-        Beta.autoInit = true;
-        Beta.autoCheckUpgrade = true;
-        Beta.initDelay = 3 * 1000;
-        Beta.largeIconId = R.drawable.svg_core_ball;
-        Beta.smallIconId = R.drawable.svg_core_ball;
-        Beta.defaultBannerId = R.drawable.svg_core_ball;
-        Beta.storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        Bugly.init(context, BUGLY_APPID, BuildConfig.DEBUG);
+        if (!BuildConfig.DEBUG) {
+            Beta.autoInit = true;
+            Beta.autoCheckUpgrade = true;
+            Beta.initDelay = 3 * 1000;
+            Beta.largeIconId = R.drawable.svg_core_ball;
+            Beta.smallIconId = R.drawable.svg_core_ball;
+            Beta.defaultBannerId = R.drawable.svg_core_ball;
+            Beta.storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            Bugly.init(context, BUGLY_APPID, BuildConfig.DEBUG);
+        }
     }
 
 

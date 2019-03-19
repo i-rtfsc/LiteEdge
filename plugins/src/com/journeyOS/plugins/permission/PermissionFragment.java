@@ -20,21 +20,17 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import com.journeyOS.base.widget.SettingView;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.base.BaseFragment;
 import com.journeyOS.core.permission.IPermission;
+import com.journeyOS.i007Service.core.notification.NotificationListenerService;
 import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.R2;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
 
 public class PermissionFragment extends BaseFragment {
-
-    @BindView(R2.id.overflow)
-    SettingView mOverflow;
 
     static Activity mContext;
 
@@ -65,6 +61,19 @@ public class PermissionFragment extends BaseFragment {
         if (hasPermission) {
             String message = mContext.getString(R.string.has_permission) + mContext.getString(R.string.overflow);
             Toasty.success(mContext, message, Toast.LENGTH_SHORT).show();
+        } else {
+            CoreManager.getDefault().getImpl(IPermission.class).drawOverlays(mContext);
+        }
+    }
+
+    @OnClick({R2.id.notification})
+    public void listenerNotification() {
+        boolean hasPermission = CoreManager.getDefault().getImpl(IPermission.class).hasListenerNotification(mContext);
+        if (hasPermission) {
+            String message = mContext.getString(R.string.has_permission) + mContext.getString(R.string.notification_permission);
+            Toasty.success(mContext, message, Toast.LENGTH_SHORT).show();
+        } else {
+            CoreManager.getDefault().getImpl(IPermission.class).listenerNotification(mContext);
         }
     }
 

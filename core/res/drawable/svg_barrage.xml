@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2019 anqi.huang@outlook.com
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+    <path
+        android:fillColor="@color/icon"
+        android:pathData="M510.58,0C229.76,0 0,204.23 0,453.85c0,215.58 170.19,399.96 405.63,445.34l73.75,107.79c5.67,11.35 17.02,17.02 28.37,17.02s22.69,-5.67 28.37,-17.02l73.75,-107.79C850.97,853.81 1021.16,669.43 1021.16,453.85c0,-249.62 -229.76,-453.85 -510.58,-453.85zM255.29,530.44c-39.71,0 -73.75,-34.04 -73.75,-76.59 0,-42.55 34.04,-76.59 73.75,-76.59 39.71,0 73.75,34.04 73.75,76.59 0,42.55 -34.04,76.59 -73.75,76.59zM510.58,530.44c-39.71,0 -73.75,-34.04 -73.75,-76.59 0,-42.55 34.04,-76.59 73.75,-76.59 39.71,0 73.75,34.04 73.75,76.59 0,42.55 -34.04,76.59 -73.75,76.59zM765.87,530.44c-39.71,0 -73.75,-34.04 -73.75,-76.59 0,-42.55 34.04,-76.59 73.75,-76.59 39.71,0 73.75,34.04 73.75,76.59 0,42.55 -34.04,76.59 -73.75,76.59z" />
+</vector>

@@ -19,6 +19,8 @@ package com.journeyOS.core.database;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
+import com.journeyOS.core.database.app.App;
+import com.journeyOS.core.database.app.AppDao;
 import com.journeyOS.core.database.ball.Ball;
 import com.journeyOS.core.database.ball.BallDao;
 import com.journeyOS.core.database.city.City;
@@ -30,7 +32,7 @@ import com.journeyOS.core.database.user.UserDao;
 import com.journeyOS.core.database.weather.Weather;
 import com.journeyOS.core.database.weather.WeatherDao;
 
-@Database(entities = {Edge.class, Ball.class, City.class, Weather.class, User.class}, version = DBConfigs.DB_VERSION, exportSchema = false)
+@Database(entities = {Edge.class, Ball.class, City.class, Weather.class, User.class, App.class}, version = DBConfigs.DB_VERSION, exportSchema = false)
 public abstract class EdgeDatabase extends RoomDatabase {
     public abstract EdgeDao edgeDao();
 
@@ -41,4 +43,6 @@ public abstract class EdgeDatabase extends RoomDatabase {
     public abstract WeatherDao weatherDao();
 
     public abstract UserDao userDao();
+
+    public abstract AppDao appDao();
 }

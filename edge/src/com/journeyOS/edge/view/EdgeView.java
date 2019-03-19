@@ -256,12 +256,19 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                                         title = mText6;
                                     }
 
-                                    Drawable drawable = AppUtils.getAppIcon(getContext(), config.packageName);
-                                    String name = AppUtils.getAppName(getContext(), config.packageName, Constant.LENGTH);
-                                    if (icon != null || drawable != null) {
+                                    Drawable drawable = null;
+                                    String name = null;
+
+                                    boolean isAppExisted =  AppUtils.isPackageExisted(getContext(), config.packageName);
+                                    if (isAppExisted) {
+                                        drawable = AppUtils.getAppIcon(getContext(), config.packageName);
+                                        name = AppUtils.getAppName(getContext(), config.packageName, Constant.LENGTH);
+                                    }
+
+                                    if (icon != null && drawable != null) {
                                         icon.setImageDrawable(drawable);
                                     }
-                                    if (title != null || name != null) {
+                                    if (title != null && name != null) {
                                         title.setText(name);
                                     }
                                 }

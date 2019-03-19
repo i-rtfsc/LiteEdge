@@ -34,13 +34,23 @@ public class Constant {
     public static final String CITY_ID = "cityId";
     public static final String AUTO_SYNC = "autoSync";
     public static final String GUIDE_INITED = "guide_inited";
+    public static final String BARRAGE = "barrage";
+    public static final String APP_INITED = "appInited";
+    public static final String IMAGE_ENGINE = "imageEngine";
+    public static final String USE_CACHE = "useCache";
+    public static final String BARRAGE_ICONO = "barrageIcon";
+
+    //image engine type
+    public static final String IMAGE_ENGINE_PICASSO = "imageEnginePicasso";
+    public static final String IMAGE_ENGINE_GLIDE = "imageEngineGlide";
 
     //menu key
     public static final int MENU_USER = 0;
     public static final int MENU_PERMISSION = 1;
     public static final int MENU_SETTINGS = 2;
-    public static final int MENU_ABOUT = 3;
-    public static final int MENU_LEARN = 4;
+    public static final int MENU_BARRAGE = 3;
+    public static final int MENU_ABOUT = 4;
+    public static final int MENU_LEARN = 5;
 
 
     public static final String USER = "Solo";

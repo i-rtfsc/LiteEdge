@@ -44,8 +44,7 @@
 
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
-            android:authorities="com.journeyOS.edge.BmobContentProvider">
-        </provider>
+            android:authorities="com.journeyOS.edge.BmobContentProvider"></provider>
 
     </application>
 

@@ -26,16 +26,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.menu.DrawerAdapter;
 import com.journeyOS.base.menu.DrawerItem;
 import com.journeyOS.base.menu.SimpleItem;
+import com.journeyOS.base.utils.LogUtils;
+import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.ImageEngine;
+import com.journeyOS.core.database.user.EdgeUser;
+import com.journeyOS.edge.ui.activity.EdgeActivity;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 import java.util.Arrays;
+
+import cn.bmob.v3.BmobUser;
 
 public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
 
@@ -78,6 +86,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
                 createItemFor(Constant.MENU_USER),
                 createItemFor(Constant.MENU_PERMISSION),
                 createItemFor(Constant.MENU_SETTINGS).setChecked(true),
+                createItemFor(Constant.MENU_BARRAGE),
                 createItemFor(Constant.MENU_ABOUT),
                 createItemFor(Constant.MENU_LEARN)));
         adapter.setListener(this);
@@ -87,11 +96,34 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         list.setLayoutManager(new LinearLayoutManager(mContext));
         list.setAdapter(adapter);
 
-//        EdgeUser authUser = CoreManager.getAuthUser();
-        ((TextView) mContext.findViewById(R.id.user)).setText("Solo");
-        ((TextView) mContext.findViewById(R.id.email)).setText("anqi.huang@outlook.com");
-//
-//        ImageEngine.load(CoreManager.getContext(), authUser.avatar, ((ImageView) mContext.findViewById(R.id.user_avatar)), R.mipmap.user);
+        ImageView icon = ((ImageView) mContext.findViewById(R.id.user_avatar));
+
+        String user = Constant.USER;
+        String contact = Constant.EMAIL;
+        if (BmobUser.isLogin()) {
+            EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+            user = edgeUser.getNickname();
+            contact = edgeUser.getEmail();
+            if (contact == null || contact == "") {
+                contact = edgeUser.getMobilePhoneNumber();
+            }
+            String avatar = edgeUser.getIcon();
+            LogUtils.d(EdgeActivity.TAG, " user avatar = "+avatar);
+            if (avatar != null) {
+                ImageEngine.load(CoreManager.getDefault().getContext(), avatar, icon, R.mipmap.user);
+            }
+        }
+
+        ((TextView) mContext.findViewById(R.id.user)).setText(user);
+        ((TextView) mContext.findViewById(R.id.email)).setText(contact);
+        icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onUpdateUserIcon();
+                }
+            }
+        });
 
         adapter.setSelected(Constant.MENU_SETTINGS);
     }
@@ -154,5 +186,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
 
     public interface OnItemSelectedListener {
         void onItemSelected(int position);
+
+        void onUpdateUserIcon();
     }
 }

@@ -15,20 +15,27 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:settings="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
-
 
     <LinearLayout style="@style/wrap_layout">
 
         <com.journeyOS.base.widget.SettingView
             android:id="@+id/overflow"
             style="@style/single_layout"
-            app:settingIcon="@drawable/svg_overflow"
-            app:settingTitle="@string/overflow" />
+            settings:settingIcon="@drawable/svg_overflow"
+            settings:settingTitle="@string/overflow" />
+
+        <View style="@style/bg_line" />
+
+        <com.journeyOS.base.widget.SettingView
+            android:id="@+id/notification"
+            style="@style/bottom_layout"
+            settings:settingIcon="@drawable/svg_notification"
+            settings:settingTitle="@string/notification_permission" />
 
     </LinearLayout>
 

@@ -28,6 +28,7 @@
     <string name="menu_account">账号</string>
     <string name="menu_permission">权限</string>
     <string name="menu_settings">设置</string>
+    <string name="menu_barrage">弹幕</string>
     <string name="menu_about">关于</string>
     <string name="menu_learn">使用教程</string>
     <string name="version">版本</string>
@@ -53,7 +54,7 @@
     <string name="millis">秒</string>
     <string name="auto_sync">自动同步</string>
     <string name="auto_sync_summary">每次同步消耗不到5KB流量</string>
-    <string name="userid">用户ID</string>
+    <string name="userid">昵称</string>
     <string name="userphone">电话</string>
     <string name="useremail">邮箱</string>
     <string name="not_set">未设置</string>
@@ -76,4 +77,9 @@
     <string name="guide_edge_not_add">Edge图标区域内还未添加应用，点击可添加手机上的应用。</string>
     <string name="guide_edge_statusbar">此处为Edge的状态栏\n显示天气基本信息\n长按可以切换城市。</string>
     <string name="guide_edge_done">您已经初步了解如何使用Edge了，祝你使用愉快。</string>
+
+    <string name="barrage_toogle">弹幕</string>
+    <string name="barrage_debug">弹幕测试</string>
+    <string name="barrage_whitelist">弹幕白名单</string>
+    <string name="notification_permission">弹幕权限</string>
 </resources>

@@ -29,4 +29,10 @@ public interface IPermission extends ICoreApi {
     void onRequestPermissionsResult(BaseActivity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
 
     boolean canDrawOverlays(Context activity);
+
+    void drawOverlays(Context activity);
+
+    boolean hasListenerNotification(Context activity);
+
+    void listenerNotification(Context activity);
 }

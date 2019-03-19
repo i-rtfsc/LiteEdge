@@ -13,8 +13,8 @@ def initVersion() {
     gradle.ext.targetVersion = 27
     gradle.ext.minSdkVersion = 26
     gradle.ext.supportVersion = '27.0.2'
-    gradle.ext.versionCode = 4
-    gradle.ext.versionName = '1.1.4'
+    gradle.ext.versionCode = 5
+    gradle.ext.versionName = '1.1.5'
 
     //base
     gradle.ext.constraint_layout = '1.0.2'
@@ -31,6 +31,8 @@ def initVersion() {
     gradle.ext.slidingrootnav = '1.1.0'
     gradle.ext.cardview = '25.1.1'
     gradle.ext.gradient = '1.0.1'
+    gradle.ext.picasso = '2.5.2'
+    gradle.ext.glide = '4.6.1'
 
     //core dependencies
     gradle.ext.stetho = '1.5.0'
@@ -42,12 +44,9 @@ def initVersion() {
     gradle.ext.room_runtime = '1.1.0-beta3'
     gradle.ext.room_compiler = '1.1.0-beta3'
 
-    gradle.ext.danmaku = '0.9.25'
-    gradle.ext.danmaku_ndk = '0.9.21'
-
     gradle.ext.literouter_core = '1.1.0'
     gradle.ext.literouter_compiler = '1.0.2'
-    gradle.ext.i007Service = '1.5.0'
+    gradle.ext.i007Service = '1.5.1'
     gradle.ext.liteprovider = '1.2.1'
 
     gradle.ext.kotlin = '1.2.51'
@@ -56,4 +55,4 @@ def initVersion() {
 initLocalGradleEnvironment()
 initVersion()
 
-include ':base', ':core', ':plugins', ':edge'
+include ':base', ':barrage', ':core', ':plugins', ':edge'

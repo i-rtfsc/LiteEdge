@@ -48,6 +48,10 @@ public class EdgeUser extends BmobUser {
      */
     private BmobFile avatar;
 
+    /**
+     * 头像网址
+     */
+    private String icon;
 
     public String getNickname() {
         return nickname;
@@ -87,5 +91,13 @@ public class EdgeUser extends BmobUser {
 
     public void setAvatar(BmobFile avatar) {
         this.avatar = avatar;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }
