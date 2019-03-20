@@ -12,10 +12,8 @@ import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.thread.CoreExecutorsImpl;
-import com.journeyOS.core.type.BallState;
 
 public class QuickSettingService extends TileService implements CoreExecutorsImpl.OnMessageListener {
     private static final String TAG = QuickSettingService.class.getSimpleName();
@@ -86,7 +84,6 @@ public class QuickSettingService extends TileService implements CoreExecutorsImp
         switch (msg.what) {
             case MSG_BING_SERVICE:
                 EdgeServiceManager.getDefault().bindEgdeService();
-//                shoudBeShow();
                 break;
             case MSG_BALL_SHOW:
                 SpUtils.getInstant().put(Constant.BALL, true);
@@ -96,15 +93,6 @@ public class QuickSettingService extends TileService implements CoreExecutorsImp
                 SpUtils.getInstant().put(Constant.BALL, false);
                 showingOrHidingBall(false);
                 break;
-        }
-    }
-
-    private void shoudBeShow() {
-        boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, false);
-        if (ball) {
-            if (BallState.HIDE == StateMachine.getBallState()) {
-                mHandler.sendEmptyMessageDelayed(MSG_BALL_SHOW, 50);
-            }
         }
     }
 

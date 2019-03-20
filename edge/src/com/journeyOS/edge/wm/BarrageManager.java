@@ -17,7 +17,6 @@
 package com.journeyOS.edge.wm;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
@@ -32,6 +31,7 @@ import android.widget.Toast;
 import com.journeyOS.barrage.BarrageView;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.DeviceUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
@@ -120,27 +120,26 @@ public class BarrageManager {
         barrageEntity.level = 100;
         barrageEntity.type = BarrageEntity.BARRAGE_TYPE_USERCHAT;
         String title = notification.getTitle();
-        if (title != null && title.length() > 8) {
-            title = title.substring(0, 8);
+        if (title != null && title.length() > 10) {
+            title = title.substring(0, 10) + "...";
         }
         barrageEntity.name = title;
         barrageEntity.text = notification.getText();
 
         if (SpUtils.getInstant().getBoolean(Constant.BARRAGE_ICONO, false)) {
-            //https://stackoverflow.com/questions/40325307/how-to-get-an-image-from-another-apps-notification
-            try {
-                int iconId = notification.extras.getInt(Notification.EXTRA_SMALL_ICON);
-                if (iconId > 0) {
-                    PackageManager manager = mContext.getPackageManager();
-                    Resources resources = manager.getResourcesForApplication(notification.getPackageName());
-
+            int iconId = notification.extras.getInt(Notification.EXTRA_SMALL_ICON);
+            LogUtils.d(TAG, "get icon from notification, icon id = " + iconId);
+            if (iconId > 0) {
+                //https://stackoverflow.com/questions/40325307/how-to-get-an-image-from-another-apps-notification
+                //Resources resources = mContext.getPackageManager().getResourcesForApplication(notification.getPackageName());
+                Context context = AppUtils.getPackageContext(mContext, notification.getPackageName());
+                if (context != null) {
+                    Resources resources = context.getResources();
                     Drawable icon = resources.getDrawable(iconId);
                     if (icon != null) {
                         barrageEntity.avatar = UIUtils.getCircularBitmap(UIUtils.drawableToBitmap(icon));
                     }
                 }
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
             }
         }
 
