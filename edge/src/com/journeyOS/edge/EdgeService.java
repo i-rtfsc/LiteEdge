@@ -19,19 +19,14 @@ package com.journeyOS.edge;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.receiver.ScreenObserver;
-import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.api.daemon.IAlive;
@@ -39,28 +34,17 @@ import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.api.edgeprovider.IAppProvider;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
-import com.journeyOS.core.database.app.App;
-import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.core.type.Direction;
 import com.journeyOS.edge.utils.NotificationUtils;
 import com.journeyOS.edge.wm.BallManager;
-import com.journeyOS.edge.wm.BarrageManager;
 import com.journeyOS.i007Service.DataResource.FACTORY;
 import com.journeyOS.i007Service.I007Manager;
-import com.journeyOS.i007Service.core.notification.Notification;
-import com.journeyOS.i007Service.core.notification.NotificationListener;
-import com.journeyOS.i007Service.core.notification.NotificationListenerService;
 import com.journeyOS.i007Service.interfaces.II007Listener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EdgeService extends Service {
     private static final String TAG = EdgeService.class.getSimpleName();
 
     private Context mContext;
-
-    private final H mHandler = new H();
 
     private II007Listener mII007Listener = new II007Listener.Stub() {
         @Override
@@ -156,7 +140,7 @@ public class EdgeService extends Service {
 
         boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, true);
         if (barrage) {
-            mHandler.sendEmptyMessageDelayed(H.MSG_HANDLE_NOTIFICATION, H.DELAY_TIME);
+            NotificationManager.getDefault().startNotificationService();
         }
 
         CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
@@ -186,91 +170,13 @@ public class EdgeService extends Service {
             }
             if (isScreenOn) {
                 CoreManager.getDefault().getImpl(IAlive.class).destroy();
+                boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, true);
+                if (barrage) {
+                    NotificationManager.getDefault().startNotificationService();
+                }
             } else {
                 CoreManager.getDefault().getImpl(IAlive.class).keepAlive(mContext);
                 I007Manager.keepAlive();
-            }
-        }
-    }
-
-    void handleNotification() {
-        if (NotificationListenerService.getInstance() == null) {
-            Intent intent = new Intent(this, NotificationListenerService.class);
-            startService(intent);
-            mHandler.sendEmptyMessageDelayed(H.MSG_HANDLE_NOTIFICATION, H.DELAY_TIME);
-            return;
-        }
-        LogUtils.d(TAG, "handle notification...");
-        NotificationListenerService.getInstance().addListener(new NotificationListener() {
-            @Override
-            public void onNotification(final Notification notification) {
-                if (!CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)
-                        && !CoreManager.getDefault().getImpl(IPermission.class).hasListenerNotification(mContext)) {
-                    return;
-                }
-
-                CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        String packageName = notification.getPackageName();
-                        if (packageName != null) {
-                            App app = CoreManager.getDefault().getImpl(IAppProvider.class).getApp(packageName);
-                            if (app == null) {
-                                LogUtils.d(TAG, "app was null");
-                                PackageManager pm = CoreManager.getDefault().getContext().getPackageManager();
-                                final Intent intent = new Intent(Intent.ACTION_MAIN, null);
-                                //it should appear in the Launcher as a top-level application
-                                intent.addCategory(Intent.CATEGORY_LAUNCHER);
-                                intent.setPackage(packageName);
-                                List<ResolveInfo> resolveInfoList = pm.queryIntentActivities(intent, 0);
-                                List<String> fpackages = new ArrayList<>();
-                                for (ResolveInfo ri : resolveInfoList) {
-                                    if (packageName.equals(ri.activityInfo.packageName)) {
-                                        app = new App();
-                                        app.appName = AppUtils.getAppName(CoreManager.getDefault().getContext(), packageName);
-                                        app.packageName = packageName;
-                                        app.barrage = 1;
-                                        CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                BarrageManager.getDefault().sendBarrage(notification);
-                                            }
-                                        });
-                                    } else {
-                                        LogUtils.d(TAG, "don't need send barrage");
-                                    }
-                                }
-
-                                return;
-                            }
-                            if (app.barrage == 1) {
-                                CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        BarrageManager.getDefault().sendBarrage(notification);
-                                    }
-                                });
-                            }
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-    final class H extends Handler {
-        private static final long DELAY_TIME = 5 * 1000l;
-
-        private static final int MSG_HANDLE_NOTIFICATION = 0x01;
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_HANDLE_NOTIFICATION:
-                    handleNotification();
-                    break;
-                default:
-                    break;
             }
         }
     }

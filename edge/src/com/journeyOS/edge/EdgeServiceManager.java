@@ -59,6 +59,8 @@ public class EdgeServiceManager {
 
 
     public void bindEgdeService() {
+        NotificationManager.getDefault().startNotificationService();
+
         if (mBound) return;
 
         Intent intent = new Intent();

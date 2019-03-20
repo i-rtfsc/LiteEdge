@@ -140,4 +140,17 @@ public class AppUtils {
         }
         return true;
     }
+
+    public static Context getPackageContext(Context context, String packageName) {
+        Context packageContext = null;
+        try {
+            packageContext = context.createPackageContext(packageName,
+                    Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return packageContext;
+    }
 }
