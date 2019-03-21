@@ -26,13 +26,14 @@ import com.journeyOS.barrage.model.BarrageModel;
 import com.journeyOS.barrage.model.utils.DimensionUtil;
 import com.journeyOS.barrage.view.IBarrageParent;
 import com.journeyOS.barrage.view.OnBarrageTouchListener;
+import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.edge.R;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public final class BarrageHelper {
-
+    private static final String TAG = BarrageHelper.class.getSimpleName();
     private ArrayList<WeakReference<IBarrageParent>> mBarrageParentViews;
     private Context mContext;
 
@@ -120,7 +121,7 @@ public final class BarrageHelper {
 
                     @Override
                     public void callBack(BarrageModel model) {
-
+                        LogUtils.d(TAG, "on barrage view touch, model = " + model);
                     }
                 });
             }

@@ -21,8 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.Handler;
-import android.os.Message;
 
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
@@ -48,7 +46,7 @@ public class NotificationManager implements ServiceLifecycleListener, Notificati
 
     private Context mContext;
 
-    final H mHandler = new H();
+    final H mHandler = H.getDefault().getHandler();
 
     private NotificationManager() {
         mContext = CoreManager.getDefault().getContext();
@@ -76,10 +74,10 @@ public class NotificationManager implements ServiceLifecycleListener, Notificati
         }
         toggleNotificationListenerService();
 
-        if (mHandler.hasMessages(H.MSG_HANDLE_NOTIFICATION)) {
-            mHandler.removeMessages(H.MSG_HANDLE_NOTIFICATION);
+        if (mHandler.hasMessages(H.MSG_BARRAGE_NOTIFICATION)) {
+            mHandler.removeMessages(H.MSG_BARRAGE_NOTIFICATION);
         }
-        mHandler.sendEmptyMessageDelayed(H.MSG_HANDLE_NOTIFICATION, H.DELAY_TIME);
+        mHandler.sendEmptyMessageDelayed(H.MSG_BARRAGE_NOTIFICATION, H.DELAY_TIME);
     }
 
 
@@ -95,10 +93,10 @@ public class NotificationManager implements ServiceLifecycleListener, Notificati
         boolean isRunning = (NotificationListenerService.getInstance() != null);
         LogUtils.d(TAG, "handle notification, is service running = " + isRunning);
         if (!isRunning) {
-            if (mHandler.hasMessages(H.MSG_START_SERVICE)) {
-                mHandler.removeMessages(H.MSG_START_SERVICE);
+            if (mHandler.hasMessages(H.MSG_BARRAGE_START_SERVICE)) {
+                mHandler.removeMessages(H.MSG_BARRAGE_START_SERVICE);
             }
-            mHandler.sendEmptyMessageDelayed(H.MSG_START_SERVICE, 0);
+            mHandler.sendEmptyMessageDelayed(H.MSG_BARRAGE_START_SERVICE, 0);
             return;
         }
         LogUtils.d(TAG, "handle notification...");
@@ -118,7 +116,7 @@ public class NotificationManager implements ServiceLifecycleListener, Notificati
     @Override
     public void onStoping() {
         LogUtils.d(TAG, "notification service stoping, wanna start it again!");
-        mHandler.sendEmptyMessageDelayed(H.MSG_START_SERVICE, 0);
+        mHandler.sendEmptyMessageDelayed(H.MSG_BARRAGE_START_SERVICE, 0);
     }
 
     @Override
@@ -175,23 +173,4 @@ public class NotificationManager implements ServiceLifecycleListener, Notificati
         });
     }
 
-    final class H extends Handler {
-        private static final long DELAY_TIME = 5 * 1000l;
-        private static final int MSG_START_SERVICE = 0x01;
-        private static final int MSG_HANDLE_NOTIFICATION = 0x02;
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_START_SERVICE:
-                    startNotificationService();
-                    break;
-                case MSG_HANDLE_NOTIFICATION:
-                    handleNotification();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
 }

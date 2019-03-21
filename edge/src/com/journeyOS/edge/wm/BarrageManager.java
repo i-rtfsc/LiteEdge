@@ -28,6 +28,7 @@ import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Toast;
 
+import com.journeyOS.barrage.BarrageParentView;
 import com.journeyOS.barrage.BarrageView;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
@@ -50,6 +51,8 @@ public class BarrageManager {
     private Context mContext;
     private WindowManager mWm;
 
+
+    private BarrageParentView mRootView;
     private BarrageView mBarrageView;
     private BarrageHelper mBarrageHelper;
 
@@ -79,12 +82,13 @@ public class BarrageManager {
             SpUtils.getInstant().put(Constant.BALL, false);
             return;
         }
-        if (mBarrageView == null) {
-            mBarrageView = (BarrageView) View.inflate(mContext, R.layout.barrage_layout, null);
+        if (mRootView == null) {
+            mRootView = (BarrageParentView) View.inflate(mContext, R.layout.barrage_layout, null);
+            mBarrageView = (BarrageView) mRootView.findViewById(R.id.barrage);
             mBarrageView.prepare();
-//            if (!mBarrageView.isAttachedToWindow()) {
+//            if (!mRootView.isAttachedToWindow()) {
 //                WindowManager.LayoutParams layoutParams = getLayoutParams();
-//                mWm.addView(mBarrageView, layoutParams);
+//                mWm.addView(mRootView, layoutParams);
 //            }
         }
         if (mBarrageHelper == null) {
@@ -104,11 +108,11 @@ public class BarrageManager {
             @Override
             public void onHiding() {
                 LogUtils.d(TAG, "wann remove barrage view!");
-                if (mBarrageView != null && mBarrageView.isAttachedToWindow()) {
-                    mWm.removeView(mBarrageView);
+                if (mRootView != null && mRootView.isAttachedToWindow()) {
+                    mWm.removeView(mRootView);
                     mBarrageHelper.release();
                     mBarrageHelper = null;
-                    mBarrageView = null;
+                    mRootView = null;
                     isAttachedToWindow = false;
                 }
             }
@@ -147,13 +151,13 @@ public class BarrageManager {
     }
 
     public void sendBarrage(BarrageEntity barrageEntity) {
-        if (mBarrageView == null) {
+        if (mRootView == null) {
             initBarrage();
         }
 
         if (!isAttachedToWindow) {
             WindowManager.LayoutParams layoutParams = getLayoutParams();
-            mWm.addView(mBarrageView, layoutParams);
+            mWm.addView(mRootView, layoutParams);
             isAttachedToWindow = true;
         }
 
@@ -163,13 +167,13 @@ public class BarrageManager {
     }
 
     public void sendBarrageTest() {
-        if (mBarrageView == null) {
+        if (mRootView == null) {
             initBarrage();
         }
 
         if (!isAttachedToWindow) {
             WindowManager.LayoutParams layoutParams = getLayoutParams();
-            mWm.addView(mBarrageView, layoutParams);
+            mWm.addView(mRootView, layoutParams);
             isAttachedToWindow = true;
         }
 

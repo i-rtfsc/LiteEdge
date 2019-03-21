@@ -259,7 +259,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                                     Drawable drawable = null;
                                     String name = null;
 
-                                    boolean isAppExisted =  AppUtils.isPackageExisted(getContext(), config.packageName);
+                                    boolean isAppExisted = AppUtils.isPackageExisted(getContext(), config.packageName);
                                     if (isAppExisted) {
                                         drawable = AppUtils.getAppIcon(getContext(), config.packageName);
                                         name = AppUtils.getAppName(getContext(), config.packageName, Constant.LENGTH);
@@ -539,12 +539,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
     void notifyViewDetached() {
         //onViewDetachedFromWindow not be called!
         if (mListener != null) {
-            CoreManager.getDefault().getImpl(ICoreExecutors.class).handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.onViewDetachedFromWindow();
-                }
-            }, 0);
+            mListener.onViewDetachedFromWindow();
         }
     }
 

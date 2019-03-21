@@ -210,7 +210,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, fragment)
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     void handleEdgeUserStatusObserver(EdgeUser authUser) {

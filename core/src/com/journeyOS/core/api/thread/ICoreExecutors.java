@@ -17,17 +17,11 @@
 package com.journeyOS.core.api.thread;
 
 
-import android.os.Handler;
-
 import com.journeyOS.core.api.ICoreApi;
 
 import java.util.concurrent.Executor;
 
-import static com.journeyOS.core.thread.CoreExecutorsImpl.OnMessageListener;
-
 public interface ICoreExecutors extends ICoreApi {
-    public static final String HANDLER_QS = "qs_handler";
-    public static final String HANDLER_EDGE = "edge_handler";
 
     /**
      * 文件操作线程
@@ -50,27 +44,5 @@ public interface ICoreExecutors extends ICoreApi {
      */
     Executor mainThread();
 
-    /**
-     * 主handler
-     *
-     * @return handler
-     */
-    Handler handler();
-
-    /**
-     * 后台handler
-     *
-     * @param handlerName handler名字
-     * @return handler
-     */
-    Handler getHandle(String handlerName);
-
-    /**
-     * 监听handler消息
-     *
-     * @param handler  handler
-     * @param listener 监听
-     */
-    void setOnMessageListener(Handler handler, OnMessageListener listener);
 }
 

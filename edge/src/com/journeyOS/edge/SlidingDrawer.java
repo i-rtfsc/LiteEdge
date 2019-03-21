@@ -20,7 +20,7 @@ import android.app.Activity;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,6 +53,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     private DrawerAdapter adapter;
     private SlidingRootNav slidingRootNav;
 
+    private final H mHandler = H.getDefault().getHandler();
     private volatile static SlidingDrawer mSlidingDrawer;
 
     public static SlidingDrawer getInstance(Activity context) {
@@ -108,7 +109,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
                 contact = edgeUser.getMobilePhoneNumber();
             }
             String avatar = edgeUser.getIcon();
-            LogUtils.d(EdgeActivity.TAG, " user avatar = "+avatar);
+            LogUtils.d(EdgeActivity.TAG, " user avatar = " + avatar);
             if (avatar != null) {
                 ImageEngine.load(CoreManager.getDefault().getContext(), avatar, icon, R.mipmap.user);
             }
@@ -154,16 +155,18 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     }
 
     @Override
-    public void onItemSelected(final int position) {
+    public void onItemSelected(int position) {
         slidingRootNav.closeMenu();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (listener != null) {
-                    listener.onItemSelected(position);
-                }
-            }
-        }, 60l);
+        Message msg = Message.obtain();
+        msg.what = H.MSG_DLIDE_CLICK;
+        msg.arg1 = position;
+        mHandler.sendMessageDelayed(msg, H.EDGE_DELAY_TIME * 2);
+    }
+
+    public void onItemClick(int position) {
+        if (listener != null) {
+            listener.onItemSelected(position);
+        }
     }
 
     public View getView(int postion) {

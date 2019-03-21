@@ -11,18 +11,12 @@ import android.service.quicksettings.TileService;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.LogUtils;
-import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.api.thread.ICoreExecutors;
-import com.journeyOS.core.thread.CoreExecutorsImpl;
 
-public class QuickSettingService extends TileService implements CoreExecutorsImpl.OnMessageListener {
+public class QuickSettingService extends TileService {
     private static final String TAG = QuickSettingService.class.getSimpleName();
     private static final boolean DEBUG = false;
 
-    private static Handler mHandler = CoreManager.getDefault().getImpl(ICoreExecutors.class).getHandle(ICoreExecutors.HANDLER_QS);
-    private static final int MSG_BING_SERVICE = 0x01;
-    private static final int MSG_BALL_SHOW = 0x02;
-    private static final int MSG_BALL_HIDE = 0x04;
+    private H mHandler = new H();
 
     public QuickSettingService() {
         super();
@@ -50,12 +44,9 @@ public class QuickSettingService extends TileService implements CoreExecutorsImp
     public void onStartListening() {
         super.onStartListening();
         if (DEBUG) LogUtils.d(TAG, "on start listening");
-        if (mHandler == null) {
-            mHandler = CoreManager.getDefault().getImpl(ICoreExecutors.class).getHandle(ICoreExecutors.HANDLER_QS);
-        }
-        CoreManager.getDefault().getImpl(ICoreExecutors.class).setOnMessageListener(mHandler, this);
+
         boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, true);
-        if (daemon) mHandler.sendEmptyMessage(MSG_BING_SERVICE);
+        if (daemon) mHandler.sendEmptyMessage(H.MSG_BING_SERVICE);
     }
 
     @Override
@@ -69,31 +60,13 @@ public class QuickSettingService extends TileService implements CoreExecutorsImp
         super.onClick();
         int state = getQsTile().getState();
         LogUtils.d(TAG, "on click, state = [" + state + "]");
-        mHandler.sendEmptyMessage(state == Tile.STATE_ACTIVE ? MSG_BALL_HIDE : MSG_BALL_SHOW);
+        mHandler.sendEmptyMessage(state == Tile.STATE_ACTIVE ? H.MSG_BALL_HIDE : H.MSG_BALL_SHOW);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         if (DEBUG) LogUtils.d(TAG, "on bind, intent = [" + intent + "]");
         return super.onBind(intent);
-    }
-
-    @Override
-    public void handleMessage(Message msg) {
-        LogUtils.d(TAG, "message what = " + msg.what);
-        switch (msg.what) {
-            case MSG_BING_SERVICE:
-                EdgeServiceManager.getDefault().bindEgdeService();
-                break;
-            case MSG_BALL_SHOW:
-                SpUtils.getInstant().put(Constant.BALL, true);
-                showingOrHidingBall(true);
-                break;
-            case MSG_BALL_HIDE:
-                SpUtils.getInstant().put(Constant.BALL, false);
-                showingOrHidingBall(false);
-                break;
-        }
     }
 
     private void showingOrHidingBall(boolean isShowing) {
@@ -109,5 +82,29 @@ public class QuickSettingService extends TileService implements CoreExecutorsImp
         }
         getQsTile().setIcon(icon);
         getQsTile().updateTile();
+    }
+
+
+    final class H extends Handler {
+        public static final int MSG_BING_SERVICE = 0x01;
+        public static final int MSG_BALL_SHOW = 0x02;
+        public static final int MSG_BALL_HIDE = 0x04;
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_BING_SERVICE:
+                    EdgeServiceManager.getDefault().bindEgdeService();
+                    break;
+                case MSG_BALL_SHOW:
+                    SpUtils.getInstant().put(Constant.BALL, true);
+                    showingOrHidingBall(true);
+                    break;
+                case MSG_BALL_HIDE:
+                    SpUtils.getInstant().put(Constant.BALL, false);
+                    showingOrHidingBall(false);
+                    break;
+            }
+        }
     }
 }

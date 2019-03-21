@@ -65,6 +65,8 @@ public class BarrageConsumer extends Thread {
                     Thread.sleep(SLEEP_TIME);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             } else {
                 lock.lock();

@@ -59,6 +59,6 @@ public class ContainerActivity extends BaseActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frame_container, fragment)
-                .commit();
+                .commitAllowingStateLoss();
     }
 }
