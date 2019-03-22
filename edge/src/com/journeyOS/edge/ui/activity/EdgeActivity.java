@@ -48,6 +48,7 @@ import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.core.database.user.EdgeUser;
 import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.edge.EdgeServiceManager;
+import com.journeyOS.edge.H;
 import com.journeyOS.edge.R;
 import com.journeyOS.edge.SlidingDrawer;
 import com.journeyOS.i007Service.core.notification.NotificationListenerService;
@@ -65,6 +66,8 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     public static final String TAG = EdgeActivity.class.getSimpleName();
 
     private static final int ALBUM_REQUEST_CODE = 0x0000bacd;
+
+    private final H mHandler = H.getDefault().getHandler();
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -123,7 +126,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     @Override
     protected void onPause() {
         super.onPause();
-        SlidingDrawer.getDefault().releaseDrawer();
+        mHandler.sendEmptyMessageDelayed(H.MSG_DRAWER_RELEASE, 0);
     }
 
     @Override
@@ -354,7 +357,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
             LogUtils.d(TAG, "guide finished");
             SpUtils.getInstant().put(Constant.GUIDE_INITED, true);
             handleItemSelected(Constant.MENU_LEARN);
-            SlidingDrawer.getDefault().closeMenu();
+            SlidingDrawer.getDefault().closeMenu(false);
         }
 
         @Override
