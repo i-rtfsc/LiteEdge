@@ -34,6 +34,7 @@ import com.journeyOS.base.menu.DrawerAdapter;
 import com.journeyOS.base.menu.DrawerItem;
 import com.journeyOS.base.menu.SimpleItem;
 import com.journeyOS.base.utils.LogUtils;
+import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.ImageEngine;
 import com.journeyOS.core.database.user.EdgeUser;
@@ -53,31 +54,46 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     private DrawerAdapter adapter;
     private SlidingRootNav slidingRootNav;
 
+    private String mUser = Constant.USER;
+    private String mContact = Constant.EMAIL;
+    private String mAvatar = null;
+
     private final H mHandler = H.getDefault().getHandler();
-    private volatile static SlidingDrawer mSlidingDrawer;
 
-    public static SlidingDrawer getInstance(Activity context) {
-        if (mSlidingDrawer == null) {
-            synchronized (SlidingDrawer.class) {
-                if (mSlidingDrawer == null) {
-                    mSlidingDrawer = new SlidingDrawer(context);
-                }
+
+    private SlidingDrawer() {
+        if (BmobUser.isLogin()) {
+            EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+            mUser = edgeUser.getNickname();
+            mContact = edgeUser.getEmail();
+            if (mContact == null || mContact == "") {
+                mContact = edgeUser.getMobilePhoneNumber();
             }
+            mAvatar = edgeUser.getIcon();
+            LogUtils.d(EdgeActivity.TAG, " user avatar = " + mAvatar);
         }
-        return mSlidingDrawer;
     }
 
-    private SlidingDrawer(Activity context) {
+    private static final Singleton<SlidingDrawer> gDefault = new Singleton<SlidingDrawer>() {
+        @Override
+        protected SlidingDrawer create() {
+            return new SlidingDrawer();
+        }
+    };
+
+    public static SlidingDrawer getDefault() {
+        return gDefault.get();
+    }
+
+    public void initDrawer(Activity context, Bundle bundle, Toolbar toolbar) {
+        releaseDrawer();
         mContext = context;
-    }
-
-    public void initDrawer(Bundle savedInstanceState, Toolbar toolbar) {
         slidingRootNav = new SlidingRootNavBuilder(mContext)
                 .withToolbarMenuToggle(toolbar)
                 .withMenuOpened(false)
                 .withContentClickableWhenMenuOpened(false)
-                .withSavedState(savedInstanceState)
                 .withMenuLayout(R.layout.menu_left_drawer)
+                .withSavedState(bundle)
                 .inject();
 
         screenIcons = loadScreenIcons();
@@ -97,26 +113,12 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         list.setLayoutManager(new LinearLayoutManager(mContext));
         list.setAdapter(adapter);
 
+        ((TextView) mContext.findViewById(R.id.user)).setText(mUser);
+        ((TextView) mContext.findViewById(R.id.email)).setText(mContact);
         ImageView icon = ((ImageView) mContext.findViewById(R.id.user_avatar));
-
-        String user = Constant.USER;
-        String contact = Constant.EMAIL;
-        if (BmobUser.isLogin()) {
-            EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
-            user = edgeUser.getNickname();
-            contact = edgeUser.getEmail();
-            if (contact == null || contact == "") {
-                contact = edgeUser.getMobilePhoneNumber();
-            }
-            String avatar = edgeUser.getIcon();
-            LogUtils.d(EdgeActivity.TAG, " user avatar = " + avatar);
-            if (avatar != null) {
-                ImageEngine.load(CoreManager.getDefault().getContext(), avatar, icon, R.mipmap.user);
-            }
+        if (mAvatar != null) {
+            ImageEngine.load(CoreManager.getDefault().getContext(), mAvatar, icon, R.mipmap.user);
         }
-
-        ((TextView) mContext.findViewById(R.id.user)).setText(user);
-        ((TextView) mContext.findViewById(R.id.email)).setText(contact);
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,6 +129,15 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         });
 
         adapter.setSelected(Constant.MENU_SETTINGS);
+    }
+
+    public void releaseDrawer() {
+        slidingRootNav = null;
+        mContext = null;
+        screenTitles = null;
+        screenIcons = null;
+        adapter = null;
+        slidingRootNav = null;
     }
 
     private String[] loadScreenTitles() {

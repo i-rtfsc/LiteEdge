@@ -115,13 +115,21 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     protected void onResume() {
         super.onResume();
         getPermission();
+        SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
+        SlidingDrawer.getDefault().setListener(this);
+        mToolbar.setTitle(R.string.app_name);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SlidingDrawer.getDefault().releaseDrawer();
     }
 
     @Override
     protected void initDataObserver(Bundle savedInstanceState) {
         super.initDataObserver(savedInstanceState);
         mBundle = savedInstanceState;
-        handleEdgeUserStatusObserver(null);
     }
 
     @Override
@@ -213,12 +221,6 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                 .commitAllowingStateLoss();
     }
 
-    void handleEdgeUserStatusObserver(EdgeUser authUser) {
-        SlidingDrawer.getInstance(this).initDrawer(mBundle, mToolbar);
-        SlidingDrawer.getInstance(this).setListener(this);
-        mToolbar.setTitle(R.string.app_name);
-    }
-
     void handleItemSelected(int position) {
         LogUtils.d(TAG, "handle item selected, position = [" + position + "]");
         switch (position) {
@@ -280,25 +282,25 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                         50, 100);
             }
 
-            View user = SlidingDrawer.getInstance(this).getView(Constant.MENU_USER);
+            View user = SlidingDrawer.getDefault().getView(Constant.MENU_USER);
             if (user != null) {
                 mLiteGuide.addNextTarget(user,
                         mContext.getResources().getString(R.string.guide_user),
                         350, 5);
             }
-            View permission = SlidingDrawer.getInstance(this).getView(Constant.MENU_PERMISSION);
+            View permission = SlidingDrawer.getDefault().getView(Constant.MENU_PERMISSION);
             if (permission != null) {
                 mLiteGuide.addNextTarget(permission,
                         mContext.getResources().getString(R.string.guide_permission),
                         350, -5, 350, ViewGroup.LayoutParams.WRAP_CONTENT);
             }
-            View settings = SlidingDrawer.getInstance(this).getView(Constant.MENU_SETTINGS);
+            View settings = SlidingDrawer.getDefault().getView(Constant.MENU_SETTINGS);
             if (settings != null) {
                 mLiteGuide.addNextTarget(settings,
                         mContext.getResources().getString(R.string.guide_settings),
                         350, -20);
             }
-            View learn = SlidingDrawer.getInstance(this).getView(Constant.MENU_LEARN);
+            View learn = SlidingDrawer.getDefault().getView(Constant.MENU_LEARN);
             if (learn != null) {
                 mLiteGuide.addNextTarget(learn,
                         mContext.getResources().getString(R.string.guide_learn),
@@ -343,7 +345,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         public void onGuideNext(int nextStep) {
             LogUtils.d(TAG, "user click guide next " + nextStep);
             if (nextStep == 1) {
-                SlidingDrawer.getInstance(mContext).openMenu();
+                SlidingDrawer.getDefault().openMenu();
             }
         }
 
@@ -352,7 +354,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
             LogUtils.d(TAG, "guide finished");
             SpUtils.getInstant().put(Constant.GUIDE_INITED, true);
             handleItemSelected(Constant.MENU_LEARN);
-            SlidingDrawer.getInstance(mContext).closeMenu();
+            SlidingDrawer.getDefault().closeMenu();
         }
 
         @Override

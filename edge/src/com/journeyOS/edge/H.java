@@ -89,7 +89,7 @@ public class H extends Handler {
                 NotificationManager.getDefault().handleNotification();
                 break;
             case MSG_DLIDE_CLICK:
-                SlidingDrawer.getInstance(null).onItemClick((int) msg.arg1);
+                SlidingDrawer.getDefault().onItemClick((int) msg.arg1);
                 break;
             default:
                 break;
