@@ -132,6 +132,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     }
 
     public void releaseDrawer() {
+        closeMenu(false);
         slidingRootNav = null;
         mContext = null;
         screenTitles = null;
@@ -167,7 +168,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
 
     @Override
     public void onItemSelected(int position) {
-        slidingRootNav.closeMenu();
+        closeMenu(false);
         Message msg = Message.obtain();
         msg.what = H.MSG_DLIDE_CLICK;
         msg.arg1 = position;
@@ -185,11 +186,15 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     }
 
     public void openMenu() {
-        slidingRootNav.openMenu(true);
+        if (slidingRootNav != null) {
+            slidingRootNav.openMenu(true);
+        }
     }
 
-    public void closeMenu() {
-        slidingRootNav.closeMenu(true);
+    public void closeMenu(boolean isAnimator) {
+        if (slidingRootNav != null) {
+            slidingRootNav.closeMenu(isAnimator);
+        }
     }
 
     private OnItemSelectedListener listener;

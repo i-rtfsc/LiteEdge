@@ -38,6 +38,7 @@ public class H extends Handler {
     public static final int MSG_BARRAGE_START_SERVICE = BASE << 4;
     public static final int MSG_BARRAGE_NOTIFICATION = BASE << 5;
     public static final int MSG_DLIDE_CLICK = BASE << 6;
+    public static final int MSG_DRAWER_RELEASE = BASE << 7;
 
     private H mH;
     private Context mContext;
@@ -90,6 +91,9 @@ public class H extends Handler {
                 break;
             case MSG_DLIDE_CLICK:
                 SlidingDrawer.getDefault().onItemClick((int) msg.arg1);
+                break;
+            case MSG_DRAWER_RELEASE:
+                SlidingDrawer.getDefault().releaseDrawer();
                 break;
             default:
                 break;
