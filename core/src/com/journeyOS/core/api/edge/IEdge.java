@@ -23,6 +23,8 @@ public interface IEdge extends ICoreApi {
 
     void showingOrHidingBall(boolean isShowing);
 
+    void updateInnerBall(int color);
+
     /**
      * 显示edge
      *

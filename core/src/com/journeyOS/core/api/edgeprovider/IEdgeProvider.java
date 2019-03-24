@@ -39,6 +39,15 @@ public interface IEdgeProvider extends ICoreApi {
     List<Edge> getConfigs(String direction);
 
     /**
+     * 根据方向获取Edge的配置
+     *
+     * @param direction 方向
+     * @param limit 限制查多少个
+     * @return Edge的配置
+     */
+    List<Edge> getConfigs(String direction, int limit);
+
+    /**
      * 根据item获取Edge的配置
      *
      * @param item 具体的位置

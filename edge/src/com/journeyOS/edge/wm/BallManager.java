@@ -38,6 +38,7 @@ import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.core.type.BallState;
 import com.journeyOS.core.type.Direction;
 import com.journeyOS.edge.R;
+import com.journeyOS.edge.view.InnerView;
 import com.journeyOS.edge.view.OutterView;
 
 import es.dmoral.toasty.Toasty;
@@ -137,6 +138,15 @@ public class BallManager {
                 mOv.setVisibility(View.GONE);
                 mWm.removeView(mOv);
                 mOv = null;
+            }
+        }
+    }
+
+    public void updateInnerBall(int color) {
+        if (mOv != null) {
+            InnerView innerView = mOv.getInnerBall();
+            if (innerView != null) {
+                innerView.updateInnerBallColor(color);
             }
         }
     }

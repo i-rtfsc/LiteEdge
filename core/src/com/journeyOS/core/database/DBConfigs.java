@@ -20,7 +20,7 @@ public class DBConfigs {
     //database appName
     public static final String DB_NAME = "edge";
 
-    public static final int DB_VERSION = 5;
+    public static final int DB_VERSION = 6;
 
     //table
     public static final String EDGE_TABLE = "edge";
@@ -30,6 +30,21 @@ public class DBConfigs {
     public static final String EDGE_PACKAGE_NAME = "packageName";
     //column
     public static final String EDGE_DIRECTION = "direction";
+
+    //table
+    public static final String EDGE_LAB_TABLE = "edgeLab";
+    //column
+    public static final String EDGE_LAB_EDGE = "edge";
+    //column
+    public static final String EDGE_LAB_GRAVITY = "gravity";
+    //column
+    public static final String EDGE_LAB_ORIENTATION = "orientation";
+    //column
+    public static final String EDGE_LAB_RADIUS = "radius";
+    //column
+    public static final String EDGE_LAB_PEEK = "peek";
+    //column
+    public static final String EDGE_LAB_ROTATE = "rotate";
 
     //table
     public static final String BALL_TABLE = "ball";

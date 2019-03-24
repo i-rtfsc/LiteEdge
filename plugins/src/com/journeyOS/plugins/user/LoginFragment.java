@@ -137,7 +137,7 @@ public class LoginFragment extends BaseFragment {
             mLoginLayout.setVisibility(View.GONE);
             mRegisterLayout.setVisibility(View.GONE);
 
-            boolean daemon = SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, true);
+            boolean daemon = SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT);
             mAutoSync.setCheck(daemon);
 
         } else {
@@ -257,7 +257,7 @@ public class LoginFragment extends BaseFragment {
 
     @OnClick({R2.id.auto_sync})
     public void listenerAutoSync() {
-        boolean daemon = SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, true);
+        boolean daemon = SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT);
         mAutoSync.setCheck(!daemon);
         SpUtils.getInstant().put(Constant.AUTO_SYNC, !daemon);
     }

@@ -29,11 +29,12 @@ import android.view.ViewConfiguration;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
+import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.base.widget.InnerBall;
 import com.journeyOS.base.widget.OutterBall;
 import com.journeyOS.core.type.Direction;
-import com.journeyOS.edge.R;
 
 public class InnerView extends View {
 
@@ -128,12 +129,14 @@ public class InnerView extends View {
         center.y = (getMeasuredHeight() + getPaddingTop() - getPaddingBottom()) / 2;
         final int radius = Math.min(getMeasuredWidth(), getMeasuredHeight()) / 2;
         mInnerBall = new InnerBall(center.x, center.y, radius, mInnerRadiusRate);
-        int[] inner_color = {
-                mContext.getResources().getColor(R.color.cornflowerblue),
-                mContext.getResources().getColor(R.color.cornflowerblue),
-                mContext.getResources().getColor(R.color.dodgerblue),
-                mContext.getResources().getColor(R.color.dodgerblue)
-        };
+        int innerColor = SpUtils.getInstant().getInt(Constant.INNER_BALL_COLOR, Constant.INNER_BALL_COLOR_DEFAULT);
+//        int[] inner_color = {
+//                mContext.getResources().getColor(R.color.cornflowerblue),
+//                mContext.getResources().getColor(R.color.cornflowerblue),
+//                mContext.getResources().getColor(R.color.dodgerblue),
+//                mContext.getResources().getColor(R.color.dodgerblue)
+//        };
+        int[] inner_color = {innerColor, innerColor, innerColor, innerColor};
         mInnerBall.setColorsAndPosition(inner_color, INNER_CIRCLE_POSITION_RANGE);
         mOutterBall = new OutterBall(center.x, center.y, radius, mOutterRadiusRate);
         mOutterBall.setColorsAndPosition(OUT_CIRCLE_COLOR_RANGE, OUT_CIRCLE_POSITION_RANGE);
@@ -200,6 +203,18 @@ public class InnerView extends View {
                 break;
         }
         return isConsume || event.getAction() == MotionEvent.ACTION_DOWN;
+    }
+
+    public void updateInnerBallColor(int color) {
+        if (mInnerBall != null) {
+            int[] colors = new int[4];
+            colors[0] = color;
+            colors[1] = color;
+            colors[2] = color;
+            colors[3] = color;
+            mInnerBall.setColorsAndPosition(colors, INNER_CIRCLE_POSITION_RANGE);
+            invalidate();
+        }
     }
 
     /**

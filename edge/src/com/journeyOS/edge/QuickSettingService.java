@@ -45,7 +45,7 @@ public class QuickSettingService extends TileService {
         super.onStartListening();
         if (DEBUG) LogUtils.d(TAG, "on start listening");
 
-        boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, true);
+        boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, Constant.DAEMON_DEFAULT);
         if (daemon) mHandler.sendEmptyMessage(H.MSG_BING_SERVICE);
     }
 

@@ -66,7 +66,7 @@ public class BarrageFragment extends BaseFragment {
 
     @Override
     public void initViews() {
-        boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, true);
+        boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT);
         mBarrage.setCheck(barrage);
 
         if (!barrage) {
@@ -80,7 +80,7 @@ public class BarrageFragment extends BaseFragment {
         if (!CoreManager.getDefault().getImpl(IPermission.class).hasListenerNotification(mContext)) {
             CoreManager.getDefault().getImpl(IPermission.class).listenerNotification(mContext);
         }
-        boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, true);
+        boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT);
         mBarrage.setCheck(!barrage);
         SpUtils.getInstant().put(Constant.BARRAGE, !barrage);
 

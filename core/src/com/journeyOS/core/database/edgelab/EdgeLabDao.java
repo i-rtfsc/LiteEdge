@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 anqi.huang@outlook.com
+ * Copyright (c) 2019 anqi.huang@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.database.edge;
+package com.journeyOS.core.database.edgelab;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -27,30 +27,27 @@ import com.journeyOS.core.database.DBConfigs;
 import java.util.List;
 
 @Dao
-public interface EdgeDao {
+public interface EdgeLabDao {
 
-    @Query("SELECT * FROM " + DBConfigs.EDGE_TABLE)
-    List<Edge> getConfigs();
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(List<Edge> configs);
+    @Query("SELECT * FROM " + DBConfigs.EDGE_LAB_TABLE)
+    List<EdgeLab> getConfigs();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Edge config);
+    void insert(List<EdgeLab> configs);
 
-    @Query("SELECT * FROM " + DBConfigs.EDGE_TABLE + " WHERE " + DBConfigs.EDGE_ITEM + " LIKE :item LIMIT 1")
-    Edge searchConfig(String item);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(EdgeLab config);
 
-    @Query("SELECT * FROM " + DBConfigs.EDGE_TABLE + " WHERE " + DBConfigs.EDGE_DIRECTION + " LIKE :direction")
-    List<Edge> findConfig(String direction);
+    @Query("SELECT * FROM " + DBConfigs.EDGE_LAB_TABLE + " WHERE " + DBConfigs.EDGE_LAB_EDGE + " LIKE :edge LIMIT 1")
+    EdgeLab searchConfig(String edge);
 
-    @Query("SELECT * FROM " + DBConfigs.EDGE_TABLE + " WHERE " + DBConfigs.EDGE_DIRECTION + " LIKE :direction LIMIT :limit")
-    List<Edge> findConfig(String direction, int limit);
+    @Query("SELECT * FROM " + DBConfigs.EDGE_LAB_TABLE + " WHERE " + DBConfigs.EDGE_LAB_EDGE + " LIKE :direction LIMIT :limit")
+    List<EdgeLab> searchConfig(String direction, int limit);
 
     @Delete
-    void delete(Edge config);
+    void delete(EdgeLab config);
 
-    @Query("DELETE FROM " + DBConfigs.EDGE_TABLE)
+    @Query("DELETE FROM " + DBConfigs.EDGE_LAB_TABLE)
     void deleteAll();
 
 }
