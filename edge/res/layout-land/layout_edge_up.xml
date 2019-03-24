@@ -257,6 +257,21 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/layout_groups_lab"
+            android:layout_width="@dimen/landscape_item_group_width"
+            android:layout_height="@dimen/landscape_item_group_height"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/edge_up">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/layout_statusbar"
             android:layout_width="@dimen/status_bar_width"
             android:layout_height="@dimen/status_bar_height"
@@ -322,5 +337,13 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
+    <include
+        android:id="@+id/control_panel"
+        layout="@layout/edge_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
 
 </com.journeyOS.edge.view.EdgeView>

@@ -81,4 +81,10 @@ public interface IPlugins extends ICoreApi {
      * 获取弹幕Fragment
      */
     Fragment provideBarrageFragment(Activity activity);
+
+
+    /**
+     * 获取实验室Fragment
+     */
+    Fragment provideLabFragment(Activity activity);
 }

@@ -63,6 +63,13 @@ public class EdgeRepositoryImpl implements IEdgeProvider {
     }
 
     @Override
+    public List<Edge> getConfigs(String direction, int limit) {
+        synchronized (mLock) {
+            return edgeDao.findConfig(direction, limit);
+        }
+    }
+
+    @Override
     public Edge getConfig(String item) {
         synchronized (mLock) {
             return edgeDao.searchConfig(item);

@@ -85,7 +85,7 @@ public class CityRepositoryImpl implements ICityProvider {
             return;
         }
 
-        CoreManager.getDefault().getImpl(ICityProvider.class).saveCity(Constant.DEFAULT_CITY);
+        CoreManager.getDefault().getImpl(ICityProvider.class).saveCity(Constant.CITY_ID_DEFAULT);
 
         synchronized (mLock) {
             String citys = FileIOUtils.readFileFromAsset(CoreManager.getDefault().getContext(), CITY_FILES);
@@ -133,7 +133,7 @@ public class CityRepositoryImpl implements ICityProvider {
 
     @Override
     public String getCity() {
-        return SpUtils.getInstant().getString(Constant.CITY_ID, Constant.DEFAULT_CITY);
+        return SpUtils.getInstant().getString(Constant.CITY_ID, Constant.CITY_ID_DEFAULT);
     }
 
     /**

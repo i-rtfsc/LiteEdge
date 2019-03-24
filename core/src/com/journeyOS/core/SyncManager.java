@@ -61,7 +61,7 @@ public class SyncManager {
 
     public void sync() {
         if (BmobUser.isLogin()
-                && SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, true)) {
+                && SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT)) {
             EdgeBean bean = new EdgeBean();
             List<EdgeBean.Edge> edges = new ArrayList<>();
 
@@ -111,7 +111,7 @@ public class SyncManager {
 
     public void fetchEdgeAir() {
         if (BmobUser.isLogin()
-                && SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, true)) {
+                && SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT)) {
             EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
             BmobQuery<EdgeAir> edgeAirQuery = new BmobQuery<>();
             edgeAirQuery.addWhereEqualTo(AUTHOR, edgeUser);

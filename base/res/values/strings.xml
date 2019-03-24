@@ -29,6 +29,7 @@
     <string name="menu_permission">权限</string>
     <string name="menu_settings">设置</string>
     <string name="menu_barrage">弹幕</string>
+    <string name="menu_lab">实验室</string>
     <string name="menu_about">关于</string>
     <string name="menu_learn">使用教程</string>
     <string name="version">版本</string>
@@ -82,4 +83,18 @@
     <string name="barrage_debug">弹幕测试</string>
     <string name="barrage_whitelist">弹幕白名单</string>
     <string name="notification_permission">弹幕权限</string>
+
+    <string name="radius_format">弧度: %1$d</string>
+    <string name="peek_format">位置: %1$d</string>
+
+    <string name="count">Edge数量</string>
+    <string name="count_summary">设置Edge数量，建议设置7~8个</string>
+    <string name="statusbar_debug">状态栏</string>
+    <string name="statusbar_debug_summary">开启后可点击Edge状态栏调节Edge图标弧度、位置</string>
+    <string name="edge_item_txt">Edeg图标文字</string>
+    <string name="edge_item_txt_summary">开启后Edeg图标上显示对应到应用名称</string>
+    <string name="was_not_number">请输入数字</string>
+
+    <string name="inner_ball_color_title">悬浮球颜色</string>
+    <string name="inner_ball_color_summary">可设置悬浮球的颜色</string>
 </resources>

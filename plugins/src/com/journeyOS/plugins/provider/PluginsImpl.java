@@ -28,6 +28,7 @@ import com.journeyOS.plugins.LearnActivity;
 import com.journeyOS.plugins.SelectorActivity;
 import com.journeyOS.plugins.about.AboutFragment;
 import com.journeyOS.plugins.barrage.BarrageFragment;
+import com.journeyOS.plugins.lab.LabFragment;
 import com.journeyOS.plugins.permission.PermissionFragment;
 import com.journeyOS.plugins.search.SearchActivity;
 import com.journeyOS.plugins.settings.SettingsFragment;
@@ -92,6 +93,11 @@ public class PluginsImpl implements IPlugins {
     @Override
     public Fragment provideBarrageFragment(Activity activity) {
         return BarrageFragment.newInstance(activity);
+    }
+
+    @Override
+    public Fragment provideLabFragment(Activity activity) {
+        return LabFragment.newInstance(activity);
     }
 
 }

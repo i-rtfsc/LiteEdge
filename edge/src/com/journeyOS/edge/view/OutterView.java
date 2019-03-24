@@ -112,6 +112,8 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
     private Vibrator mVibrator;
     private long[] mPattern = {0, 80};
 
+    private InnerView mInnerView;
+
     public OutterView(Context context) {
         this(context, null);
         this.mContext = context;
@@ -132,6 +134,7 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         LayoutInflater.from(context).inflate(R.layout.layout_ball, this);
         InnerView view = (InnerView) findViewById(R.id.floatView);
+        mInnerView = view;
         view.setOnGestureListener(this);
         viewWidth = view.getLayoutParams().width;
         viewHeight = view.getLayoutParams().height;
@@ -312,6 +315,10 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
 //				child.startLongPressAnim();
         if (gestureListener != null)
             gestureListener.onGesture(Direction.LONG_PRESS);
+    }
+
+    public InnerView getInnerBall() {
+        return mInnerView;
     }
 
     @Override

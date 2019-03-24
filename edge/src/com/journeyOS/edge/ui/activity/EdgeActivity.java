@@ -98,7 +98,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
             }
         });
 
-        boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, true);
+        boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT);
         if (barrage) {
             Intent intent = new Intent(this, NotificationListenerService.class);
             startService(intent);
@@ -243,6 +243,10 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
             case Constant.MENU_BARRAGE:
                 mToolbar.setTitle(R.string.menu_barrage);
                 loadFragment(CoreManager.getDefault().getImpl(IPlugins.class).provideBarrageFragment(mContext));
+                break;
+            case Constant.MENU_LAB:
+                mToolbar.setTitle(R.string.menu_lab);
+                loadFragment(CoreManager.getDefault().getImpl(IPlugins.class).provideLabFragment(mContext));
                 break;
             case Constant.MENU_ABOUT:
                 mToolbar.setTitle(R.string.menu_about);

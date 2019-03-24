@@ -53,9 +53,16 @@ public class DBHelper {
         }
     };
 
+    static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(@NonNull final SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE edgeLab (edge TEXT NOT NULL, gravity INTEGER NOT NULL DEFAULT 1, orientation INTEGER NOT NULL DEFAULT 1, radius INTEGER NOT NULL DEFAULT 1, peek INTEGER NOT NULL DEFAULT 1, rotate INTEGER NOT NULL DEFAULT 1, PRIMARY KEY(edge))");
+        }
+    };
+
     public static <T extends RoomDatabase> T provider(Context context, Class<T> dbCls, String dbName) {
         return Room.databaseBuilder(context, dbCls, dbName)
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
                 .fallbackToDestructiveMigration().build();
     }
 }

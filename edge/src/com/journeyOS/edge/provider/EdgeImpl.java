@@ -21,6 +21,7 @@ import android.os.Message;
 import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.edge.H;
+import com.journeyOS.edge.wm.BallManager;
 import com.journeyOS.literouter.annotation.ARouterInject;
 
 
@@ -48,6 +49,11 @@ public class EdgeImpl implements IEdge {
         message.what = isShowing ? H.MSG_BALL_SHOWING : H.MSG_BALL_HIDING;
         message.obj = isShowing;
         mHandler.sendMessageDelayed(message, H.EDGE_DELAY_TIME);
+    }
+
+    @Override
+    public void updateInnerBall(int color) {
+        BallManager.getDefault().updateInnerBall(color);
     }
 
     @Override

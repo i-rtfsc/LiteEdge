@@ -22,26 +22,32 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.AnimationUtil;
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.BaseUtils;
 import com.journeyOS.base.utils.LogUtils;
+import com.journeyOS.base.widget.LocusLayoutManager;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.edge.Edge;
+import com.journeyOS.core.database.edgelab.EdgeLab;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.weather.Air;
 import com.journeyOS.core.weather.Weather;
 import com.journeyOS.edge.R;
+import com.journeyOS.edge.view.adapter.EdgeAdapter;
 
 import java.util.List;
 
@@ -54,40 +60,53 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
     private static final String TEMPERATURE = "℃";
     private static final String REGION = " ~ ";
 
-    private EdgeDirection mEd;
+    EdgeDirection mEd;
 
-    private View mMask;
-    private View mRootView;
-    private View mLayoutGroups;
-    private View mLayoutStatus;
+    View mMask;
+    View mRootView;
+    View mLayoutGroups;
+    View mLayoutStatus;
 
-    private TextView mStatusBarText1;
-    private TextView mStatusBarText2;
-    private TextView mStatusBarText3;
+    TextView mStatusBarText1;
+    TextView mStatusBarText2;
+    TextView mStatusBarText3;
 
-    private View mLayout1;
-    private View mLayout2;
-    private View mLayout3;
-    private View mLayout4;
-    private View mLayout5;
-    private View mLayout6;
+    View mLayout1;
+    View mLayout2;
+    View mLayout3;
+    View mLayout4;
+    View mLayout5;
+    View mLayout6;
 
-    private CircleImageView mIcon1;
-    private CircleImageView mIcon2;
-    private CircleImageView mIcon3;
-    private CircleImageView mIcon4;
-    private CircleImageView mIcon5;
-    private CircleImageView mIcon6;
+    CircleImageView mIcon1;
+    CircleImageView mIcon2;
+    CircleImageView mIcon3;
+    CircleImageView mIcon4;
+    CircleImageView mIcon5;
+    CircleImageView mIcon6;
 
-    private TextView mText1;
-    private TextView mText2;
-    private TextView mText3;
-    private TextView mText4;
-    private TextView mText5;
-    private TextView mText6;
+    TextView mText1;
+    TextView mText2;
+    TextView mText3;
+    TextView mText4;
+    TextView mText5;
+    TextView mText6;
+
+    //lab
+    LocusLayoutManager mLayoutManager;
+    EdgeAdapter mAdapter;
+    RecyclerView mListView;
+
+    View mDebug;
+    SeekBar mRadius;
+    TextView mRadiusText;
+    SeekBar mPeek;
+    TextView mPeekText;
+
 
     private float mStatusBarHeight, mIconGroupHeight;
     private float mStatusBarWidth, mIconGroupWidth;
+
 
     public EdgeView(Context context) {
         super(context);
@@ -104,25 +123,26 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
+        boolean edgeLab = SpUtils.getInstant().getBoolean(Constant.EDGE_LAB, Constant.EDGE_LAB_DEFAULT);
 
-        initCommonView();
+        initCommonView(edgeLab);
 
         mEd = StateMachine.getEdgeDirection();
         LogUtils.d(TAG, "on view inflate, edge direction = " + mEd);
         switch (mEd) {
             case UP:
-                initUpView();
+                initUpView(edgeLab);
                 break;
             case LEFT:
-                initLeftView();
+                initLeftView(edgeLab);
                 break;
             case RIGHT:
-                initRightView();
+                initRightView(edgeLab);
                 break;
         }
     }
 
-    private void initCommonView() {
+    private void initCommonView(boolean edgeLab) {
         mRootView = findViewById(R.id.root_view);
         mMask = findViewById(R.id.mask_bg);
         mLayoutStatus = findViewById(R.id.layout_statusbar);
@@ -130,41 +150,69 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
 
         mLayoutGroups = findViewById(R.id.layout_groups);
 
-        mLayout1 = findViewById(R.id.layout1);
-        mLayout1.setOnClickListener(this);
-        mLayout1.setOnLongClickListener(this);
-        mIcon1 = (CircleImageView) findViewById(R.id.icon1);
-        mText1 = (TextView) findViewById(R.id.text1);
+        if (edgeLab) {
+            mLayoutGroups.setVisibility(GONE);
+            mLayoutGroups = findViewById(R.id.layout_groups_lab);
 
-        mLayout2 = findViewById(R.id.layout2);
-        mLayout2.setOnClickListener(this);
-        mLayout2.setOnLongClickListener(this);
-        mIcon2 = (CircleImageView) findViewById(R.id.icon2);
-        mText2 = (TextView) findViewById(R.id.text2);
+            mListView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        mLayout3 = findViewById(R.id.layout3);
-        mLayout3.setOnClickListener(this);
-        mLayout3.setOnLongClickListener(this);
-        mIcon3 = (CircleImageView) findViewById(R.id.icon3);
-        mText3 = (TextView) findViewById(R.id.text3);
+            mDebug = findViewById(R.id.control_panel);
+            mRadius = (SeekBar) findViewById(R.id.seek_radius);
+            mRadiusText = (TextView) findViewById(R.id.radius_text);
+            mPeek = (SeekBar) findViewById(R.id.seek_peek);
+            mPeekText = (TextView) findViewById(R.id.peek_text);
+            boolean edgeLabDebug = SpUtils.getInstant().getBoolean(Constant.EDGE_LAB_DEBUG, Constant.EDGE_LAB_DEBUG_DEFAULT);
+            if (edgeLabDebug) {
+                mLayoutStatus.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int visibility = mDebug.getVisibility();
+                        if (VISIBLE == visibility) {
+                            mDebug.setVisibility(GONE);
+                        } else {
+                            mDebug.setVisibility(VISIBLE);
+                        }
+                    }
+                });
+            }
+        } else {
+            findViewById(R.id.layout_groups_lab).setVisibility(GONE);
+            mLayout1 = findViewById(R.id.layout1);
+            mLayout1.setOnClickListener(this);
+            mLayout1.setOnLongClickListener(this);
+            mIcon1 = (CircleImageView) findViewById(R.id.icon1);
+            mText1 = (TextView) findViewById(R.id.text1);
 
-        mLayout4 = findViewById(R.id.layout4);
-        mLayout4.setOnClickListener(this);
-        mLayout4.setOnLongClickListener(this);
-        mIcon4 = (CircleImageView) findViewById(R.id.icon4);
-        mText4 = (TextView) findViewById(R.id.text4);
+            mLayout2 = findViewById(R.id.layout2);
+            mLayout2.setOnClickListener(this);
+            mLayout2.setOnLongClickListener(this);
+            mIcon2 = (CircleImageView) findViewById(R.id.icon2);
+            mText2 = (TextView) findViewById(R.id.text2);
 
-        mLayout5 = findViewById(R.id.layout5);
-        mLayout5.setOnClickListener(this);
-        mLayout5.setOnLongClickListener(this);
-        mIcon5 = (CircleImageView) findViewById(R.id.icon5);
-        mText5 = (TextView) findViewById(R.id.text5);
+            mLayout3 = findViewById(R.id.layout3);
+            mLayout3.setOnClickListener(this);
+            mLayout3.setOnLongClickListener(this);
+            mIcon3 = (CircleImageView) findViewById(R.id.icon3);
+            mText3 = (TextView) findViewById(R.id.text3);
 
-        mLayout6 = findViewById(R.id.layout6);
-        mLayout6.setOnClickListener(this);
-        mLayout6.setOnLongClickListener(this);
-        mIcon6 = (CircleImageView) findViewById(R.id.icon6);
-        mText6 = (TextView) findViewById(R.id.text6);
+            mLayout4 = findViewById(R.id.layout4);
+            mLayout4.setOnClickListener(this);
+            mLayout4.setOnLongClickListener(this);
+            mIcon4 = (CircleImageView) findViewById(R.id.icon4);
+            mText4 = (TextView) findViewById(R.id.text4);
+
+            mLayout5 = findViewById(R.id.layout5);
+            mLayout5.setOnClickListener(this);
+            mLayout5.setOnLongClickListener(this);
+            mIcon5 = (CircleImageView) findViewById(R.id.icon5);
+            mText5 = (TextView) findViewById(R.id.text5);
+
+            mLayout6 = findViewById(R.id.layout6);
+            mLayout6.setOnClickListener(this);
+            mLayout6.setOnLongClickListener(this);
+            mIcon6 = (CircleImageView) findViewById(R.id.icon6);
+            mText6 = (TextView) findViewById(R.id.text6);
+        }
 
         mStatusBarText1 = (TextView) findViewById(R.id.statusbar_text1);
         mStatusBarText2 = (TextView) findViewById(R.id.statusbar_text2);
@@ -173,106 +221,138 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         addOnAttachStateChangeListener(this);
     }
 
-    private void initLeftView() {
+    private void initLeftView(boolean edgeLab) {
         mLayoutStatus.setPivotX(480f);
         mLayoutStatus.setPivotY(48f);
         mLayoutStatus.setRotation(-90f);
 
-        mLayout1.setRotation(-22f);
-        mLayout2.setRotation(-13.2f);
-        mLayout3.setRotation(-4.4f);
-        mLayout4.setRotation(4.4f);
-        mLayout5.setRotation(13.2f);
-        mLayout6.setRotation(22f);
+        if (!edgeLab) {
+            mLayout1.setRotation(-22f);
+            mLayout2.setRotation(-13.2f);
+            mLayout3.setRotation(-4.4f);
+            mLayout4.setRotation(4.4f);
+            mLayout5.setRotation(13.2f);
+            mLayout6.setRotation(22f);
+        }
 
         mStatusBarWidth = 96f;
         mIconGroupWidth = 339f;
     }
 
-    private void initRightView() {
+    private void initRightView(boolean edgeLab) {
         mLayoutStatus.setPivotX(480f);
         mLayoutStatus.setPivotY(48f);
         mLayoutStatus.setRotation(90f);
 
-        mLayout1.setRotation(22f);
-        mLayout2.setRotation(13.2f);
-        mLayout3.setRotation(4.4f);
-        mLayout4.setRotation(-4.4f);
-        mLayout5.setRotation(-13.2f);
-        mLayout6.setRotation(-22f);
+        if (!edgeLab) {
+            mLayout1.setRotation(22f);
+            mLayout2.setRotation(13.2f);
+            mLayout3.setRotation(4.4f);
+            mLayout4.setRotation(-4.4f);
+            mLayout5.setRotation(-13.2f);
+            mLayout6.setRotation(-22f);
+        }
 
         mStatusBarWidth = 96f;
         mIconGroupWidth = 339f;
     }
 
-    private void initUpView() {
-        mLayout1.setRotation(24f);
-        mLayout2.setRotation(14.4f);
-        mLayout3.setRotation(4.8f);
-        mLayout4.setRotation(-4.8f);
-        mLayout5.setRotation(-14.4f);
-        mLayout6.setRotation(-24f);
+    private void initUpView(boolean edgeLab) {
+        if (!edgeLab) {
+            mLayout1.setRotation(24f);
+            mLayout2.setRotation(14.4f);
+            mLayout3.setRotation(4.8f);
+            mLayout4.setRotation(-4.8f);
+            mLayout5.setRotation(-14.4f);
+            mLayout6.setRotation(-24f);
+        }
 
         mStatusBarHeight = 144f;
         mIconGroupHeight = 384f;
     }
 
     public void initDatas() {
+        final boolean edgeLabEnale = SpUtils.getInstant().getBoolean(Constant.EDGE_LAB, Constant.EDGE_LAB_DEFAULT);
+
         if (mListener != null) {
             CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
                 @Override
                 public void run() {
+                    final EdgeLab edgeLab = mListener.getLabConfig(mEd);
                     final List<Edge> configs = mListener.getConfigs(mEd);
                     if (!BaseUtils.isNull(configs)) {
                         CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
                             @Override
                             public void run() {
-                                for (Edge config : configs) {
-                                    CircleImageView icon = null;
-                                    TextView title = null;
+                                if (edgeLabEnale) {
+                                    mAdapter = new EdgeAdapter(getContext(), mEd, configs);
+                                    mAdapter.setOnEdgeAdapterListener(mAdapterListener);
+                                    mLayoutManager = new LocusLayoutManager(getContext(),
+                                            edgeLab.gravity,
+                                            edgeLab.orientation,
+                                            edgeLab.radius,
+                                            edgeLab.peek,
+                                            edgeLab.rotate == 1);
 
-                                    int postion = -1;
-                                    String[] items = config.item.split(Constant.SEPARATOR);
-                                    if (items != null) {
-                                        postion = Integer.parseInt(items[1]);
-                                    }
-                                    if (postion == 1) {
-                                        icon = mIcon1;
-                                        title = mText1;
-                                    } else if (postion == 2) {
-                                        icon = mIcon2;
-                                        title = mText2;
-                                    } else if (postion == 3) {
-                                        icon = mIcon3;
-                                        title = mText3;
-                                    } else if (postion == 4) {
-                                        icon = mIcon4;
-                                        title = mText4;
-                                    } else if (postion == 5) {
-                                        icon = mIcon5;
-                                        title = mText5;
-                                    } else if (postion == 6) {
-                                        icon = mIcon6;
-                                        title = mText6;
+                                    mListView.setLayoutManager(mLayoutManager);
+                                    mListView.setAdapter(mAdapter);
+                                    mAdapter.notifyDataSetChanged();
+
+                                    mListView.setVisibility(View.VISIBLE);
+
+                                    mRadius.setOnSeekBarChangeListener(mRadiusListener);
+                                    mPeek.setOnSeekBarChangeListener(mPeekListener);
+                                    mRadius.setProgress(edgeLab.radius);
+                                    mPeek.setProgress(edgeLab.peek);
+
+                                } else {
+                                    for (Edge config : configs) {
+                                        CircleImageView icon = null;
+                                        TextView title = null;
+
+                                        int postion = -1;
+                                        String[] items = config.item.split(Constant.SEPARATOR);
+                                        if (items != null) {
+                                            postion = Integer.parseInt(items[1]);
+                                        }
+                                        if (postion == 1) {
+                                            icon = mIcon1;
+                                            title = mText1;
+                                        } else if (postion == 2) {
+                                            icon = mIcon2;
+                                            title = mText2;
+                                        } else if (postion == 3) {
+                                            icon = mIcon3;
+                                            title = mText3;
+                                        } else if (postion == 4) {
+                                            icon = mIcon4;
+                                            title = mText4;
+                                        } else if (postion == 5) {
+                                            icon = mIcon5;
+                                            title = mText5;
+                                        } else if (postion == 6) {
+                                            icon = mIcon6;
+                                            title = mText6;
+                                        }
+
+                                        Drawable drawable = null;
+                                        String name = null;
+
+                                        boolean isAppExisted = AppUtils.isPackageExisted(getContext(), config.packageName);
+                                        if (isAppExisted) {
+                                            drawable = AppUtils.getAppIcon(getContext(), config.packageName);
+                                            name = AppUtils.getAppName(getContext(), config.packageName, Constant.LENGTH);
+                                        }
+
+                                        if (icon != null && drawable != null) {
+                                            icon.setImageDrawable(drawable);
+                                        }
+                                        if (title != null && name != null) {
+                                            title.setText(name);
+                                        }
                                     }
 
-                                    Drawable drawable = null;
-                                    String name = null;
-
-                                    boolean isAppExisted = AppUtils.isPackageExisted(getContext(), config.packageName);
-                                    if (isAppExisted) {
-                                        drawable = AppUtils.getAppIcon(getContext(), config.packageName);
-                                        name = AppUtils.getAppName(getContext(), config.packageName, Constant.LENGTH);
-                                    }
-
-                                    if (icon != null && drawable != null) {
-                                        icon.setImageDrawable(drawable);
-                                    }
-                                    if (title != null && name != null) {
-                                        title.setText(name);
-                                    }
                                 }
-
                             }
                         });
                     }
@@ -556,6 +636,8 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
 
         List<Edge> getConfigs(EdgeDirection direction);
 
+        EdgeLab getLabConfig(EdgeDirection direction);
+
         void onItemClick(int postion);
 
         void onItemLongClick(int postion);
@@ -565,5 +647,77 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         Weather getWeather();
 
         Air getAir();
+
+        void saveRadius(EdgeDirection direction, int radius);
+
+        void savePeek(EdgeDirection direction, int peek);
     }
+
+    final EdgeAdapter.OnEdgeAdapterListener mAdapterListener = new EdgeAdapter.OnEdgeAdapterListener() {
+        @Override
+        public void onItemClick(int postion) {
+            if (mListener != null) {
+                mListener.onItemClick(postion);
+            }
+        }
+
+        @Override
+        public void onItemLongClick(int postion) {
+            if (mListener != null) {
+                mListener.onItemLongClick(postion);
+            }
+        }
+    };
+
+    final SeekBar.OnSeekBarChangeListener mRadiusListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if (mRadiusText != null) {
+                mRadiusText.setText(getResources().getString(R.string.radius_format, progress));
+            }
+            if (fromUser) {
+                if (mLayoutManager != null) {
+                    mLayoutManager.setRadius(progress);
+                }
+            }
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            // do nothing
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            if (mListener != null) {
+                mListener.saveRadius(mEd, seekBar.getProgress());
+            }
+        }
+    };
+
+    final SeekBar.OnSeekBarChangeListener mPeekListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if (mPeekText != null) {
+                mPeekText.setText(getResources().getString(R.string.peek_format, progress));
+            }
+            if (fromUser) {
+                if (mLayoutManager != null) {
+                    mLayoutManager.setPeekDistance(progress);
+                }
+            }
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            // do nothing
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            if (mListener != null) {
+                mListener.savePeek(mEd, seekBar.getProgress());
+            }
+        }
+    };
 }

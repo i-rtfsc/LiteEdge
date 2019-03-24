@@ -31,17 +31,22 @@ import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.edgeprovider.ICityProvider;
+import com.journeyOS.core.api.edgeprovider.IEdgeLabProvider;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.api.plugins.IPlugins;
+import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.api.weather.IFetchWeather;
 import com.journeyOS.core.database.edge.Edge;
+import com.journeyOS.core.database.edgelab.EdgeLab;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.weather.Air;
 import com.journeyOS.core.weather.Weather;
 import com.journeyOS.edge.R;
+import com.journeyOS.edge.utils.ComparatorDesc;
 import com.journeyOS.edge.view.EdgeView;
 import com.journeyOS.edge.view.EdgeView.OnEdgeViewListener;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,7 +132,6 @@ public class EdgeManager {
                     if (sCache != null) {
                         sCache.clear();
                     }
-
                     List<Edge> configs = CoreManager.getDefault().getImpl(IEdgeProvider.class).getConfigs(direction.name().toLowerCase());
                     if (Constant.DEBUG) {
                         LogUtils.d(TAG, "get " + direction.name().toLowerCase() + " configs " + configs);
@@ -140,7 +144,14 @@ public class EdgeManager {
                         }
                         if (postion != -1) sCache.put(postion, config);
                     }
+                    Collections.sort(configs, new ComparatorDesc());
                     return configs;
+                }
+
+                @Override
+                public EdgeLab getLabConfig(EdgeDirection direction) {
+                    EdgeLab edgeLab = CoreManager.getDefault().getImpl(IEdgeLabProvider.class).getConfig(direction.name().toLowerCase());
+                    return edgeLab;
                 }
 
                 @Override
@@ -149,7 +160,7 @@ public class EdgeManager {
                     if (sCache != null) {
                         Edge config = sCache.get(postion);
                         if (config != null) {
-                            boolean isAppExisted =  AppUtils.isPackageExisted(mContext, config.packageName);
+                            boolean isAppExisted = AppUtils.isPackageExisted(mContext, config.packageName);
                             if (isAppExisted) {
                                 AppUtils.startApp(mContext, config.packageName);
                                 if (mEdgeView != null) mEdgeView.hideEdgeView();
@@ -188,6 +199,34 @@ public class EdgeManager {
                 public Air getAir() {
                     String city = CoreManager.getDefault().getImpl(ICityProvider.class).getCity();
                     return CoreManager.getDefault().getImpl(IFetchWeather.class).queryAir(city, false);
+                }
+
+                @Override
+                public void saveRadius(final EdgeDirection direction, final int radius) {
+                    CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            EdgeLab edgeLab = CoreManager.getDefault().getImpl(IEdgeLabProvider.class).getConfig(direction.name().toLowerCase());
+                            if (edgeLab != null) {
+                                edgeLab.radius = radius;
+                                CoreManager.getDefault().getImpl(IEdgeLabProvider.class).insertOrUpdateConfig(edgeLab);
+                            }
+                        }
+                    });
+                }
+
+                @Override
+                public void savePeek(final EdgeDirection direction, final int peek) {
+                    CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            EdgeLab edgeLab = CoreManager.getDefault().getImpl(IEdgeLabProvider.class).getConfig(direction.name().toLowerCase());
+                            if (edgeLab != null) {
+                                edgeLab.peek = peek;
+                                CoreManager.getDefault().getImpl(IEdgeLabProvider.class).insertOrUpdateConfig(edgeLab);
+                            }
+                        }
+                    });
                 }
 
             });

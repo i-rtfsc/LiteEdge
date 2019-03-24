@@ -130,7 +130,7 @@ public class BarrageManager {
         barrageEntity.name = title;
         barrageEntity.text = notification.getText();
 
-        if (SpUtils.getInstant().getBoolean(Constant.BARRAGE_ICONO, false)) {
+        if (SpUtils.getInstant().getBoolean(Constant.BARRAGE_ICONO, Constant.BARRAGE_ICONO_DEFAULT)) {
             int iconId = notification.extras.getInt(Notification.EXTRA_SMALL_ICON);
             LogUtils.d(TAG, "get icon from notification, icon id = " + iconId);
             if (iconId > 0) {

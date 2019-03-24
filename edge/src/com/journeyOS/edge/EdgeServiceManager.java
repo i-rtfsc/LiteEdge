@@ -79,7 +79,7 @@ public class EdgeServiceManager {
             LogUtils.i(TAG, "onServiceConnected = " + asInterface);
             mBound = true;
 
-            boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, false);
+            boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, Constant.BALL_DEFAULT);
             if (ball) {
                 showingOrHidingBall(true);
             }

@@ -38,7 +38,7 @@ public final class ImageEngine {
         if (engine.equals(Constant.IMAGE_ENGINE_GLIDE)) {
             RequestOptions options = new RequestOptions().placeholder(defaultResId);
 
-            boolean useCache = SpUtils.getInstant().getBoolean(Constant.USE_CACHE, true);
+            boolean useCache = SpUtils.getInstant().getBoolean(Constant.USE_CACHE, Constant.USE_CACHE_DEFAULT);
             if (useCache) {
                 options.diskCacheStrategy(DiskCacheStrategy.ALL);
             }

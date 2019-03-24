@@ -17,8 +17,14 @@
 package com.journeyOS.plugins.settings;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
+import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.OnColorSelectedListener;
+import com.flask.colorpicker.builder.ColorPickerClickListener;
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.widget.SettingSwitch;
@@ -60,10 +66,10 @@ public class SettingsFragment extends BaseFragment {
 
     @Override
     public void initViews() {
-        boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, true);
+        boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, Constant.DAEMON_DEFAULT);
         mDaemon.setCheck(daemon);
 
-        boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, false);
+        boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, Constant.BALL_DEFAULT);
         mBall.setCheck(ball);
         if (ball && CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
             CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(true);
@@ -72,7 +78,7 @@ public class SettingsFragment extends BaseFragment {
 
     @OnClick({R2.id.daemon})
     public void listenerAutoStart() {
-        boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, true);
+        boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, Constant.DAEMON_DEFAULT);
         mDaemon.setCheck(!daemon);
         SpUtils.getInstant().put(Constant.DAEMON, !daemon);
     }
@@ -84,7 +90,7 @@ public class SettingsFragment extends BaseFragment {
             return;
         }
 
-        boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, false);
+        boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, Constant.BALL_DEFAULT);
         mBall.setCheck(!ball);
         SpUtils.getInstant().put(Constant.BALL, !ball);
         CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(!ball);

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2019 anqi.huang@outlook.com
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:settings="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/wrap_layout">
+
+        <com.journeyOS.base.widget.SettingSwitch
+            android:id="@+id/lab"
+            style="@style/single_layout"
+            android:theme="@style/CheckBox"
+            settings:settingIcon="@drawable/svg_menu_lab"
+            settings:settingTitle="@string/menu_lab" />
+
+        <View style="@style/bg_line" />
+
+        <com.journeyOS.base.widget.SettingView
+            android:id="@+id/edge_count"
+            style="@style/mid_layout"
+            android:visibility="visible"
+            settings:settingIcon="@drawable/svg_count"
+            settings:settingRightSummary="7"
+            settings:settingSummary="@string/count_summary"
+            settings:settingTitle="@string/count" />
+
+        <View
+            style="@style/bg_line"
+            android:visibility="visible" />
+
+        <com.journeyOS.base.widget.SettingView
+            android:id="@+id/innerBall"
+            style="@style/mid_layout"
+            settings:settingIcon="@drawable/svg_ball"
+            settings:settingSummary="@string/inner_ball_color_summary"
+            settings:settingTitle="@string/inner_ball_color_title" />
+
+        <View style="@style/bg_line" />
+
+        <com.journeyOS.base.widget.SettingSwitch
+            android:id="@+id/edge_item_txt"
+            style="@style/mid_layout"
+            android:theme="@style/CheckBox"
+            settings:settingIcon="@drawable/svg_text"
+            settings:settingSummary="@string/edge_item_txt_summary"
+            settings:settingTitle="@string/edge_item_txt" />
+
+        <View style="@style/bg_line" />
+
+        <com.journeyOS.base.widget.SettingSwitch
+            android:id="@+id/status_bar"
+            style="@style/bottom_layout"
+            android:theme="@style/CheckBox"
+            settings:settingIcon="@drawable/svg_statusbar"
+            settings:settingSummary="@string/statusbar_debug_summary"
+            settings:settingTitle="@string/statusbar_debug" />
+
+    </LinearLayout>
+
+</LinearLayout>

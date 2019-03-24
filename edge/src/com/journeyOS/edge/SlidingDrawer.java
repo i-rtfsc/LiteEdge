@@ -104,6 +104,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
                 createItemFor(Constant.MENU_PERMISSION),
                 createItemFor(Constant.MENU_SETTINGS).setChecked(true),
                 createItemFor(Constant.MENU_BARRAGE),
+                createItemFor(Constant.MENU_LAB),
                 createItemFor(Constant.MENU_ABOUT),
                 createItemFor(Constant.MENU_LEARN)));
         adapter.setListener(this);

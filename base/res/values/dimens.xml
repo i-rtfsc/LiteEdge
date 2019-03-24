@@ -109,4 +109,9 @@
     <dimen name="layout14_portrait_right">155px</dimen>
     <dimen name="layout15_portrait_right">110px</dimen>
     <dimen name="layout16_portrait_right">45px</dimen>
+
+    <dimen name="list_size">400dp</dimen>
+    <dimen name="list_peek">172dp</dimen>
+    <dimen name="list_radius">1500dp</dimen>
+
 </resources>
