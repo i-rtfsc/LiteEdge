@@ -88,13 +88,30 @@
     <string name="peek_format">位置: %1$d</string>
 
     <string name="count">Edge数量</string>
+    <string name="count_default">默认</string>
+    <string name="count_7">7</string>
+    <string name="count_8">8</string>
+    <string name="count_9">9</string>
+
     <string name="count_summary">设置Edge数量，建议设置7~8个</string>
-    <string name="statusbar_debug">状态栏</string>
+    <string name="statusbar_debug">Edge状态栏</string>
     <string name="statusbar_debug_summary">开启后可点击Edge状态栏调节Edge图标弧度、位置</string>
     <string name="edge_item_txt">Edeg图标文字</string>
     <string name="edge_item_txt_summary">开启后Edeg图标上显示对应到应用名称</string>
-    <string name="was_not_number">请输入数字</string>
+    <!--<string name="was_not_number">请输入数字</string>-->
 
     <string name="inner_ball_color_title">悬浮球颜色</string>
     <string name="inner_ball_color_summary">可设置悬浮球的颜色</string>
+
+    <string name="barrage_click_title">弹幕消息点击手势</string>
+    <string name="barrage_click_dialog_title">出现弹幕消息时点击将进入到来消息的应用</string>
+    <string name="barrage_click_not_feedback">无</string>
+    <string name="barrage_click_ball">悬浮球</string>
+    <string name="barrage_click_barrage">弹幕消息体</string>
+
+    <string name="barrage_title_color">弹幕标题颜色</string>
+    <string name="barrage_summary_color">弹幕内容颜色</string>
+    <string name="barrage_background_color">弹幕背景颜色</string>
+    <string name="barrage_current_color">当前颜色</string>
+    <string name="barrage_background_color_default">还原默认</string>
 </resources>

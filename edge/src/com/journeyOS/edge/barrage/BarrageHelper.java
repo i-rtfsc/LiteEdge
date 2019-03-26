@@ -17,6 +17,7 @@
 package com.journeyOS.edge.barrage;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -26,6 +27,9 @@ import com.journeyOS.barrage.model.BarrageModel;
 import com.journeyOS.barrage.model.utils.DimensionUtil;
 import com.journeyOS.barrage.view.IBarrageParent;
 import com.journeyOS.barrage.view.OnBarrageTouchListener;
+import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.edge.R;
 
@@ -102,15 +106,29 @@ public final class BarrageHelper {
                 String name = entity.name;
                 String content = entity.text;
                 SpannableString spannableString = new SpannableString(name + "：" + content);
-                spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.hotpink)), 0, name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                int nameColor = SpUtils.getInstant().getInt(Constant.BARRAGE_TITLE_COLOR, Constant.BARRAGE_TITLE_COLOR_DEFAULT);
+                if (nameColor == 0) {
+                    nameColor = ContextCompat.getColor(mContext, R.color.hotpink);
+                }
+                spannableString.setSpan(new ForegroundColorSpan(nameColor), 0, name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                 barrageModel.textSize = DimensionUtil.spToPx(mContext, 14);
-                barrageModel.textColor = ContextCompat.getColor(mContext, R.color.lavender);
+                int textColor = SpUtils.getInstant().getInt(Constant.BARRAGE_SUMMARY_COLOR, Constant.BARRAGE_SUMMARY_COLOR_DEFAULT);
+                if (textColor == 0) {
+                    textColor = ContextCompat.getColor(mContext, R.color.lavender);
+                }
+                barrageModel.textColor = textColor;
                 barrageModel.textMarginLeft = DimensionUtil.dpToPx(mContext, 5);
                 barrageModel.text = spannableString;
 
                 // 弹幕文本背景
+                int backgroundColor = SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_COLOR, Constant.BARRAGE_BACKGROUND_COLOR_DEFAULT);
+                if (backgroundColor == 0) {
+                    backgroundColor = ContextCompat.getColor(mContext, R.color.divider_dark);
+                }
+
                 barrageModel.textBackground = ContextCompat.getDrawable(mContext, R.drawable.corners);
+                barrageModel.textBackground.setColorFilter(backgroundColor, PorterDuff.Mode.SRC);
                 barrageModel.textBackgroundMarginLeft = DimensionUtil.dpToPx(mContext, 15);
                 barrageModel.textBackgroundPaddingTop = DimensionUtil.dpToPx(mContext, 3);
                 barrageModel.textBackgroundPaddingBottom = DimensionUtil.dpToPx(mContext, 3);
@@ -121,7 +139,12 @@ public final class BarrageHelper {
 
                     @Override
                     public void callBack(BarrageModel model) {
-                        LogUtils.d(TAG, "on barrage view touch, model = " + model);
+                        LogUtils.d(TAG, "on barrage view touch, packageName = " + entity.packageName);
+                        int item = SpUtils.getInstant().getInt(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT);
+                        LogUtils.d(TAG, "on barrage view touch, item = " + item);
+                        if (item == 2) {
+                            AppUtils.startApp(mContext, entity.packageName);
+                        }
                     }
                 });
             }

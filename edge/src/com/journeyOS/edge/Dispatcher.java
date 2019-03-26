@@ -19,11 +19,17 @@ package com.journeyOS.edge;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.edge.IEdge;
+import com.journeyOS.core.type.BarrageState;
 import com.journeyOS.core.type.Direction;
 import com.journeyOS.core.type.EdgeDirection;
+import com.journeyOS.edge.wm.BarrageManager;
 
 public class Dispatcher {
     private Context mContext;
@@ -103,6 +109,11 @@ public class Dispatcher {
                 break;
 
             case CLICK:
+                if (SpUtils.getInstant().getInt(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT) == 1) {
+                    if (BarrageState.SHOW == StateMachine.getBarrageState()) {
+                        AppUtils.startApp(mContext, BarrageManager.getDefault().getPackageName());
+                    }
+                }
                 break;
 
             case LONG_PRESS:

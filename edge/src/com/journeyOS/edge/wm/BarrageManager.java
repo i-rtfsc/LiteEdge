@@ -38,6 +38,8 @@ import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.StateMachine;
+import com.journeyOS.core.type.BarrageState;
 import com.journeyOS.edge.R;
 import com.journeyOS.edge.barrage.BarrageEntity;
 import com.journeyOS.edge.barrage.BarrageHelper;
@@ -51,12 +53,13 @@ public class BarrageManager {
     private Context mContext;
     private WindowManager mWm;
 
-
     private BarrageParentView mRootView;
     private BarrageView mBarrageView;
     private BarrageHelper mBarrageHelper;
 
     private boolean isAttachedToWindow = false;
+
+    private String mOngingPackageName = null;
 
     private BarrageManager() {
         mContext = CoreManager.getDefault().getContext();
@@ -102,11 +105,12 @@ public class BarrageManager {
         mBarrageView.setOnBarrageAttachStateChangeListenerListener(new BarrageView.OnBarrageAttachStateChangeListenerListener() {
             @Override
             public void onShowing() {
-
+                LogUtils.d(TAG, "barrage view show");
             }
 
             @Override
             public void onHiding() {
+                StateMachine.setBarrageState(BarrageState.HIDE);
                 LogUtils.d(TAG, "wann remove barrage view!");
                 if (mRootView != null && mRootView.isAttachedToWindow()) {
                     mWm.removeView(mRootView);
@@ -120,7 +124,10 @@ public class BarrageManager {
     }
 
     public void sendBarrage(Notification notification) {
+        StateMachine.setBarrageState(BarrageState.SHOW);
+        setPackageName(notification.getPackageName());
         BarrageEntity barrageEntity = new BarrageEntity();
+        barrageEntity.packageName = notification.getPackageName();
         barrageEntity.level = 100;
         barrageEntity.type = BarrageEntity.BARRAGE_TYPE_USERCHAT;
         String title = notification.getTitle();
@@ -206,4 +213,11 @@ public class BarrageManager {
         return params;
     }
 
+    public String getPackageName() {
+        return mOngingPackageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.mOngingPackageName = packageName;
+    }
 }
