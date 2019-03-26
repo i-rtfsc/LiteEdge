@@ -199,7 +199,6 @@ public class BarragePainter extends IBarragePainter {
                         + staticLayout.getWidth()
                         + model.textBackgroundPaddingRight),
                 (int) (top + textBackgroundHeight));
-
         model.textBackground.setBounds(rectF);
         model.textBackground.draw(canvas);
     }

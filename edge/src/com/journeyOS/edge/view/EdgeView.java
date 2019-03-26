@@ -123,8 +123,8 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        boolean edgeLab = SpUtils.getInstant().getBoolean(Constant.EDGE_LAB, Constant.EDGE_LAB_DEFAULT);
-
+        int count = SpUtils.getInstant().getInt(Constant.EDGE_CONUT, Constant.EDGE_CONUT_DEFAULT);
+        final boolean edgeLab = (count != Constant.EDGE_STYLE_DINFINE);
         initCommonView(edgeLab);
 
         mEd = StateMachine.getEdgeDirection();
@@ -272,7 +272,8 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
     }
 
     public void initDatas() {
-        final boolean edgeLabEnale = SpUtils.getInstant().getBoolean(Constant.EDGE_LAB, Constant.EDGE_LAB_DEFAULT);
+        int count = SpUtils.getInstant().getInt(Constant.EDGE_CONUT, Constant.EDGE_CONUT_DEFAULT);
+        final boolean edgeLabEnale = (count != Constant.EDGE_STYLE_DINFINE);
 
         if (mListener != null) {
             CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
