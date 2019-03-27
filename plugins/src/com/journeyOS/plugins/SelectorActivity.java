@@ -32,10 +32,10 @@ import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.Messages;
 import com.journeyOS.core.api.edge.IEdge;
-import com.journeyOS.core.database.edge.Edge;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.base.BaseActivity;
+import com.journeyOS.core.database.edge.Edge;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.viewmodel.ModelProvider;
 import com.journeyOS.literouter.RouterListener;
@@ -71,7 +71,7 @@ public class SelectorActivity extends BaseActivity implements RouterListener {
             intent.putExtra(EXTRA_POSTION, postion);
             intent.putExtra(EXTRA_DIRECTION, direction);
             from.startActivity(intent);
-            CoreManager.getDefault().getImpl(IEdge.class).hidingEdge();
+            CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(true);
         } catch (ActivityNotFoundException e) {
             LogUtils.d(TAG, e);
         }
@@ -84,7 +84,7 @@ public class SelectorActivity extends BaseActivity implements RouterListener {
         intent.putExtra(EXTRA_POSTION, postion);
         intent.putExtra(EXTRA_DIRECTION, direction);
         from.startActivity(intent);
-        CoreManager.getDefault().getImpl(IEdge.class).hidingEdge();
+        CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(true);
     }
 
     public void save(final String packageName) {

@@ -110,9 +110,9 @@ public class EdgeServiceManager {
         }
     }
 
-    public void hidingEdge() {
+    public void hidingEdge(boolean isAnimator) {
         try {
-            if (asInterface != null) asInterface.hidingEdge();
+            if (asInterface != null) asInterface.hidingEdge(isAnimator);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

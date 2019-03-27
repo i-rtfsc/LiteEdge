@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.base.BaseFragment;
 import com.journeyOS.core.permission.IPermission;
-import com.journeyOS.i007Service.core.notification.NotificationListenerService;
 import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.R2;
 

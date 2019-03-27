@@ -75,7 +75,12 @@ public class H extends Handler {
                 EdgeManager.getDefault().showEdge(direction);
                 break;
             case MSG_EDGE_HIDING:
-                EdgeManager.getDefault().hideEdge();
+                boolean isAnimator = (boolean) msg.obj;
+                if (isAnimator) {
+                    EdgeManager.getDefault().hideEdge();
+                } else {
+                    EdgeManager.getDefault().removeEdge();
+                }
                 break;
             case MSG_BALL_SHOWING:
                 EdgeServiceManager.getDefault().showingOrHidingBall(true);

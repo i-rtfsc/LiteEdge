@@ -514,14 +514,23 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         }
     }
 
+    //用 WindowManager.addView 的时候千万别设置FLAG_NOT_FOCUSABLE
+    //不然dispatchKeyEvent死活接收不到事件...
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         switch (event.getKeyCode()) {
             case KeyEvent.KEYCODE_BACK:
-                if (event.getAction() == KeyEvent.ACTION_UP) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && EdgeDirection.NONE != StateMachine.getEdgeDirection()) {
                     hideEdgeView();
                 }
                 return true;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (event.getAction() == KeyEvent.ACTION_DOWN
+                        && EdgeDirection.NONE != StateMachine.getEdgeDirection()) {
+                    hideEdgeView();
+                }
         }
         return super.dispatchKeyEvent(event);
     }
@@ -531,7 +540,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         // If we've received a touch notification that the user has touched
         // outside the app, hide the dock view.
         if (MotionEvent.ACTION_OUTSIDE == event.getAction()
-                || MotionEvent.ACTION_UP == event.getAction()) {
+                || MotionEvent.ACTION_DOWN == event.getAction()) {
             hideEdgeView();
             return true;
         }

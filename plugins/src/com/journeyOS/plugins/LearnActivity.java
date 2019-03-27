@@ -102,7 +102,7 @@ public class LearnActivity extends BaseActivity {
         Intent intent = new Intent(from, LearnActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         from.startActivity(intent);
-        CoreManager.getDefault().getImpl(IEdge.class).hidingEdge();
+        CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(true);
     }
 
     private void finishActivity() {
