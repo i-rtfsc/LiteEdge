@@ -63,12 +63,12 @@ public interface IEdge extends ICoreApi {
     /**
      * 隐藏edge
      */
-    void hidingEdge();
+    void hidingEdge(boolean isAnimator);
 
     /**
      * 延迟隐藏edge
      *
      * @param delayMillis 延迟时间
      */
-    void hidingEdge(long delayMillis);
+    void hidingEdge(boolean isAnimator, long delayMillis);
 }

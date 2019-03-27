@@ -26,9 +26,11 @@ import android.support.annotation.Nullable;
 
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.receiver.GlobalActionObserver;
 import com.journeyOS.base.receiver.ScreenObserver;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.daemon.IAlive;
 import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.api.edgeprovider.IAppProvider;
@@ -36,13 +38,14 @@ import com.journeyOS.core.api.edgeprovider.IEdgeLabProvider;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.type.Direction;
+import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.edge.utils.NotificationUtils;
 import com.journeyOS.edge.wm.BallManager;
 import com.journeyOS.i007Service.DataResource.FACTORY;
 import com.journeyOS.i007Service.I007Manager;
 import com.journeyOS.i007Service.interfaces.II007Listener;
 
-public class EdgeService extends Service {
+public class EdgeService extends Service implements GlobalActionObserver.GlobalActionListener {
     private static final String TAG = EdgeService.class.getSimpleName();
 
     private Context mContext;
@@ -88,8 +91,8 @@ public class EdgeService extends Service {
         }
 
         @Override
-        public void hidingEdge() throws RemoteException {
-            CoreManager.getDefault().getImpl(IEdge.class).hidingEdge();
+        public void hidingEdge(boolean isAnimator) throws RemoteException {
+            CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(isAnimator);
         }
     };
 
@@ -122,14 +125,31 @@ public class EdgeService extends Service {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         BallManager.getDefault().updateViewLayout();
-        CoreManager.getDefault().getImpl(IEdge.class).hidingEdge();
+        CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(true);
+    }
+
+    @Override
+    public void onPressHomeKey() {
+        if (EdgeDirection.NONE != StateMachine.getEdgeDirection()) {
+            CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(true);
+        }
+    }
+
+    @Override
+    public void onPressRecentapps() {
+        if (EdgeDirection.NONE != StateMachine.getEdgeDirection()) {
+            CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(true);
+        }
     }
 
     void prepraJob() {
         this.startForeground(NotificationUtils.NOTIFICATION_ID, NotificationUtils.getNotification(mContext));
 //        this.stopForeground(true);
 
-        final long factors = I007Manager.SCENE_FACTOR_LCD;
+        GlobalActionObserver.getDefault().startGlobalActionReceiver(mContext);
+        GlobalActionObserver.getDefault().setOnGlobalActionListener(this);
+
+        final long factors = I007Manager.SCENE_FACTOR_LCD | I007Manager.SCENE_FACTOR_APP;
         I007Manager.registerListener(factors, mII007Listener);
 
         CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
@@ -141,9 +161,9 @@ public class EdgeService extends Service {
         });
 
         boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT);
-        if (barrage) {
-            NotificationManager.getDefault().startNotificationService();
-        }
+//        if (barrage) {
+        NotificationManager.getDefault().startNotificationService();
+//        }
 
         CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
             @Override
@@ -157,6 +177,9 @@ public class EdgeService extends Service {
         FACTORY factory = I007Manager.getFactory(factorId);
         LogUtils.d(TAG, "handle scene changed factorId = [" + factorId + "], status = [" + status + "], packageName = [" + packageName + "]");
         switch (factory) {
+            case APP:
+                CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(true);
+                break;
             case LCD:
                 boolean isScreenOn = I007Manager.isScreenOn(status);
                 handleScreen(isScreenOn);
@@ -173,13 +196,15 @@ public class EdgeService extends Service {
             if (isScreenOn) {
                 CoreManager.getDefault().getImpl(IAlive.class).destroy();
                 boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT);
-                if (barrage) {
-                    NotificationManager.getDefault().startNotificationService();
-                }
+//                if (barrage) {
+                NotificationManager.getDefault().startNotificationService();
+//                }
             } else {
+                CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(false);
                 CoreManager.getDefault().getImpl(IAlive.class).keepAlive(mContext);
                 I007Manager.keepAlive();
             }
         }
     }
+
 }

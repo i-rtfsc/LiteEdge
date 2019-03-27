@@ -124,7 +124,7 @@ public class EdgeManager {
                 public void onViewDetachedFromWindow() {
                     LogUtils.d(TAG, "edge view has been hidden!");
                     StateMachine.setEdgeDirection(EdgeDirection.NONE);
-                    hideEdge();
+                    removeEdge();
                 }
 
                 @Override
@@ -239,6 +239,12 @@ public class EdgeManager {
 
     public void hideEdge() {
         if (mEdgeView != null) {
+            mEdgeView.hideEdgeView();
+        }
+    }
+
+    public void removeEdge() {
+        if (mEdgeView != null) {
             mEdgeView.setVisibility(View.GONE);
             mWm.removeView(mEdgeView);
         }
@@ -264,7 +270,7 @@ public class EdgeManager {
         params.type = LayoutParams.TYPE_APPLICATION_OVERLAY;
         params.format = PixelFormat.TRANSPARENT;
         params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
-                | LayoutParams.FLAG_NOT_FOCUSABLE
+//                | LayoutParams.FLAG_NOT_FOCUSABLE
                 | LayoutParams.FLAG_SPLIT_TOUCH
                 | LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
         params.gravity = Gravity.LEFT | Gravity.TOP;

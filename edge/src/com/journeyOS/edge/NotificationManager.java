@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
@@ -121,7 +123,13 @@ public class NotificationManager implements ServiceLifecycleListener, Notificati
 
     @Override
     public void onNotification(final Notification notification) {
+        if (!SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT)) {
+            LogUtils.d(TAG, "barrage toggle was false");
+            return;
+        }
+
         LogUtils.d(TAG, "notification = [" + notification.toString() + "]");
+
         if (!CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)
                 && !CoreManager.getDefault().getImpl(IPermission.class).hasListenerNotification(mContext)) {
             return;

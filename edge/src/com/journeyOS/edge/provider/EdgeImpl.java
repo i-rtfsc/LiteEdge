@@ -79,13 +79,13 @@ public class EdgeImpl implements IEdge {
     }
 
     @Override
-    public void hidingEdge() {
-        senHiding(H.EDGE_DELAY_TIME);
+    public void hidingEdge(boolean isAnimator) {
+        senHiding(isAnimator, H.EDGE_DELAY_TIME);
     }
 
     @Override
-    public void hidingEdge(long delayMillis) {
-        senHiding(delayMillis);
+    public void hidingEdge(boolean isAnimator, long delayMillis) {
+        senHiding(isAnimator, delayMillis);
     }
 
     private void sendShowing(EdgeDirection direction, long delayMillis) {
@@ -98,11 +98,14 @@ public class EdgeImpl implements IEdge {
         mHandler.sendMessageDelayed(message, delayMillis);
     }
 
-    private void senHiding(long delayMillis) {
+    private void senHiding(boolean isAnimator, long delayMillis) {
         if (mHandler.hasMessages(H.MSG_EDGE_HIDING)) {
             mHandler.removeMessages(H.MSG_EDGE_HIDING);
         }
-        mHandler.sendEmptyMessageDelayed(H.MSG_EDGE_HIDING, delayMillis);
+        Message message = Message.obtain();
+        message.what = H.MSG_EDGE_HIDING;
+        message.obj = isAnimator;
+        mHandler.sendMessageDelayed(message, delayMillis);
     }
 
 

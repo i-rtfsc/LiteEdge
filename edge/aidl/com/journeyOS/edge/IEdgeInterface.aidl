@@ -22,5 +22,5 @@ interface IEdgeInterface {
     //left=1 , right=2, up=3
     void showingEdge(int direction);
     void showingEdgeDelayed(int direction, long delayMillis);
-    void hidingEdge();
+    void hidingEdge(boolean isAnimator);
 }

@@ -99,10 +99,10 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         });
 
         boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT);
-        if (barrage) {
-            Intent intent = new Intent(this, NotificationListenerService.class);
-            startService(intent);
-        }
+//        if (barrage) {
+        Intent intent = new Intent(this, NotificationListenerService.class);
+        startService(intent);
+//        }
     }
 
     @Override
