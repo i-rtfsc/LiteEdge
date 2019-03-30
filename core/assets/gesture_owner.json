@@ -1,0 +1,65 @@
+{
+  "version": "1",
+  "gestures": [
+    {
+      "gestureDirection": "1#right",
+      "type": "edge",
+      "action": "1",
+      "comment": "左Edge"
+    },
+    {
+      "gestureDirection": "1#left",
+      "type": "edge",
+      "action": "2",
+      "comment": "右Edge"
+    },
+    {
+      "gestureDirection": "2#down",
+      "type": "edge",
+      "action": "3",
+      "comment": "上Edge"
+    },
+    {
+      "gestureDirection": "1#click",
+      "type": "key",
+      "action": "1",
+      "comment": "Back键"
+    },
+    {
+      "gestureDirection": "2#click",
+      "type": "key",
+      "action": "1",
+      "comment": "Back键"
+    },
+    {
+      "gestureDirection": "1#up",
+      "type": "key",
+      "action": "2",
+      "comment": "Home键"
+    },
+    {
+      "gestureDirection": "1#long_up",
+      "type": "key",
+      "action": "3",
+      "comment": "Recents键"
+    },
+    {
+      "gestureDirection": "1#down",
+      "type": "key",
+      "action": "5",
+      "comment": "下拉菜单"
+    },
+    {
+      "gestureDirection": "1#long_left",
+      "type": "music",
+      "action": "last",
+      "comment": "上一首"
+    },
+    {
+      "gestureDirection": "1#long_right",
+      "type": "music",
+      "action": "next",
+      "comment": "下一首"
+    }
+  ]
+}

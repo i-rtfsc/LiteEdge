@@ -30,8 +30,8 @@ import com.journeyOS.core.base.BaseFragment;
 import com.journeyOS.core.viewmodel.ModelProvider;
 import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.R2;
-import com.journeyOS.plugins.adapter.BarrageHolder;
-import com.journeyOS.plugins.adapter.BarrageInfoData;
+import com.journeyOS.plugins.barrage.adapter.BarrageHolder;
+import com.journeyOS.plugins.barrage.adapter.BarrageInfoData;
 
 import java.util.List;
 

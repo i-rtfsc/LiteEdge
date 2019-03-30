@@ -21,6 +21,10 @@ import com.journeyOS.literouter.RouterMsssage;
 public class Messages extends RouterMsssage {
     public static final int BASE = 1;
     public static final int MSG_ADD_ITEM = BASE << 0;
+    public static final int MSG_ADD_GESTURE_APP = BASE << 1;
+    public static final int MSG_ADD_GESTURE_PAY = BASE << 2;
+    public static final int MSG_ADD_GESTURE_KEY = BASE << 3;
+    public static final int MSG_ADD_GESTURE_MUSIC = BASE << 4;
 
     public int what;
 

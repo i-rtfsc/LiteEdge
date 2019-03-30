@@ -27,7 +27,7 @@
         android:layout_centerVertical="true"
         android:background="?selectableItemBackgroundBorderless"
         android:paddingLeft="@dimen/common_dimen"
-        app:srcCompat="@drawable/svg_back" />
+        app:srcCompat="@drawable/svg_key_back" />
 
     <EditText
         android:id="@+id/searchTextView"

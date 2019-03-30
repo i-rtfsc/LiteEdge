@@ -19,6 +19,7 @@ package com.journeyOS.edge.wm;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -267,7 +268,11 @@ public class EdgeManager {
 
     LayoutParams getLayoutParams() {
         LayoutParams params = new LayoutParams();
-        params.type = LayoutParams.TYPE_APPLICATION_OVERLAY;
+        if (Build.VERSION.SDK_INT >= 26) {
+            params.type = LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            params.type = LayoutParams.TYPE_TOAST;
+        }
         params.format = PixelFormat.TRANSPARENT;
         params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
 //                | LayoutParams.FLAG_NOT_FOCUSABLE

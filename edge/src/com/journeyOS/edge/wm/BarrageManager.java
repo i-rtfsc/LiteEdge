@@ -17,11 +17,12 @@
 package com.journeyOS.edge.wm;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
-import android.provider.Settings;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -32,17 +33,18 @@ import com.journeyOS.barrage.BarrageParentView;
 import com.journeyOS.barrage.BarrageView;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
-import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.DeviceUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.StateMachine;
+import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.core.type.BarrageState;
 import com.journeyOS.edge.R;
 import com.journeyOS.edge.barrage.BarrageEntity;
 import com.journeyOS.edge.barrage.BarrageHelper;
+import com.journeyOS.edge.music.MusicManager;
 import com.journeyOS.i007Service.core.notification.Notification;
 
 import es.dmoral.toasty.Toasty;
@@ -79,7 +81,7 @@ public class BarrageManager {
 
     public void initBarrage() {
         LogUtils.d(TAG, "wanna showing barrage");
-        if (!Settings.canDrawOverlays(mContext)) {
+        if (!CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
             String message = mContext.getString(R.string.hasnot_permission) + mContext.getString(R.string.overflow);
             Toasty.warning(mContext, message, Toast.LENGTH_SHORT).show();
             SpUtils.getInstant().put(Constant.BALL, false);
@@ -143,13 +145,14 @@ public class BarrageManager {
             if (iconId > 0) {
                 //https://stackoverflow.com/questions/40325307/how-to-get-an-image-from-another-apps-notification
                 //Resources resources = mContext.getPackageManager().getResourcesForApplication(notification.getPackageName());
-                Context context = AppUtils.getPackageContext(mContext, notification.getPackageName());
-                if (context != null) {
-                    Resources resources = context.getResources();
+                try {
+                    Resources resources = mContext.getPackageManager().getResourcesForApplication(MusicManager.MUSIC_QQ);
                     Drawable icon = resources.getDrawable(iconId);
                     if (icon != null) {
                         barrageEntity.avatar = UIUtils.getCircularBitmap(UIUtils.drawableToBitmap(icon));
                     }
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -199,7 +202,11 @@ public class BarrageManager {
 
     private LayoutParams getLayoutParams() {
         LayoutParams params = new LayoutParams();
-        params.type = LayoutParams.TYPE_APPLICATION_OVERLAY;
+        if (Build.VERSION.SDK_INT >= 26) {
+            params.type = LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            params.type = LayoutParams.TYPE_TOAST;
+        }
         params.format = PixelFormat.TRANSPARENT;
         params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | LayoutParams.FLAG_NOT_FOCUSABLE

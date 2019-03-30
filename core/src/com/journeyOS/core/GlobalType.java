@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 anqi.huang@outlook.com
+ * Copyright (c) 2019 anqi.huang@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,16 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.type;
+package com.journeyOS.core;
 
-public enum Direction {
-    LONG_PRESS, CLICK, LEFT, LONG_LEFT, UP, LONG_UP, RIGHT, LONG_RIGHT, DOWN, LONG_DOWN, NONE
+public class GlobalType {
+    public static final String EDGE = "edge";
+    public static final String KEY = "key";
+    public static final String MUSIC = "music";
+    public static final String PAY = "pay";
+    public static final String APP = "app";
+
+    public static final String MUSIC_LAST = "last";
+    public static final String MUSIC_PLAY = "play";
+    public static final String MUSIC_NEXT = "next";
 }

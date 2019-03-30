@@ -20,6 +20,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.AttributeSet;
@@ -34,7 +35,7 @@ import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.base.widget.InnerBall;
 import com.journeyOS.base.widget.OutterBall;
-import com.journeyOS.core.type.Direction;
+import com.journeyOS.core.type.FingerDirection;
 
 public class InnerView extends View {
 
@@ -42,9 +43,6 @@ public class InnerView extends View {
     private static final float[] OUT_CIRCLE_POSITION_RANGE = {0.0f, 0.45f, 0.6f, 0.9f, 1.0f};
     private static final int[] INNER_CIRCLE_COLOR_RANGE = {0xE6E6FAFF, 0xE6E6FAFF, 0xEE82EEFF, 0xEE82EEFF};
     private static final float[] INNER_CIRCLE_POSITION_RANGE = {0.0f, 0.05f, 0.75f, 1.0f};
-
-    private static final int PORTRAIT = 4;
-    private static final int LANDSCAPE = 8;
 
     /**
      * 触发操作的上限阈值
@@ -220,34 +218,43 @@ public class InnerView extends View {
     /**
      * 判定触发哪个方向的操作
      */
-    private Direction judgeWhichDirection(float dx, float dy) {
-        Direction temp = Direction.NONE;
+    private FingerDirection judgeWhichDirection(float dx, float dy) {
+        int portrait = SpUtils.getInstant().getInt(Constant.PORTRAIT, Constant.PORTRAIT_DEFAULT);
+        int landscape = SpUtils.getInstant().getInt(Constant.LANDSCAPE, Constant.LANDSCAPE_DEFAULT);
+        FingerDirection temp = FingerDirection.NONE;
         double distance = Math.sqrt(dx * dx + dy * dy);
         int radius = Math.min(getMeasuredWidth(), getMeasuredHeight()) / 2;
         if (distance < radius * mUpThreshold || distance > radius * mDownThreshold) {
             int screenWidth = UIUtils.getScreenWidth(getContext());
+            int screenHeight = UIUtils.getScreenHeight(getContext());
+            boolean isPortrait = getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+            if (isPortrait) {
+                screenHeight = screenWidth;
+            } else {
+                screenWidth = screenHeight;
+            }
             if (Math.abs(dx) > Math.abs(dy)) {
                 if (dx > 0) {
-                    if (dx > screenWidth / PORTRAIT)
-                        temp = Direction.LONG_RIGHT;
+                    if (dx > screenWidth / portrait)
+                        temp = FingerDirection.LONG_RIGHT;
                     else
-                        temp = Direction.RIGHT;
+                        temp = FingerDirection.RIGHT;
                 } else {
-                    if (Math.abs(dx) > screenWidth / PORTRAIT)
-                        temp = Direction.LONG_LEFT;
+                    if (Math.abs(dx) > screenWidth / portrait)
+                        temp = FingerDirection.LONG_LEFT;
                     else
-                        temp = Direction.LEFT;
+                        temp = FingerDirection.LEFT;
                 }
             } else if (dy > 0) {
-                if (dy > screenWidth / LANDSCAPE)
-                    temp = Direction.LONG_DOWN;
+                if (dy > screenHeight / landscape)
+                    temp = FingerDirection.LONG_DOWN;
                 else
-                    temp = Direction.DOWN;
+                    temp = FingerDirection.DOWN;
             } else {
-                if (Math.abs(dy) > screenWidth / LANDSCAPE)
-                    temp = Direction.LONG_UP;
+                if (Math.abs(dy) > screenHeight / landscape)
+                    temp = FingerDirection.LONG_UP;
                 else
-                    temp = Direction.UP;
+                    temp = FingerDirection.UP;
             }
         }
         return temp;
@@ -267,7 +274,7 @@ public class InnerView extends View {
     /**
      * 开始拖拽动画
      */
-    private void startDragAnim(final Direction direction) {
+    private void startDragAnim(final FingerDirection fingerDirection) {
         //有动画正在执行，不响应
         if (isRunningOfAnimators()) {
             return;
@@ -298,7 +305,7 @@ public class InnerView extends View {
             @Override
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
-                doFunction(direction);
+                doFunction(fingerDirection);
             }
         });
         mDragAnimator.start();
@@ -335,7 +342,7 @@ public class InnerView extends View {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 //TODO
-                doFunction(Direction.CLICK);
+                doFunction(FingerDirection.CLICK);
             }
         });
         mClickAnimator.start();
@@ -359,9 +366,9 @@ public class InnerView extends View {
     /**
      * 响应操作
      */
-    private void doFunction(Direction direction) {
+    private void doFunction(FingerDirection fingerDirection) {
         if (gestureListener != null) {
-            gestureListener.onGesture(direction);
+            gestureListener.onGesture(fingerDirection);
         }
     }
 
@@ -372,7 +379,7 @@ public class InnerView extends View {
     }
 
     public interface OnGestureListener {
-        void onGesture(Direction direction);
+        void onGesture(FingerDirection fingerDirection);
     }
 
 }

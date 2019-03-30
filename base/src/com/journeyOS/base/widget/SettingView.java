@@ -201,6 +201,7 @@ public class SettingView extends RelativeLayout {
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.RIGHT_OF, IMAGE_ICON_ID);
+        params.addRule(RelativeLayout.LEFT_OF, ARROW_ICON_ID);
         params.addRule(RelativeLayout.BELOW, TITLE_ID);
         mSummary.setLayoutParams(params);
         mSummary.setText(mSummaryText != null ? mSummaryText : "");

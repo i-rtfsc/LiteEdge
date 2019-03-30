@@ -40,8 +40,9 @@ import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.viewmodel.ModelProvider;
 import com.journeyOS.literouter.RouterListener;
 import com.journeyOS.literouter.RouterMsssage;
-import com.journeyOS.plugins.adapter.AppHolder;
-import com.journeyOS.plugins.adapter.AppInfoData;
+import com.journeyOS.plugins.app.AppModel;
+import com.journeyOS.plugins.app.adapter.AppHolder;
+import com.journeyOS.plugins.app.adapter.AppInfoData;
 
 import java.util.List;
 
@@ -75,7 +76,6 @@ public class SelectorActivity extends BaseActivity implements RouterListener {
         } catch (ActivityNotFoundException e) {
             LogUtils.d(TAG, e);
         }
-
     }
 
     public static void navigationFromApplication(Context from, int postion, EdgeDirection direction) {
@@ -137,7 +137,7 @@ public class SelectorActivity extends BaseActivity implements RouterListener {
         super.initDataObserver(savedInstanceState);
         LogUtils.d(TAG, "data observer has been called!");
         mAppModel = ModelProvider.getModel(this, AppModel.class);
-        mAppModel.getAllApps();
+        mAppModel.getAllApps(true);
         mAppModel.getAllAppData().observe(this, new Observer<List<AppInfoData>>() {
             @Override
             public void onChanged(@Nullable List<AppInfoData> appInfoData) {

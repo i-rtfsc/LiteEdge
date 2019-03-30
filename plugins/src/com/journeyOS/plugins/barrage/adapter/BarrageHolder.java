@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.plugins.adapter;
+package com.journeyOS.plugins.barrage.adapter;
 
 import android.view.View;
 

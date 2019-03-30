@@ -328,12 +328,12 @@ public class LabFragment extends BaseFragment {
     @OnClick({R2.id.barrage_color_test})
     public void listenerBarrageTest() {
         if (!CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
-            CoreManager.getDefault().getImpl(IPermission.class).drawOverlays(mContext);
+            CoreManager.getDefault().getImpl(IPermission.class).drawOverlays(mContext, true);
             return;
         }
 
         if (!CoreManager.getDefault().getImpl(IPermission.class).hasListenerNotification(mContext)) {
-            CoreManager.getDefault().getImpl(IPermission.class).listenerNotification(mContext);
+            CoreManager.getDefault().getImpl(IPermission.class).listenerNotification(mContext, true);
             return;
         }
 

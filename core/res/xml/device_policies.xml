@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2019 anqi.huang@outlook.com
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<device-admin>
+    <!--<uses-policies>
+        &lt;!&ndash; 设置密码规则 &ndash;&gt;
+        <limit-password />
+        &lt;!&ndash; 监视屏幕解锁尝试次数 &ndash;&gt;
+        <watch-login />
+        &lt;!&ndash; 更改解锁密码 &ndash;&gt;
+        <reset-password />
+        &lt;!&ndash; 锁定屏幕 &ndash;&gt;
+        <force-lock />
+        &lt;!&ndash; 清除数据，恢复出厂模式，在不发出警告的情况下 &ndash;&gt;
+        <wipe-data />
+        &lt;!&ndash; 锁屏密码有效期 &ndash;&gt;
+        <expire-password />
+        &lt;!&ndash; 对存储的应用数据加密 &ndash;&gt;
+        <encrypted-storage />
+        &lt;!&ndash; 禁用锁屏信息 &ndash;&gt;
+        <disable-keyguard-features />
+        &lt;!&ndash; 禁用摄像头 &ndash;&gt;
+        <disable-camera />
+    </uses-policies>-->
+    <uses-policies>
+        <!-- 锁定屏幕 -->
+        <force-lock />
+    </uses-policies>
+</device-admin>

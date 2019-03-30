@@ -25,7 +25,7 @@
 
         <com.journeyOS.base.widget.SettingView
             android:id="@+id/edge_count"
-            style="@style/single_layout"
+            style="@style/top_layout"
             android:visibility="visible"
             settings:settingIcon="@drawable/svg_count"
             settings:settingRightSummary="7"
@@ -70,7 +70,7 @@
 
         <com.journeyOS.base.widget.SettingView
             android:id="@+id/barrage_click"
-            style="@style/single_layout"
+            style="@style/top_layout"
             settings:settingIcon="@drawable/svg_click"
             settings:settingRightSummary="@string/barrage_click_not_feedback"
             settings:settingTitle="@string/barrage_click_title" />

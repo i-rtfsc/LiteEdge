@@ -28,8 +28,8 @@ import com.journeyOS.core.api.edgeprovider.IAppProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.app.App;
 import com.journeyOS.core.viewmodel.BaseViewModel;
-import com.journeyOS.plugins.AppModel;
-import com.journeyOS.plugins.adapter.BarrageInfoData;
+import com.journeyOS.plugins.app.AppModel;
+import com.journeyOS.plugins.barrage.adapter.BarrageInfoData;
 
 import java.util.ArrayList;
 import java.util.List;

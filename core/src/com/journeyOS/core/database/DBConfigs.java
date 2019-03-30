@@ -20,7 +20,7 @@ public class DBConfigs {
     //database appName
     public static final String DB_NAME = "edge";
 
-    public static final int DB_VERSION = 6;
+    public static final int DB_VERSION = 7;
 
     //table
     public static final String EDGE_TABLE = "edge";
@@ -108,5 +108,18 @@ public class DBConfigs {
     public static final String APP_NAME = "appName";
     //column
     public static final String APP_BARRAGE = "barrage";
+
+    //table
+    public static final String GESTURE_TABLE = "gesture";
+    //column
+    public static final String GESTURE_DIRECTION = "gestureDirection";
+    //column
+    public static final String GESTURE_ORIENTATION = "orientation";
+    //column
+    public static final String GESTURE_TYPE = "type";
+    //column
+    public static final String GESTURE_ACTION = "gestureAction";
+    //column
+    public static final String GESTURE_COMMENT = "comment";
 
 }

@@ -18,16 +18,20 @@ package com.journeyOS.core.permission;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.admin.DevicePolicyManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 
+import com.journeyOS.core.CoreDeviceAdmin;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.R;
 import com.journeyOS.core.api.location.ILocation;
@@ -88,27 +92,47 @@ public class PermissionImpl implements IPermission {
     }
 
     @Override
-    public void drawOverlays(final Context activity) {
-        String message = activity.getString(R.string.hasnot_permission) + activity.getString(R.string.overflow);
-        final AlertDialog dialog = new AlertDialog.Builder(activity, R.style.CornersAlertDialog)
-                .setTitle(R.string.overflow)
-                .setMessage(message)
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        dialog.dismiss();
-                    }
-                })
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                        activity.startActivity(intent);
-                    }
-                })
-                .create();
-        dialog.show();
+    public void drawOverlays(final Context activity, boolean showDialog) {
+        if (showDialog) {
+            String message = activity.getString(R.string.hasnot_permission) + activity.getString(R.string.overflow);
+            final AlertDialog dialog = new AlertDialog.Builder(activity, R.style.CornersAlertDialog)
+                    .setTitle(R.string.overflow)
+                    .setMessage(message)
+                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (Build.VERSION.SDK_INT >= 23) {
+                                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                                activity.startActivity(intent);
+                            } else {
+                                try {
+                                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + activity.getPackageName()));
+                                    activity.startActivity(intent);
+                                } catch (ActivityNotFoundException e) {
+                                }
+                            }
+                        }
+                    })
+                    .create();
+            dialog.show();
+        } else {
+            if (Build.VERSION.SDK_INT >= 23) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                activity.startActivity(intent);
+            } else {
+                try {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + activity.getPackageName()));
+                    activity.startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                }
+            }
+        }
     }
 
     @Override
@@ -127,26 +151,62 @@ public class PermissionImpl implements IPermission {
     }
 
     @Override
-    public void listenerNotification(final Context activity) {
-        String message = activity.getString(R.string.hasnot_permission) + activity.getString(R.string.notification_permission);
-        final AlertDialog dialog = new AlertDialog.Builder(activity, R.style.CornersAlertDialog)
-                .setTitle(R.string.notification_permission)
-                .setMessage(message)
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        dialog.dismiss();
-                    }
-                })
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
-                        activity.startActivity(intent);
-                    }
-                })
-                .create();
-        dialog.show();
+    public void listenerNotification(final Context activity, boolean showDialog) {
+        if (showDialog) {
+            String message = activity.getString(R.string.hasnot_permission) + activity.getString(R.string.notification_permission);
+            final AlertDialog dialog = new AlertDialog.Builder(activity, R.style.CornersAlertDialog)
+                    .setTitle(R.string.notification_permission)
+                    .setMessage(message)
+                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            try {
+                                Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+                                activity.startActivity(intent);
+                            } catch (ActivityNotFoundException e) {
+
+                            }
+                        }
+                    })
+                    .create();
+            dialog.show();
+        } else {
+            try {
+                Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+                activity.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+
+            }
+        }
+    }
+
+    @Override
+    public boolean isAdminActive(Context activity) {
+        DevicePolicyManager dpm = CoreDeviceAdmin.getDefault().getManager(activity);
+        boolean isAdminActive = dpm.isAdminActive(CoreDeviceAdmin.getDefault().getComponentName(activity));
+        return isAdminActive;
+    }
+
+    @Override
+    public void enableAdminActive(Context activity) {
+        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN,
+                CoreDeviceAdmin.getDefault().getComponentName(activity));
+        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,
+                activity.getString(R.string.device_admin_description));
+        activity.startActivity(intent);
+    }
+
+    @Override
+    public void disableAdminActive(Context activity) {
+        DevicePolicyManager dpm = CoreDeviceAdmin.getDefault().getManager(activity);
+        dpm.removeActiveAdmin(CoreDeviceAdmin.getDefault().getComponentName(activity));
     }
 
 }

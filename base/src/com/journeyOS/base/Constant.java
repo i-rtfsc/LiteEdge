@@ -98,11 +98,18 @@ public class Constant {
     public static final String BARRAGE_BACKGROUND_COLOR = "barrageBackgroundColor";
     public static final int BARRAGE_BACKGROUND_COLOR_DEFAULT = 0;
 
+    public static final String PORTRAIT = "portrait";
+    public static final int PORTRAIT_DEFAULT = 4;
+
+    public static final String LANDSCAPE = "landscape";
+    public static final int LANDSCAPE_DEFAULT = 4;
+
     public static final String DB_INITED = "dbInited";
     public static final String CITY_INITED = "cityInited";
     public static final String EDGE_LAB_INITED = "labInited";
     public static final String APP_INITED = "appInited";
     public static final String GUIDE_INITED = "guide_inited";
+    public static final String GESTURE_INITED = "gestureInited";
     public static final String IMAGE_ENGINE = "imageEngine";
 
     //image engine type

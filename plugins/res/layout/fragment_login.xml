@@ -349,7 +349,7 @@
 
             <com.journeyOS.base.widget.SettingSwitch
                 android:id="@+id/auto_sync"
-                style="@style/single_layout"
+                style="@style/top_layout"
                 android:theme="@style/CheckBox"
                 app:settingIcon="@drawable/svg_daemon"
                 app:settingSummary="@string/auto_sync_summary"

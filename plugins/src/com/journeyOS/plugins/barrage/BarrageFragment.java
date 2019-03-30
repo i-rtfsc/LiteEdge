@@ -78,7 +78,7 @@ public class BarrageFragment extends BaseFragment {
     @OnClick({R2.id.barrage})
     public void listenerBarrage() {
         if (!CoreManager.getDefault().getImpl(IPermission.class).hasListenerNotification(mContext)) {
-            CoreManager.getDefault().getImpl(IPermission.class).listenerNotification(mContext);
+            CoreManager.getDefault().getImpl(IPermission.class).listenerNotification(mContext, true);
         }
         boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT);
         mBarrage.setCheck(!barrage);
@@ -98,12 +98,12 @@ public class BarrageFragment extends BaseFragment {
     @OnClick({R2.id.barrage_test})
     public void listenerBarrageTest() {
         if (!CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
-            CoreManager.getDefault().getImpl(IPermission.class).drawOverlays(mContext);
+            CoreManager.getDefault().getImpl(IPermission.class).drawOverlays(mContext, true);
             return;
         }
 
         if (!CoreManager.getDefault().getImpl(IPermission.class).hasListenerNotification(mContext)) {
-            CoreManager.getDefault().getImpl(IPermission.class).listenerNotification(mContext);
+            CoreManager.getDefault().getImpl(IPermission.class).listenerNotification(mContext, true);
             return;
         }
 

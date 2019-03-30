@@ -30,14 +30,34 @@
             settings:settingIcon="@drawable/svg_daemon"
             settings:settingTitle="@string/daemon" />
 
-        <View style="@style/bg_line" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/wrap_layout">
 
         <com.journeyOS.base.widget.SettingSwitch
             android:id="@+id/ball"
-            style="@style/bottom_layout"
+            style="@style/top_layout"
             android:theme="@style/CheckBox"
             settings:settingIcon="@drawable/svg_ball"
             settings:settingTitle="@string/ball" />
+
+        <View style="@style/bg_line" />
+
+        <com.journeyOS.base.widget.SettingView
+            android:id="@+id/portrait"
+            style="@style/mid_layout"
+            android:theme="@style/CheckBox"
+            settings:settingIcon="@drawable/svg_portrait"
+            settings:settingTitle="@string/gesture_portrait" />
+
+        <View style="@style/bg_line" />
+
+        <com.journeyOS.base.widget.SettingView
+            android:id="@+id/landscape"
+            style="@style/bottom_layout"
+            settings:settingIcon="@drawable/svg_landscape"
+            settings:settingTitle="@string/gesture_landscape" />
+
 
     </LinearLayout>
 

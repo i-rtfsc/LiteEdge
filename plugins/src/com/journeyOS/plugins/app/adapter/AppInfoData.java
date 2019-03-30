@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 anqi.huang@outlook.com.
+ * Copyright (c) 2019 anqi.huang@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.plugins.adapter;
+package com.journeyOS.plugins.app.adapter;
 
 import android.graphics.drawable.Drawable;
 

@@ -25,4 +25,6 @@ public class EdgeAir extends BmobObject {
     public EdgeUser author;
 
     public String config;
+
+    public String gestures;
 }

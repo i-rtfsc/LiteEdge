@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 anqi.huang@outlook.com.
+ * Copyright (c) 2019 anqi.huang@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.plugins;
+package com.journeyOS.plugins.app;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
@@ -25,7 +25,7 @@ import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.viewmodel.BaseViewModel;
-import com.journeyOS.plugins.adapter.AppInfoData;
+import com.journeyOS.plugins.app.adapter.AppInfoData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,12 @@ public class AppModel extends BaseViewModel {
         mContext = CoreManager.getDefault().getContext();
     }
 
-    void getAllApps() {
+    /**
+     * @param edge 添加到edge还是添加到ball手势
+     *             true: 添加到edge
+     *             false: ball手势
+     */
+    public void getAllApps(final boolean edge) {
         CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
             @Override
             public void run() {
@@ -49,7 +54,7 @@ public class AppModel extends BaseViewModel {
                 List<AppInfoData> appInfoDatas = new ArrayList<>();
                 for (String app : apps) {
                     String packageName = app;
-                    Boolean toggle = false;
+                    Boolean toggle = edge;
                     Drawable drawable = AppUtils.getAppIcon(mContext, packageName);
                     String label = AppUtils.getAppName(mContext, packageName);
                     AppInfoData appInfoData = new AppInfoData(drawable, label, packageName, toggle);
@@ -62,7 +67,7 @@ public class AppModel extends BaseViewModel {
 
     }
 
-    MutableLiveData<List<AppInfoData>> getAllAppData() {
+    public MutableLiveData<List<AppInfoData>> getAllAppData() {
         return mAppInfoData;
     }
 }

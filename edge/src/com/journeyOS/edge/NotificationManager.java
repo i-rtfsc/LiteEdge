@@ -21,6 +21,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.service.notification.NotificationListenerService.RankingMap;
+import android.service.notification.StatusBarNotification;
 
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
@@ -32,6 +34,7 @@ import com.journeyOS.core.api.edgeprovider.IAppProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.app.App;
 import com.journeyOS.core.permission.IPermission;
+import com.journeyOS.edge.music.MusicManager;
 import com.journeyOS.edge.wm.BarrageManager;
 import com.journeyOS.i007Service.core.ServiceLifecycleListener;
 import com.journeyOS.i007Service.core.notification.Notification;
@@ -122,7 +125,14 @@ public class NotificationManager implements ServiceLifecycleListener, Notificati
     }
 
     @Override
-    public void onNotification(final Notification notification) {
+    public void onNotification(StatusBarNotification sbn, final Notification notification) {
+        if (sbn != null) {
+            if (MusicManager.MUSIC_NETEASE.equals(notification.getPackageName())
+                    || MusicManager.MUSIC_QQ.equals(notification.getPackageName())) {
+                MusicManager.getDefault().onNotification(sbn);
+            }
+        }
+
         if (!SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT)) {
             LogUtils.d(TAG, "barrage toggle was false");
             return;
@@ -181,4 +191,13 @@ public class NotificationManager implements ServiceLifecycleListener, Notificati
         });
     }
 
+    @Override
+    public void onNotificationRemoved(StatusBarNotification sbn, RankingMap rankingMap) {
+        if (sbn != null) {
+            if (MusicManager.MUSIC_NETEASE.equals(sbn.getPackageName())
+                    || MusicManager.MUSIC_QQ.equals(sbn.getPackageName())) {
+                MusicManager.getDefault().onNotificationRemoved(sbn);
+            }
+        }
+    }
 }
