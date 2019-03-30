@@ -118,21 +118,29 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     protected void onResume() {
         super.onResume();
         getPermission();
-        SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
-        SlidingDrawer.getDefault().setListener(this);
+        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
+            SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
+            SlidingDrawer.getDefault().setListener(this);
+        }
         mToolbar.setTitle(R.string.app_name);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mHandler.sendEmptyMessageDelayed(H.MSG_DRAWER_RELEASE, 0);
+        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
+            mHandler.sendEmptyMessageDelayed(H.MSG_DRAWER_RELEASE, 0);
+        }
     }
 
     @Override
     protected void initDataObserver(Bundle savedInstanceState) {
         super.initDataObserver(savedInstanceState);
         mBundle = savedInstanceState;
+        if (CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
+            SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
+            SlidingDrawer.getDefault().setListener(this);
+        }
     }
 
     @Override
@@ -191,8 +199,16 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
 
     @Override
     public void onUpdateUserIcon() {
-        requestReadWriteStorage();
-//        CoreManager.getDefault().getImpl(IPermission.class).initUrgentPermission(this);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != 0x02) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE},
+                        1);
+                return;
+            }
+        }
 
         Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
         albumIntent.setDataAndType(
@@ -200,23 +216,8 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         startActivityForResult(albumIntent, ALBUM_REQUEST_CODE);
     }
 
-    void requestReadWriteStorage() {
-        if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.READ_EXTERNAL_STORAGE) != 0x02) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            } else {
-                ActivityCompat.requestPermissions(
-                        this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE},
-                        1);
-            }
-        }
-    }
-
     void loadFragment(Fragment fragment) {
+        //SlidingDrawer.getDefault().closeMenu(true);
         mContainer.setVisibility(View.VISIBLE);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -266,10 +267,10 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         boolean inited = SpUtils.getInstant().getBoolean(Constant.GUIDE_INITED, false);
         if (inited) {
             if (!CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
-                CoreManager.getDefault().getImpl(IPermission.class).drawOverlays(mContext);
+                CoreManager.getDefault().getImpl(IPermission.class).drawOverlays(mContext, true);
             } else {
                 if (!CoreManager.getDefault().getImpl(IPermission.class).hasListenerNotification(mContext)) {
-                    CoreManager.getDefault().getImpl(IPermission.class).listenerNotification(mContext);
+                    CoreManager.getDefault().getImpl(IPermission.class).listenerNotification(mContext, true);
                 }
             }
         }

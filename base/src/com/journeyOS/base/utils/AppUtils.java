@@ -24,6 +24,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.provider.Settings;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,8 @@ import static android.content.pm.PackageManager.NameNotFoundException;
 public class AppUtils {
     private static final String EDGE_PACKAGE = "com.journeyOS.edge";
     private static final String EDGE_SERVICE_AIDL = "com.journeyOS.edge.action.EdgeService";
+
+    private static final String ACCESSIBILITY_SERVICES = "com.journeyOS.edge/com.journeyOS.i007Service.core.accessibility.AccessibilityService";
 
     public static void startEdge(Context context) {
         Intent intent = new Intent();
@@ -119,6 +123,12 @@ public class AppUtils {
         }
     }
 
+    public static boolean startApp(Context context, Intent intent) {
+        if (BaseUtils.isNull(intent)) return false;
+        context.startActivity(intent);
+        return true;
+    }
+
     public static boolean startApp(Context context, String packageName) {
         if (BaseUtils.isNull(packageName)) return false;
         PackageManager packageManager = context.getPackageManager();
@@ -141,6 +151,7 @@ public class AppUtils {
         return true;
     }
 
+    @Deprecated
     public static Context getPackageContext(Context context, String packageName) {
         Context packageContext = null;
         try {
@@ -152,5 +163,39 @@ public class AppUtils {
             e.printStackTrace();
         }
         return packageContext;
+    }
+
+    public static boolean isServiceEnabled(Context context) {
+        int enabled = 0;
+        boolean found = false;
+        try {
+            enabled = Settings.Secure.getInt(context.getContentResolver(),
+                    Settings.Secure.ACCESSIBILITY_ENABLED);
+            LogUtils.d(LogUtils.TAG, "enabled = " + enabled);
+        } catch (Settings.SettingNotFoundException e) {
+            LogUtils.d(LogUtils.TAG, "accessibility to not found: " + e.getMessage());
+        }
+
+        TextUtils.SimpleStringSplitter sCS = new TextUtils.SimpleStringSplitter(':');
+        if (enabled == 1) {
+            String settingValue = Settings.Secure.getString(context.getContentResolver(),
+                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            if (settingValue != null) {
+                TextUtils.SimpleStringSplitter splitter = sCS;
+                splitter.setString(settingValue);
+                while (splitter.hasNext()) {
+                    String accessabilityService = splitter.next();
+                    LogUtils.d(LogUtils.TAG, " accessabilityService = " + accessabilityService);
+                    if (accessabilityService.equalsIgnoreCase(ACCESSIBILITY_SERVICES)) {
+                        LogUtils.d(LogUtils.TAG, "we've found the correct accessibility is switched on!");
+                        return true;
+                    }
+                }
+            }
+        } else {
+            LogUtils.d(LogUtils.TAG, "accessibility is disabled");
+        }
+
+        return found;
     }
 }

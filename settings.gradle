@@ -11,10 +11,10 @@ def initLocalGradleEnvironment() {
 def initVersion() {
     gradle.ext.compileSdkVersion = 27
     gradle.ext.targetVersion = 27
-    gradle.ext.minSdkVersion = 26
+    gradle.ext.minSdkVersion = 22
     gradle.ext.supportVersion = '27.0.2'
-    gradle.ext.versionCode = 7
-    gradle.ext.versionName = '1.1.6'
+    gradle.ext.versionCode = 11
+    gradle.ext.versionName = '1.1.7.03'
 
     //base
     gradle.ext.constraint_layout = '1.0.2'
@@ -47,8 +47,8 @@ def initVersion() {
 
     gradle.ext.literouter_core = '1.1.0'
     gradle.ext.literouter_compiler = '1.0.2'
-    gradle.ext.i007Service = '1.5.1'
-    gradle.ext.liteprovider = '1.2.1'
+    gradle.ext.i007Service = '1.5.1.003'
+    gradle.ext.liteprovider = '1.2.1.01'
 
     gradle.ext.kotlin = '1.2.51'
 }

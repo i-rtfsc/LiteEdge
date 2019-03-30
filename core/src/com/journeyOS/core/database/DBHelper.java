@@ -60,9 +60,16 @@ public class DBHelper {
         }
     };
 
+    static final Migration MIGRATION_6_7 = new Migration(6, 7) {
+        @Override
+        public void migrate(@NonNull final SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE gesture (gestureDirection TEXT NOT NULL, orientation INTEGER NOT NULL DEFAULT 0, type TEXT, gestureAction TEXT, comment TEXT,PRIMARY KEY(gestureDirection))");
+        }
+    };
+
     public static <T extends RoomDatabase> T provider(Context context, Class<T> dbCls, String dbName) {
         return Room.databaseBuilder(context, dbCls, dbName)
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
                 .fallbackToDestructiveMigration().build();
     }
 }

@@ -38,6 +38,7 @@ import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.ImageEngine;
 import com.journeyOS.core.database.user.EdgeUser;
+import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.edge.ui.activity.EdgeActivity;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -86,7 +87,9 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     }
 
     public void initDrawer(Activity context, Bundle bundle, Toolbar toolbar) {
-        releaseDrawer();
+        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(context)) {
+            releaseDrawer();
+        }
         mContext = context;
         slidingRootNav = new SlidingRootNavBuilder(mContext)
                 .withToolbarMenuToggle(toolbar)

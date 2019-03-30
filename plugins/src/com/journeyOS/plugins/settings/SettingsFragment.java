@@ -17,19 +17,16 @@
 package com.journeyOS.plugins.settings;
 
 import android.app.Activity;
-import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
-import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.OnColorSelectedListener;
-import com.flask.colorpicker.builder.ColorPickerClickListener;
-import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.widget.SettingSwitch;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.api.edge.IEdge;
+import com.journeyOS.core.api.plugins.IPlugins;
+import com.journeyOS.core.api.ui.IContainer;
 import com.journeyOS.core.base.BaseFragment;
 import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.plugins.R;
@@ -86,7 +83,7 @@ public class SettingsFragment extends BaseFragment {
     @OnClick({R2.id.ball})
     public void listenerBall() {
         if (!CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
-            CoreManager.getDefault().getImpl(IPermission.class).drawOverlays(mContext);
+            CoreManager.getDefault().getImpl(IPermission.class).drawOverlays(mContext, true);
             return;
         }
 
@@ -96,5 +93,15 @@ public class SettingsFragment extends BaseFragment {
         CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(!ball);
     }
 
+    @OnClick({R2.id.portrait})
+    public void listenerPortrait() {
+        Fragment fragment = CoreManager.getDefault().getImpl(IPlugins.class).provideGestureFragment(mContext, Configuration.ORIENTATION_PORTRAIT);
+        CoreManager.getDefault().getImpl(IContainer.class).subActivity(mContext, fragment, mContext.getString(R.string.gesture_portrait));
+    }
 
+    @OnClick({R2.id.landscape})
+    public void listenerLandscape() {
+        Fragment fragment = CoreManager.getDefault().getImpl(IPlugins.class).provideGestureFragment(mContext, Configuration.ORIENTATION_LANDSCAPE);
+        CoreManager.getDefault().getImpl(IContainer.class).subActivity(mContext, fragment, mContext.getString(R.string.gesture_landscape));
+    }
 }

@@ -18,6 +18,7 @@ package com.journeyOS.edge.wm;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -36,7 +37,7 @@ import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.ball.Ball;
 import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.core.type.BallState;
-import com.journeyOS.core.type.Direction;
+import com.journeyOS.core.type.FingerDirection;
 import com.journeyOS.edge.R;
 import com.journeyOS.edge.view.InnerView;
 import com.journeyOS.edge.view.OutterView;
@@ -155,7 +156,11 @@ public class BallManager {
         int orientation = mContext.getResources().getConfiguration().orientation;
         Ball ball = CoreManager.getDefault().getImpl(IBallProvider.class).getConfig(orientation);
         LayoutParams params = new WindowManager.LayoutParams();
-        params.type = LayoutParams.TYPE_APPLICATION_OVERLAY;
+        if (Build.VERSION.SDK_INT >= 26) {
+            params.type = LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            params.type = LayoutParams.TYPE_TOAST;
+        }
         params.format = PixelFormat.TRANSPARENT;
         params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;
         params.gravity = Gravity.LEFT | Gravity.TOP;
@@ -178,14 +183,14 @@ public class BallManager {
     }
 
     public interface OnBallViewListener {
-        void onGesture(Direction direction);
+        void onGesture(FingerDirection fingerDirection);
     }
 
     private OutterView.OnGestureListener mGestureListener = new OutterView.OnGestureListener() {
         @Override
-        public void onGesture(Direction direction) {
+        public void onGesture(FingerDirection fingerDirection) {
             if (mListener != null) {
-                mListener.onGesture(direction);
+                mListener.onGesture(fingerDirection);
             }
         }
 

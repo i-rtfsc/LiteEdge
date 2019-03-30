@@ -14,27 +14,23 @@
  * limitations under the License.
  */
 
-package com.journeyOS.plugins.adapter;
+package com.journeyOS.plugins.key.adapter;
 
 import android.graphics.drawable.Drawable;
 
 import com.journeyOS.base.adapter.BaseAdapterData;
 import com.journeyOS.plugins.R;
 
-public class BarrageInfoData implements BaseAdapterData {
+public class KeyInfoData implements BaseAdapterData {
 
     private Drawable mDrawable;
     private String mAppName;
     private String mPackageName;
-    private Boolean mToogle;
-    private String mInitial;
 
-    public BarrageInfoData(Drawable drawable, String appName, String packageName, Boolean toogle, String initial) {
+    public KeyInfoData(Drawable drawable, String appName, String packageName) {
         this.mDrawable = drawable;
         this.mAppName = appName;
         this.mPackageName = packageName;
-        this.mToogle = toogle;
-        this.mInitial = initial;
     }
 
     public Drawable getDrawable() {
@@ -61,25 +57,8 @@ public class BarrageInfoData implements BaseAdapterData {
         this.mPackageName = packageName;
     }
 
-    public Boolean getToogle() {
-        return mToogle;
-    }
-
-    public void setToogle(Boolean toogle) {
-        this.mToogle = toogle;
-    }
-
-    public String getInitial() {
-        return mInitial;
-    }
-
-    public void setInitial(String mInitial) {
-        this.mInitial = mInitial;
-    }
-
     @Override
     public int getContentViewId() {
-        return R.layout.layout_barrage_app_item;
+        return R.layout.layout_app_item;
     }
-
 }

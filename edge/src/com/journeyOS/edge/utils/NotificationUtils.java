@@ -42,15 +42,24 @@ public class NotificationUtils {
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
             NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             manager.createNotificationChannel(notificationChannel);
-        }
 
-        Notification notification = new Notification.Builder(context).setChannelId(CHANNEL_ONE_ID)
-                .setSmallIcon(R.drawable.svg_core_ball)
-                .setTicker(text)
-                .setWhen(System.currentTimeMillis())
-                .setContentTitle(text)
-                .setContentText(text)
-                .build();
-        return notification;
+            Notification notification = new Notification.Builder(context).setChannelId(CHANNEL_ONE_ID)
+                    .setSmallIcon(R.drawable.svg_core_ball)
+                    .setTicker(text)
+                    .setWhen(System.currentTimeMillis())
+                    .setContentTitle(text)
+                    .setContentText(text)
+                    .build();
+            return notification;
+        } else {
+            Notification notification = new Notification.Builder(context)
+                    .setSmallIcon(R.drawable.svg_core_ball)
+                    .setTicker(text)
+                    .setWhen(System.currentTimeMillis())
+                    .setContentTitle(text)
+                    .setContentText(text)
+                    .build();
+            return notification;
+        }
     }
 }

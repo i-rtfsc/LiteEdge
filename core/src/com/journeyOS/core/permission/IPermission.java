@@ -30,9 +30,15 @@ public interface IPermission extends ICoreApi {
 
     boolean canDrawOverlays(Context activity);
 
-    void drawOverlays(Context activity);
+    void drawOverlays(Context activity, boolean showDialog);
 
     boolean hasListenerNotification(Context activity);
 
-    void listenerNotification(Context activity);
+    void listenerNotification(Context activity, boolean showDialog);
+
+    boolean isAdminActive(Context activity);
+
+    void enableAdminActive(Context activity);
+
+    void disableAdminActive(Context activity);
 }

@@ -17,21 +17,26 @@
 package com.journeyOS.edge;
 
 import android.content.Context;
-import android.content.res.Configuration;
+import android.content.Intent;
 
-import com.journeyOS.base.Constant;
-import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.AppUtils;
+import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.StateMachine;
+import com.journeyOS.core.GlobalType;
 import com.journeyOS.core.api.edge.IEdge;
-import com.journeyOS.core.type.BarrageState;
-import com.journeyOS.core.type.Direction;
-import com.journeyOS.core.type.EdgeDirection;
-import com.journeyOS.edge.wm.BarrageManager;
+import com.journeyOS.core.api.edgeprovider.IGestureProvider;
+import com.journeyOS.core.api.thread.ICoreExecutors;
+import com.journeyOS.core.database.gesture.Gesture;
+import com.journeyOS.core.type.FingerDirection;
+import com.journeyOS.edge.music.MusicManager;
+import com.journeyOS.i007Service.core.accessibility.AccessibilityManager;
+import com.journeyOS.plugins.pay.PayModel;
+
+import es.dmoral.toasty.Toasty;
 
 public class Dispatcher {
+    private static final String TAG = Dispatcher.class.getSimpleName();
     private Context mContext;
 
     private Dispatcher() {
@@ -49,75 +54,81 @@ public class Dispatcher {
         return gDefault.get();
     }
 
-    public void handleGestureDirection(Direction direction) {
-        boolean isPortrait = mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-        switch (direction) {
-            case LEFT:
-                if (isPortrait) {
-                    CoreManager.getDefault().getImpl(IEdge.class).showingEdge(EdgeDirection.RIGHT);
-                } else {
-
+    public void handleGestureDirection(final FingerDirection fingerDirection) {
+        LogUtils.d(TAG, "gesture fingerDirection = " + fingerDirection);
+        final int orientation = mContext.getResources().getConfiguration().orientation;
+        CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
+            @Override
+            public void run() {
+                String direction = CoreManager.getDefault().getImpl(IGestureProvider.class).encodeItem(fingerDirection, orientation);
+                LogUtils.d(TAG, "direction = " + direction);
+                final Gesture gesture = CoreManager.getDefault().getImpl(IGestureProvider.class).getConfig(direction);
+                if (gesture != null) {
+                    LogUtils.d(TAG, "gesture = " + gesture.toString());
+                    CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            LogUtils.d(TAG, "gesture type = " + gesture.type);
+                            switch (gesture.type) {
+                                case GlobalType.EDGE:
+                                    int edgeDirection = Integer.parseInt(gesture.action);
+                                    if (edgeDirection != -1) {
+                                        CoreManager.getDefault().getImpl(IEdge.class).showingEdge(edgeDirection);
+                                    }
+                                    break;
+                                case GlobalType.KEY:
+                                    if (AppUtils.isServiceEnabled(mContext)) {
+                                        int key = Integer.parseInt(gesture.action);
+                                        AccessibilityManager.getDefault().performGlobalAction(key);
+                                    } else {
+                                        Toasty.warning(mContext, mContext.getString(R.string.hasnot_permission) + mContext.getString(R.string.accessibility)).show();
+                                    }
+                                    break;
+                                case GlobalType.MUSIC:
+                                    switch (gesture.action) {
+                                        case MusicManager.MUSIC_LAST:
+                                            MusicManager.getDefault().last();
+                                            break;
+                                        case MusicManager.MUSIC_PLAY:
+                                            MusicManager.getDefault().play();
+                                            break;
+                                        case MusicManager.MUSIC_NEXT:
+                                            MusicManager.getDefault().next();
+                                            break;
+                                    }
+                                    break;
+                                case GlobalType.PAY:
+                                    Intent intent = null;
+                                    switch (gesture.action) {
+                                        case PayModel.ALIPAY_SCAN:
+                                            intent = PayModel.alipayScan();
+                                            break;
+                                        case PayModel.ALIPAY_QRCODE:
+                                            intent = PayModel.alipayBarcode();
+                                            break;
+                                        case PayModel.TENCENT_MM_SCAN:
+                                            intent = PayModel.weChatScan();
+                                            break;
+                                    }
+                                    if (intent != null) {
+                                        String packageName = intent.getPackage();
+                                        if (AppUtils.isPackageExisted(mContext, packageName)) {
+                                            AppUtils.startApp(mContext, intent);
+                                        } else {
+                                            Toasty.warning(mContext, mContext.getString(R.string.app_not_existed)).show();
+                                        }
+                                    }
+                                    break;
+                                case GlobalType.APP:
+                                    AppUtils.startApp(mContext, gesture.action);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    });
                 }
-
-                break;
-
-            case LONG_LEFT:
-                if (isPortrait) {
-                    CoreManager.getDefault().getImpl(IEdge.class).showingEdge(EdgeDirection.RIGHT);
-                } else {
-
-                }
-
-                break;
-
-            case RIGHT:
-                if (isPortrait) {
-                    CoreManager.getDefault().getImpl(IEdge.class).showingEdge(EdgeDirection.LEFT);
-                } else {
-
-                }
-                break;
-
-            case LONG_RIGHT:
-                if (isPortrait) {
-                    CoreManager.getDefault().getImpl(IEdge.class).showingEdge(EdgeDirection.LEFT);
-                } else {
-
-                }
-                break;
-
-            case DOWN:
-                if (isPortrait) {
-
-                } else {
-                    CoreManager.getDefault().getImpl(IEdge.class).showingEdge(EdgeDirection.UP);
-                }
-                break;
-
-            case LONG_DOWN:
-                if (isPortrait) {
-
-                } else {
-                    CoreManager.getDefault().getImpl(IEdge.class).showingEdge(EdgeDirection.UP);
-                }
-                break;
-
-            case UP:
-                break;
-
-            case LONG_UP:
-                break;
-
-            case CLICK:
-                if (SpUtils.getInstant().getInt(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT) == 1) {
-                    if (BarrageState.SHOW == StateMachine.getBarrageState()) {
-                        AppUtils.startApp(mContext, BarrageManager.getDefault().getPackageName());
-                    }
-                }
-                break;
-
-            case LONG_PRESS:
-                break;
-        }
+            }
+        });
     }
 }

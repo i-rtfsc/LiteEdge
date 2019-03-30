@@ -114,4 +114,54 @@
     <string name="barrage_background_color">弹幕背景颜色</string>
     <string name="barrage_current_color">当前颜色</string>
     <string name="barrage_background_color_default">还原默认</string>
+
+    <string name="device_admin_description">获取设备管理者以保证打开的辅助功能不会被自动关闭</string>
+    <string name="device_admin">设备管理者</string>
+    <string name="device_admin_summary">申请后保证进程常驻以及辅助权限不自动失效</string>
+    <string name="remove_device_admin">移除设备管理者</string>
+    <string name="remove_device_admin_summary">移除后辅助权限可能会自动失效导致手势等不可用</string>
+    <string name="accessibility">辅助权限</string>
+    <string name="more_selector">手势功能</string>
+    <string name="gesture_none">关闭手势</string>
+
+    <string name="up">上滑（短）</string>
+    <string name="up_long">上滑（长）</string>
+    <string name="down">下滑（短）</string>
+    <string name="down_long">下滑（长）</string>
+    <string name="left">左滑（短）</string>
+    <string name="left_long">左滑（长）</string>
+    <string name="right">右滑（短）</string>
+    <string name="right_long">右滑（长）</string>
+    <string name="click">点击</string>
+    <string name="click_long">长按</string>
+    <string name="gesture_portrait">竖屏手势</string>
+    <string name="gesture_landscape">横屏手势</string>
+    <string name="selector_app">选择应用</string>
+    <string name="selector_action">全局动作</string>
+    <string name="selector_music">控制音乐</string>
+    <string name="selector_pay">快捷支付</string>
+    <string name="press_action">拖动悬浮球</string>
+    <string name="app_not_existed">应用未安装</string>
+
+    <string name="left_edge">左Edge</string>
+    <string name="right_edge">右Edge</string>
+    <string name="up_edge">上Edge</string>
+
+    <string name="key_back">Back键</string>
+    <string name="key_home">Home键</string>
+    <string name="key_recents">Recents键</string>
+    <string name="key_quick_settings">下拉菜单</string>
+    <string name="key_power">长按电源键</string>
+
+    <string name="alipay_scan">支付宝扫码</string>
+    <string name="alipay_barcode">支付宝付款码</string>
+    <string name="wechat_scan">微信扫码</string>
+
+    <string name="music_last">上一首</string>
+    <string name="music_play">播放/暂停</string>
+    <string name="music_next">下一首</string>
+
+    <string name="permission_on">已开启</string>
+    <string name="permission_off">未开启</string>
+
 </resources>

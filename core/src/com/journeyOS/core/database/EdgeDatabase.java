@@ -29,12 +29,14 @@ import com.journeyOS.core.database.edge.Edge;
 import com.journeyOS.core.database.edge.EdgeDao;
 import com.journeyOS.core.database.edgelab.EdgeLab;
 import com.journeyOS.core.database.edgelab.EdgeLabDao;
+import com.journeyOS.core.database.gesture.Gesture;
+import com.journeyOS.core.database.gesture.GestureDao;
 import com.journeyOS.core.database.user.User;
 import com.journeyOS.core.database.user.UserDao;
 import com.journeyOS.core.database.weather.Weather;
 import com.journeyOS.core.database.weather.WeatherDao;
 
-@Database(entities = {Edge.class, Ball.class, City.class, Weather.class, User.class, App.class, EdgeLab.class}, version = DBConfigs.DB_VERSION, exportSchema = false)
+@Database(entities = {Edge.class, Ball.class, City.class, Weather.class, User.class, App.class, EdgeLab.class, Gesture.class}, version = DBConfigs.DB_VERSION, exportSchema = false)
 public abstract class EdgeDatabase extends RoomDatabase {
     public abstract EdgeDao edgeDao();
 
@@ -49,4 +51,6 @@ public abstract class EdgeDatabase extends RoomDatabase {
     public abstract UserDao userDao();
 
     public abstract AppDao appDao();
+
+    public abstract GestureDao gestureDao();
 }

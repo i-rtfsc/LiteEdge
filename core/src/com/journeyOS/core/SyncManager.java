@@ -23,10 +23,13 @@ import com.journeyOS.base.utils.JsonHelper;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
+import com.journeyOS.core.api.edgeprovider.IGestureProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.edge.Edge;
 import com.journeyOS.core.database.edge.EdgeAir;
 import com.journeyOS.core.database.entity.EdgeBean;
+import com.journeyOS.core.database.entity.GestureBean;
+import com.journeyOS.core.database.gesture.Gesture;
 import com.journeyOS.core.database.user.EdgeUser;
 import com.journeyOS.core.type.EdgeDirection;
 
@@ -125,30 +128,56 @@ public class SyncManager {
                             if (BaseUtils.isNull(e)) {
                                 if (!BaseUtils.isNull(list) && list.size() > 0) {
                                     EdgeAir edgeAir = list.get(0);
-                                    if (!BaseUtils.isNull(edgeAir) && !BaseUtils.isNull(edgeAir.config)) {
+                                    if (!BaseUtils.isNull(edgeAir)) {
                                         String objectId = edgeAir.getObjectId();
                                         SpUtils.getInstant().put(OBJECT_ID, objectId);
 
-                                        EdgeBean bean = JsonHelper.fromJson(edgeAir.config, EdgeBean.class);
-                                        if (!BaseUtils.isNull(bean)) {
-                                            List<EdgeBean.Edge> edges = bean.edge;
-                                            for (EdgeBean.Edge edge : edges) {
-                                                if (Constant.DEBUG) {
-                                                    LogUtils.d(TAG, "fetch edge " + edge.direction + " edge, postion = " + edge.postion + " , packageName = " + edge.packageName);
-                                                }
+                                        if (!BaseUtils.isNull(edgeAir.config)) {
+                                            EdgeBean bean = JsonHelper.fromJson(edgeAir.config, EdgeBean.class);
+                                            if (!BaseUtils.isNull(bean)) {
+                                                List<EdgeBean.Edge> edges = bean.edge;
+                                                for (EdgeBean.Edge edge : edges) {
+                                                    if (Constant.DEBUG) {
+                                                        LogUtils.d(TAG, "fetch edge " + edge.direction + " edge, postion = " + edge.postion + " , packageName = " + edge.packageName);
+                                                    }
 
-                                                Edge config = new Edge();
-                                                config.packageName = edge.packageName;
-                                                config.direction = edge.direction.toLowerCase();
-                                                if (EdgeDirection.LEFT.name().toLowerCase().equals(config.direction)) {
-                                                    config.item = CoreManager.getDefault().getImpl(IEdgeProvider.class).encodeItem(EdgeDirection.LEFT, edge.postion);
-                                                } else if (EdgeDirection.RIGHT.name().toLowerCase().equals(config.direction)) {
-                                                    config.item = CoreManager.getDefault().getImpl(IEdgeProvider.class).encodeItem(EdgeDirection.RIGHT, edge.postion);
-                                                } else if (EdgeDirection.UP.name().toLowerCase().equals(config.direction)) {
-                                                    config.item = CoreManager.getDefault().getImpl(IEdgeProvider.class).encodeItem(EdgeDirection.UP, edge.postion);
-                                                }
+                                                    Edge config = new Edge();
+                                                    config.packageName = edge.packageName;
+                                                    config.direction = edge.direction.toLowerCase();
+                                                    if (EdgeDirection.LEFT.name().toLowerCase().equals(config.direction)) {
+                                                        config.item = CoreManager.getDefault().getImpl(IEdgeProvider.class).encodeItem(EdgeDirection.LEFT, edge.postion);
+                                                    } else if (EdgeDirection.RIGHT.name().toLowerCase().equals(config.direction)) {
+                                                        config.item = CoreManager.getDefault().getImpl(IEdgeProvider.class).encodeItem(EdgeDirection.RIGHT, edge.postion);
+                                                    } else if (EdgeDirection.UP.name().toLowerCase().equals(config.direction)) {
+                                                        config.item = CoreManager.getDefault().getImpl(IEdgeProvider.class).encodeItem(EdgeDirection.UP, edge.postion);
+                                                    }
 
-                                                CoreManager.getDefault().getImpl(IEdgeProvider.class).insertOrUpdateConfig(config);
+                                                    CoreManager.getDefault().getImpl(IEdgeProvider.class).insertOrUpdateConfig(config);
+                                                }
+                                            }
+                                        }
+
+                                        if (!BaseUtils.isNull(edgeAir.gestures)) {
+                                            GestureBean bean = JsonHelper.fromJson(edgeAir.gestures, GestureBean.class);
+                                            if (!BaseUtils.isNull(bean)) {
+                                                List<GestureBean.Gesture> gestures = bean.gestures;
+                                                for (GestureBean.Gesture gesture : gestures) {
+                                                    if (Constant.DEBUG) {
+                                                        LogUtils.d(TAG, "sync " + gesture.gestureDirection +
+                                                                ", type = " + gesture.type +
+                                                                " , action = " + gesture.action +
+                                                                " , comment = " + gesture.comment);
+                                                    }
+
+                                                    Gesture config = new Gesture();
+                                                    config.gestureDirection = gesture.gestureDirection;
+                                                    config.orientation = CoreManager.getDefault().getImpl(IGestureProvider.class).getOrientation(gesture.gestureDirection);
+                                                    config.type = gesture.type;
+                                                    config.action = gesture.action;
+                                                    config.comment = gesture.comment;
+
+                                                    CoreManager.getDefault().getImpl(IGestureProvider.class).insertOrUpdateConfig(config);
+                                                }
                                             }
                                         }
                                     }
@@ -159,6 +188,62 @@ public class SyncManager {
                     });
                 }
             });
+        }
+    }
+
+    public void syncGesture() {
+        if (BmobUser.isLogin()
+                && SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT)) {
+            GestureBean gestureBean = new GestureBean();
+            List<GestureBean.Gesture> gestures = new ArrayList<>();
+
+            List<Gesture> configs = CoreManager.getDefault().getImpl(IGestureProvider.class).getConfigs();
+            LogUtils.d(TAG, "configs size = " + configs.size());
+            for (Gesture config : configs) {
+                GestureBean.Gesture gesture = new GestureBean.Gesture();
+                gesture.gestureDirection = config.gestureDirection;
+                gesture.type = config.type;
+                gesture.action = config.action;
+                gesture.comment = config.comment;
+
+                gestures.add(gesture);
+
+                if (Constant.DEBUG) {
+                    LogUtils.d(TAG, "sync " + gesture.gestureDirection +
+                            ", type = " + gesture.type +
+                            " , action = " + gesture.action +
+                            " , comment = " + gesture.comment);
+                }
+            }
+
+            gestureBean.gestures = gestures;
+
+            EdgeAir edgeAir = new EdgeAir();
+            EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+            edgeAir.author = edgeUser;
+            edgeAir.gestures = JsonHelper.toJson(gestureBean);
+            if (Constant.DEBUG) LogUtils.d(TAG, "sync config = " + edgeAir.config);
+
+            String objectId = SpUtils.getInstant().getString(OBJECT_ID, null);
+            if (Constant.DEBUG) LogUtils.d(TAG, "sync objectId = " + objectId);
+            if (!BaseUtils.isNull(objectId)) {
+                edgeAir.update(objectId, new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                        LogUtils.d(TAG, "sync done(update), e = " + e);
+                    }
+                });
+            } else {
+                edgeAir.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        LogUtils.d(TAG, "sync done(save), result = " + s + " e = " + e);
+                        if (BaseUtils.isNull(e)) {
+                            SpUtils.getInstant().put(OBJECT_ID, s);
+                        }
+                    }
+                });
+            }
         }
     }
 

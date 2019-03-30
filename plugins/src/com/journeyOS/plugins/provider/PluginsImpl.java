@@ -23,11 +23,14 @@ import android.support.v4.app.Fragment;
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.core.api.plugins.IPlugins;
 import com.journeyOS.core.type.EdgeDirection;
+import com.journeyOS.core.type.FingerDirection;
 import com.journeyOS.literouter.annotation.ARouterInject;
 import com.journeyOS.plugins.LearnActivity;
+import com.journeyOS.plugins.MoreSelectorActivity;
 import com.journeyOS.plugins.SelectorActivity;
 import com.journeyOS.plugins.about.AboutFragment;
 import com.journeyOS.plugins.barrage.BarrageFragment;
+import com.journeyOS.plugins.gesture.GesturesFragment;
 import com.journeyOS.plugins.lab.LabFragment;
 import com.journeyOS.plugins.permission.PermissionFragment;
 import com.journeyOS.plugins.search.SearchActivity;
@@ -48,6 +51,11 @@ public class PluginsImpl implements IPlugins {
     public void navigationSelectorActivity(Context context, int postion, EdgeDirection direction) {
 //        SelectorActivity.navigationActivity(context, postion, direction);
         SelectorActivity.navigationFromApplication(context, postion, direction);
+    }
+
+    @Override
+    public void navigationMoreSelectorActivity(Context context, int rotation, FingerDirection direction) {
+        MoreSelectorActivity.navigationActivity(context, rotation, direction);
     }
 
     @Override
@@ -98,6 +106,11 @@ public class PluginsImpl implements IPlugins {
     @Override
     public Fragment provideLabFragment(Activity activity) {
         return LabFragment.newInstance(activity);
+    }
+
+    @Override
+    public Fragment provideGestureFragment(Activity activity, int orientation) {
+        return GesturesFragment.newInstance(activity, orientation);
     }
 
 }

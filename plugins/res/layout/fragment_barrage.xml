@@ -25,7 +25,7 @@
 
         <com.journeyOS.base.widget.SettingSwitch
             android:id="@+id/barrage"
-            style="@style/single_layout"
+            style="@style/top_layout"
             android:theme="@style/CheckBox"
             settings:settingIcon="@drawable/svg_barrage"
             settings:settingTitle="@string/barrage_toogle" />

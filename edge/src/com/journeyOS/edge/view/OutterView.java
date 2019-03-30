@@ -31,7 +31,7 @@ import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.ball.Ball;
 import com.journeyOS.core.api.edgeprovider.IBallProvider;
-import com.journeyOS.core.type.Direction;
+import com.journeyOS.core.type.FingerDirection;
 import com.journeyOS.edge.R;
 
 import java.lang.reflect.Field;
@@ -314,7 +314,7 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
 //		final InnerView child = (InnerView) findViewById(R.id.floatView);
 //				child.startLongPressAnim();
         if (gestureListener != null)
-            gestureListener.onGesture(Direction.LONG_PRESS);
+            gestureListener.onGesture(FingerDirection.LONG_PRESS);
     }
 
     public InnerView getInnerBall() {
@@ -322,9 +322,9 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
     }
 
     @Override
-    public void onGesture(Direction direction) {
+    public void onGesture(FingerDirection fingerDirection) {
         if (gestureListener != null) {
-            gestureListener.onGesture(direction);
+            gestureListener.onGesture(fingerDirection);
         }
     }
 
@@ -350,7 +350,7 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
     }
 
     public interface OnGestureListener {
-        void onGesture(Direction direction);
+        void onGesture(FingerDirection fingerDirection);
         void onViewAttachedToWindow();
 
         void onViewDetachedFromWindow();

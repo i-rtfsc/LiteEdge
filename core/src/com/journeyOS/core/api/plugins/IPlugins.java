@@ -22,6 +22,7 @@ import android.support.v4.app.Fragment;
 
 import com.journeyOS.core.api.ICoreApi;
 import com.journeyOS.core.type.EdgeDirection;
+import com.journeyOS.core.type.FingerDirection;
 
 public interface IPlugins extends ICoreApi {
     /**
@@ -32,6 +33,15 @@ public interface IPlugins extends ICoreApi {
      * @param direction edge的方向
      */
     void navigationSelectorActivity(Context context, int postion, EdgeDirection direction);
+
+    /**
+     * 启动选择手势功能的的activity
+     *
+     * @param context
+     * @param rotation   屏幕的方向
+     * @param direction 手势的方向
+     */
+    void navigationMoreSelectorActivity(Context context, int rotation, FingerDirection direction);
 
     /**
      * 启动搜索城市的activity
@@ -87,4 +97,9 @@ public interface IPlugins extends ICoreApi {
      * 获取实验室Fragment
      */
     Fragment provideLabFragment(Activity activity);
+
+    /**
+     * 获取实验室Fragment
+     */
+    Fragment provideGestureFragment(Activity activity, int orientation);
 }

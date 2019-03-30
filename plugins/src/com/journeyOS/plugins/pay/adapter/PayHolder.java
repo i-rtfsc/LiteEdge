@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 anqi.huang@outlook.com.
+ * Copyright (c) 2019 anqi.huang@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.plugins.adapter;
+package com.journeyOS.plugins.pay.adapter;
 
 import android.view.View;
 
@@ -29,19 +29,19 @@ import com.journeyOS.plugins.R2;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class AppHolder extends BaseViewHolder<AppInfoData> {
+public class PayHolder extends BaseViewHolder<PayInfoData> {
 
     @BindView(R2.id.app_item)
     SettingView mView;
 
-    AppInfoData mAppInfoData;
+    PayInfoData mAppInfoData;
 
-    public AppHolder(View itemView, BaseRecyclerAdapter baseRecyclerAdapter) {
+    public PayHolder(View itemView, BaseRecyclerAdapter baseRecyclerAdapter) {
         super(itemView, baseRecyclerAdapter);
     }
 
     @Override
-    public void updateItem(AppInfoData data, int position) {
+    public void updateItem(PayInfoData data, int position) {
         mAppInfoData = data;
         mView.setIcon(data.getDrawable());
         mView.setTitle(data.getAppName());
@@ -56,8 +56,9 @@ public class AppHolder extends BaseViewHolder<AppInfoData> {
     @OnClick({R2.id.app_item})
     void listenerSwitch() {
         Messages msg = new Messages();
-        msg.what = Messages.MSG_ADD_ITEM;
-        msg.obj = mAppInfoData.getPackageName();
+        //solo
+        msg.what = Messages.MSG_ADD_GESTURE_PAY;
+        msg.obj = mAppInfoData;
         Router.getDefault().post(msg);
     }
 

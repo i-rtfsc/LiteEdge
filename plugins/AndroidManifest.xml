@@ -16,6 +16,16 @@
         </activity>
 
         <activity
+            android:name=".MoreSelectorActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/settings">
+            <intent-filter>
+                <action android:name="com.journeyOS.plugins.MORE_SELECTOR" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".search.SearchActivity"
             android:excludeFromRecents="true"
             android:theme="@style/settings">
