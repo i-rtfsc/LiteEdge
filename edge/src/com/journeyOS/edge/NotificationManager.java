@@ -128,7 +128,8 @@ public class NotificationManager implements ServiceLifecycleListener, Notificati
     public void onNotification(StatusBarNotification sbn, final Notification notification) {
         if (sbn != null) {
             if (MusicManager.MUSIC_NETEASE.equals(notification.getPackageName())
-                    || MusicManager.MUSIC_QQ.equals(notification.getPackageName())) {
+                    || MusicManager.MUSIC_QQ.equals(notification.getPackageName())
+                    || MusicManager.MUSIC_XIAMI.equals(notification.getPackageName())) {
                 MusicManager.getDefault().onNotification(sbn);
             }
         }
