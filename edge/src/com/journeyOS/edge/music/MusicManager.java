@@ -20,6 +20,7 @@ import android.app.Notification;
 import android.content.Context;
 import android.service.notification.StatusBarNotification;
 
+import com.journeyOS.base.BuildConfig;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
@@ -34,6 +35,7 @@ public class MusicManager {
 
     public static final String MUSIC_NETEASE = "com.netease.cloudmusic";
     public static final String MUSIC_QQ = "com.tencent.qqmusic";
+    public static final String MUSIC_XIAMI = "fm.xiami.main";
 
     Context mContext;
     MusicInfo mMusicInfo;
@@ -55,6 +57,8 @@ public class MusicManager {
     }
 
     public void onNotification(StatusBarNotification sbn) {
+        mMusicInfo = null;
+        if (BuildConfig.DEBUG) LogUtils.d(TAG, "wanna get music play info...");
         Notification notification = sbn.getNotification();
         if (notification == null) {
             LogUtils.w(TAG, "notification was null");
@@ -68,6 +72,8 @@ public class MusicManager {
             mMusicInfo = NeteaseMusic.getDefault().netease(notification, packageName);
         } else if (MUSIC_QQ.equals(packageName)) {
             mMusicInfo = QQMusic.getDefault().qq(notification, packageName);
+        }else if (MUSIC_XIAMI.equals(packageName)) {
+            mMusicInfo = XiamiMusic.getDefault().xiami(notification, packageName);
         }
     }
 
