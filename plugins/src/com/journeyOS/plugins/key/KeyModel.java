@@ -21,6 +21,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 
 import com.journeyOS.base.R;
+import com.journeyOS.base.reflectClass.ReflectAccessibilityService;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.viewmodel.BaseViewModel;
 import com.journeyOS.plugins.key.adapter.KeyInfoData;
@@ -55,6 +56,15 @@ public class KeyModel extends BaseViewModel {
 
         infoDatas.add(new KeyInfoData(mContext.getDrawable(R.drawable.svg_key_power),
                 mContext.getString(R.string.key_power), Integer.toString(AccessibilityService.GLOBAL_ACTION_POWER_DIALOG)));
+
+        infoDatas.add(new KeyInfoData(mContext.getDrawable(R.drawable.svg_key_notification),
+                mContext.getString(R.string.key_notification), Integer.toString(AccessibilityService.GLOBAL_ACTION_NOTIFICATIONS)));
+
+        infoDatas.add(new KeyInfoData(mContext.getDrawable(R.drawable.svg_key_lock_screen),
+                mContext.getString(R.string.key_lock_screen), Integer.toString(ReflectAccessibilityService.GLOBAL_ACTION_LOCK_SCREEN)));
+
+        infoDatas.add(new KeyInfoData(mContext.getDrawable(R.drawable.svg_key_screen_shot),
+                mContext.getString(R.string.key_screen_shot), Integer.toString(ReflectAccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT)));
 
         mKeyInfoData.postValue(infoDatas);
     }

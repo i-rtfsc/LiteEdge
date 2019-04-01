@@ -1,0 +1,26 @@
+<!--
+  Copyright (c) 2019 anqi.huang@outlook.com
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+    <path
+        android:fillColor="@color/icon"
+        android:pathData="M924.95,38.68c-17.96,0 -35.71,5.06 -51.35,14.63l-443.48,192.06L98.84,245.38C44.33,245.38 0,289.71 0,344.19l0,232.41c0,54.51 44.33,98.84 98.84,98.84l30.29,0 0,211.05c0,54.51 44.33,98.88 98.84,98.88 54.46,0 98.82,-44.37 98.84,-98.88L326.81,675.41l102.72,0 443.58,217.66c15.79,9.75 33.69,14.91 51.88,14.91 54.61,0 99.01,-44.42 99.01,-99.01L1024,137.62C1024,83.07 979.56,38.68 924.95,38.68zM42.73,576.58 L42.73,344.19c0,-30.91 25.17,-56.09 56.11,-56.09l314.3,0 0,344.55 -107.69,0L150.51,632.66 98.84,632.66C67.9,632.66 42.73,607.51 42.73,576.58zM284.05,886.46c0,30.95 -25.19,56.13 -56.11,56.13 -30.91,0 -56.09,-25.17 -56.09,-56.13L171.86,675.41l112.19,0L284.05,886.46zM981.27,809c0,34.75 -29.21,56.26 -56.28,56.26 -10.62,0 -20.63,-3.01 -29.93,-8.92 -0.68,-0.43 -1.39,-0.79 -2.07,-1.13L455.89,640.75 455.89,280.81l436.18,-188.91c1,-0.45 2.03,-0.98 2.99,-1.58 9.28,-5.93 19.31,-8.92 29.93,-8.92 27.07,0 56.28,21.48 56.28,56.21L981.27,809z" />
+</vector>
