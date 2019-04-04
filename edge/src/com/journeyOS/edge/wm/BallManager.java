@@ -47,8 +47,6 @@ import es.dmoral.toasty.Toasty;
 public class BallManager {
     private static final String TAG = BallManager.class.getSimpleName();
 
-    private static final int BALL_SIEZ = 175;
-
     private Context mContext;
     private WindowManager mWm;
 
@@ -79,7 +77,7 @@ public class BallManager {
             CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
                 @Override
                 public void run() {
-                    final LayoutParams params = getLayoutParams();
+                    final LayoutParams params = getLayoutParams(SpUtils.getInstant().getInt(Constant.BALL_SIZE, Constant.BALL_SIZE_DEFAULT));
                     CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -96,14 +94,14 @@ public class BallManager {
         }
     }
 
-    public void updateViewLayout() {
+    public void updateViewLayout(final int ballSize) {
 //        hiding();
 //        showing();
         if (mWm != null && mOv != null) {
             CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
                 @Override
                 public void run() {
-                    final LayoutParams params = getLayoutParams();
+                    final LayoutParams params = getLayoutParams(ballSize);
                     CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -152,7 +150,7 @@ public class BallManager {
         }
     }
 
-    LayoutParams getLayoutParams() {
+    LayoutParams getLayoutParams(int ballSize) {
         int orientation = mContext.getResources().getConfiguration().orientation;
         Ball ball = CoreManager.getDefault().getImpl(IBallProvider.class).getConfig(orientation);
         LayoutParams params = new WindowManager.LayoutParams();
@@ -162,10 +160,12 @@ public class BallManager {
             params.type = LayoutParams.TYPE_TOAST;
         }
         params.format = PixelFormat.TRANSPARENT;
-        params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE;
+        params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
+                | LayoutParams.FLAG_LAYOUT_IN_SCREEN
+                | LayoutParams.FLAG_NOT_FOCUSABLE;
         params.gravity = Gravity.LEFT | Gravity.TOP;
-        params.width = BALL_SIEZ;
-        params.height = BALL_SIEZ;
+        params.width = ballSize;
+        params.height = ballSize;
         if (ball != null) {
             params.x = ball.layoutX;
             params.y = ball.layoutY;

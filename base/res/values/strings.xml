@@ -19,6 +19,7 @@
     <string name="daemon">守护进程</string>
     <string name="overflow">浮窗权限</string>
     <string name="ball">悬浮球</string>
+    <string name="ball_size">悬浮球大小</string>
     <string name="has_permission">已经获得</string>
     <string name="hasnot_permission">还未获得</string>
     <string name="auto_close_ball">自动关闭悬浮球</string>

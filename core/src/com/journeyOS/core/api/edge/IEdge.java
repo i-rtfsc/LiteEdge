@@ -21,9 +21,24 @@ import com.journeyOS.core.type.EdgeDirection;
 
 public interface IEdge extends ICoreApi {
 
+    /**
+     * 显示或者隐藏悬浮球
+     * @param isShowing
+     *                  true 显示
+     *                  false 隐藏
+     */
     void showingOrHidingBall(boolean isShowing);
 
+    /**
+     * 更新内悬浮球颜色
+     * @param color 颜色
+     */
     void updateInnerBall(int color);
+
+    /**
+     * 更新悬浮球大小
+     */
+    void updateBallSize(int ballSize);
 
     /**
      * 显示edge

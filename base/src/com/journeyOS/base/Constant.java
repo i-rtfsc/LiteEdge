@@ -36,6 +36,9 @@ public class Constant {
     public static final String BALL = "ball";
     public static final boolean BALL_DEFAULT = false;
 
+    public static final String BALL_SIZE = "ballSize";
+    public static final int BALL_SIZE_DEFAULT = 175;
+
     public static final String CITY_ID = "cityId";
     public static final String CITY_ID_DEFAULT = "CN101020100";
 

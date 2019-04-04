@@ -276,6 +276,7 @@ public class EdgeManager {
         params.format = PixelFormat.TRANSPARENT;
         params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
 //                | LayoutParams.FLAG_NOT_FOCUSABLE
+                | LayoutParams.FLAG_LAYOUT_IN_SCREEN
                 | LayoutParams.FLAG_SPLIT_TOUCH
                 | LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
         params.gravity = Gravity.LEFT | Gravity.TOP;
