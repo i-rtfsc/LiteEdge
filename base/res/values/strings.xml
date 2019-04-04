@@ -137,6 +137,7 @@
     <string name="gesture_portrait">竖屏手势</string>
     <string name="gesture_landscape">横屏手势</string>
     <string name="selector_app">选择应用</string>
+    <string name="selector_edge">Edge</string>
     <string name="selector_action">全局动作</string>
     <string name="selector_music">控制音乐</string>
     <string name="selector_pay">快捷支付</string>
@@ -152,6 +153,9 @@
     <string name="key_recents">Recents键</string>
     <string name="key_quick_settings">下拉菜单</string>
     <string name="key_power">长按电源键</string>
+    <string name="key_notification">下拉通知</string>
+    <string name="key_lock_screen">锁屏</string>
+    <string name="key_screen_shot">截屏</string>
 
     <string name="alipay_scan">支付宝扫码</string>
     <string name="alipay_barcode">支付宝付款码</string>

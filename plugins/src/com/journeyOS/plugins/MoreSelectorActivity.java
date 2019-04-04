@@ -41,6 +41,7 @@ import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.core.base.MainPageAdapter;
 import com.journeyOS.core.database.gesture.Gesture;
 import com.journeyOS.core.type.FingerDirection;
+import com.journeyOS.plugins.edge.EdgeSelectorFragment;
 import com.journeyOS.plugins.key.KeySelectorFragment;
 import com.journeyOS.plugins.music.MusicSelectorFragment;
 import com.journeyOS.plugins.pay.PaySelectorFragment;
@@ -162,6 +163,11 @@ public class MoreSelectorActivity extends BaseActivity {
 
 //        Pair<Fragment, Integer> appPair = new Pair<>(AppSelectorFragment.newInstance(this, sRotation, sDirection), R.string.selector_app);
 //        mAdapter.addFrag(appPair);
+
+
+        Pair<Fragment, Integer> edgePair = new Pair<>(EdgeSelectorFragment.newInstance(this, sRotation, sDirection), R.string.selector_edge);
+        mAdapter.addFrag(edgePair);
+
 
         Pair<Fragment, Integer> payPair = new Pair<>(PaySelectorFragment.newInstance(this, sRotation, sDirection), R.string.selector_pay);
         mAdapter.addFrag(payPair);
