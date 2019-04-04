@@ -100,6 +100,7 @@ dependencies {
     api "com.android.support.constraint:constraint-layout:$gradle.constraint_layout"
     api "co.revely:gradient:$gradle.gradient"
     api "com.github.QuadFlask:colorpicker:$gradle.colorpicker"
+    api "com.github.warkiz.widget:indicatorseekbar:$gradle.indicatorseekbar"
 
     implementation('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true;

@@ -38,6 +38,9 @@ import com.journeyOS.core.base.BaseFragment;
 import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.R2;
+import com.warkiz.widget.IndicatorSeekBar;
+import com.warkiz.widget.OnSeekChangeListener;
+import com.warkiz.widget.SeekParams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +61,9 @@ public class LabFragment extends BaseFragment {
 
     @BindView(R2.id.innerBall)
     SettingView mInnerBall;
+
+    @BindView(R2.id.ball_size)
+    IndicatorSeekBar mBallSize;
 
     @BindView(R2.id.barrage_click)
     SettingView mBarrageClick;
@@ -123,6 +129,24 @@ public class LabFragment extends BaseFragment {
             backgroundColor = ContextCompat.getColor(mContext, R.color.divider_dark);
         }
         mBarrageBackground.setRightSummaryColor(backgroundColor);
+
+        mBallSize.setProgress(SpUtils.getInstant().getInt(Constant.BALL_SIZE, Constant.BALL_SIZE_DEFAULT));
+        mBallSize.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+                CoreManager.getDefault().getImpl(IEdge.class).updateBallSize(seekParams.progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                SpUtils.getInstant().put(Constant.BALL_SIZE, seekBar.getProgress());
+            }
+        });
     }
 
     private void setViewsEnabled(boolean enabled) {

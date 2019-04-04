@@ -33,7 +33,6 @@ import com.journeyOS.barrage.BarrageParentView;
 import com.journeyOS.barrage.BarrageView;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
-import com.journeyOS.base.utils.DeviceUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.base.utils.UIUtils;
@@ -210,11 +209,10 @@ public class BarrageManager {
         params.format = PixelFormat.TRANSPARENT;
         params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | LayoutParams.FLAG_NOT_FOCUSABLE
+                | LayoutParams.FLAG_LAYOUT_IN_SCREEN
                 | LayoutParams.FLAG_SPLIT_TOUCH;
         params.gravity = Gravity.TOP;
-        if (DeviceUtils.SAMSUNG.equals(DeviceUtils.getDeviceBrand())) {
-            params.y = UIUtils.getStatusBarHeight(mContext) / 2;
-        }
+        params.y = UIUtils.getStatusBarHeight(mContext) / 4;
         params.width = LayoutParams.MATCH_PARENT;
         params.height = 110;
         return params;

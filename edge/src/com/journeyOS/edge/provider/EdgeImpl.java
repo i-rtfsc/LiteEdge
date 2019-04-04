@@ -57,6 +57,11 @@ public class EdgeImpl implements IEdge {
     }
 
     @Override
+    public void updateBallSize(int ballSize) {
+        BallManager.getDefault().updateViewLayout(ballSize);
+    }
+
+    @Override
     public void showingEdge(int direction) {
         EdgeDirection ed = EdgeDirection.valueOf(direction);
         sendShowing(ed, H.EDGE_DELAY_TIME);

@@ -126,7 +126,7 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        BallManager.getDefault().updateViewLayout();
+        BallManager.getDefault().updateViewLayout(SpUtils.getInstant().getInt(Constant.BALL_SIZE, Constant.BALL_SIZE_DEFAULT));
         CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(true);
     }
 
