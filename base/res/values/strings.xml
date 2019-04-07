@@ -88,6 +88,9 @@
     <string name="radius_format">弧度: %1$d</string>
     <string name="peek_format">位置: %1$d</string>
 
+    <string name="edge_width_format">Edge宽: %1$d</string>
+    <string name="edge_height_format">Egde高: %1$d</string>
+
     <string name="count">Edge数量</string>
     <string name="count_default">默认</string>
     <string name="count_7">7</string>
@@ -151,12 +154,12 @@
 
     <string name="key_back">Back键</string>
     <string name="key_home">Home键</string>
-    <string name="key_recents">Recents键</string>
-    <string name="key_quick_settings">下拉菜单</string>
+    <string name="key_recents">多任务</string>
+    <string name="key_quick_settings">下拉状态栏</string>
     <string name="key_power">长按电源键</string>
     <string name="key_notification">下拉通知</string>
-    <string name="key_lock_screen">锁屏</string>
-    <string name="key_screen_shot">截屏</string>
+    <string name="key_lock_screen">锁屏(部分机型需要root)</string>
+    <string name="key_screen_shot">截屏(部分机型需要root)</string>
 
     <string name="alipay_scan">支付宝扫码</string>
     <string name="alipay_barcode">支付宝付款码</string>

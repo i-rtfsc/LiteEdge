@@ -14,50 +14,133 @@
   limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/control_panel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#e1e1e1e1"
-    android:paddingStart="16dp"
-    android:paddingTop="20dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="12dp">
+    android:orientation="vertical"
+    android:paddingStart="16dp">
 
-    <SeekBar
-        android:id="@+id/seek_radius"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="4000" />
-
-    <TextView
-        android:id="@+id/radius_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/seek_radius"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="24dp"
-        android:textSize="12sp"
-        tools:text="Radius: 125" />
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
 
-    <SeekBar
-        android:id="@+id/seek_peek"
+        <TextView
+            android:id="@+id/radius_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/seek_radius"
+            android:layout_centerHorizontal="true"
+            android:textSize="12sp"
+            tools:text="Radius: 125" />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/seek_radius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isb_indicator_color="@color/colorPrimary"
+            app:isb_max="4000"
+            app:isb_min="0"
+            app:isb_seek_smoothly="true"
+            app:isb_thumb_color="@color/colorPrimary"
+            app:isb_track_progress_color="@color/colorPrimary" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/radius_text"
-        android:max="300" />
-
-    <TextView
-        android:id="@+id/peek_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/seek_peek"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="24dp"
-        android:textSize="12sp"
-        tools:text="Peek: 75" />
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/peek_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/seek_peek"
+            android:layout_centerHorizontal="true"
+            android:textSize="12sp"
+            tools:text="Peek: 75" />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/seek_peek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isb_indicator_color="@color/colorPrimary"
+            app:isb_max="300"
+            app:isb_min="0"
+            app:isb_seek_smoothly="true"
+            app:isb_thumb_color="@color/colorPrimary"
+            app:isb_track_progress_color="@color/colorPrimary" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/edge_width_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/seek_peek"
+            android:layout_centerHorizontal="true"
+            android:textSize="12sp"
+            tools:text="宽: 25" />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/seek_edge_width"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isb_indicator_color="@color/colorPrimary"
+            app:isb_min="100"
+            app:isb_seek_smoothly="true"
+            app:isb_thumb_color="@color/colorPrimary"
+            app:isb_track_progress_color="@color/colorPrimary" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/edge_height_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/seek_peek"
+            android:layout_centerHorizontal="true"
+            android:textSize="12sp"
+            tools:text="高: 75" />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/seek_edge_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isb_indicator_color="@color/colorPrimary"
+            app:isb_seek_smoothly="true"
+            app:isb_thumb_color="@color/colorPrimary"
+            app:isb_track_progress_color="@color/colorPrimary" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="36dp" />
+
+</LinearLayout>

@@ -58,14 +58,14 @@ public class Constant {
 //    public static final boolean EDGE_LAB_DEFAULT = true;
 
     public static final String EDGE_CONUT = "edgeCount";
-    public static final int EDGE_CONUT_DEFAULT = 6;
+    public static final int EDGE_CONUT_DEFAULT = 7;
 
-    public static final int EDGE_STYLE_DINFINE = 6;
+//    public static final int EDGE_STYLE_DINFINE = 6;
     public static final Map<Integer, Integer> sEdgeCountMap;
 
     static {
         sEdgeCountMap = new ArrayMap<>();
-        sEdgeCountMap.put(6, R.string.count_default);
+//        sEdgeCountMap.put(6, R.string.count_default);
         sEdgeCountMap.put(7, R.string.count_7);
         sEdgeCountMap.put(8, R.string.count_8);
         sEdgeCountMap.put(9, R.string.count_9);

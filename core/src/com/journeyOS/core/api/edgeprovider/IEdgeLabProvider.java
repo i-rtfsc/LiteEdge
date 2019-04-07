@@ -69,4 +69,11 @@ public interface IEdgeLabProvider extends ICoreApi {
      */
     void initConfig();
 
+    /**
+     * 不需要在子线程中
+     *
+     * @param edge 方向
+     * @return EdgeLab的配置
+     */
+    EdgeLab getCacheConfig(String edge);
 }

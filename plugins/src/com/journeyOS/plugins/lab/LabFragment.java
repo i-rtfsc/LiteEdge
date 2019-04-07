@@ -108,7 +108,7 @@ public class LabFragment extends BaseFragment {
 
         int count = SpUtils.getInstant().getInt(Constant.EDGE_CONUT, Constant.EDGE_CONUT_DEFAULT);
         mEdgeCount.setRightSummary(mContext.getString(Constant.sEdgeCountMap.get(count)));
-        setViewsEnabled(count != Constant.EDGE_STYLE_DINFINE);
+//        setViewsEnabled(count != Constant.EDGE_STYLE_DINFINE);
 
         mBarrageClick.setRightSummary(mContext.getString(Constant.sBarrageClickMap.get(SpUtils.getInstant().getInt(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT))));
 
@@ -190,7 +190,7 @@ public class LabFragment extends BaseFragment {
                         dialog.dismiss();
                         SpUtils.getInstant().put(Constant.EDGE_CONUT, which + 6);
                         mEdgeCount.setRightSummary(mContext.getString(Constant.sEdgeCountMap.get(which + 6)));
-                        setViewsEnabled((which + 6) != Constant.EDGE_STYLE_DINFINE);
+//                        setViewsEnabled((which + 6) != Constant.EDGE_STYLE_DINFINE);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

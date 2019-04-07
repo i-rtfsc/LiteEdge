@@ -230,6 +230,34 @@ public class EdgeManager {
                     });
                 }
 
+                @Override
+                public void saveEdgeWidth(final EdgeDirection direction, final int width) {
+                    CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            EdgeLab edgeLab = CoreManager.getDefault().getImpl(IEdgeLabProvider.class).getConfig(direction.name().toLowerCase());
+                            if (edgeLab != null) {
+                                edgeLab.width = width;
+                                CoreManager.getDefault().getImpl(IEdgeLabProvider.class).insertOrUpdateConfig(edgeLab);
+                            }
+                        }
+                    });
+                }
+
+                @Override
+                public void saveEgdeHeight(final EdgeDirection direction, final int height) {
+                    CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            EdgeLab edgeLab = CoreManager.getDefault().getImpl(IEdgeLabProvider.class).getConfig(direction.name().toLowerCase());
+                            if (edgeLab != null) {
+                                edgeLab.height = height;
+                                CoreManager.getDefault().getImpl(IEdgeLabProvider.class).insertOrUpdateConfig(edgeLab);
+                            }
+                        }
+                    });
+                }
+
             });
 
             //show after set listener

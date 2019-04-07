@@ -16,9 +16,13 @@
 
 package com.journeyOS.core.database.edgelab;
 
+import android.content.Context;
+import android.util.LruCache;
+
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.LogUtils;
+import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.base.widget.LocusLayoutManager;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.api.edgeprovider.IEdgeLabProvider;
@@ -38,12 +42,22 @@ public class EdgeLabRepositoryImpl implements IEdgeLabProvider {
     private EdgeLabDao edgeLabDao;
 
     private Object mLock = new Object();
+    private Context mContext;
+
+    private LruCache<String, EdgeLab> mCacheLabs = new LruCache<String, EdgeLab>(3);
 
     @Override
     public void onCreate() {
-        EdgeDatabase edgeDatabase = DBHelper.provider(CoreManager.getDefault().getContext(), EdgeDatabase.class, DBConfigs.DB_NAME);
+        mContext = CoreManager.getDefault().getContext();
+        EdgeDatabase edgeDatabase = DBHelper.provider(mContext, EdgeDatabase.class, DBConfigs.DB_NAME);
         LogUtils.d(TAG, "edge lab database is NULL = " + (edgeDatabase == null));
         edgeLabDao = edgeDatabase.edgeLabDao();
+        if (SpUtils.getInstant().getBoolean(Constant.EDGE_LAB_INITED, false)) {
+            List<EdgeLab> labs = getConfigs();
+            for (EdgeLab lab : labs) {
+                mCacheLabs.put(lab.edge, lab);
+            }
+        }
     }
 
 
@@ -72,6 +86,10 @@ public class EdgeLabRepositoryImpl implements IEdgeLabProvider {
     public void insertOrUpdateConfig(EdgeLab edgeLab) {
         synchronized (mLock) {
             edgeLabDao.insert(edgeLab);
+            if (mCacheLabs != null && mCacheLabs.get(edgeLab.edge) != null) {
+                mCacheLabs.remove(edgeLab.edge);
+                mCacheLabs.put(edgeLab.edge, edgeLab);
+            }
         }
     }
 
@@ -79,6 +97,9 @@ public class EdgeLabRepositoryImpl implements IEdgeLabProvider {
     public void deleteConfig(EdgeLab edgeLab) {
         synchronized (mLock) {
             edgeLabDao.delete(edgeLab);
+            if (mCacheLabs != null && mCacheLabs.get(edgeLab.edge) != null) {
+                mCacheLabs.remove(edgeLab.edge);
+            }
         }
     }
 
@@ -104,6 +125,8 @@ public class EdgeLabRepositoryImpl implements IEdgeLabProvider {
             leftLab.radius = 1500;
             leftLab.peek = 150;
             leftLab.rotate = 1;
+            leftLab.width = (int) (UIUtils.getScreenWidth(mContext) * 2.5 / 9);
+            leftLab.height = (int) (UIUtils.getScreenHeight(mContext) * 3 / 4);
             edgeLabDao.insert(leftLab);
 
             //init right
@@ -114,6 +137,8 @@ public class EdgeLabRepositoryImpl implements IEdgeLabProvider {
             rightLab.radius = 1500;
             rightLab.peek = 150;
             rightLab.rotate = 1;
+            rightLab.width = (int) (UIUtils.getScreenWidth(mContext) * 2.5 / 9);
+            rightLab.height = (int) (UIUtils.getScreenHeight(mContext) * 3 / 4);
             edgeLabDao.insert(rightLab);
 
             //init up
@@ -124,9 +149,19 @@ public class EdgeLabRepositoryImpl implements IEdgeLabProvider {
             upLab.radius = 1500;
             upLab.peek = 150;
             upLab.rotate = 1;
+            upLab.width = (int) (UIUtils.getScreenHeight(mContext) * 3 / 4);
+            upLab.height = (int) (UIUtils.getScreenWidth(mContext) * 2.5 / 9);
             edgeLabDao.insert(upLab);
 
             SpUtils.getInstant().put(Constant.EDGE_LAB_INITED, true);
         }
+    }
+
+    @Override
+    public EdgeLab getCacheConfig(String edge) {
+        if (mCacheLabs != null && mCacheLabs.get(edge) != null) {
+            return mCacheLabs.get(edge);
+        }
+        return null;
     }
 }

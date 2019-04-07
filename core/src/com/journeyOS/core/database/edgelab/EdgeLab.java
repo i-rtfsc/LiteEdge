@@ -56,9 +56,20 @@ public class EdgeLab {
     public int peek;
 
     /**
-     * 弧度
+     * 旋转
      */
     @ColumnInfo(name = DBConfigs.EDGE_LAB_ROTATE)
     public int rotate;
 
+    /**
+     * Edge宽
+     */
+    @ColumnInfo(name = DBConfigs.EDGE_LAB_EDGE_WIDTH)
+    public int width;
+
+    /**
+     * Edge高
+     */
+    @ColumnInfo(name = DBConfigs.EDGE_LAB_EDGE_HEIGHT)
+    public int height;
 }

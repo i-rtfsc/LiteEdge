@@ -67,9 +67,23 @@ public class DBHelper {
         }
     };
 
+    static final Migration MIGRATION_7_8 = new Migration(7, 8) {
+        @Override
+        public void migrate(@NonNull final SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE edgeLab ADD COLUMN width INTEGER NOT NULL DEFAULT -1");
+            database.execSQL("ALTER TABLE edgeLab ADD COLUMN height INTEGER NOT NULL DEFAULT -1");
+        }
+    };
+
     public static <T extends RoomDatabase> T provider(Context context, Class<T> dbCls, String dbName) {
         return Room.databaseBuilder(context, dbCls, dbName)
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+                .addMigrations(MIGRATION_1_2,
+                        MIGRATION_2_3,
+                        MIGRATION_3_4,
+                        MIGRATION_4_5,
+                        MIGRATION_5_6,
+                        MIGRATION_6_7,
+                        MIGRATION_7_8)
                 .fallbackToDestructiveMigration().build();
     }
 }
