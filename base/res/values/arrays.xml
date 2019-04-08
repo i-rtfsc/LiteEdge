@@ -17,6 +17,7 @@
 <resources>
     <array name="edge_count_array">
         <!--<item>@string/count_default</item>-->
+        <item>@string/count_6</item>
         <item>@string/count_7</item>
         <item>@string/count_8</item>
         <item>@string/count_9</item>

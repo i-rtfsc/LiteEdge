@@ -93,6 +93,7 @@
 
     <string name="count">Edge数量</string>
     <string name="count_default">默认</string>
+    <string name="count_6">6</string>
     <string name="count_7">7</string>
     <string name="count_8">8</string>
     <string name="count_9">9</string>

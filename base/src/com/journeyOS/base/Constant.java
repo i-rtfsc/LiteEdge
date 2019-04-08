@@ -65,7 +65,7 @@ public class Constant {
 
     static {
         sEdgeCountMap = new ArrayMap<>();
-//        sEdgeCountMap.put(6, R.string.count_default);
+        sEdgeCountMap.put(6, R.string.count_6);
         sEdgeCountMap.put(7, R.string.count_7);
         sEdgeCountMap.put(8, R.string.count_8);
         sEdgeCountMap.put(9, R.string.count_9);
