@@ -133,7 +133,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
             isUpdate = true;
             if (mEd != null) {
                 EdgeLab edgeLab = CoreManager.getDefault().getImpl(IEdgeLabProvider.class).getCacheConfig(mEd.name().toLowerCase());
-                if (edgeLab == null) {
+                if (edgeLab != null) {
                     initEdgeSeekBar(edgeLab);
                     updateEdgeLayout(edgeLab.width, edgeLab.height);
                 }
@@ -248,7 +248,9 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                 @Override
                 public void run() {
                     final EdgeLab edgeLab = mListener.getLabConfig(mEd);
-                    updateEdgeLayout(edgeLab.width, edgeLab.height);
+                    if (edgeLab != null) {
+                        updateEdgeLayout(edgeLab.width, edgeLab.height);
+                    }
 
                     final List<Edge> configs = mListener.getConfigs(mEd);
                     if (!BaseUtils.isNull(configs)) {
@@ -337,7 +339,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
     public void showEdgeView() {
         if (mEd != null) {
             EdgeLab edgeLab = CoreManager.getDefault().getImpl(IEdgeLabProvider.class).getCacheConfig(mEd.name().toLowerCase());
-            if (edgeLab == null) {
+            if (edgeLab != null) {
                 updateEdgeLayout(edgeLab.width, edgeLab.height);
             }
         }
