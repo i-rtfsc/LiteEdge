@@ -164,14 +164,16 @@ public class BarrageManager {
             initBarrage();
         }
 
-        if (!isAttachedToWindow) {
-            WindowManager.LayoutParams layoutParams = getLayoutParams();
-            mWm.addView(mRootView, layoutParams);
-            isAttachedToWindow = true;
-        }
+        if (mRootView != null) {
+            if (!isAttachedToWindow) {
+                WindowManager.LayoutParams layoutParams = getLayoutParams();
+                mWm.addView(mRootView, layoutParams);
+                isAttachedToWindow = true;
+            }
 
-        if (mBarrageHelper != null) {
-            mBarrageHelper.addBarrage(barrageEntity, true);
+            if (mBarrageHelper != null) {
+                mBarrageHelper.addBarrage(barrageEntity, true);
+            }
         }
     }
 
@@ -180,22 +182,24 @@ public class BarrageManager {
             initBarrage();
         }
 
-        if (!isAttachedToWindow) {
-            WindowManager.LayoutParams layoutParams = getLayoutParams();
-            mWm.addView(mRootView, layoutParams);
-            isAttachedToWindow = true;
-        }
+        if (mRootView != null) {
+            if (!isAttachedToWindow) {
+                WindowManager.LayoutParams layoutParams = getLayoutParams();
+                mWm.addView(mRootView, layoutParams);
+                isAttachedToWindow = true;
+            }
 
-        BarrageEntity barrageEntity = new BarrageEntity();
-        barrageEntity.type = BarrageEntity.BARRAGE_TYPE_USERCHAT;
-        barrageEntity.name = "用户名";
-        Bitmap bitmap = UIUtils.drawableToBitmap(mContext.getResources().getDrawable(R.mipmap.user));
-        Bitmap circleBitmap = UIUtils.getCircularBitmap(bitmap);
-        barrageEntity.avatar = circleBitmap;
-        barrageEntity.level = 100;
-        barrageEntity.text = "弹幕消息测试~";
-        if (mBarrageHelper != null) {
-            mBarrageHelper.addBarrage(barrageEntity, true);
+            BarrageEntity barrageEntity = new BarrageEntity();
+            barrageEntity.type = BarrageEntity.BARRAGE_TYPE_USERCHAT;
+            barrageEntity.name = "用户名";
+            Bitmap bitmap = UIUtils.drawableToBitmap(mContext.getResources().getDrawable(R.mipmap.user));
+            Bitmap circleBitmap = UIUtils.getCircularBitmap(bitmap);
+            barrageEntity.avatar = circleBitmap;
+            barrageEntity.level = 100;
+            barrageEntity.text = "弹幕消息测试~";
+            if (mBarrageHelper != null) {
+                mBarrageHelper.addBarrage(barrageEntity, true);
+            }
         }
     }
 

@@ -1,0 +1,26 @@
+<!--
+  Copyright (c) 2019 anqi.huang@outlook.com
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+    <path
+        android:fillColor="@color/icon"
+        android:pathData="M512,64.01c-246.69,0 -447.39,200.69 -447.39,447.4 0,246.69 200.7,447.4 447.39,447.4 246.7,0 447.39,-200.7 447.39,-447.4C959.39,264.71 758.7,64.01 512,64.01zM569.59,366.34c16.41,15.24 31.25,30.09 44.54,44.55l-19.05,16.41c-13.68,-16.21 -27.75,-31.65 -42.2,-46.3L569.59,366.34zM490.75,652.67c-60.19,-23.44 -101.07,-58.7 -122.65,-105.79 -15.93,45.72 -58.28,82.25 -127.04,109.6 -5.09,-6.65 -10.75,-13.68 -17,-21.1 70.04,-24.91 111.8,-60.76 125.29,-107.55L229.93,527.82l0,-22.27 123.67,0c0.38,-4.19 0.59,-22.86 0.59,-55.97L247.22,449.57l0,-22.27 70.33,0c-16.81,-18.46 -31.18,-33.31 -43.08,-44.55l17,-15.24c16.8,15.05 32.13,29.41 46.01,43.08l-18.76,16.71 69.89,0c15.13,-21.39 28.46,-41.41 40,-60.08l24.32,13.48c-13.48,17.2 -25.9,32.73 -37.22,46.6l74.14,0 0,22.27L379.1,449.57c0,28.72 -0.14,47.38 -0.44,55.97l128.51,0 0,22.27L382.76,527.82c22.95,49.14 66.18,82.84 129.68,101.11C504.42,637.13 497.2,645.05 490.75,652.67zM560.5,653.84l-22.86,0L537.65,422.91l22.86,0L560.5,653.84zM706.74,596.4c0,21.49 -11.05,32.24 -33.12,32.24 -8.02,0 -20.81,-0.2 -38.39,-0.59 -1.17,-8.99 -2.34,-16.5 -3.52,-22.57 14.65,0.98 26.38,1.57 35.17,1.76 11.91,0 17.97,-6.25 18.17,-18.76l0,-78.54c-25.99,34.58 -57.73,65.45 -95.24,92.61 -4.5,-5.86 -9.78,-11.72 -15.82,-17.58 42.09,-29.1 76.81,-62.32 104.18,-99.64l-94.21,0 0,-21.1 101.1,0 0,-43.08 21.69,0 0,43.08 52.17,0 0,21.1 -52.17,0L706.74,596.4zM799.93,611.35c0,28.33 -13.1,42.49 -39.27,42.49 -13.1,0 -28.83,-0.2 -47.18,-0.59 -0.79,-5.86 -2.34,-13.77 -4.69,-23.74 16.21,1.17 31.65,1.76 46.3,1.76s21.98,-7.03 21.98,-21.1L777.07,406.79 629.95,406.79l0,-21.98 169.98,0L799.93,611.35z" />
+</vector>

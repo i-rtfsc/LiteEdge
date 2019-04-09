@@ -80,6 +80,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
     RecyclerView mListView;
 
     View mDebug;
+    View mDebugClose;
     IndicatorSeekBar mRadius;
     TextView mRadiusText;
     IndicatorSeekBar mPeek;
@@ -151,6 +152,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         mListView = (RecyclerView) findViewById(R.id.recycler_view);
 
         mDebug = findViewById(R.id.control_panel);
+        mDebugClose = findViewById(R.id.control_close);
 //        mDebug.setVisibility(VISIBLE);
         mRadius = (IndicatorSeekBar) findViewById(R.id.seek_radius);
         mRadiusText = (TextView) findViewById(R.id.radius_text);
@@ -187,6 +189,13 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                     } else {
                         mDebug.setVisibility(VISIBLE);
                     }
+                }
+            });
+
+            mDebugClose.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mDebug.setVisibility(GONE);
                 }
             });
         }
@@ -248,9 +257,6 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                 @Override
                 public void run() {
                     final EdgeLab edgeLab = mListener.getLabConfig(mEd);
-                    if (edgeLab != null) {
-                        updateEdgeLayout(edgeLab.width, edgeLab.height);
-                    }
 
                     final List<Edge> configs = mListener.getConfigs(mEd);
                     if (!BaseUtils.isNull(configs)) {
@@ -258,7 +264,9 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                             @Override
                             public void run() {
                                 initEdgeSeekBar(edgeLab);
-                                //updateEdgeLayout(edgeLab.width, edgeLab.height);
+                                if (edgeLab != null) {
+                                    updateEdgeLayout(edgeLab.width, edgeLab.height);
+                                }
 
                                 mAdapter = new EdgeAdapter(getContext(), mEd, configs);
                                 mAdapter.setOnEdgeAdapterListener(mAdapterListener);
@@ -338,9 +346,14 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
 
     public void showEdgeView() {
         if (mEd != null) {
-            EdgeLab edgeLab = CoreManager.getDefault().getImpl(IEdgeLabProvider.class).getCacheConfig(mEd.name().toLowerCase());
+            final EdgeLab edgeLab = CoreManager.getDefault().getImpl(IEdgeLabProvider.class).getCacheConfig(mEd.name().toLowerCase());
             if (edgeLab != null) {
-                updateEdgeLayout(edgeLab.width, edgeLab.height);
+                CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateEdgeLayout(edgeLab.width, edgeLab.height);
+                    }
+                });
             }
         }
         mRootView.setAlpha(1f);
@@ -353,6 +366,11 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
     }
 
     public void hideEdgeView() {
+        if (mDebug != null && mDebug.getVisibility() == VISIBLE) {
+            LogUtils.d(TAG, "user adjust view, can't be hide edge view,");
+            return;
+        }
+
         boolean isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         maskDismiss();
         mainIconGroupDismiss(isLandscape);

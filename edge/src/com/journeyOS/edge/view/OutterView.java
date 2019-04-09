@@ -27,16 +27,16 @@ import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.api.edgeprovider.IBallProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.ball.Ball;
-import com.journeyOS.core.api.edgeprovider.IBallProvider;
 import com.journeyOS.core.type.FingerDirection;
 import com.journeyOS.edge.R;
 
-import java.lang.reflect.Field;
-
-public class OutterView extends FrameLayout implements InnerView.OnGestureListener, View.OnAttachStateChangeListener{
+public class OutterView extends FrameLayout implements InnerView.OnGestureListener, View.OnAttachStateChangeListener {
 
     private static final String TAG = OutterView.class.getSimpleName();
 
@@ -136,8 +136,9 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
         InnerView view = (InnerView) findViewById(R.id.floatView);
         mInnerView = view;
         view.setOnGestureListener(this);
-        viewWidth = view.getLayoutParams().width;
-        viewHeight = view.getLayoutParams().height;
+        int ballSize = SpUtils.getInstant().getInt(Constant.BALL_SIZE, Constant.BALL_SIZE_DEFAULT);
+        viewWidth = ballSize;
+        viewHeight = ballSize;
         addOnAttachStateChangeListener(this);
     }
 
@@ -229,7 +230,9 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
                 CoreManager.getDefault().getImpl(IBallProvider.class).insertOrUpdateConfig(config);
             }
         });
-
+        int ballSize = SpUtils.getInstant().getInt(Constant.BALL_SIZE, Constant.BALL_SIZE_DEFAULT);
+        mParams.width = ballSize;
+        mParams.height = ballSize;
         windowManager.updateViewLayout(this, mParams);
     }
 
@@ -239,18 +242,21 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
      * @return 返回状态栏高度的像素值。
      */
     private int getStatusBarHeight() {
-        if (statusBarHeight == 0) {
-            try {
-                Class<?> c = Class.forName("com.android.internal.R$dimen");
-                Object o = c.newInstance();
-                Field field = c.getField("status_bar_height");
-                int x = (Integer) field.get(o);
-                statusBarHeight = getResources().getDimensionPixelSize(x);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return statusBarHeight;
+//        if (statusBarHeight == 0) {
+//            try {
+//                Class<?> c = Class.forName("com.android.internal.R$dimen");
+//                Object o = c.newInstance();
+//                Field field = c.getField("status_bar_height");
+//                int x = (Integer) field.get(o);
+//                statusBarHeight = getResources().getDimensionPixelSize(x);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return statusBarHeight;
+
+        //添加LayoutParams.FLAG_LAYOUT_IN_SCREEN之后，不需要计算状态栏高度
+        return 0;
     }
 
     /**
@@ -351,6 +357,7 @@ public class OutterView extends FrameLayout implements InnerView.OnGestureListen
 
     public interface OnGestureListener {
         void onGesture(FingerDirection fingerDirection);
+
         void onViewAttachedToWindow();
 
         void onViewDetachedFromWindow();
