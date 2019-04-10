@@ -33,10 +33,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.journeyOS.base.BuildConfig;
+import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.edge.R;
+import com.journeyOS.edge.wm.BarrageManager;
 
 public class QQMusic {
     private static final String TAG = QQMusic.class.getSimpleName();
@@ -48,6 +52,8 @@ public class QQMusic {
     Resources mResources = null;
 
     ViewGroup mNotificationRoot;
+
+    static boolean sShowBarrage = false;
 
     //以下为原生样式
     //上一首
@@ -182,6 +188,7 @@ public class QQMusic {
                             @Override
                             public void run() throws Exception {
                                 vLast.performClick();
+                                sShowBarrage = true;
                             }
                         };
                         mMusicInfo.setLast(pre);
@@ -210,6 +217,7 @@ public class QQMusic {
                             @Override
                             public void run() throws Exception {
                                 vNext.performClick();
+                                sShowBarrage = true;
                             }
                         };
                         mMusicInfo.setNext(next);
@@ -249,6 +257,18 @@ public class QQMusic {
             } catch (Exception e) {
                 LogUtils.d(TAG, "error = " + e.toString());
             }
+        }
+        if (SpUtils.getInstant().getBoolean(Constant.MUSIC_CONTROL_SHOW_BARRAGE, Constant.MUSIC_CONTROL_SHOW_BARRAGE_DEFAULT)
+                && sShowBarrage && mMusicInfo != null) {
+            sShowBarrage = false;
+            Bitmap circleBitmap = null;
+            Drawable drawable = mMusicInfo.getAlbumCover();
+            if (drawable != null) {
+                Bitmap bitmap = UIUtils.drawableToBitmap(drawable);
+                circleBitmap = UIUtils.getCircularBitmap(bitmap);
+            }
+
+            BarrageManager.getDefault().sendBarrage(circleBitmap, mMusicInfo.getSinger(), mMusicInfo.getName() + mContext.getString(R.string.gesture_control_music));
         }
         return mMusicInfo;
     }

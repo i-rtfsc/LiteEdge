@@ -75,6 +75,14 @@ public class DBHelper {
         }
     };
 
+    static final Migration MIGRATION_8_9 = new Migration(8, 9) {
+        @Override
+        public void migrate(@NonNull final SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE music (packageName TEXT NOT NULL, config TEXT, PRIMARY KEY(packageName))");
+        }
+    };
+
+
     public static <T extends RoomDatabase> T provider(Context context, Class<T> dbCls, String dbName) {
         return Room.databaseBuilder(context, dbCls, dbName)
                 .addMigrations(MIGRATION_1_2,
@@ -83,7 +91,8 @@ public class DBHelper {
                         MIGRATION_4_5,
                         MIGRATION_5_6,
                         MIGRATION_6_7,
-                        MIGRATION_7_8)
+                        MIGRATION_7_8,
+                        MIGRATION_8_9)
                 .fallbackToDestructiveMigration().build();
     }
 }

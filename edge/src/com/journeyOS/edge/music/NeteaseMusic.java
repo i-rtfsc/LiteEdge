@@ -32,11 +32,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.BuildConfig;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.edge.R;
+import com.journeyOS.edge.wm.BarrageManager;
+
 
 public class NeteaseMusic {
     private static final String TAG = NeteaseMusic.class.getSimpleName();
@@ -48,6 +53,8 @@ public class NeteaseMusic {
     Resources mResources = null;
 
     ViewGroup mNotificationRoot;
+
+    static boolean sShowBarrage = false;
 
     //网易云音乐封面ID
     private static final String NETEASE_ALBUM = "notifyAlbumCover";
@@ -252,6 +259,7 @@ public class NeteaseMusic {
                                             @Override
                                             public void run() throws Exception {
                                                 imageView.performClick();
+                                                sShowBarrage = true;
                                             }
                                         };
                                         mMusicInfo.setLast(last);
@@ -274,6 +282,7 @@ public class NeteaseMusic {
                                             @Override
                                             public void run() throws Exception {
                                                 imageView.performClick();
+                                                sShowBarrage = true;
                                             }
                                         };
                                         mMusicInfo.setNext(next);
@@ -288,6 +297,18 @@ public class NeteaseMusic {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        if (SpUtils.getInstant().getBoolean(Constant.MUSIC_CONTROL_SHOW_BARRAGE, Constant.MUSIC_CONTROL_SHOW_BARRAGE_DEFAULT)
+                && sShowBarrage && mMusicInfo != null) {
+            sShowBarrage = false;
+            Bitmap circleBitmap = null;
+            Drawable drawable = mMusicInfo.getAlbumCover();
+            if (drawable != null) {
+                Bitmap bitmap = UIUtils.drawableToBitmap(drawable);
+                circleBitmap = UIUtils.getCircularBitmap(bitmap);
+            }
+
+            BarrageManager.getDefault().sendBarrage(circleBitmap, mMusicInfo.getSinger(), mMusicInfo.getName() + mContext.getString(R.string.gesture_control_music));
         }
         return mMusicInfo;
     }

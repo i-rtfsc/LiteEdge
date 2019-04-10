@@ -173,4 +173,5 @@
     <string name="permission_on">已开启</string>
     <string name="permission_off">未开启</string>
 
+    <string name="gesture_control_music">正在使用手势控制音乐</string>
 </resources>

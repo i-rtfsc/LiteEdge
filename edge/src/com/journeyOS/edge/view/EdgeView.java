@@ -65,7 +65,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
 
     EdgeDirection mEd;
 
-    View mMask;
+    View mBackground;
     View mRootView;
     View mLayoutGroups;
     View mLayoutStatus;
@@ -144,7 +144,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
 
     private void initCommonView() {
         mRootView = findViewById(R.id.root_view);
-        mMask = findViewById(R.id.mask_bg);
+        mBackground = findViewById(R.id.mask_bg);
         mLayoutStatus = findViewById(R.id.layout_statusbar);
         mLayoutStatus.setOnLongClickListener(this);
 
@@ -360,9 +360,9 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         mRootView.setTranslationY(0f);
         mRootView.setTranslationX(0f);
         initDatas();
-        maskShow();
-        mainIconGroupShow(EdgeDirection.UP == mEd);
-        statusBarShow(EdgeDirection.UP == mEd);
+        showBackgroundAnimate(mBackground);
+        showEdgeAnimate(mLayoutGroups, EdgeDirection.UP == mEd);
+        showEdgeStatusAnimate(mLayoutStatus, EdgeDirection.UP == mEd);
     }
 
     public void hideEdgeView() {
@@ -372,19 +372,28 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         }
 
         boolean isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-        maskDismiss();
-        mainIconGroupDismiss(isLandscape);
-        statusBarDismiss(isLandscape);
+        hideBackgroundAnimate(mBackground);
+        hideEdgeAnimate(mLayoutGroups, isLandscape);
+        hideEdgeStatusAnimate(mLayoutStatus, isLandscape);
     }
 
-    private void maskShow() {
-        mMask.setAlpha(0f);
-        mMask.animate().alpha(1f).setDuration(360).setInterpolator(AnimationUtil.getEaseInterpolator()).setListener(null).start();
+    private void showBackgroundAnimate(View view) {
+        view.setAlpha(0f);
+        view.animate()
+                .alpha(1f)
+                .setDuration(360)
+                .setInterpolator(AnimationUtil.getEaseInterpolator())
+                .setListener(null)
+                .start();
     }
 
-    private void maskDismiss() {
-        mMask.setAlpha(1f);
-        mMask.animate().alpha(0f).setDuration(360).setStartDelay(45).setInterpolator(AnimationUtil.getEaseOutInterpolator()).setListener(new AnimatorListenerAdapter() {
+    private void hideBackgroundAnimate(View view) {
+        view.setAlpha(1f);
+        view.animate()
+                .alpha(0f)
+                .setDuration(360)
+                .setStartDelay(45)
+                .setInterpolator(AnimationUtil.getEaseOutInterpolator()).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -393,40 +402,61 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         }).start();
     }
 
-    private void mainIconGroupShow(boolean isLandscape) {
-        mLayoutGroups.setAlpha(0f);
-        mLayoutGroups.setScaleX(0.6f);
-        mLayoutGroups.setScaleY(0.6f);
-        mLayoutGroups.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(360).setInterpolator(AnimationUtil.getShowCurveResistanceInterpolator());
+    private void showEdgeAnimate(View view, boolean isLandscape) {
+        view.setAlpha(0f);
+        view.setScaleX(0.6f);
+        view.setScaleY(0.6f);
+        view.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(360)
+                .setInterpolator(AnimationUtil.getShowCurveResistanceInterpolator());
         if (isLandscape) {
-            mLayoutGroups.setTranslationY(-mIconGroupHeight);
-            mLayoutGroups.animate().translationY(0f).start();
+            view.setTranslationY(-mIconGroupHeight);
+            view.animate()
+                    .translationY(0f).start();
         } else if (EdgeDirection.LEFT == mEd) {
-            mLayoutGroups.setTranslationX(-mIconGroupWidth);
-            mLayoutGroups.animate().translationX(0f).start();
+            view.setTranslationX(-mIconGroupWidth);
+            view.animate()
+                    .translationX(0f)
+                    .start();
         } else {
-            mLayoutGroups.setTranslationX(mIconGroupWidth);
-            mLayoutGroups.animate().translationX(0f).start();
+            view.setTranslationX(mIconGroupWidth);
+            view.animate()
+                    .translationX(0f)
+                    .start();
         }
     }
 
-    private void mainIconGroupDismiss(boolean isLandscape) {
-        mLayoutGroups.setAlpha(1f);
-        mLayoutGroups.setScaleX(1f);
-        mLayoutGroups.setScaleY(1f);
-        mLayoutGroups.animate().alpha(0f).scaleX(0.6f).scaleY(0.6f).setDuration(360).setInterpolator(AnimationUtil.getHideCurveInterpolator());
+    private void hideEdgeAnimate(View view, boolean isLandscape) {
+        view.setAlpha(1f);
+        view.setScaleX(1f);
+        view.setScaleY(1f);
+        view.animate()
+                .alpha(0f)
+                .scaleX(0.6f)
+                .scaleY(0.6f)
+                .setDuration(360)
+                .setInterpolator(AnimationUtil.getHideCurveInterpolator());
         if (isLandscape) {
-            mLayoutGroups.setTranslationY(0f);
-            mLayoutGroups.animate().translationY(-mIconGroupHeight).start();
+            view.setTranslationY(0f);
+            view.animate()
+                    .translationY(-mIconGroupHeight)
+                    .start();
         } else if (EdgeDirection.LEFT == mEd) {
-            mLayoutGroups.setTranslationX(0f);
-            mLayoutGroups.animate().translationX(-mIconGroupWidth).start();
+            view.setTranslationX(0f);
+            view.animate()
+                    .translationX(-mIconGroupWidth)
+                    .start();
         } else {
-            mLayoutGroups.setTranslationX(0f);
-            mLayoutGroups.animate().translationX(mIconGroupWidth).start();
+            view.setTranslationX(0f);
+            view.animate()
+                    .translationX(mIconGroupWidth)
+                    .start();
         }
 
-        mLayoutGroups.animate().setListener(new AnimatorListenerAdapter() {
+        view.animate().setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -435,36 +465,61 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         });
     }
 
-    private void statusBarShow(boolean isLandscape) {
-        mLayoutStatus.setScaleX(0.6f);
-        mLayoutStatus.setScaleY(0.6f);
-        mLayoutStatus.setAlpha(1f);
-        mLayoutStatus.animate().scaleY(1f).scaleX(1f).setDuration(360).setStartDelay(45).setInterpolator(AnimationUtil.getEaseInterpolator());
+    private void showEdgeStatusAnimate(View view, boolean isLandscape) {
+        view.setScaleX(0.6f);
+        view.setScaleY(0.6f);
+        view.setAlpha(1f);
+        view.animate()
+                .scaleY(1f)
+                .scaleX(1f)
+                .setDuration(360)
+                .setStartDelay(45)
+                .setInterpolator(AnimationUtil.getEaseInterpolator())
+                .start();
         if (isLandscape) {
-            mLayoutStatus.setTranslationY(-mStatusBarHeight);
-            mLayoutStatus.animate().translationY(0f).start();
+            view.setTranslationY(-mStatusBarHeight);
+            view.animate()
+                    .translationY(0f)
+                    .start();
         } else if (EdgeDirection.LEFT == mEd) {
-            mLayoutStatus.setTranslationX(-mStatusBarWidth);
-            mLayoutStatus.animate().translationX(0f).start();
+            view.setTranslationX(-mStatusBarWidth);
+            view.animate()
+                    .translationX(0f)
+                    .start();
         } else {
-            mLayoutStatus.setTranslationX(mStatusBarWidth);
-            mLayoutStatus.animate().translationX(0f).start();
+            view.setTranslationX(mStatusBarWidth);
+            view.animate()
+                    .translationX(0f)
+                    .start();
         }
     }
 
-    private void statusBarDismiss(boolean isLandscape) {
-        mLayoutStatus.setScaleX(1f);
-        mLayoutStatus.setScaleY(1f);
-        mLayoutStatus.animate().scaleY(0.6f).scaleX(0.6f).translationY(-mStatusBarHeight).alpha(0.1f).setDuration(240).setInterpolator(AnimationUtil.getHideCurveInterpolator()).start();
+    private void hideEdgeStatusAnimate(View view, boolean isLandscape) {
+        view.setScaleX(1f);
+        view.setScaleY(1f);
+        view.animate()
+                .scaleY(0.6f)
+                .scaleX(0.6f)
+                .translationY(-mStatusBarHeight)
+                .alpha(0.1f)
+                .setDuration(240)
+                .setInterpolator(AnimationUtil.getHideCurveInterpolator())
+                .start();
         if (isLandscape) {
-            mLayoutStatus.setTranslationY(0f);
-            mLayoutStatus.animate().translationY(-mStatusBarHeight).start();
+            view.setTranslationY(0f);
+            view.animate()
+                    .translationY(-mStatusBarHeight)
+                    .start();
         } else if (EdgeDirection.LEFT == mEd) {
-            mLayoutStatus.setTranslationX(0f);
-            mLayoutStatus.animate().translationX(-mStatusBarWidth).start();
+            view.setTranslationX(0f);
+            view.animate()
+                    .translationX(-mStatusBarWidth)
+                    .start();
         } else {
-            mLayoutStatus.setTranslationX(0f);
-            mLayoutStatus.animate().translationX(mStatusBarWidth).start();
+            view.setTranslationX(0f);
+            view.animate()
+                    .translationX(mStatusBarWidth)
+                    .start();
         }
     }
 
@@ -516,30 +571,6 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
 
     @Override
     public void onClick(View view) {
-        int postion = -1;
-        switch (view.getId()) {
-            case R.id.layout1:
-                postion = 1;
-                break;
-            case R.id.layout2:
-                postion = 2;
-                break;
-            case R.id.layout3:
-                postion = 3;
-                break;
-            case R.id.layout4:
-                postion = 4;
-                break;
-            case R.id.layout5:
-                postion = 5;
-                break;
-            case R.id.layout6:
-                postion = 6;
-                break;
-        }
-        if (mListener != null) {
-            mListener.onItemClick(postion);
-        }
     }
 
     @Override

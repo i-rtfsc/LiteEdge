@@ -60,7 +60,7 @@ public class Constant {
     public static final String EDGE_CONUT = "edgeCount";
     public static final int EDGE_CONUT_DEFAULT = 7;
 
-//    public static final int EDGE_STYLE_DINFINE = 6;
+    //    public static final int EDGE_STYLE_DINFINE = 6;
     public static final Map<Integer, Integer> sEdgeCountMap;
 
     static {
@@ -106,6 +106,10 @@ public class Constant {
 
     public static final String LANDSCAPE = "landscape";
     public static final int LANDSCAPE_DEFAULT = 4;
+
+    //SharedPreferences KEY & default value
+    public static final String MUSIC_CONTROL_SHOW_BARRAGE = "mcsb";
+    public static final boolean MUSIC_CONTROL_SHOW_BARRAGE_DEFAULT = false;
 
     public static final String DB_INITED = "dbInited";
     public static final String CITY_INITED = "cityInited";

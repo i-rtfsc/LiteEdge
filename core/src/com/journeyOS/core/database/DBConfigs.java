@@ -20,7 +20,7 @@ public class DBConfigs {
     //database appName
     public static final String DB_NAME = "edge";
 
-    public static final int DB_VERSION = 8;
+    public static final int DB_VERSION = 9;
 
     //table
     public static final String EDGE_TABLE = "edge";
@@ -126,4 +126,10 @@ public class DBConfigs {
     //column
     public static final String GESTURE_COMMENT = "comment";
 
+    //table
+    public static final String MUSIC_TABLE = "music";
+    //column
+    public static final String MUSIC_PACKAGE = "packageName";
+    //column
+    public static final String MUSIC_CONFIG = "config";
 }

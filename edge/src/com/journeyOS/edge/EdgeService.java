@@ -46,6 +46,7 @@ import com.journeyOS.edge.wm.BallManager;
 import com.journeyOS.i007Service.DataResource.FACTORY;
 import com.journeyOS.i007Service.I007Manager;
 import com.journeyOS.i007Service.interfaces.II007Listener;
+import com.journeyOS.liteprovider.globals.GlobalsManager;
 
 public class EdgeService extends Service implements GlobalActionObserver.GlobalActionListener {
     private static final String TAG = EdgeService.class.getSimpleName();

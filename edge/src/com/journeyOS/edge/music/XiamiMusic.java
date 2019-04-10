@@ -32,10 +32,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.journeyOS.base.BuildConfig;
+import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.utils.AppUtils;
+import com.journeyOS.base.utils.JsonHelper;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.api.edgeprovider.IMusicProvider;
+import com.journeyOS.core.api.thread.ICoreExecutors;
+import com.journeyOS.core.database.music.Music;
+import com.journeyOS.core.database.music.MusicAir;
+import com.journeyOS.core.database.music.MusicConfig;
+import com.journeyOS.edge.R;
+import com.journeyOS.edge.wm.BarrageManager;
+
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.QueryListener;
 
 public class XiamiMusic {
     private static final String TAG = XiamiMusic.class.getSimpleName();
@@ -48,19 +65,27 @@ public class XiamiMusic {
 
     ViewGroup mNotificationRoot;
 
-    //以下为原生样式(惊呆了这些ID名字)
-    //喜欢
-    private static final String XIAMI_NATIVE_BTN_LIKE = "maintabbar_button_setting_selector_not_skin";
+    Music mMusic;
+
+    static boolean sShowBarrage = false;
+
+    private static final String XIAMI_OBJECT_ID = "fd65456140";
+
+//    //version = 8.0.0
+//    //上一首
+//    private static String XIAMI_NATIVE_BTN_PRE = "lyric_poster_tab_lyric";
+//    //播放
+//    private static String XIAMI_NATIVE_BTN_PLAY = "lyric_poster_tab_barcode";
+//    //下一首
+//    private static String XIAMI_NATIVE_BTN_NEXT = "lyric_poster_tab_background";
+
+    //version = 8.0.1.6
     //上一首
-    private static final String XIAMI_NATIVE_BTN_PRE = "maintabbar_button_search_highlight";
-    //暂停
-    private static final String XIAMI_NATIVE_BTN_PAUSE = "maintabbar_button_recognizer_normal_for_old";
+    private static String XIAMI_NATIVE_BTN_PRE = "main_desk_plus_listen_rec";
     //播放
-    private static final String XIAMI_NATIVE_BTN_PLAY = "maintabbar_button_recognizer_normal_for_old";
+    private static String XIAMI_NATIVE_BTN_PLAY = "main_desk_plus_img_scan_dark";
     //下一首
-    private static final String XIAMI_NATIVE_BTN_NEXT = "maintabbar_button_recognizer_normal";
-    //歌词
-    private static final String XIAMI_NATIVE_BTN_LYRIC = "maintabbar_button_setting_normal";
+    private static String XIAMI_NATIVE_BTN_NEXT = "main_desk_plus_img_scan";
 
     private XiamiMusic() {
         mContext = CoreManager.getDefault().getContext();
@@ -69,6 +94,8 @@ public class XiamiMusic {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+
+        getConfigs();
     }
 
     private static final Singleton<XiamiMusic> gDefault = new Singleton<XiamiMusic>() {
@@ -84,6 +111,9 @@ public class XiamiMusic {
 
     public MusicInfo xiami(Notification notification, String packageName) {
         mMusicInfo.setPackageName(packageName);
+        String version = AppUtils.getAppVersionName(mContext, packageName);
+        LogUtils.d(TAG, " packageName = [" + packageName + "], version = [" + version + "]");
+
         if (notification.extras != null && notification.extras.containsKey(NotificationCompat.EXTRA_MEDIA_SESSION)) {
             if (BuildConfig.DEBUG) LogUtils.d(TAG, packageName + " 采用系统样式");
 
@@ -113,45 +143,35 @@ public class XiamiMusic {
                     try {
                         String iconId = mResources.getResourceEntryName(action.getIcon());
                         LogUtils.d(TAG, "iconId = " + iconId);
-                        switch (iconId) {
-//                            case XIAMI_NATIVE_BTN_PAUSE:
-//                                MusicAction pause = new MusicAction() {
-//                                    @Override
-//                                    public void run() throws Exception {
-//                                        action.actionIntent.send();
-//                                    }
-//                                };
-//                                mMusicInfo.setClick(pause);
-//                                mMusicInfo.setPlaying(true);
-//                                break;
-                            case XIAMI_NATIVE_BTN_PLAY:
-                                MusicAction play = new MusicAction() {
-                                    @Override
-                                    public void run() throws Exception {
-                                        action.actionIntent.send();
-                                    }
-                                };
-                                mMusicInfo.setClick(play);
-                                mMusicInfo.setPlaying(true);
-                                break;
-                            case XIAMI_NATIVE_BTN_NEXT:
-                                MusicAction next = new MusicAction() {
-                                    @Override
-                                    public void run() throws Exception {
-                                        action.actionIntent.send();
-                                    }
-                                };
-                                mMusicInfo.setNext(next);
-                                break;
-                            case XIAMI_NATIVE_BTN_PRE:
-                                MusicAction pre = new MusicAction() {
-                                    @Override
-                                    public void run() throws Exception {
-                                        action.actionIntent.send();
-                                    }
-                                };
-                                mMusicInfo.setLast(pre);
-                                break;
+
+                        if (XIAMI_NATIVE_BTN_PLAY.equals(iconId)) {
+                            MusicAction play = new MusicAction() {
+                                @Override
+                                public void run() throws Exception {
+                                    action.actionIntent.send();
+                                }
+                            };
+                            mMusicInfo.setClick(play);
+                            mMusicInfo.setPlaying(true);
+                        } else if (XIAMI_NATIVE_BTN_NEXT.equals(iconId)) {
+
+                            MusicAction next = new MusicAction() {
+                                @Override
+                                public void run() throws Exception {
+                                    action.actionIntent.send();
+                                    sShowBarrage = true;
+                                }
+                            };
+                            mMusicInfo.setNext(next);
+                        } else if (XIAMI_NATIVE_BTN_PRE.equals(iconId)) {
+                            MusicAction pre = new MusicAction() {
+                                @Override
+                                public void run() throws Exception {
+                                    action.actionIntent.send();
+                                    sShowBarrage = true;
+                                }
+                            };
+                            mMusicInfo.setLast(pre);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -244,6 +264,82 @@ public class XiamiMusic {
                 LogUtils.d(TAG, "error = " + e.toString());
             }
         }
+        if (SpUtils.getInstant().getBoolean(Constant.MUSIC_CONTROL_SHOW_BARRAGE, Constant.MUSIC_CONTROL_SHOW_BARRAGE_DEFAULT)
+                && sShowBarrage && mMusicInfo != null) {
+            sShowBarrage = false;
+            Bitmap circleBitmap = null;
+            Drawable drawable = mMusicInfo.getAlbumCover();
+            if (drawable != null) {
+                Bitmap bitmap = UIUtils.drawableToBitmap(drawable);
+                circleBitmap = UIUtils.getCircularBitmap(bitmap);
+            }
+
+            BarrageManager.getDefault().sendBarrage(circleBitmap, mMusicInfo.getSinger(), mMusicInfo.getName() + mContext.getString(R.string.gesture_control_music));
+        }
         return mMusicInfo;
+    }
+
+    private void getConfigs() {
+        CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
+            @Override
+            public void run() {
+                mMusic = CoreManager.getDefault().getImpl(IMusicProvider.class).getConfig(MusicManager.MUSIC_XIAMI);
+                boolean needSync = initConfigs();
+
+                if (!needSync) {
+                    syncConfigs();
+                }
+            }
+        });
+    }
+
+    private void syncConfigs() {
+        BmobQuery<MusicAir> bmobQuery = new BmobQuery<>();
+        bmobQuery.getObject(XIAMI_OBJECT_ID, new QueryListener<MusicAir>() {
+            @Override
+            public void done(final MusicAir musicAir, BmobException e) {
+                if (e == null) {
+                    if (musicAir != null) {
+                        CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                mMusic = new Music();
+                                mMusic.packageName = MusicManager.MUSIC_XIAMI;
+                                mMusic.config = musicAir.config;
+                                initConfigs();
+                                CoreManager.getDefault().getImpl(IMusicProvider.class).insertOrUpdateMusic(mMusic);
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    private boolean initConfigs() {
+        boolean init = false;
+        if (mMusic != null && mMusic.config != null) {
+            MusicConfig musicConfig = JsonHelper.fromJson(mMusic.config, MusicConfig.class);
+            List<MusicConfig.Config> configs = musicConfig.configs;
+            for (MusicConfig.Config config : configs) {
+                LogUtils.d(TAG, " version = [" + config.version + "], config = [" + config.config + "]");
+                Config localConfig = JsonHelper.fromJson(config.config, Config.class);
+                if (AppUtils.getAppVersionName(mContext, MusicManager.MUSIC_XIAMI).equals(config.version)) {
+                    XIAMI_NATIVE_BTN_PRE = localConfig.last;
+                    XIAMI_NATIVE_BTN_PLAY = localConfig.play;
+                    XIAMI_NATIVE_BTN_NEXT = localConfig.next;
+                    init = true;
+                }
+            }
+
+        }
+
+        return init;
+    }
+
+    public static class Config {
+        public String last;
+        public String play;
+        public String next;
     }
 }

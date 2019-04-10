@@ -181,7 +181,12 @@ public class BarrageManager {
         if (mRootView == null) {
             initBarrage();
         }
+        Bitmap bitmap = UIUtils.drawableToBitmap(mContext.getResources().getDrawable(R.mipmap.user));
+        Bitmap circleBitmap = UIUtils.getCircularBitmap(bitmap);
+        sendBarrage(circleBitmap, "用户名", "弹幕消息测试~");
+    }
 
+    public void sendBarrage(Bitmap bitmap, String name, String text) {
         if (mRootView != null) {
             if (!isAttachedToWindow) {
                 WindowManager.LayoutParams layoutParams = getLayoutParams();
@@ -191,12 +196,10 @@ public class BarrageManager {
 
             BarrageEntity barrageEntity = new BarrageEntity();
             barrageEntity.type = BarrageEntity.BARRAGE_TYPE_USERCHAT;
-            barrageEntity.name = "用户名";
-            Bitmap bitmap = UIUtils.drawableToBitmap(mContext.getResources().getDrawable(R.mipmap.user));
-            Bitmap circleBitmap = UIUtils.getCircularBitmap(bitmap);
-            barrageEntity.avatar = circleBitmap;
+            barrageEntity.name = name;
+            barrageEntity.avatar = bitmap;
             barrageEntity.level = 100;
-            barrageEntity.text = "弹幕消息测试~";
+            barrageEntity.text = text;
             if (mBarrageHelper != null) {
                 mBarrageHelper.addBarrage(barrageEntity, true);
             }
