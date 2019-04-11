@@ -24,7 +24,6 @@
 
         <activity
             android:name=".ui.activity.EdgeActivity"
-            android:excludeFromRecents="true"
             android:theme="@style/base_AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +33,6 @@
 
         <activity
             android:name=".ui.activity.ContainerActivity"
-            android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:theme="@style/base_AppTheme" />
 

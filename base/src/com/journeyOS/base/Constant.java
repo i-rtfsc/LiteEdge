@@ -33,6 +33,9 @@ public class Constant {
     public static final String DAEMON = "daemon";
     public static final boolean DAEMON_DEFAULT = true;
 
+    public static final String EXCLUDE = "exclude";
+    public static final boolean EXCLUDE_DEFAULT = false;
+
     public static final String BALL = "ball";
     public static final boolean BALL_DEFAULT = false;
 

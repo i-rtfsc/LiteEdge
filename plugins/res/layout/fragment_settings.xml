@@ -25,10 +25,20 @@
 
         <com.journeyOS.base.widget.SettingSwitch
             android:id="@+id/daemon"
-            style="@style/single_layout"
+            style="@style/top_layout"
             android:theme="@style/CheckBox"
             settings:settingIcon="@drawable/svg_daemon"
             settings:settingTitle="@string/daemon" />
+
+        <View style="@style/bg_line" />
+
+        <com.journeyOS.base.widget.SettingSwitch
+            android:id="@+id/exclude"
+            style="@style/bottom_layout"
+            android:theme="@style/CheckBox"
+            settings:settingIcon="@drawable/svg_history"
+            settings:settingSummary="@string/exclude_summary"
+            settings:settingTitle="@string/exclude" />
 
     </LinearLayout>
 

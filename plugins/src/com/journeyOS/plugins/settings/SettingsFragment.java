@@ -17,7 +17,10 @@
 package com.journeyOS.plugins.settings;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 
 import com.journeyOS.base.Constant;
@@ -32,6 +35,8 @@ import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.R2;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -39,6 +44,9 @@ public class SettingsFragment extends BaseFragment {
 
     @BindView(R2.id.daemon)
     SettingSwitch mDaemon;
+
+    @BindView(R2.id.exclude)
+    SettingSwitch mExclude;
 
     @BindView(R2.id.ball)
     SettingSwitch mBall;
@@ -66,6 +74,9 @@ public class SettingsFragment extends BaseFragment {
         boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, Constant.DAEMON_DEFAULT);
         mDaemon.setCheck(daemon);
 
+        boolean exclude = SpUtils.getInstant().getBoolean(Constant.EXCLUDE, Constant.EXCLUDE_DEFAULT);
+        mExclude.setCheck(exclude);
+
         boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, Constant.BALL_DEFAULT);
         mBall.setCheck(ball);
         if (ball && CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
@@ -78,6 +89,26 @@ public class SettingsFragment extends BaseFragment {
         boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, Constant.DAEMON_DEFAULT);
         mDaemon.setCheck(!daemon);
         SpUtils.getInstant().put(Constant.DAEMON, !daemon);
+    }
+
+    @OnClick({R2.id.exclude})
+    public void listenerExclude() {
+        boolean exclude = SpUtils.getInstant().getBoolean(Constant.EXCLUDE, Constant.EXCLUDE_DEFAULT);
+        mExclude.setCheck(!exclude);
+        SpUtils.getInstant().put(Constant.EXCLUDE, !exclude);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+            if (am != null) {
+                List<ActivityManager.AppTask> tasks = am.getAppTasks();
+                if (tasks != null && tasks.size() > 0) {
+                    ActivityManager.AppTask task = tasks.get(0);
+                    if (task != null) {
+                        task.setExcludeFromRecents(!exclude);
+                    }
+                }
+            }
+        }
     }
 
     @OnClick({R2.id.ball})

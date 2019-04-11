@@ -17,6 +17,8 @@
 <resources>
     <string name="app_name">Edge</string>
     <string name="daemon">守护进程</string>
+    <string name="exclude">自动隐藏</string>
+    <string name="exclude_summary">不在多任务显示</string>
     <string name="overflow">浮窗权限</string>
     <string name="ball">悬浮球</string>
     <string name="ball_size">悬浮球大小</string>

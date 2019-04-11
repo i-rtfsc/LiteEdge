@@ -18,6 +18,8 @@ package com.journeyOS.edge.ui.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -112,6 +114,24 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         mContainer = findViewById(R.id.container);
 
         EdgeServiceManager.getDefault().bindEgdeService();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        boolean exclude = SpUtils.getInstant().getBoolean(Constant.EXCLUDE, Constant.EXCLUDE_DEFAULT);
+        if (exclude) {
+            ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+            if (am != null) {
+                List<ActivityManager.AppTask> tasks = am.getAppTasks();
+                if (tasks != null && tasks.size() > 0) {
+                    ActivityManager.AppTask task = tasks.get(0);
+                    if (task != null) {
+                        task.setExcludeFromRecents(true);
+                    }
+                }
+            }
+        }
     }
 
     @Override
