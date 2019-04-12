@@ -7,7 +7,6 @@
 
         <activity
             android:name=".SelectorActivity"
-            android:excludeFromRecents="true"
             android:theme="@style/settings">
             <intent-filter>
                 <action android:name="com.journeyOS.plugins.SELECTOR" />
@@ -17,7 +16,6 @@
 
         <activity
             android:name=".MoreSelectorActivity"
-            android:excludeFromRecents="true"
             android:theme="@style/settings">
             <intent-filter>
                 <action android:name="com.journeyOS.plugins.MORE_SELECTOR" />
@@ -27,7 +25,6 @@
 
         <activity
             android:name=".search.SearchActivity"
-            android:excludeFromRecents="true"
             android:theme="@style/settings">
             <intent-filter>
                 <action android:name="com.journeyOS.plugins.SEARCH" />
@@ -37,7 +34,6 @@
 
         <activity
             android:name=".LearnActivity"
-            android:excludeFromRecents="true"
             android:theme="@style/settings">
             <intent-filter>
                 <action android:name="com.journeyOS.plugins.LEARN" />
