@@ -19,7 +19,9 @@ package com.journeyOS.edge.ui.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -38,10 +40,12 @@ import com.journeyOS.base.Constant;
 import com.journeyOS.base.guide.LiteGuide;
 import com.journeyOS.base.guide.OnGuideClickListener;
 import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.utils.BaseUtils;
 import com.journeyOS.base.utils.BitmapUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.SyncMarket;
 import com.journeyOS.core.api.edgeprovider.IAppProvider;
 import com.journeyOS.core.api.edgeprovider.ICityProvider;
 import com.journeyOS.core.api.plugins.IPlugins;
@@ -132,6 +136,41 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                 }
             }
         }
+
+        SyncMarket.getDefault().get(new SyncMarket.onVersionObservable() {
+            @Override
+            public void onResult(boolean needUpdate, final String version, final String description) {
+                LogUtils.d(TAG, "sync market,  needUpdate = [" + needUpdate + "], version = [" + version + "], description = [" + description + "]");
+                if (needUpdate) {
+                    CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            final AlertDialog dialog = new AlertDialog.Builder(mContext, com.journeyOS.plugins.R.style.CornersAlertDialog)
+                                    .setTitle(mContext.getString(R.string.update_dialog_title) + version)
+                                    .setMessage(mContext.getString(R.string.update_dialog_message) + description)
+                                    .setPositiveButton(mContext.getString(R.string.update_dialog_download), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int i) {
+                                            boolean success = BaseUtils.openInMarket(mContext, SyncMarket.MARKET);
+                                            if (!success) {
+                                                BaseUtils.openBrowser(mContext, SyncMarket.getDefault().getMarketUrl());
+                                            }
+                                        }
+                                    })
+                                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int i) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .create();
+                            dialog.show();
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     @Override

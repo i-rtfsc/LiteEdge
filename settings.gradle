@@ -35,6 +35,7 @@ def initVersion() {
     gradle.ext.glide = '4.6.1'
     gradle.ext.colorpicker = '0.0.13'
     gradle.ext.indicatorseekbar = '2.1.2'
+    gradle.ext.jsoup = '1.10.3'
 
     //core dependencies
     gradle.ext.stetho = '1.5.0'
