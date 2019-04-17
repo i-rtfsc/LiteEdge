@@ -101,6 +101,7 @@ dependencies {
     api "co.revely:gradient:$gradle.gradient"
     api "com.github.QuadFlask:colorpicker:$gradle.colorpicker"
     api "com.github.warkiz.widget:indicatorseekbar:$gradle.indicatorseekbar"
+    api "org.jsoup:jsoup:$gradle.jsoup"
 
     implementation('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true;

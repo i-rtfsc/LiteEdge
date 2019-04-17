@@ -16,7 +16,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
+    android:background="@color/dark_background"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -34,8 +34,8 @@
         android:id="@+id/side"
         android:layout_width="@dimen/side_letter_bar_width"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/search_top_bar"
+        android:layout_alignParentRight="true"
         android:background="@color/text_primary" />
 
     <TextView

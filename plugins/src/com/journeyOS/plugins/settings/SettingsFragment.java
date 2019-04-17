@@ -18,15 +18,24 @@ package com.journeyOS.plugins.settings;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 
+import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.OnColorSelectedListener;
+import com.flask.colorpicker.builder.ColorPickerClickListener;
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.widget.SettingSwitch;
+import com.journeyOS.base.widget.SettingView;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.api.barrage.IBarrage;
 import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.api.plugins.IPlugins;
 import com.journeyOS.core.api.ui.IContainer;
@@ -34,6 +43,9 @@ import com.journeyOS.core.base.BaseFragment;
 import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.R2;
+import com.warkiz.widget.IndicatorSeekBar;
+import com.warkiz.widget.OnSeekChangeListener;
+import com.warkiz.widget.SeekParams;
 
 import java.util.List;
 
@@ -50,6 +62,33 @@ public class SettingsFragment extends BaseFragment {
 
     @BindView(R2.id.ball)
     SettingSwitch mBall;
+
+    @BindView(R2.id.status_bar)
+    SettingSwitch mStatusBar;
+
+    @BindView(R2.id.edge_item_txt)
+    SettingSwitch mItemText;
+
+    @BindView(R2.id.edge_count)
+    SettingView mEdgeCount;
+
+    @BindView(R2.id.innerBall)
+    SettingView mInnerBall;
+
+    @BindView(R2.id.ball_size)
+    IndicatorSeekBar mBallSize;
+
+    @BindView(R2.id.barrage_click)
+    SettingView mBarrageClick;
+
+    @BindView(R2.id.barrage_title)
+    SettingView mBarrageTitle;
+
+    @BindView(R2.id.barrage_summary)
+    SettingView mBarrageSummary;
+
+    @BindView(R2.id.barrage_background)
+    SettingView mBarrageBackground;
 
     static Activity mContext;
 
@@ -82,6 +121,53 @@ public class SettingsFragment extends BaseFragment {
         if (ball && CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
             CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(true);
         }
+
+        boolean statusBar = SpUtils.getInstant().getBoolean(Constant.EDGE_LAB_DEBUG, Constant.EDGE_LAB_DEBUG_DEFAULT);
+        mStatusBar.setCheck(statusBar);
+
+        boolean itemText = SpUtils.getInstant().getBoolean(Constant.EDGE_ITEM_TEXT, Constant.EDGE_ITEM_TEXT_DEFAULT);
+        mItemText.setCheck(itemText);
+
+        int count = SpUtils.getInstant().getInt(Constant.EDGE_CONUT, Constant.EDGE_CONUT_DEFAULT);
+        mEdgeCount.setRightSummary(mContext.getString(Constant.sEdgeCountMap.get(count)));
+
+        mBarrageClick.setRightSummary(mContext.getString(Constant.sBarrageClickMap.get(SpUtils.getInstant().getInt(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT))));
+
+        int titleColor = SpUtils.getInstant().getInt(Constant.BARRAGE_TITLE_COLOR, Constant.BARRAGE_TITLE_COLOR_DEFAULT);
+        if (titleColor == 0) {
+            titleColor = ContextCompat.getColor(mContext, R.color.hotpink);
+        }
+        mBarrageTitle.setRightSummaryColor(titleColor);
+
+        int summaryColor = SpUtils.getInstant().getInt(Constant.BARRAGE_SUMMARY_COLOR, Constant.BARRAGE_SUMMARY_COLOR_DEFAULT);
+        if (summaryColor == 0) {
+            summaryColor = ContextCompat.getColor(mContext, R.color.lavender);
+        }
+        mBarrageSummary.setRightSummaryColor(summaryColor);
+
+        int backgroundColor = SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_COLOR, Constant.BARRAGE_BACKGROUND_COLOR_DEFAULT);
+        if (backgroundColor == 0) {
+            backgroundColor = ContextCompat.getColor(mContext, R.color.divider_dark);
+        }
+        mBarrageBackground.setRightSummaryColor(backgroundColor);
+
+        mBallSize.setProgress(SpUtils.getInstant().getInt(Constant.BALL_SIZE, Constant.BALL_SIZE_DEFAULT));
+        mBallSize.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+                CoreManager.getDefault().getImpl(IEdge.class).updateBallSize(seekParams.progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                SpUtils.getInstant().put(Constant.BALL_SIZE, seekBar.getProgress());
+            }
+        });
     }
 
     @OnClick({R2.id.daemon})
@@ -134,5 +220,206 @@ public class SettingsFragment extends BaseFragment {
     public void listenerLandscape() {
         Fragment fragment = CoreManager.getDefault().getImpl(IPlugins.class).provideGestureFragment(mContext, Configuration.ORIENTATION_LANDSCAPE);
         CoreManager.getDefault().getImpl(IContainer.class).subActivity(mContext, fragment, mContext.getString(R.string.gesture_landscape));
+    }
+
+    @OnClick({R2.id.edge_item_txt})
+    public void listenerItemText() {
+        boolean itemText = SpUtils.getInstant().getBoolean(Constant.EDGE_ITEM_TEXT, Constant.EDGE_ITEM_TEXT_DEFAULT);
+        mItemText.setCheck(!itemText);
+        SpUtils.getInstant().put(Constant.EDGE_ITEM_TEXT, !itemText);
+    }
+
+    @OnClick({R2.id.status_bar})
+    public void listenerStatusBar() {
+        boolean debug = SpUtils.getInstant().getBoolean(Constant.EDGE_LAB_DEBUG, Constant.EDGE_LAB_DEBUG_DEFAULT);
+        mStatusBar.setCheck(!debug);
+        SpUtils.getInstant().put(Constant.EDGE_LAB_DEBUG, !debug);
+    }
+
+    @OnClick({R2.id.edge_count})
+    public void listenerCount() {
+        final String[] items = mContext.getResources().getStringArray(R.array.edge_count_array);
+        int item = SpUtils.getInstant().getInt(Constant.EDGE_CONUT, Constant.EDGE_CONUT_DEFAULT) - 6;
+
+        final AlertDialog dialog = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog)
+                .setTitle(mContext.getString(R.string.count))
+                .setSingleChoiceItems(items, item, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        SpUtils.getInstant().put(Constant.EDGE_CONUT, which + 6);
+                        mEdgeCount.setRightSummary(mContext.getString(Constant.sEdgeCountMap.get(which + 6)));
+//                        setViewsEnabled((which + 6) != Constant.EDGE_STYLE_DINFINE);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        dialog.show();
+    }
+
+    @OnClick({R2.id.innerBall})
+    public void listenerInnerBall() {
+        ColorPickerDialogBuilder
+                .with(mContext, R.style.CornersAlertDialog)
+                .setTitle(mContext.getString(R.string.inner_ball_color_title))
+                .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                .density(9)
+                .noSliders()
+                .setOnColorSelectedListener(new OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(int selectedColor) {
+                        CoreManager.getDefault().getImpl(IEdge.class).updateInnerBall(selectedColor);
+                    }
+                })
+                .setPositiveButton(android.R.string.ok, new ColorPickerClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                        SpUtils.getInstant().put(Constant.INNER_BALL_COLOR, selectedColor);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int color = SpUtils.getInstant().getInt(Constant.INNER_BALL_COLOR, Constant.INNER_BALL_COLOR_DEFAULT);
+                        CoreManager.getDefault().getImpl(IEdge.class).updateInnerBall(color);
+                    }
+                })
+                .build()
+                .show();
+    }
+
+    @OnClick({R2.id.barrage_click})
+    public void listenerClick() {
+        final String[] items = mContext.getResources().getStringArray(R.array.barrage_click_feedback_array);
+        int item = SpUtils.getInstant().getInt(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT);
+
+        final AlertDialog dialog = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog)
+                .setTitle(mContext.getString(R.string.barrage_click_dialog_title))
+                .setSingleChoiceItems(items, item, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        SpUtils.getInstant().put(Constant.BARRAGE_CLICK, which);
+                        mBarrageClick.setRightSummary(mContext.getString(Constant.sBarrageClickMap.get(which)));
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        dialog.show();
+    }
+
+    @OnClick({R2.id.barrage_title})
+    public void listenerBarrageTitle() {
+        ColorPickerDialogBuilder
+                .with(mContext, R.style.CornersAlertDialog)
+                .setTitle(mContext.getString(R.string.barrage_title_color))
+                .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                .density(9)
+                .noSliders()
+                .setOnColorSelectedListener(new OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(int selectedColor) {
+                    }
+                })
+                .setPositiveButton(android.R.string.ok, new ColorPickerClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                        SpUtils.getInstant().put(Constant.BARRAGE_TITLE_COLOR, selectedColor);
+                        mBarrageTitle.setRightSummaryColor(selectedColor);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .build()
+                .show();
+    }
+
+    @OnClick({R2.id.barrage_summary})
+    public void listenerBarrageSummary() {
+        ColorPickerDialogBuilder
+                .with(mContext, R.style.CornersAlertDialog)
+                .setTitle(mContext.getString(R.string.barrage_summary_color))
+                .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                .density(9)
+                .noSliders()
+                .setOnColorSelectedListener(new OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(int selectedColor) {
+                    }
+                })
+                .setPositiveButton(android.R.string.ok, new ColorPickerClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                        SpUtils.getInstant().put(Constant.BARRAGE_SUMMARY_COLOR, selectedColor);
+                        mBarrageSummary.setRightSummaryColor(selectedColor);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .build()
+                .show();
+    }
+
+    @OnClick({R2.id.barrage_background})
+    public void listenerBarrageBackground() {
+        ColorPickerDialogBuilder
+                .with(mContext, R.style.CornersAlertDialog)
+                .setTitle(mContext.getString(R.string.barrage_background_color))
+                .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                .density(9)
+                .noSliders()
+                .setOnColorSelectedListener(new OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(int selectedColor) {
+                    }
+                })
+                .setPositiveButton(android.R.string.ok, new ColorPickerClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                        SpUtils.getInstant().put(Constant.BARRAGE_BACKGROUND_COLOR, selectedColor);
+                        mBarrageBackground.setRightSummaryColor(selectedColor);
+                    }
+                })
+                .setNegativeButton(R.string.barrage_background_color_default, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int backgroundColor = ContextCompat.getColor(mContext, R.color.divider_dark);
+                        SpUtils.getInstant().put(Constant.BARRAGE_BACKGROUND_COLOR, backgroundColor);
+                        mBarrageBackground.setRightSummaryColor(backgroundColor);
+                    }
+                })
+                .build()
+                .show();
+    }
+
+    @OnClick({R2.id.barrage_color_test})
+    public void listenerBarrageTest() {
+        if (!CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
+            CoreManager.getDefault().getImpl(IPermission.class).drawOverlays(mContext, true);
+            return;
+        }
+
+        if (!CoreManager.getDefault().getImpl(IPermission.class).hasListenerNotification(mContext)) {
+            CoreManager.getDefault().getImpl(IPermission.class).listenerNotification(mContext, true);
+            return;
+        }
+
+        CoreManager.getDefault().getImpl(IBarrage.class).sendBarrage();
     }
 }

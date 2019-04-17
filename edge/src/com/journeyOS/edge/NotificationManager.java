@@ -126,7 +126,7 @@ public class NotificationManager implements ServiceLifecycleListener, Notificati
 
     @Override
     public void onNotification(StatusBarNotification sbn, final Notification notification) {
-        if (sbn != null) {
+        if (sbn != null && MusicManager.USE_NOTIFICATION) {
             if (MusicManager.MUSIC_NETEASE.equals(notification.getPackageName())
                     || MusicManager.MUSIC_QQ.equals(notification.getPackageName())
                     || MusicManager.MUSIC_XIAMI.equals(notification.getPackageName())) {
@@ -194,7 +194,7 @@ public class NotificationManager implements ServiceLifecycleListener, Notificati
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn, RankingMap rankingMap) {
-        if (sbn != null) {
+        if (sbn != null && MusicManager.USE_NOTIFICATION) {
             if (MusicManager.MUSIC_NETEASE.equals(sbn.getPackageName())
                     || MusicManager.MUSIC_QQ.equals(sbn.getPackageName())) {
                 MusicManager.getDefault().onNotificationRemoved(sbn);

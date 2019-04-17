@@ -55,17 +55,30 @@ public class BaseUtils {
         return o == null;
     }
 
-    public static void openInMarket(@NonNull Context context) {
+    public static boolean openInMarket(@NonNull Context context) {
+        return openInMarket(context, null);
+    }
+
+    public static boolean openInMarket(@NonNull Context context, String packageName) {
+        boolean success = false;
         Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        if (packageName != null) {
+            intent.setPackage(packageName);
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
             context.startActivity(Intent.createChooser(intent, context.getString(R.string.open_in_market))
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            success = true;
         } catch (ActivityNotFoundException e) {
             Toasty.warning(context, context.getString(R.string.no_market_clients)).show();
+            success = false;
         }
+
+        return success;
     }
+
 
     public static void launchEmail(@NonNull Context context, @NonNull String email) {
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -77,6 +90,16 @@ public class BaseUtils {
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } catch (ActivityNotFoundException e) {
             Toasty.warning(context, context.getString(R.string.no_email_clients)).show();
+        }
+    }
+
+    public static void openBrowser(@NonNull Context context, @NonNull String url) {
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setPackage("com.android.browser");
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
         }
     }
 }

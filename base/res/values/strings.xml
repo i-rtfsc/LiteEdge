@@ -176,4 +176,8 @@
     <string name="permission_off">未开启</string>
 
     <string name="gesture_control_music">正在使用手势控制音乐</string>
+
+    <string name="update_dialog_title">检测到新版本： </string>
+    <string name="update_dialog_message">更新日志： </string>
+    <string name="update_dialog_download">去下载</string>
 </resources>
