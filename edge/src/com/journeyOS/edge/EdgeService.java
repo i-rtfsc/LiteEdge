@@ -46,12 +46,13 @@ import com.journeyOS.edge.wm.BallManager;
 import com.journeyOS.i007Service.DataResource.FACTORY;
 import com.journeyOS.i007Service.I007Manager;
 import com.journeyOS.i007Service.interfaces.II007Listener;
-import com.journeyOS.liteprovider.globals.GlobalsManager;
 
 public class EdgeService extends Service implements GlobalActionObserver.GlobalActionListener {
     private static final String TAG = EdgeService.class.getSimpleName();
 
     private Context mContext;
+
+    private H mHandler = H.getDefault().getHandler();
 
     private II007Listener mII007Listener = new II007Listener.Stub() {
         @Override
@@ -147,7 +148,7 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
 
     void prepraJob() {
         this.startForeground(NotificationUtils.NOTIFICATION_ID, NotificationUtils.getNotification(mContext));
-//        this.stopForeground(true);
+        this.stopForeground(true);
 
         GlobalActionObserver.getDefault().startGlobalActionReceiver(mContext);
         GlobalActionObserver.getDefault().setOnGlobalActionListener(this);
@@ -214,5 +215,4 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
             }
         }
     }
-
 }

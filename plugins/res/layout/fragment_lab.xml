@@ -15,7 +15,6 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:settings="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,126 +24,9 @@
     <LinearLayout style="@style/wrap_layout">
 
         <com.journeyOS.base.widget.SettingView
-            android:id="@+id/edge_count"
-            style="@style/top_layout"
-            android:visibility="visible"
-            settings:settingIcon="@drawable/svg_count"
-            settings:settingRightSummary="7"
-            settings:settingSummary="@string/count_summary"
-            settings:settingTitle="@string/count" />
-
-        <View
-            style="@style/bg_line"
-            android:visibility="visible" />
-
-        <com.journeyOS.base.widget.SettingSwitch
-            android:id="@+id/edge_item_txt"
-            style="@style/mid_layout"
-            android:theme="@style/CheckBox"
-            settings:settingIcon="@drawable/svg_text"
-            settings:settingSummary="@string/edge_item_txt_summary"
-            settings:settingTitle="@string/edge_item_txt" />
-
-        <View style="@style/bg_line" />
-
-        <com.journeyOS.base.widget.SettingSwitch
-            android:id="@+id/status_bar"
-            style="@style/bottom_layout"
-            android:theme="@style/CheckBox"
-            settings:settingIcon="@drawable/svg_statusbar"
-            settings:settingSummary="@string/statusbar_debug_summary"
-            settings:settingTitle="@string/statusbar_debug" />
-
-    </LinearLayout>
-
-    <LinearLayout style="@style/wrap_layout">
-
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/innerBall"
-            style="@style/top_layout"
-            settings:settingIcon="@drawable/svg_ball"
-            settings:settingSummary="@string/inner_ball_color_summary"
-            settings:settingTitle="@string/inner_ball_color_title" />
-
-        <View style="@style/bg_line" />
-
-        <LinearLayout
-            style="@style/bottom_layout"
-            android:layout_height="48dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:text="@string/ball_size"
-                android:textColor="#ff717171"
-                android:textSize="14dp" />
-
-            <com.warkiz.widget.IndicatorSeekBar
-                android:id="@+id/ball_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:isb_indicator_color="@color/colorPrimary"
-                app:isb_max="200"
-                app:isb_min="50"
-                app:isb_progress="175"
-                app:isb_seek_smoothly="true"
-                app:isb_thumb_color="@color/colorPrimary"
-                app:isb_track_progress_color="@color/colorPrimary" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout style="@style/wrap_layout">
-
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/barrage_click"
-            style="@style/top_layout"
-            settings:settingIcon="@drawable/svg_click"
-            settings:settingRightSummary="@string/barrage_click_not_feedback"
-            settings:settingTitle="@string/barrage_click_title" />
-
-        <View
-            style="@style/bg_line"
-            android:visibility="visible" />
-
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/barrage_title"
             style="@style/single_layout"
-            settings:settingIcon="@drawable/svg_title"
-            settings:settingRightSummary="@string/barrage_current_color"
-            settings:settingTitle="@string/barrage_title_color" />
-
-        <View
-            style="@style/bg_line"
-            android:visibility="visible" />
-
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/barrage_summary"
-            style="@style/mid_layout"
-            settings:settingIcon="@drawable/svg_content"
-            settings:settingRightSummary="@string/barrage_current_color"
-            settings:settingTitle="@string/barrage_summary_color" />
-
-        <View style="@style/bg_line" />
-
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/barrage_background"
-            style="@style/mid_layout"
-            settings:settingIcon="@drawable/svg_background"
-            settings:settingRightSummary="@string/barrage_current_color"
-            settings:settingTitle="@string/barrage_background_color" />
-
-        <View style="@style/bg_line" />
-
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/barrage_color_test"
-            style="@style/bottom_layout"
-            settings:settingIcon="@drawable/svg_menu_barrage"
-            settings:settingTitle="@string/barrage_debug"
+            settings:settingTitle="实验室功能已经稳定，移到设置界面里"
             settings:showRight="false" />
-
     </LinearLayout>
 
 </LinearLayout>

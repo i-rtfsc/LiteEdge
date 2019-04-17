@@ -18,9 +18,12 @@ package com.journeyOS.edge.music;
 
 import android.app.Notification;
 import android.content.Context;
+import android.media.AudioManager;
 import android.service.notification.StatusBarNotification;
+import android.view.KeyEvent;
 
 import com.journeyOS.base.BuildConfig;
+import com.journeyOS.base.utils.KeyEventUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
@@ -33,16 +36,23 @@ public class MusicManager {
     public static final String MUSIC_PLAY = GlobalType.MUSIC_PLAY;
     public static final String MUSIC_NEXT = GlobalType.MUSIC_NEXT;
 
+    /**
+     * 通过获取通知中音乐播放器的view来控制应用
+     */
+    public static final boolean USE_NOTIFICATION = false;
+
     public static final String MUSIC_NETEASE = "com.netease.cloudmusic";
     public static final String MUSIC_QQ = "com.tencent.qqmusic";
     public static final String MUSIC_XIAMI = "fm.xiami.main";
 
     Context mContext;
+    AudioManager mAudioManager;
     MusicInfo mMusicInfo;
     int mStatusBarId;
 
     private MusicManager() {
         mContext = CoreManager.getDefault().getContext();
+        mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
     }
 
     private static final Singleton<MusicManager> gDefault = new Singleton<MusicManager>() {
@@ -56,6 +66,7 @@ public class MusicManager {
         return gDefault.get();
     }
 
+    @Deprecated
     public void onNotification(StatusBarNotification sbn) {
         mMusicInfo = null;
         if (BuildConfig.DEBUG) LogUtils.d(TAG, "wanna get music play info...");
@@ -72,11 +83,12 @@ public class MusicManager {
             mMusicInfo = NeteaseMusic.getDefault().netease(notification, packageName);
         } else if (MUSIC_QQ.equals(packageName)) {
             mMusicInfo = QQMusic.getDefault().qq(notification, packageName);
-        }else if (MUSIC_XIAMI.equals(packageName)) {
+        } else if (MUSIC_XIAMI.equals(packageName)) {
             mMusicInfo = XiamiMusic.getDefault().xiami(notification, packageName);
         }
     }
 
+    @Deprecated
     public void onNotificationRemoved(StatusBarNotification sbn) {
         if (mStatusBarId == sbn.getId()) {
             mMusicInfo = null;
@@ -84,9 +96,17 @@ public class MusicManager {
     }
 
     public boolean isPlay() {
-        boolean isPlay = false;
-        if (mMusicInfo != null && mMusicInfo.isPlaying()) {
-            isPlay = true;
+        if (mAudioManager == null) {
+            mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        }
+
+        boolean isPlay = mAudioManager.isMusicActive();
+
+        //以后不再用此方案
+        if (MusicManager.USE_NOTIFICATION) {
+            if (mMusicInfo != null && mMusicInfo.isPlaying()) {
+                isPlay = true;
+            }
         }
 
         return isPlay;
@@ -97,11 +117,17 @@ public class MusicManager {
         if (!isPlay) {
             LogUtils.d(TAG, "music wasn't play...");
         }
-        try {
-            mMusicInfo.getClick().run();
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        //以后不再用此方案
+        if (MusicManager.USE_NOTIFICATION) {
+            try {
+                mMusicInfo.getClick().run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+        dispatchMediaKeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
     }
 
     public void last() {
@@ -109,11 +135,18 @@ public class MusicManager {
         if (!isPlay) {
             LogUtils.d(TAG, "music wasn't play...");
         }
-        try {
-            mMusicInfo.getLast().run();
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        //以后不再用此方案
+        if (MusicManager.USE_NOTIFICATION) {
+            try {
+                mMusicInfo.getLast().run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+        dispatchMediaKeyEvent(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+
     }
 
     public void next() {
@@ -121,11 +154,26 @@ public class MusicManager {
         if (!isPlay) {
             LogUtils.d(TAG, "music wasn't play...");
         }
-        try {
-            mMusicInfo.getNext().run();
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        //以后不再用此方案
+        if (MusicManager.USE_NOTIFICATION) {
+            try {
+                mMusicInfo.getNext().run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+        dispatchMediaKeyEvent(KeyEvent.KEYCODE_MEDIA_NEXT);
+    }
+
+    private void dispatchMediaKeyEvent(int keyCode) {
+        if (mAudioManager == null) {
+            mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        }
+        KeyEvent[] events = KeyEventUtils.makeKeyEventGroup(keyCode);
+        mAudioManager.dispatchMediaKeyEvent(events[0]);
+        mAudioManager.dispatchMediaKeyEvent(events[1]);
     }
 
 }

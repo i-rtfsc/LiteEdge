@@ -25,8 +25,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-public class SyncMarket {
+import java.util.regex.Pattern;
 
+public class SyncMarket {
     private Context mContext;
     private String mPackageName;
 
@@ -58,7 +59,8 @@ public class SyncMarket {
         CoreManager.getDefault().getImpl(ICoreExecutors.class).networkIOThread().execute(new Runnable() {
             @Override
             public void run() {
-                String currentVersion = Version.getVersionName(mContext);
+                boolean needUpdate = false;
+                int currentVersionCode = Version.getVersionCode(mContext);
                 String version = Version.getVersionName(mContext);
                 String description = "";
                 try {
@@ -75,14 +77,19 @@ public class SyncMarket {
                         if (descriptionElements != null && descriptionElements.get(0) != null) {
                             description = descriptionElements.get(0).text();
                         }
-                        boolean needUpdate = !currentVersion.equals(version);
+
+                        String[] items = version.split(Pattern.quote("."));
+
+                        if (items != null && items.length == 4) {
+                            needUpdate = (Integer.parseInt(items[3]) > currentVersionCode);
+                        }
+
                         listener.onResult(needUpdate, version, description);
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         });
 
