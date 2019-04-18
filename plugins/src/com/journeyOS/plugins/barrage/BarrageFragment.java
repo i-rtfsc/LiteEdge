@@ -67,7 +67,7 @@ public class BarrageFragment extends BaseFragment {
     @Override
     public void initViews() {
         boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT);
-        mBarrage.setCheck(barrage);
+        mBarrage.setCheckedImmediately(barrage);
 
         if (!barrage) {
             mBarrageSelector.setEnabled(false);

@@ -47,7 +47,7 @@ public class BarrageHolder extends BaseViewHolder<BarrageInfoData> {
         mAppInfoData = data;
         mSwitch.setIcon(data.getDrawable());
         mSwitch.setTitle(data.getAppName());
-        mSwitch.setCheck(data.getToogle());
+        mSwitch.setCheckedImmediately(data.getToogle());
     }
 
     @Override

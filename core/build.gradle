@@ -63,6 +63,7 @@ android {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     api project(':base')
+    api project(':I007Service')
     api project(':barrage')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$gradle.kotlin"

@@ -18,7 +18,7 @@
     android:id="@+id/menu_option"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/dark_background"
+    android:background="@color/transparent"
     android:orientation="vertical"
     android:paddingLeft="@dimen/spacing_x_large">
 

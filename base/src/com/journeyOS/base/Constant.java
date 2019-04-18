@@ -114,6 +114,9 @@ public class Constant {
     public static final String MUSIC_CONTROL_SHOW_BARRAGE = "mcsb";
     public static final boolean MUSIC_CONTROL_SHOW_BARRAGE_DEFAULT = false;
 
+    public static final String AUTO_HIDE_BALL = "autoHideBall";
+    public static final boolean AUTO_HIDE_BALL_DEFAULT = false;
+
     public static final String DB_INITED = "dbInited";
     public static final String CITY_INITED = "cityInited";
     public static final String EDGE_LAB_INITED = "labInited";

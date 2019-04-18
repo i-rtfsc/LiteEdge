@@ -111,22 +111,22 @@ public class SettingsFragment extends BaseFragment {
     @Override
     public void initViews() {
         boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, Constant.DAEMON_DEFAULT);
-        mDaemon.setCheck(daemon);
+        mDaemon.setCheckedImmediately(daemon);
 
         boolean exclude = SpUtils.getInstant().getBoolean(Constant.EXCLUDE, Constant.EXCLUDE_DEFAULT);
-        mExclude.setCheck(exclude);
+        mExclude.setCheckedImmediately(exclude);
 
         boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, Constant.BALL_DEFAULT);
-        mBall.setCheck(ball);
+        mBall.setCheckedImmediately(ball);
         if (ball && CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
             CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(true);
         }
 
         boolean statusBar = SpUtils.getInstant().getBoolean(Constant.EDGE_LAB_DEBUG, Constant.EDGE_LAB_DEBUG_DEFAULT);
-        mStatusBar.setCheck(statusBar);
+        mStatusBar.setCheckedImmediately(statusBar);
 
         boolean itemText = SpUtils.getInstant().getBoolean(Constant.EDGE_ITEM_TEXT, Constant.EDGE_ITEM_TEXT_DEFAULT);
-        mItemText.setCheck(itemText);
+        mItemText.setCheckedImmediately(itemText);
 
         int count = SpUtils.getInstant().getInt(Constant.EDGE_CONUT, Constant.EDGE_CONUT_DEFAULT);
         mEdgeCount.setRightSummary(mContext.getString(Constant.sEdgeCountMap.get(count)));
