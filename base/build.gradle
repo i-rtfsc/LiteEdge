@@ -62,7 +62,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     api "com.journeyOS:liteprovider:$gradle.liteprovider"
-    api "com.journeyOS:i007Service:$gradle.i007Service"
+    //api "com.journeyOS:i007Service:$gradle.i007Service"
     api "com.journeyOS:literouter:$gradle.literouter_core"
     api "com.android.support:appcompat-v7:$gradle.supportVersion"
     api "com.android.support:design:$gradle.supportVersion"
@@ -102,6 +102,7 @@ dependencies {
     api "com.github.QuadFlask:colorpicker:$gradle.colorpicker"
     api "com.github.warkiz.widget:indicatorseekbar:$gradle.indicatorseekbar"
     api "org.jsoup:jsoup:$gradle.jsoup"
+    api "com.kyleduo.switchbutton:library:$gradle.switchbutton"
 
     implementation('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true;

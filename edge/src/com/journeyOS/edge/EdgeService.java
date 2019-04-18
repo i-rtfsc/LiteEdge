@@ -52,8 +52,6 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
 
     private Context mContext;
 
-    private H mHandler = H.getDefault().getHandler();
-
     private II007Listener mII007Listener = new II007Listener.Stub() {
         @Override
         public void onSceneChanged(long l, String s, String s1) throws RemoteException {
@@ -184,6 +182,11 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
         switch (factory) {
             case APP:
                 CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(true);
+                boolean autoHideBall = SpUtils.getInstant().getBoolean(Constant.AUTO_HIDE_BALL, Constant.AUTO_HIDE_BALL_DEFAULT);
+                if (autoHideBall) {
+                    boolean game = I007Manager.isGame(packageName);
+                    EdgeServiceManager.getDefault().showingOrHidingBall(!game);
+                }
                 break;
             case LCD:
                 boolean isScreenOn = I007Manager.isScreenOn(status);

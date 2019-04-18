@@ -18,6 +18,7 @@
     xmlns:settings="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_background"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -27,6 +28,17 @@
             style="@style/single_layout"
             settings:settingTitle="实验室功能已经稳定，移到设置界面里"
             settings:showRight="false" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/wrap_layout">
+
+        <com.journeyOS.base.widget.SettingSwitch
+            android:id="@+id/autoHide"
+            style="@style/single_layout"
+            android:theme="@style/CheckBox"
+            settings:settingIcon="@drawable/svg_daemon"
+            settings:settingSummary="@string/auto_hide_ball_summary"
+            settings:settingTitle="@string/auto_hide_ball" />
     </LinearLayout>
 
 </LinearLayout>

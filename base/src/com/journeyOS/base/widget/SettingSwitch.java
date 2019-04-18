@@ -19,7 +19,6 @@ package com.journeyOS.base.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,10 +26,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.journeyOS.base.R;
+import com.kyleduo.switchbutton.SwitchButton;
 
 public class SettingSwitch extends SettingView {
     private boolean isCheck = false;
-    private SwitchCompat mSwitchButton;
+    private SwitchButton mSwitchButton;
 
     public SettingSwitch(Context context) {
         this(context, null);
@@ -55,7 +55,12 @@ public class SettingSwitch extends SettingView {
 
     @Override
     protected View getRightView() {
-        mSwitchButton = new SwitchCompat(getContext());
+        mSwitchButton = new SwitchButton(getContext());
+        mSwitchButton.setThumbColorRes(R.color.icon);
+        mSwitchButton.setBackColorRes(R.color.dark_background);
+//        mSwitchButton.setText("开", "关");
+//        mSwitchButton.setTextColor(getContext().getResources().getColor(R.color.icon_unselected));
+//        mSwitchButton.setTextExtra((int) (getResources().getDisplayMetrics().density * 4));
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         mSwitchButton.setLayoutParams(params);
@@ -76,6 +81,12 @@ public class SettingSwitch extends SettingView {
     public void setCheck(boolean isCheck) {
         this.isCheck = isCheck;
         mSwitchButton.setChecked(isCheck);
+        requestLayout();
+    }
+
+    public void setCheckedImmediately(boolean isCheck) {
+        this.isCheck = isCheck;
+        mSwitchButton.setCheckedImmediately(isCheck);
         requestLayout();
     }
 

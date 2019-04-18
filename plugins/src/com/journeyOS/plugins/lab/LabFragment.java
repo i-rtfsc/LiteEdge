@@ -19,12 +19,22 @@ package com.journeyOS.plugins.lab;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
+import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.widget.SettingSwitch;
 import com.journeyOS.core.base.BaseFragment;
 import com.journeyOS.plugins.R;
+import com.journeyOS.plugins.R2;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 public class LabFragment extends BaseFragment {
 
     static Activity mContext;
+
+    @BindView(R2.id.autoHide)
+    SettingSwitch mAutoHide;
 
     public static Fragment newInstance(Activity activity) {
         LabFragment fragment = new LabFragment();
@@ -44,6 +54,14 @@ public class LabFragment extends BaseFragment {
 
     @Override
     public void initViews() {
+        boolean auto = SpUtils.getInstant().getBoolean(Constant.AUTO_HIDE_BALL, Constant.AUTO_HIDE_BALL_DEFAULT);
+        mAutoHide.setCheckedImmediately(auto);
     }
 
+    @OnClick({R2.id.autoHide})
+    public void listenerAutoHide() {
+        boolean auto = SpUtils.getInstant().getBoolean(Constant.AUTO_HIDE_BALL, Constant.AUTO_HIDE_BALL_DEFAULT);
+        mAutoHide.setCheck(!auto);
+        SpUtils.getInstant().put(Constant.AUTO_HIDE_BALL, !auto);
+    }
 }

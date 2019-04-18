@@ -74,7 +74,6 @@
     <dimen name="icon_size_x_large">48dp</dimen>
     <dimen name="icon_size_xx_large">56dp</dimen>
 
-
     <dimen name="mask_background_height">10px</dimen>
     <dimen name="parent_width">1080dp</dimen>
     <dimen name="parent_height">2960dp</dimen>
@@ -95,6 +94,8 @@
     <!-- Width of the battery icon in the status bar. -->
     <dimen name="status_bar_battery_icon_width">26dp</dimen>
     <dimen name="backspace_marginLeft">8dp</dimen>
+
+    <dimen name="settings_corners">10dp</dimen>
 
     <dimen name="layout11_portrait_left">40px</dimen>
     <dimen name="layout12_portrait_left">110px</dimen>

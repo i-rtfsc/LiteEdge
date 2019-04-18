@@ -1,0 +1,3 @@
+[submodule "I007Service"]
+	path = I007Service
+	url = git@github.com:journeyOS/I007Service.git

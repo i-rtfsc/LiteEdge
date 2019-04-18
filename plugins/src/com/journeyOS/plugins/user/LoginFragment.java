@@ -138,7 +138,7 @@ public class LoginFragment extends BaseFragment {
             mRegisterLayout.setVisibility(View.GONE);
 
             boolean daemon = SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT);
-            mAutoSync.setCheck(daemon);
+            mAutoSync.setCheckedImmediately(daemon);
 
         } else {
             mUserLayout.setVisibility(View.GONE);
