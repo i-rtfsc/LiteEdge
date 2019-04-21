@@ -37,6 +37,7 @@ import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.edge.music.MusicManager;
 import com.journeyOS.edge.wm.BarrageManager;
 import com.journeyOS.i007Service.core.ServiceLifecycleListener;
+import com.journeyOS.i007Service.core.notification.MusicMetadata;
 import com.journeyOS.i007Service.core.notification.Notification;
 import com.journeyOS.i007Service.core.notification.NotificationListener;
 import com.journeyOS.i007Service.core.notification.NotificationListenerService;
@@ -200,5 +201,10 @@ public class NotificationManager implements ServiceLifecycleListener, Notificati
                 MusicManager.getDefault().onNotificationRemoved(sbn);
             }
         }
+    }
+
+    @Override
+    public void onMusicMetadataUpdate(MusicMetadata metadata) {
+        MusicManager.getDefault().onMusicMetadataUpdate(metadata);
     }
 }

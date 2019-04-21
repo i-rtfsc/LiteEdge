@@ -55,11 +55,14 @@ public class BarrageModel extends BaseViewModel {
                     for (App app : allApps) {
                         String packageName = app.packageName;
                         Boolean toggle = (app.barrage == 1);
-                        Drawable drawable = AppUtils.getAppIcon(mContext, packageName);
                         String label = app.appName;
-//                        String initial = Pinyin.toPinyin(label.substring(0, 1).charAt(0)).substring(0,1);
-                        BarrageInfoData infoData = new BarrageInfoData(drawable, label, packageName, toggle, "");
-                        infoDatas.add(infoData);
+                        Drawable drawable = AppUtils.getAppIcon(mContext, packageName);
+                        if (drawable != null) {
+                            BarrageInfoData infoData = new BarrageInfoData(drawable, label, packageName, toggle, "");
+                            infoDatas.add(infoData);
+                        } else {
+                            CoreManager.getDefault().getImpl(IAppProvider.class).delete(app);
+                        }
                     }
                     mBarrageInfoData.postValue(infoDatas);
                 }

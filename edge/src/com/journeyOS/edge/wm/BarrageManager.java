@@ -187,6 +187,10 @@ public class BarrageManager {
     }
 
     public void sendBarrage(Bitmap bitmap, String name, String text) {
+        if (mRootView == null) {
+            initBarrage();
+        }
+
         if (mRootView != null) {
             if (!isAttachedToWindow) {
                 WindowManager.LayoutParams layoutParams = getLayoutParams();

@@ -18,16 +18,22 @@ package com.journeyOS.edge.music;
 
 import android.app.Notification;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.service.notification.StatusBarNotification;
 import android.view.KeyEvent;
 
 import com.journeyOS.base.BuildConfig;
+import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.KeyEventUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
+import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.GlobalType;
+import com.journeyOS.edge.wm.BarrageManager;
+import com.journeyOS.i007Service.core.notification.MusicMetadata;
 
 public class MusicManager {
     private static final String TAG = MusicManager.class.getSimpleName();
@@ -49,6 +55,7 @@ public class MusicManager {
     AudioManager mAudioManager;
     MusicInfo mMusicInfo;
     int mStatusBarId;
+    boolean showBarrage = false;
 
     private MusicManager() {
         mContext = CoreManager.getDefault().getContext();
@@ -92,6 +99,18 @@ public class MusicManager {
     public void onNotificationRemoved(StatusBarNotification sbn) {
         if (mStatusBarId == sbn.getId()) {
             mMusicInfo = null;
+        }
+    }
+
+    public void onMusicMetadataUpdate(MusicMetadata metadata) {
+        if (showBarrage && SpUtils.getInstant().getBoolean(Constant.MUSIC_CONTROL_SHOW_BARRAGE,
+                Constant.MUSIC_CONTROL_SHOW_BARRAGE_DEFAULT)) {
+            Bitmap album = metadata.album;
+            if (metadata.album != null) {
+                album = UIUtils.getCircularBitmap(metadata.album);
+            }
+            BarrageManager.getDefault().sendBarrage(album, metadata.singer, metadata.title);
+            showBarrage = false;
         }
     }
 
@@ -146,7 +165,6 @@ public class MusicManager {
         }
 
         dispatchMediaKeyEvent(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-
     }
 
     public void next() {
@@ -174,6 +192,7 @@ public class MusicManager {
         KeyEvent[] events = KeyEventUtils.makeKeyEventGroup(keyCode);
         mAudioManager.dispatchMediaKeyEvent(events[0]);
         mAudioManager.dispatchMediaKeyEvent(events[1]);
+        showBarrage = true;
     }
 
 }
