@@ -106,6 +106,9 @@ public class Dispatcher {
                                         case PayModel.ALIPAY_QRCODE:
                                             intent = PayModel.alipayBarcode();
                                             break;
+                                        case PayModel.ALIPAY_CAR_CODE:
+                                            intent = PayModel.alipayCarcode();
+                                            break;
                                         case PayModel.TENCENT_MM_SCAN:
                                             intent = PayModel.weChatScan();
                                             break;

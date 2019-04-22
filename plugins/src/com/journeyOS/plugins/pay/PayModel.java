@@ -40,6 +40,7 @@ public class PayModel extends BaseViewModel {
 
     public static final String ALIPAY_SCAN = "alipay_scan";
     public static final String ALIPAY_QRCODE = "alipay_qrcode";
+    public static final String ALIPAY_CAR_CODE = "alipay_car_code";
     public static final String TENCENT_MM_SCAN = "tencent_mm_scan";
     public static final String TENCENT_MM_QRCODE = "tencent_mm_qrcode";
 
@@ -56,6 +57,9 @@ public class PayModel extends BaseViewModel {
 
         infoDatas.add(new PayInfoData(mContext.getDrawable(R.mipmap.alipay_paycode),
                 mContext.getString(R.string.alipay_barcode), ALIPAY_QRCODE));
+
+        infoDatas.add(new PayInfoData(mContext.getDrawable(R.mipmap.alipay_paycode),
+                mContext.getString(R.string.alipay_car_rcode), ALIPAY_CAR_CODE));
 
         infoDatas.add(new PayInfoData(mContext.getDrawable(R.mipmap.wechat_scan),
                 mContext.getString(R.string.wechat_scan), TENCENT_MM_SCAN));
@@ -78,6 +82,18 @@ public class PayModel extends BaseViewModel {
     public static Intent alipayBarcode() {
         try {
             String uri = "alipayqr://platformapi/startapp?saId=20000056";
+            Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            intent.setPackage(ALIPAY_PKG);
+            return intent;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Intent alipayCarcode() {
+        try {
+            String uri = "alipays://platformapi/startapp?appId=200011235&transparentTitle=auto&url=/www/offline_qrcode.html?cardType=ANT00001&source=shortCut&snapshot=no&canPullDown=NO&showOptionMenu=NO";
             Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
             intent.setPackage(ALIPAY_PKG);
             return intent;

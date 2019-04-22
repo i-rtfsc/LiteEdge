@@ -166,6 +166,7 @@
 
     <string name="alipay_scan">支付宝扫码</string>
     <string name="alipay_barcode">支付宝付款码</string>
+    <string name="alipay_car_rcode">支付宝乘车码</string>
     <string name="wechat_scan">微信扫码</string>
 
     <string name="music_last">上一首</string>
