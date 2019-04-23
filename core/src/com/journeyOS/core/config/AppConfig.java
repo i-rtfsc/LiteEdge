@@ -24,8 +24,11 @@ import com.facebook.stetho.Stetho;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.FileIOUtils;
 import com.journeyOS.base.utils.LogUtils;
+import com.journeyOS.core.AccountManager;
 import com.journeyOS.core.BuildConfig;
 import com.journeyOS.core.R;
+import com.journeyOS.core.database.user.EdgeUser;
+import com.journeyOS.core.push.Installation;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 
@@ -33,8 +36,10 @@ import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobInstallationManager;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.InstallationListener;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 import es.dmoral.toasty.Toasty;
 
 
@@ -97,8 +102,20 @@ public class AppConfig {
             @Override
             public void done(BmobInstallation bmobInstallation, BmobException e) {
                 if (e == null) {
-                    LogUtils.d("init bmob installation, objectId = [" + bmobInstallation.getObjectId() + "]" +
+                    String objectId = bmobInstallation.getObjectId();
+                    LogUtils.d("init bmob installation, objectId = [" + objectId + "]" +
                             ", installationId = [" + bmobInstallation.getInstallationId() + "]");
+                    if (AccountManager.getDefault().isLogin()) {
+                        Installation installation = new Installation();
+                        EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+                        installation.author = edgeUser;
+                        installation.update(objectId, new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                LogUtils.d("update, e = " + e);
+                            }
+                        });
+                    }
                 } else {
                     LogUtils.e(e.getMessage());
                 }

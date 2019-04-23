@@ -59,6 +59,8 @@ public class PushManager {
         BmobPushManager bmobPushManager = new BmobPushManager();
         BmobQuery<BmobInstallation> query = BmobInstallation.getQuery();
         query.addWhereEqualTo(DEVICE_TYPE, DEVICE);
+        //给指定设备推送，这个是我的三星手机
+        //query.addWhereEqualTo("installationId", "F5D67F11B04236B432A2CE98FFAFB3A3");
         bmobPushManager.setQuery(query);
         PushMessage message = new PushMessage();
         message.what = PushMessage.MSG_CHECK_UPDATE;
