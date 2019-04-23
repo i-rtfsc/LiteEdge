@@ -35,6 +35,7 @@
     <string name="menu_lab">实验室</string>
     <string name="menu_about">关于</string>
     <string name="menu_learn">使用教程</string>
+    <string name="menu_admin">管理员</string>
     <string name="version">版本</string>
     <string name="email">邮箱</string>
     <string name="open_in_market">在应用市场中打开</string>
@@ -104,7 +105,7 @@
     <string name="statusbar_debug">Edge状态栏</string>
     <string name="statusbar_debug_summary">开启后可点击Edge状态栏调节Edge图标弧度、位置</string>
     <string name="edge_item_txt">Edeg图标文字</string>
-    <string name="edge_item_txt_summary">开启后Edeg图标上显示对应到应用名称</string>
+    <string name="edge_item_txt_summary">开启后Edeg图标上显示对应的应用名称</string>
     <!--<string name="was_not_number">请输入数字</string>-->
 
     <string name="inner_ball_color_title">悬浮球颜色</string>
@@ -122,6 +123,7 @@
     <string name="barrage_current_color">当前颜色</string>
     <string name="barrage_background_color_default">还原默认</string>
 
+    <string name="device_admin_crash">因为Android新机制，申请设备管理者时APP会闪退但依然能申请成功（目前正在积极寻找解决的办法）。</string>
     <string name="device_admin_description">获取设备管理者以保证打开的辅助功能不会被自动关闭</string>
     <string name="device_admin">设备管理者</string>
     <string name="device_admin_summary">申请后保证进程常驻以及辅助权限不自动失效</string>
@@ -184,4 +186,7 @@
 
     <string name="auto_hide_ball">自动隐藏悬浮球</string>
     <string name="auto_hide_ball_summary">进入游戏时自动隐藏悬浮球</string>
+
+    <string name="push_version_update">更新版本</string>
+    <string name="push_version_update_summary">给Android平台的终端推送更新版本信息</string>
 </resources>

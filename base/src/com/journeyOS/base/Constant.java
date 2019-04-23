@@ -137,9 +137,13 @@ public class Constant {
     public static final int MENU_LAB = 4;
     public static final int MENU_ABOUT = 5;
     public static final int MENU_LEARN = 6;
+    public static final int MENU_ADMIN = 7;
 
     public static final String USER = "Solo";
     public static final String EMAIL = "anqi.huang@outlook.com";
+    public static final String PHONE = "15622881738";
+    //测试账户，也给管理员权限
+    public static final String PHONE_TEST = "12345678901";
 
     public static final String DEFAULT_PASSWORD = "123456";
 }

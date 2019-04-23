@@ -315,6 +315,10 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
             case Constant.MENU_LEARN:
                 CoreManager.getDefault().getImpl(IPlugins.class).navigationLearnActivity(mContext);
                 break;
+            case Constant.MENU_ADMIN:
+                mToolbar.setTitle(R.string.menu_admin);
+                loadFragment(CoreManager.getDefault().getImpl(IPlugins.class).provideAdminFragment(mContext));
+                break;
         }
 
         for (int i = 0; i < 10000; i++) {

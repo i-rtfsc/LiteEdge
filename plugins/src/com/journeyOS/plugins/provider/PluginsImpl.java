@@ -29,6 +29,7 @@ import com.journeyOS.plugins.LearnActivity;
 import com.journeyOS.plugins.MoreSelectorActivity;
 import com.journeyOS.plugins.SelectorActivity;
 import com.journeyOS.plugins.about.AboutFragment;
+import com.journeyOS.plugins.admin.AdminFragment;
 import com.journeyOS.plugins.barrage.BarrageFragment;
 import com.journeyOS.plugins.gesture.GesturesFragment;
 import com.journeyOS.plugins.lab.LabFragment;
@@ -111,6 +112,11 @@ public class PluginsImpl implements IPlugins {
     @Override
     public Fragment provideGestureFragment(Activity activity, int orientation) {
         return GesturesFragment.newInstance(activity, orientation);
+    }
+
+    @Override
+    public Fragment provideAdminFragment(Activity activity) {
+        return AdminFragment.newInstance(activity);
     }
 
 }

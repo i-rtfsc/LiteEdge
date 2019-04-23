@@ -102,4 +102,9 @@ public interface IPlugins extends ICoreApi {
      * 获取实验室Fragment
      */
     Fragment provideGestureFragment(Activity activity, int orientation);
+
+    /**
+     * 获取管理员Fragment
+     */
+    Fragment provideAdminFragment(Activity activity);
 }
