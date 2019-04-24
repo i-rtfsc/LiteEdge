@@ -38,7 +38,6 @@ import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.ImageEngine;
 import com.journeyOS.core.database.user.EdgeUser;
-import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.edge.ui.activity.EdgeActivity;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -92,16 +91,16 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     }
 
     public void initDrawer(Activity context, Bundle bundle, Toolbar toolbar) {
-        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(context)) {
-            releaseDrawer();
-        }
+//        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(context)) {
+//            releaseDrawer();
+//        }
         mContext = context;
         slidingRootNav = new SlidingRootNavBuilder(mContext)
                 .withToolbarMenuToggle(toolbar)
                 .withMenuOpened(false)
                 .withContentClickableWhenMenuOpened(false)
                 .withMenuLayout(R.layout.menu_left_drawer)
-//                .withSavedState(bundle)
+                .withSavedState(bundle)
                 .inject();
 
         screenIcons = loadScreenIcons();
@@ -190,11 +189,12 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
 
     @Override
     public void onItemSelected(int position) {
-        closeMenu(false);
+        closeMenu(true);
         Message msg = Message.obtain();
-        msg.what = H.MSG_DLIDE_CLICK;
+        msg.what = H.MSG_SLIDE_CLICK;
         msg.arg1 = position;
-        mHandler.sendMessageDelayed(msg, H.EDGE_DELAY_TIME * 2);
+//        mHandler.sendMessageDelayed(msg, H.EDGE_DELAY_TIME * 2);
+        mHandler.sendMessage(msg);
     }
 
     public void onItemClick(int position) {
@@ -204,6 +204,10 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     }
 
     public View getView(int postion) {
+        if (adapter == null) {
+            return null;
+        }
+
         return adapter.getView(postion);
     }
 

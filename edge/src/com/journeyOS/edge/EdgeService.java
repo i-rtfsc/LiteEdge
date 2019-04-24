@@ -31,14 +31,12 @@ import com.journeyOS.base.receiver.ScreenObserver;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.StateMachine;
-import com.journeyOS.core.api.daemon.IAlive;
 import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.api.edgeprovider.IAppProvider;
 import com.journeyOS.core.api.edgeprovider.IEdgeLabProvider;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.api.edgeprovider.IGestureProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
-import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.type.FingerDirection;
 import com.journeyOS.edge.utils.NotificationUtils;
@@ -196,26 +194,19 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
     }
 
     void handleScreen(boolean isScreenOn) {
-        boolean daemon = SpUtils.getInstant().getBoolean(Constant.DAEMON, Constant.DAEMON_DEFAULT);
-        if (daemon) {
-            if (Constant.DEBUG) {
-                LogUtils.d(TAG, "edge service listener screen changed = " + isScreenOn);
-            }
-            if (isScreenOn) {
-                if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
-                    CoreManager.getDefault().getImpl(IAlive.class).destroy();
-                }
-                boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT);
-//                if (barrage) {
-                NotificationManager.getDefault().startNotificationService();
-//                }
-            } else {
-                CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(false);
-                if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
-                    CoreManager.getDefault().getImpl(IAlive.class).keepAlive(mContext);
-                }
-                I007Manager.keepAlive();
-            }
+        if (Constant.DEBUG) {
+            LogUtils.d(TAG, "edge service listener screen changed = " + isScreenOn);
         }
+
+        if (isScreenOn) {
+//            boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT);
+//            if (barrage) {
+            NotificationManager.getDefault().startNotificationService();
+//            }
+        } else {
+            CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(false);
+            I007Manager.keepAlive();
+        }
+
     }
 }

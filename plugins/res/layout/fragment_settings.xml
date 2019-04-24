@@ -34,14 +34,17 @@
                 android:id="@+id/daemon"
                 style="@style/top_layout"
                 android:theme="@style/CheckBox"
+                android:visibility="gone"
                 settings:settingIcon="@drawable/svg_daemon"
                 settings:settingTitle="@string/daemon" />
 
-            <View style="@style/bg_line" />
+            <View
+                style="@style/bg_line"
+                android:visibility="gone" />
 
             <com.journeyOS.base.widget.SettingSwitch
                 android:id="@+id/exclude"
-                style="@style/bottom_layout"
+                style="@style/single_layout"
                 android:theme="@style/CheckBox"
                 settings:settingIcon="@drawable/svg_history"
                 settings:settingSummary="@string/exclude_summary"
@@ -51,9 +54,13 @@
 
         <LinearLayout style="@style/wrap_layout">
 
+            <TextView
+                style="@style/text_content_layout"
+                android:text="@string/ball" />
+
             <com.journeyOS.base.widget.SettingSwitch
                 android:id="@+id/ball"
-                style="@style/top_layout"
+                style="@style/mid_layout"
                 android:theme="@style/CheckBox"
                 settings:settingIcon="@drawable/svg_ball"
                 settings:settingTitle="@string/ball" />
@@ -70,7 +77,7 @@
             <View style="@style/bg_line" />
 
             <LinearLayout
-                style="@style/bottom_layout"
+                style="@style/mid_layout"
                 android:layout_height="48dp">
 
                 <TextView
@@ -95,13 +102,11 @@
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout style="@style/wrap_layout">
+            <View style="@style/bg_line" />
 
             <com.journeyOS.base.widget.SettingView
                 android:id="@+id/portrait"
-                style="@style/top_layout"
+                style="@style/mid_layout"
                 android:theme="@style/CheckBox"
                 settings:settingIcon="@drawable/svg_portrait"
                 settings:settingTitle="@string/gesture_portrait" />
@@ -114,14 +119,17 @@
                 settings:settingIcon="@drawable/svg_landscape"
                 settings:settingTitle="@string/gesture_landscape" />
 
-
         </LinearLayout>
 
         <LinearLayout style="@style/wrap_layout">
 
+            <TextView
+                style="@style/text_content_layout"
+                android:text="@string/app_name" />
+
             <com.journeyOS.base.widget.SettingView
                 android:id="@+id/edge_count"
-                style="@style/top_layout"
+                style="@style/mid_layout"
                 android:visibility="visible"
                 settings:settingIcon="@drawable/svg_count"
                 settings:settingRightSummary="7"
@@ -154,9 +162,13 @@
 
         <LinearLayout style="@style/wrap_layout">
 
+            <TextView
+                style="@style/text_content_layout"
+                android:text="@string/barrage_settings" />
+
             <com.journeyOS.base.widget.SettingView
                 android:id="@+id/barrage_click"
-                style="@style/top_layout"
+                style="@style/mid_layout"
                 settings:settingIcon="@drawable/svg_click"
                 settings:settingRightSummary="@string/barrage_click_not_feedback"
                 settings:settingTitle="@string/barrage_click_title" />
@@ -167,7 +179,7 @@
 
             <com.journeyOS.base.widget.SettingView
                 android:id="@+id/barrage_title"
-                style="@style/single_layout"
+                style="@style/mid_layout"
                 settings:settingIcon="@drawable/svg_title"
                 settings:settingRightSummary="@string/barrage_current_color"
                 settings:settingTitle="@string/barrage_title_color" />

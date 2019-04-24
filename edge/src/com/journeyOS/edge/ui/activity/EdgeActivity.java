@@ -177,29 +177,29 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     protected void onResume() {
         super.onResume();
         getPermission();
-        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
-            SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
-            SlidingDrawer.getDefault().setListener(this);
-        }
+//        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
+//            SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
+//            SlidingDrawer.getDefault().setListener(this);
+//        }
         mToolbar.setTitle(R.string.app_name);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
-            mHandler.sendEmptyMessageDelayed(H.MSG_DRAWER_RELEASE, 0);
-        }
+//        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
+//            mHandler.sendEmptyMessageDelayed(H.MSG_DRAWER_RELEASE, 0);
+//        }
     }
 
     @Override
     protected void initDataObserver(Bundle savedInstanceState) {
         super.initDataObserver(savedInstanceState);
         mBundle = savedInstanceState;
-        if (CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
+//        if (CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
             SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
             SlidingDrawer.getDefault().setListener(this);
-        }
+//        }
     }
 
     @Override

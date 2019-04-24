@@ -270,6 +270,7 @@ public class SettingsFragment extends BaseFragment {
                 .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
                 .density(9)
                 .noSliders()
+                .showLightnessSlider(true)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
@@ -326,6 +327,7 @@ public class SettingsFragment extends BaseFragment {
                 .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
                 .density(9)
                 .noSliders()
+                .showLightnessSlider(true)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
@@ -355,6 +357,7 @@ public class SettingsFragment extends BaseFragment {
                 .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
                 .density(9)
                 .noSliders()
+                .showLightnessSlider(true)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
@@ -384,6 +387,7 @@ public class SettingsFragment extends BaseFragment {
                 .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
                 .density(9)
                 .noSliders()
+                .showLightnessSlider(true)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {

@@ -24,9 +24,17 @@
 
     <LinearLayout style="@style/wrap_layout">
 
+        <TextView
+            style="@style/text_title_layout"
+            android:text="@string/perssion_title" />
+
+        <TextView
+            style="@style/text_content_layout"
+            android:text="@string/perssion_summary" />
+
         <com.journeyOS.base.widget.SettingView
             android:id="@+id/overflow"
-            style="@style/top_layout"
+            style="@style/mid_layout"
             settings:settingIcon="@drawable/svg_overflow"
             settings:settingRightSummary=""
             settings:settingTitle="@string/overflow" />
@@ -53,12 +61,19 @@
 
     <LinearLayout style="@style/wrap_layout">
 
+        <TextView
+            style="@style/text_title_layout"
+            android:text="@string/device_manager_title" />
+
+        <TextView
+            style="@style/text_content_layout"
+            android:text="@string/device_manager_summary" />
+
         <com.journeyOS.base.widget.SettingView
             android:id="@+id/device_admin"
-            style="@style/top_layout"
+            style="@style/mid_layout"
             settings:settingIcon="@drawable/svg_device_admin"
             settings:settingRightSummary="@string/permission_off"
-            settings:settingSummary="@string/device_admin_summary"
             settings:settingTitle="@string/device_admin" />
 
         <View style="@style/bg_line" />
@@ -67,7 +82,6 @@
             android:id="@+id/remove_device_admin"
             style="@style/bottom_layout"
             settings:settingIcon="@drawable/svg_remove_device_admin"
-            settings:settingSummary="@string/remove_device_admin_summary"
             settings:settingTitle="@string/remove_device_admin" />
 
     </LinearLayout>

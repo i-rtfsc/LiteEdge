@@ -46,7 +46,6 @@
 
     <LinearLayout style="@style/wrap_layout">
 
-
         <TextView
             style="@style/text_title_layout"
             android:text="@string/pay_title" />
