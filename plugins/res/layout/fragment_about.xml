@@ -41,6 +41,35 @@
             app:settingTitle="@string/email"
             app:showRightSummary="true" />
 
+    </LinearLayout>
+
+
+    <LinearLayout style="@style/wrap_layout">
+
+
+        <TextView
+            style="@style/text_title_layout"
+            android:text="@string/pay_title" />
+
+        <TextView
+            style="@style/text_content_layout"
+            android:text="@string/pay_summary" />
+
+        <com.journeyOS.base.widget.SettingView
+            android:id="@+id/alipay"
+            style="@style/top_layout"
+            app:settingIcon="@mipmap/alipay_paycode"
+            app:settingTitle="@string/pay_aliy_title"
+            app:showRightSummary="true" />
+
+        <View style="@style/bg_line" />
+
+        <com.journeyOS.base.widget.SettingView
+            android:id="@+id/tencentmm"
+            style="@style/bottom_layout"
+            app:settingIcon="@mipmap/wechat_scan"
+            app:settingTitle="@string/pay_tencent_mm_title"
+            app:showRightSummary="true" />
 
     </LinearLayout>
 

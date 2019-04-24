@@ -101,7 +101,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
                 .withMenuOpened(false)
                 .withContentClickableWhenMenuOpened(false)
                 .withMenuLayout(R.layout.menu_left_drawer)
-                .withSavedState(bundle)
+//                .withSavedState(bundle)
                 .inject();
 
         screenIcons = loadScreenIcons();

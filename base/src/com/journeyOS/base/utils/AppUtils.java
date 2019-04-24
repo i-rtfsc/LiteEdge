@@ -16,6 +16,7 @@
 
 package com.journeyOS.base.utils;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -27,6 +28,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,8 +127,14 @@ public class AppUtils {
 
     public static boolean startApp(Context context, Intent intent) {
         if (BaseUtils.isNull(intent)) return false;
-        context.startActivity(intent);
-        return true;
+
+        try {
+            context.startActivity(intent);
+            return true;
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static boolean startApp(Context context, String packageName) {
@@ -137,8 +145,29 @@ public class AppUtils {
             //LogUtils.w(TAG, "startActivity() called with app not found!");
             return false;
         }
-        context.startActivity(intent);
-        return true;
+
+        try {
+            context.startActivity(intent);
+            return true;
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public static boolean startUri(Context context, String uri) {
+        try {
+            Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            context.startActivity(intent);
+            return true;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static boolean isPackageExisted(Context context, String targetPackage) {

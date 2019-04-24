@@ -28,6 +28,7 @@ import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.api.edgeprovider.IGestureProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.gesture.Gesture;
+import com.journeyOS.core.pay.PayManager;
 import com.journeyOS.core.type.FingerDirection;
 import com.journeyOS.edge.music.MusicManager;
 import com.journeyOS.i007Service.core.accessibility.AccessibilityManager;
@@ -101,16 +102,16 @@ public class Dispatcher {
                                     Intent intent = null;
                                     switch (gesture.action) {
                                         case PayModel.ALIPAY_SCAN:
-                                            intent = PayModel.alipayScan();
+                                            intent = PayManager.getDefault().alipayScan();
                                             break;
                                         case PayModel.ALIPAY_QRCODE:
-                                            intent = PayModel.alipayBarcode();
+                                            intent = PayManager.getDefault().alipayBarcode();
                                             break;
                                         case PayModel.ALIPAY_CAR_CODE:
-                                            intent = PayModel.alipayCarcode();
+                                            intent = PayManager.getDefault().alipayCarcode();
                                             break;
                                         case PayModel.TENCENT_MM_SCAN:
-                                            intent = PayModel.weChatScan();
+                                            intent = PayManager.getDefault().tencentMMScan();
                                             break;
                                     }
                                     if (intent != null) {
