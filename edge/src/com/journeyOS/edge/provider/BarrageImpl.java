@@ -17,6 +17,8 @@
 package com.journeyOS.edge.provider;
 
 
+import android.graphics.Bitmap;
+
 import com.journeyOS.core.api.barrage.IBarrage;
 import com.journeyOS.edge.wm.BarrageManager;
 import com.journeyOS.literouter.annotation.ARouterInject;
@@ -32,5 +34,10 @@ public class BarrageImpl implements IBarrage {
     @Override
     public void sendBarrage() {
         BarrageManager.getDefault().sendBarrageTest();
+    }
+
+    @Override
+    public void sendBarrage(Bitmap bitmap, String name, String text) {
+        BarrageManager.getDefault().sendBarrage(bitmap, name, text);
     }
 }

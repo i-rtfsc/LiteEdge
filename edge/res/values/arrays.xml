@@ -23,6 +23,7 @@
         <item>@string/menu_lab</item>
         <item>@string/menu_about</item>
         <item>@string/menu_learn</item>
+        <item>@string/menu_admin</item>
     </string-array>
 
     <array name="slidingDrawerIcons">
@@ -33,5 +34,6 @@
         <item>@drawable/svg_menu_lab</item>
         <item>@drawable/svg_menu_about</item>
         <item>@drawable/svg_menu_learn</item>
+        <item>@drawable/svg_menu_admin</item>
     </array>
 </resources>

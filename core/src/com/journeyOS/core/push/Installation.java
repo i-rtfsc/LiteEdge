@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.api.barrage;
+package com.journeyOS.core.push;
 
-import android.graphics.Bitmap;
+import com.journeyOS.core.database.user.EdgeUser;
 
-import com.journeyOS.core.api.ICoreApi;
+import cn.bmob.v3.BmobInstallation;
 
-public interface IBarrage extends ICoreApi {
-    void sendBarrage();
-    void sendBarrage(Bitmap bitmap, String name, String text);
+public class Installation extends BmobInstallation {
+
+    public EdgeUser author;
 }

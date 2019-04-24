@@ -43,7 +43,8 @@ import com.journeyOS.edge.ui.activity.EdgeActivity;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.bmob.v3.BmobUser;
 
@@ -57,6 +58,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
 
     private String mUser = Constant.USER;
     private String mContact = Constant.EMAIL;
+    private String mPhone = null;
     private String mAvatar = null;
 
     private final H mHandler = H.getDefault().getHandler();
@@ -67,10 +69,13 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
             EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
             mUser = edgeUser.getNickname();
             mContact = edgeUser.getEmail();
+            mPhone = edgeUser.getMobilePhoneNumber();
             if (mContact == null || mContact == "") {
                 mContact = edgeUser.getMobilePhoneNumber();
             }
             mAvatar = edgeUser.getIcon();
+            LogUtils.d(EdgeActivity.TAG, " user phone = " + mPhone);
+            LogUtils.d(EdgeActivity.TAG, " user contact = " + mContact);
             LogUtils.d(EdgeActivity.TAG, " user avatar = " + mAvatar);
         }
     }
@@ -102,19 +107,29 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         screenIcons = loadScreenIcons();
         screenTitles = loadScreenTitles();
 
-        adapter = new DrawerAdapter(Arrays.asList(
-                createItemFor(Constant.MENU_USER),
-                createItemFor(Constant.MENU_PERMISSION),
-                createItemFor(Constant.MENU_SETTINGS).setChecked(true),
-                createItemFor(Constant.MENU_BARRAGE),
-                createItemFor(Constant.MENU_LAB),
-                createItemFor(Constant.MENU_ABOUT),
-                createItemFor(Constant.MENU_LEARN)));
+        List<DrawerItem> items = new ArrayList<>();
+        items.add(createItemFor(Constant.MENU_USER));
+        items.add(createItemFor(Constant.MENU_PERMISSION));
+        items.add(createItemFor(Constant.MENU_SETTINGS).setChecked(true));
+        items.add(createItemFor(Constant.MENU_BARRAGE));
+        items.add(createItemFor(Constant.MENU_LAB));
+        items.add(createItemFor(Constant.MENU_ABOUT));
+        items.add(createItemFor(Constant.MENU_LEARN));
+        //新增管理员选项
+        //手机号Constant.PHONE、Constant.PHONE_TEST或者DEBUG版本都认为是管理员
+        if (Constant.PHONE.equals(mPhone)
+                || Constant.PHONE_TEST.equals(mPhone)
+                || BuildConfig.DEBUG) {
+            items.add(createItemFor(Constant.MENU_ADMIN));
+        }
+
+        adapter = new DrawerAdapter(items);
         adapter.setListener(this);
 
         RecyclerView list = mContext.findViewById(R.id.list);
         list.setNestedScrollingEnabled(false);
         list.setLayoutManager(new LinearLayoutManager(mContext));
+
         list.setAdapter(adapter);
 
         ((TextView) mContext.findViewById(R.id.user)).setText(mUser);
@@ -123,6 +138,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         if (mAvatar != null) {
             ImageEngine.load(CoreManager.getDefault().getContext(), mAvatar, icon, R.mipmap.user);
         }
+
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,6 +149,8 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         });
 
         adapter.setSelected(Constant.MENU_SETTINGS);
+
+
     }
 
     public void releaseDrawer() {

@@ -14,13 +14,29 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.api.barrage;
+package com.journeyOS.core.push;
 
-import android.graphics.Bitmap;
+public class PushMessage {
+    private static final int BASE = 1;
+    public static final int MSG_CHECK_UPDATE = BASE << 0;
 
-import com.journeyOS.core.api.ICoreApi;
+    /**
+     * push消息类型
+     */
+    public int what;
 
-public interface IBarrage extends ICoreApi {
-    void sendBarrage();
-    void sendBarrage(Bitmap bitmap, String name, String text);
+    /**
+     * app版本号
+     */
+    public int versionCode;
+
+    /**
+     * 标题
+     */
+    public String title;
+
+    /**
+     * 消息
+     */
+    public String msg;
 }

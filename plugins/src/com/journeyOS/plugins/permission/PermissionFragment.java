@@ -97,6 +97,10 @@ public class PermissionFragment extends BaseFragment {
 
     @OnClick({R2.id.device_admin})
     public void listenerDeviceAdmin() {
+        boolean isAdminActive = CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext);
+        if (!isAdminActive) {
+            Toasty.info(mContext, mContext.getResources().getString(R.string.device_admin_crash), Toast.LENGTH_LONG).show();
+        }
         CoreManager.getDefault().getImpl(IPermission.class).enableAdminActive(mContext);
     }
 
