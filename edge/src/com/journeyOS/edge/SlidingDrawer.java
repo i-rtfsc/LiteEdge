@@ -18,6 +18,7 @@ package com.journeyOS.edge;
 
 import android.app.Activity;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
@@ -33,10 +34,13 @@ import com.journeyOS.base.Constant;
 import com.journeyOS.base.menu.DrawerAdapter;
 import com.journeyOS.base.menu.DrawerItem;
 import com.journeyOS.base.menu.SimpleItem;
+import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
+import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.ImageEngine;
+import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.user.EdgeUser;
 import com.journeyOS.edge.ui.activity.EdgeActivity;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
@@ -67,6 +71,9 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         if (BmobUser.isLogin()) {
             EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
             mUser = edgeUser.getNickname();
+            if (mUser == null || mUser == "") {
+                mUser = CoreManager.getDefault().getContext().getString(R.string.not_set);
+            }
             mContact = edgeUser.getEmail();
             mPhone = edgeUser.getMobilePhoneNumber();
             if (mContact == null || mContact == "") {
@@ -133,9 +140,28 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
 
         ((TextView) mContext.findViewById(R.id.user)).setText(mUser);
         ((TextView) mContext.findViewById(R.id.email)).setText(mContact);
-        ImageView icon = ((ImageView) mContext.findViewById(R.id.user_avatar));
+        final ImageView icon = ((ImageView) mContext.findViewById(R.id.user_avatar));
+
         if (mAvatar != null) {
             ImageEngine.load(CoreManager.getDefault().getContext(), mAvatar, icon, R.mipmap.user);
+        } else {
+            if (Constant.LOCAL_ICON) {
+                CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String base64 = SpUtils.getInstant(Constant.SP_BIG_FILE).getString(Constant.BIG_FILE_USER_ICON, null);
+                        if (base64 != null) {
+                            final Bitmap bitmap = UIUtils.Base64ToBitmap(base64);
+                            CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    icon.setImageBitmap(bitmap);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
         }
 
         icon.setOnClickListener(new View.OnClickListener() {
@@ -148,8 +174,11 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         });
 
         adapter.setSelected(Constant.MENU_SETTINGS);
+    }
 
-
+    public void setUserAvatar(Bitmap bitmap) {
+        ImageView icon = ((ImageView) mContext.findViewById(R.id.user_avatar));
+        icon.setImageBitmap(bitmap);
     }
 
     public void releaseDrawer() {

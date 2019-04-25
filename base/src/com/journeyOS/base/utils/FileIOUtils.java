@@ -42,6 +42,13 @@ public class FileIOUtils {
         return file != null && file.exists();
     }
 
+
+    public static String COPY_PATH = "files";
+
+    public static String getCopyPath(Context context) {
+        return context.getExternalFilesDir(COPY_PATH).getAbsolutePath() + "/";
+    }
+
     /**
      * SDCard root
      */

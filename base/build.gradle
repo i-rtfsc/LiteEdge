@@ -104,6 +104,7 @@ dependencies {
     api "com.github.warkiz.widget:indicatorseekbar:$gradle.indicatorseekbar"
     api "org.jsoup:jsoup:$gradle.jsoup"
     api "com.kyleduo.switchbutton:library:$gradle.switchbutton"
+    api "top.zibin:Luban:$gradle.luban"
 
     implementation('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true;

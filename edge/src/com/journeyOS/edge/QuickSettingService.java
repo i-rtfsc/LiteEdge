@@ -11,6 +11,8 @@ import android.service.quicksettings.TileService;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.LogUtils;
+import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.api.edge.IEdge;
 
 public class QuickSettingService extends TileService {
     private static final String TAG = QuickSettingService.class.getSimpleName();
@@ -74,11 +76,11 @@ public class QuickSettingService extends TileService {
         if (isShowing) {
             icon = Icon.createWithResource(getApplicationContext(), R.drawable.svg_core_ball);
             getQsTile().setState(Tile.STATE_ACTIVE);
-            EdgeServiceManager.getDefault().showingOrHidingBall(true);
+            CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(true);
         } else {
             icon = Icon.createWithResource(getApplicationContext(), R.drawable.svg_core_ball_disable);
             getQsTile().setState(Tile.STATE_INACTIVE);
-            EdgeServiceManager.getDefault().showingOrHidingBall(false);
+            CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(false);
         }
         getQsTile().setIcon(icon);
         getQsTile().updateTile();

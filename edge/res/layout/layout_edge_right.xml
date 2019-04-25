@@ -48,7 +48,7 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/layout_statusbar"
             android:layout_width="@dimen/status_bar_width"
             android:layout_height="@dimen/status_bar_height"
@@ -56,40 +56,19 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="-480px"
             android:background="@drawable/edge_statusbar"
-            android:orientation="horizontal"
             android:paddingLeft="120px"
             android:paddingTop="45px"
             android:paddingRight="120px">
 
-            <TextView
-                android:id="@+id/statusbar_text1"
+            <com.journeyOS.base.widget.textview.RainbowTextView
+                android:id="@+id/statusbar_text"
                 android:layout_width="wrap_content"
-                android:layout_height="72px"
-                android:drawablePadding="@dimen/child_text_drawable_padding"
-                android:gravity="center"
-                android:textColor="@color/textColor"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="3dp"
                 android:textSize="@dimen/statusTextSize" />
 
-            <TextView
-                android:id="@+id/statusbar_text2"
-                android:layout_width="0dp"
-                android:layout_height="72px"
-                android:layout_weight="1"
-                android:drawablePadding="@dimen/child_text_drawable_padding"
-                android:gravity="center_vertical|center_horizontal"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/statusTextSize" />
-
-            <TextView
-                android:id="@+id/statusbar_text3"
-                android:layout_width="0dp"
-                android:layout_height="72px"
-                android:layout_weight="1"
-                android:drawablePadding="@dimen/child_text_drawable_padding"
-                android:gravity="center_vertical"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/statusTextSize" />
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

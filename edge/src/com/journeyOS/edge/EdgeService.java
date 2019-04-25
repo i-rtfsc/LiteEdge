@@ -183,7 +183,7 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
                 boolean autoHideBall = SpUtils.getInstant().getBoolean(Constant.AUTO_HIDE_BALL, Constant.AUTO_HIDE_BALL_DEFAULT);
                 if (autoHideBall) {
                     boolean game = I007Manager.isGame(packageName);
-                    EdgeServiceManager.getDefault().showingOrHidingBall(!game);
+                    CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(!game);
                 }
                 break;
             case LCD:

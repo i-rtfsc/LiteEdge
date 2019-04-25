@@ -23,6 +23,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,6 +45,7 @@ import com.journeyOS.base.guide.OnGuideClickListener;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.BaseUtils;
 import com.journeyOS.base.utils.BitmapUtils;
+import com.journeyOS.base.utils.FileIOUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
@@ -59,14 +63,21 @@ import com.journeyOS.edge.R;
 import com.journeyOS.edge.SlidingDrawer;
 import com.journeyOS.i007Service.core.notification.NotificationListenerService;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import butterknife.BindView;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DeleteBatchListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadBatchListener;
+import es.dmoral.toasty.Toasty;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSelectedListener {
     public static final String TAG = EdgeActivity.class.getSimpleName();
@@ -74,6 +85,8 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     private static final int ALBUM_REQUEST_CODE = 0x0000bacd;
 
     private final H mHandler = H.getDefault().getHandler();
+
+    public static final int REQUEST_CODE = 1010;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -181,7 +194,6 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
 //            SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
 //            SlidingDrawer.getDefault().setListener(this);
 //        }
-        mToolbar.setTitle(R.string.app_name);
     }
 
     @Override
@@ -197,8 +209,8 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         super.initDataObserver(savedInstanceState);
         mBundle = savedInstanceState;
 //        if (CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
-            SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
-            SlidingDrawer.getDefault().setListener(this);
+        SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
+        SlidingDrawer.getDefault().setListener(this);
 //        }
     }
 
@@ -214,40 +226,111 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                 } else {
                     photoPath = BitmapUtils.getPhotoImage(getBaseContext(), data);// gallery
                 }
-                final String[] filePaths = new String[1];
-                filePaths[0] = photoPath;
-                BmobFile.uploadBatch(filePaths, new UploadBatchListener() {
-                    @Override
-                    public void onSuccess(List<BmobFile> files, List<String> urls) {
-                        LogUtils.d(TAG, "success, urls = [" + urls + "]");
-                        if (urls != null && urls.size() > 0) {
-                            if (BmobUser.isLogin()) {
-                                EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
-                                edgeUser.setIcon(urls.get(0));
-                                edgeUser.update(edgeUser.getObjectId(), new UpdateListener() {
-                                    @Override
-                                    public void done(BmobException e) {
-                                        LogUtils.d(TAG, "upload user icon url");
-                                    }
-                                });
+                try {
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                    Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(new File(photoPath)), null, options);
+                    SlidingDrawer.getDefault().setUserAvatar(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                if (Constant.LOCAL_ICON) {
+                    final String path = photoPath;
+                    CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                BitmapFactory.Options options = new BitmapFactory.Options();
+                                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                                Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(new File(path)), null, options);
+                                final Bitmap circularBitmap = UIUtils.getCircularBitmap(bitmap);
+                                String base64 = UIUtils.BitmapToBase64(circularBitmap);
+                                SpUtils.getInstant(Constant.SP_BIG_FILE).put(Constant.BIG_FILE_USER_ICON, base64);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
                             }
                         }
-                    }
+                    });
+                } else {
+                    final EdgeUser remoteUser = BmobUser.getCurrentUser(EdgeUser.class);
+                    if (remoteUser != null) {
+                        if (remoteUser.getIcon() != null) {
+                            final String[] deletePaths = new String[1];
+                            deletePaths[0] = remoteUser.getIcon();
+                            BmobFile.deleteBatch(deletePaths, new DeleteBatchListener() {
+                                @Override
+                                public void done(String[] strings, BmobException e) {
+                                    LogUtils.d(TAG, "delete old file, strings = [" + strings + "], e = [" + e + "]");
+                                }
+                            });
+                        }
 
-                    @Override
-                    public void onProgress(int i, int i1, int i2, int i3) {
-                        LogUtils.d(TAG, "on progress, current index = [" + i + "]," +
-                                " current percent = [" + i1 + "]," +
-                                " total = [" + i2 + "]," +
-                                " total percent = [" + i3 + "]");
-                    }
+                        //压缩图片后上传
+                        Luban.with(this)
+                                .load(photoPath)
+                                .ignoreBy(10)
+                                .setTargetDir(FileIOUtils.getCopyPath(mContext))
+                                .setCompressListener(new OnCompressListener() {
+                                    @Override
+                                    public void onStart() {
+                                    }
 
-                    @Override
-                    public void onError(int i, String s) {
-                        LogUtils.d(TAG, "error, status code = [" + i + "], error mssage = [" + s + "]");
+                                    @Override
+                                    public void onSuccess(File file) {
+                                        if (file != null && file.getAbsolutePath() != null) {
+                                            final String[] filePaths = new String[1];
+                                            filePaths[0] = file.getAbsolutePath();
+                                            BmobFile.uploadBatch(filePaths, new UploadBatchListener() {
+                                                @Override
+                                                public void onSuccess(List<BmobFile> files, List<String> urls) {
+                                                    LogUtils.d(TAG, "success, urls = [" + urls + "]");
+                                                    if (urls != null && urls.size() > 0) {
+                                                        if (BmobUser.isLogin()) {
+                                                            EdgeUser edgeUser = new EdgeUser();
+                                                            edgeUser.setIcon(urls.get(0));
+                                                            edgeUser.update(remoteUser.getObjectId(), new UpdateListener() {
+                                                                @Override
+                                                                public void done(BmobException e) {
+                                                                    LogUtils.d(TAG, "upload user icon url = " + e);
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onProgress(int i, int i1, int i2, int i3) {
+                                                    LogUtils.d(TAG, "on progress, current index = [" + i + "]," +
+                                                            " current percent = [" + i1 + "]," +
+                                                            " total = [" + i2 + "]," +
+                                                            " total percent = [" + i3 + "]");
+                                                }
+
+                                                @Override
+                                                public void onError(int i, String s) {
+                                                    LogUtils.d(TAG, "error, status code = [" + i + "], error mssage = [" + s + "]");
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                    }
+                                }).launch();
                     }
-                });
+                }
             }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getPicture();
+        } else {
+            //
         }
     }
 
@@ -258,17 +341,20 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
 
     @Override
     public void onUpdateUserIcon() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != 0x02) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE},
-                        1);
-                return;
-            }
+        if (!BmobUser.isLogin()) {
+            Toasty.warning(mContext, mContext.getResources().getString(R.string.please_login)).show();
+            return;
+        }
+        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            getPicture();
+        } else {
+            ActivityCompat.requestPermissions(mContext, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE);
         }
 
+    }
+
+    private void getPicture() {
         Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
         albumIntent.setDataAndType(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
@@ -294,7 +380,6 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
             case Constant.MENU_PERMISSION:
                 mToolbar.setTitle(R.string.menu_permission);
                 loadFragment(CoreManager.getDefault().getImpl(IPlugins.class).providePermissionFragment(mContext));
-
                 break;
             case Constant.MENU_SETTINGS:
                 mToolbar.setTitle(R.string.menu_settings);

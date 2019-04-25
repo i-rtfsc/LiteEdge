@@ -83,10 +83,10 @@ public class H extends Handler {
                 }
                 break;
             case MSG_BALL_SHOWING:
-                EdgeServiceManager.getDefault().showingOrHidingBall(true);
+                EdgeServiceManager.getDefault().showingBall(true);
                 break;
             case MSG_BALL_HIDING:
-                EdgeServiceManager.getDefault().showingOrHidingBall(false);
+                EdgeServiceManager.getDefault().showingBall(false);
                 break;
             case MSG_BARRAGE_START_SERVICE:
                 NotificationManager.getDefault().startNotificationService();
