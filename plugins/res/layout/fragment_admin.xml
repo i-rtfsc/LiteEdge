@@ -14,22 +14,29 @@
   limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:settings="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_background"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:scrollbars="none">
 
-    <LinearLayout style="@style/wrap_layout">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/update"
-            style="@style/single_layout"
-            settings:settingSummary="@string/push_version_update_summary"
-            settings:settingTitle="@string/push_version_update"
-            settings:showRight="false" />
+        <LinearLayout style="@style/wrap_layout">
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/update"
+                style="@style/single_layout"
+                settings:settingSummary="@string/push_version_update_summary"
+                settings:settingTitle="@string/push_version_update"
+                settings:showRight="false" />
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

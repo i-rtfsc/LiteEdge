@@ -209,8 +209,8 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         super.initDataObserver(savedInstanceState);
         mBundle = savedInstanceState;
 //        if (CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
-        SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
         SlidingDrawer.getDefault().setListener(this);
+        SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
 //        }
     }
 
@@ -255,9 +255,9 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                 } else {
                     final EdgeUser remoteUser = BmobUser.getCurrentUser(EdgeUser.class);
                     if (remoteUser != null) {
-                        if (remoteUser.getIcon() != null) {
+                        if (remoteUser.icon != null) {
                             final String[] deletePaths = new String[1];
-                            deletePaths[0] = remoteUser.getIcon();
+                            deletePaths[0] = remoteUser.icon;
                             BmobFile.deleteBatch(deletePaths, new DeleteBatchListener() {
                                 @Override
                                 public void done(String[] strings, BmobException e) {
@@ -288,7 +288,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                                                     if (urls != null && urls.size() > 0) {
                                                         if (BmobUser.isLogin()) {
                                                             EdgeUser edgeUser = new EdgeUser();
-                                                            edgeUser.setIcon(urls.get(0));
+                                                            edgeUser.icon = urls.get(0);
                                                             edgeUser.update(remoteUser.getObjectId(), new UpdateListener() {
                                                                 @Override
                                                                 public void done(BmobException e) {
@@ -354,6 +354,11 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
 
     }
 
+    @Override
+    public void initViewFinished() {
+        initGuideView();
+    }
+
     private void getPicture() {
         Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
         albumIntent.setDataAndType(
@@ -405,10 +410,6 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                 loadFragment(CoreManager.getDefault().getImpl(IPlugins.class).provideAdminFragment(mContext));
                 break;
         }
-
-        for (int i = 0; i < 10000; i++) {
-        }
-        initGuideView();
     }
 
     void getPermission() {
@@ -483,7 +484,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
 
         @Override
         public void onNext(int nextStep) {
-            LogUtils.d(TAG, "user click next step" + nextStep);
+            LogUtils.d(TAG, "user click next step = " + nextStep);
         }
 
         @Override
@@ -499,7 +500,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
 
         @Override
         public void onGuideNext(int nextStep) {
-            LogUtils.d(TAG, "user click guide next " + nextStep);
+            LogUtils.d(TAG, "user click guide next = " + nextStep);
             if (nextStep == 1) {
                 SlidingDrawer.getDefault().openMenu();
             }
@@ -515,6 +516,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
 
         @Override
         public void onTarget(int index) {
+            LogUtils.d(TAG, "target " + index);
             handleItemSelected(index - 1);
         }
     }

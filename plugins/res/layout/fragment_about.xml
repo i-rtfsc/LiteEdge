@@ -14,62 +14,68 @@
   limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_background"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:scrollbars="none">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
-    <LinearLayout style="@style/wrap_layout">
+        <LinearLayout style="@style/wrap_layout">
 
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/version"
-            style="@style/top_layout"
-            app:settingIcon="@drawable/svg_version"
-            app:settingTitle="@string/version"
-            app:showRightSummary="true" />
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/version"
+                style="@style/top_layout"
+                app:settingIcon="@drawable/svg_version"
+                app:settingTitle="@string/version"
+                app:showRightSummary="true" />
 
-        <View style="@style/bg_line" />
+            <View style="@style/bg_line" />
 
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/email"
-            style="@style/bottom_layout"
-            app:settingIcon="@drawable/svg_email"
-            app:settingTitle="@string/email"
-            app:showRightSummary="true" />
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/email"
+                style="@style/bottom_layout"
+                app:settingIcon="@drawable/svg_email"
+                app:settingTitle="@string/email"
+                app:showRightSummary="true" />
+
+        </LinearLayout>
+
+
+        <LinearLayout style="@style/wrap_layout">
+
+            <TextView
+                style="@style/text_title_layout"
+                android:text="@string/pay_title" />
+
+            <TextView
+                style="@style/text_content_layout"
+                android:text="@string/pay_summary" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/alipay"
+                style="@style/mid_layout"
+                app:settingIcon="@mipmap/alipay_paycode"
+                app:settingTitle="@string/pay_aliy_title"
+                app:showRightSummary="true" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/tencentmm"
+                style="@style/bottom_layout"
+                app:settingIcon="@mipmap/wechat_scan"
+                app:settingTitle="@string/pay_tencent_mm_title"
+                app:showRightSummary="true" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-
-    <LinearLayout style="@style/wrap_layout">
-
-        <TextView
-            style="@style/text_title_layout"
-            android:text="@string/pay_title" />
-
-        <TextView
-            style="@style/text_content_layout"
-            android:text="@string/pay_summary" />
-
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/alipay"
-            style="@style/top_layout"
-            app:settingIcon="@mipmap/alipay_paycode"
-            app:settingTitle="@string/pay_aliy_title"
-            app:showRightSummary="true" />
-
-        <View style="@style/bg_line" />
-
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/tencentmm"
-            style="@style/bottom_layout"
-            app:settingIcon="@mipmap/wechat_scan"
-            app:settingTitle="@string/pay_tencent_mm_title"
-            app:showRightSummary="true" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

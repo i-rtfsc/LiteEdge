@@ -202,6 +202,7 @@
 
     <string name="ball_settings">悬浮球及手势</string>
     <string name="barrage_settings">弹幕</string>
+    <string name="barrage_style">弹幕样式</string>
 
     <string name="perssion_title">权限</string>
     <string name="perssion_summary">1. 浮窗权限必须申请，不然用不了悬浮球。\n2. 弹幕权限即为通知权限，申请后才能用弹幕消息的相关功能。\n3. 辅助权限是为了实现场景识别（如游戏场景等）以及实现各种点击等操作。\n</string>

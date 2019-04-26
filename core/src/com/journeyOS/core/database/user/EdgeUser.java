@@ -25,79 +25,34 @@ public class EdgeUser extends BmobUser {
     /**
      * 昵称
      */
-    private String nickname;
+    public String nickname;
 
     /**
      * 年龄
      */
-    private Integer age;
+    public Integer age;
 
     /**
      * 性别
      */
-    private Integer gender;
+    public Integer gender;
 
     /**
      * 用户当前位置
      */
-    private BmobGeoPoint address;
+    public BmobGeoPoint address;
 
 
     /**
      * 头像
      */
-    private BmobFile avatar;
+    @Deprecated
+    public BmobFile avatar;
 
     /**
      * 头像网址
      */
-    private String icon;
+    public String icon;
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
-    public BmobGeoPoint getAddress() {
-        return address;
-    }
-
-    public void setAddress(BmobGeoPoint address) {
-        this.address = address;
-    }
-
-    public BmobFile getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(BmobFile avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
+    public String backUp;
 }

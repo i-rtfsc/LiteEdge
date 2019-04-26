@@ -70,7 +70,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     private SlidingDrawer() {
         if (BmobUser.isLogin()) {
             EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
-            mUser = edgeUser.getNickname();
+            mUser = edgeUser.nickname;
             if (mUser == null || mUser == "") {
                 mUser = CoreManager.getDefault().getContext().getString(R.string.not_set);
             }
@@ -79,7 +79,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
             if (mContact == null || mContact == "") {
                 mContact = edgeUser.getMobilePhoneNumber();
             }
-            mAvatar = edgeUser.getIcon();
+            mAvatar = edgeUser.icon;
             LogUtils.d(EdgeActivity.TAG, " user phone = " + mPhone);
             LogUtils.d(EdgeActivity.TAG, " user contact = " + mContact);
             LogUtils.d(EdgeActivity.TAG, " user avatar = " + mAvatar);
@@ -135,8 +135,8 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         RecyclerView list = mContext.findViewById(R.id.list);
         list.setNestedScrollingEnabled(false);
         list.setLayoutManager(new LinearLayoutManager(mContext));
-
         list.setAdapter(adapter);
+        adapter.setSelected(Constant.MENU_SETTINGS);
 
         ((TextView) mContext.findViewById(R.id.user)).setText(mUser);
         ((TextView) mContext.findViewById(R.id.email)).setText(mContact);
@@ -172,8 +172,6 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
                 }
             }
         });
-
-        adapter.setSelected(Constant.MENU_SETTINGS);
     }
 
     public void setUserAvatar(Bitmap bitmap) {
@@ -226,6 +224,13 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         mHandler.sendMessage(msg);
     }
 
+    @Override
+    public void onBindViewFinished() {
+        if (listener != null) {
+            listener.initViewFinished();
+        }
+    }
+
     public void onItemClick(int position) {
         if (listener != null) {
             listener.onItemSelected(position);
@@ -262,5 +267,7 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         void onItemSelected(int position);
 
         void onUpdateUserIcon();
+
+        void initViewFinished();
     }
 }

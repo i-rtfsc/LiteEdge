@@ -158,6 +158,7 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
                 CoreManager.getDefault().getImpl(IEdgeProvider.class).initConfig();
                 CoreManager.getDefault().getImpl(IEdgeLabProvider.class).initConfig();
                 CoreManager.getDefault().getImpl(IGestureProvider.class).initConfig();
+                CoreManager.getDefault().getImpl(IAppProvider.class).checkApps();
             }
         });
 
@@ -165,13 +166,6 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
 //        if (barrage) {
         NotificationManager.getDefault().startNotificationService();
 //        }
-
-        CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
-            @Override
-            public void run() {
-                CoreManager.getDefault().getImpl(IAppProvider.class).checkApps();
-            }
-        });
     }
 
     void handleSceneChanged(long factorId, String status, String packageName) {
@@ -207,6 +201,5 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
             CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(false);
             I007Manager.keepAlive();
         }
-
     }
 }
