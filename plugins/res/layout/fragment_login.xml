@@ -14,379 +14,387 @@
   limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_background">
+    android:background="@color/dark_background"
+    android:fitsSystemWindows="true"
+    android:scrollbars="none">
 
     <RelativeLayout
-        android:id="@+id/login_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cv"
-            android:layout_width="350dp"
-            android:layout_height="320dp"
-            android:layout_centerInParent="true"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="3dp"
-            app:cardUseCompatPadding="true">
+        <RelativeLayout
+            android:id="@+id/login_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="10dp">
-
-                    <View
-                        android:layout_width="8dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:background="#2fa881" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="50dp"
-                        android:text="@string/login"
-                        android:textColor="#FFCC00"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv"
+                android:layout_width="350dp"
+                android:layout_height="320dp"
+                android:layout_centerInParent="true"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:paddingStart="50dp"
-                    android:paddingEnd="30dp">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <android.support.design.widget.TextInputLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="#c5c5c5">
+                        android:layout_height="45dp"
+                        android:layout_marginTop="10dp">
 
-                        <EditText
-                            android:id="@+id/login_username"
-                            android:layout_width="match_parent"
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:background="#2fa881" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/selector_bg_edit"
-                            android:hint="@string/login_username"
-                            android:inputType="phone"
-                            android:paddingBottom="2dp"
-                            android:textColor="#2fa881"
-                            android:textCursorDrawable="@drawable/bg_input_cursor"
-                            android:textSize="18sp" />
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="50dp"
+                            android:text="@string/login"
+                            android:textColor="#FFCC00"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:paddingStart="50dp"
-                    android:paddingEnd="30dp">
-
-                    <android.support.design.widget.TextInputLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="#c5c5c5">
-
-                        <EditText
-                            android:id="@+id/login_password"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/selector_bg_edit"
-                            android:hint="@string/login_password"
-                            android:inputType="textPassword"
-                            android:paddingBottom="2dp"
-                            android:textColor="#2fa881"
-                            android:textCursorDrawable="@drawable/bg_input_cursor"
-                            android:textSize="18sp" />
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="25dp"
-                    android:gravity="center">
-
-                    <Button
-                        android:id="@+id/login"
-                        android:layout_width="150dp"
                         android:layout_height="50dp"
-                        android:background="@drawable/shape_bt"
-                        android:stateListAnimator="@drawable/state_list_animator_z"
-                        android:text="@string/login_go"
-                        android:textColor="#d3d3d3" />
-                </RelativeLayout>
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="50dp"
+                        android:paddingEnd="30dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/forgot_your_password"
-                    android:textColor="#9a9a9a"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/cv"
-            android:layout_alignEnd="@id/cv"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="-20dp"
-            android:src="@drawable/svg_login_add"
-            android:transitionName="loginFab"
-            app:fabSize="normal" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/register_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/register_cv"
-            android:layout_width="350dp"
-            android:layout_height="350dp"
-            android:layout_centerInParent="true"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="3dp"
-            app:cardUseCompatPadding="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="10dp">
-
-                    <View
-                        android:layout_width="8dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:background="#2fa881" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="50dp"
-                        android:text="@string/register"
-                        android:textColor="#FFCC00"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:paddingStart="50dp"
-                    android:paddingEnd="30dp">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="#c5c5c5">
-
-                        <EditText
-                            android:id="@+id/register_username"
+                        <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/selector_bg_edit"
-                            android:hint="@string/regiter_phone"
-                            android:inputType="phone"
-                            android:paddingBottom="2dp"
-                            android:textColor="#2fa881"
-                            android:textCursorDrawable="@drawable/bg_input_cursor"
-                            android:textSize="18sp" />
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
+                            android:textColorHint="#c5c5c5">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:paddingStart="50dp"
-                    android:paddingEnd="30dp">
+                            <EditText
+                                android:id="@+id/login_username"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/selector_bg_edit"
+                                android:hint="@string/login_username"
+                                android:inputType="phone"
+                                android:paddingBottom="2dp"
+                                android:textColor="#2fa881"
+                                android:textCursorDrawable="@drawable/bg_input_cursor"
+                                android:textSize="18sp" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
 
-                    <android.support.design.widget.TextInputLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="#c5c5c5">
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="50dp"
+                        android:paddingEnd="30dp">
 
-                        <EditText
-                            android:id="@+id/register_password"
+                        <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/selector_bg_edit"
-                            android:hint="@string/login_password"
-                            android:inputType="textPassword"
-                            android:paddingBottom="2dp"
-                            android:textColor="#2fa881"
-                            android:textCursorDrawable="@drawable/bg_input_cursor"
-                            android:textSize="18sp" />
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
+                            android:textColorHint="#c5c5c5">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:paddingStart="50dp"
-                    android:paddingEnd="30dp">
+                            <EditText
+                                android:id="@+id/login_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/selector_bg_edit"
+                                android:hint="@string/login_password"
+                                android:inputType="textPassword"
+                                android:paddingBottom="2dp"
+                                android:textColor="#2fa881"
+                                android:textCursorDrawable="@drawable/bg_input_cursor"
+                                android:textSize="18sp" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="#c5c5c5">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="25dp"
+                        android:gravity="center">
 
-                        <EditText
-                            android:id="@+id/register_code"
+                        <Button
+                            android:id="@+id/login"
                             android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/selector_bg_edit"
-                            android:hint="@string/regiter_code"
-                            android:inputType="numberDecimal"
-                            android:paddingBottom="2dp"
-                            android:textColor="#2fa881"
-                            android:textCursorDrawable="@drawable/bg_input_cursor"
-                            android:textSize="18sp" />
-                    </android.support.design.widget.TextInputLayout>
+                            android:layout_height="50dp"
+                            android:background="@drawable/shape_bt"
+                            android:stateListAnimator="@drawable/state_list_animator_z"
+                            android:text="@string/login_go"
+                            android:textColor="#d3d3d3" />
+                    </RelativeLayout>
 
-                    <com.journeyOS.base.widget.TimingButton
-                        android:id="@+id/smsButton"
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/get_sms_code"
-                        android:textColor="@color/red"
-                        app:tb_psText="@string/reget_sms_code"
-                        app:tb_totalTime="60000" />
-
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/forgot_your_password"
+                        android:textColor="#9a9a9a"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
                 </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                <RelativeLayout
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/cv"
+                android:layout_alignEnd="@id/cv"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="-20dp"
+                android:src="@drawable/svg_login_add"
+                android:transitionName="loginFab"
+                app:fabSize="normal" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/register_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/register_cv"
+                android:layout_width="350dp"
+                android:layout_height="350dp"
+                android:layout_centerInParent="true"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="25dp"
-                    android:gravity="center">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/register"
-                        android:layout_width="150dp"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="10dp">
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:background="#2fa881" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="50dp"
+                            android:text="@string/register"
+                            android:textColor="#FFCC00"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@drawable/shape_bt"
-                        android:stateListAnimator="@drawable/state_list_animator_z"
-                        android:text="@string/next"
-                        android:textColor="#d3d3d3" />
-                </RelativeLayout>
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="50dp"
+                        android:paddingEnd="30dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/forgot_your_password"
-                    android:textColor="#9a9a9a"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="#c5c5c5">
+
+                            <EditText
+                                android:id="@+id/register_username"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/selector_bg_edit"
+                                android:hint="@string/regiter_phone"
+                                android:inputType="phone"
+                                android:paddingBottom="2dp"
+                                android:textColor="#2fa881"
+                                android:textCursorDrawable="@drawable/bg_input_cursor"
+                                android:textSize="18sp" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="50dp"
+                        android:paddingEnd="30dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="#c5c5c5">
+
+                            <EditText
+                                android:id="@+id/register_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/selector_bg_edit"
+                                android:hint="@string/login_password"
+                                android:inputType="textPassword"
+                                android:paddingBottom="2dp"
+                                android:textColor="#2fa881"
+                                android:textCursorDrawable="@drawable/bg_input_cursor"
+                                android:textSize="18sp" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="50dp"
+                        android:paddingEnd="30dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="#c5c5c5">
+
+                            <EditText
+                                android:id="@+id/register_code"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/selector_bg_edit"
+                                android:hint="@string/regiter_code"
+                                android:inputType="numberDecimal"
+                                android:paddingBottom="2dp"
+                                android:textColor="#2fa881"
+                                android:textCursorDrawable="@drawable/bg_input_cursor"
+                                android:textSize="18sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <com.journeyOS.base.widget.TimingButton
+                            android:id="@+id/smsButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="20dp"
+                            android:text="@string/get_sms_code"
+                            android:textColor="@color/red"
+                            app:tb_psText="@string/reget_sms_code"
+                            app:tb_totalTime="60000" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="25dp"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/register"
+                            android:layout_width="150dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/shape_bt"
+                            android:stateListAnimator="@drawable/state_list_animator_z"
+                            android:text="@string/next"
+                            android:textColor="#d3d3d3" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/forgot_your_password"
+                        android:textColor="#9a9a9a"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/register_cv"
+                android:layout_alignEnd="@id/register_cv"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="-20dp"
+                android:src="@drawable/svg_login_clear"
+                android:transitionName="loginFab"
+                app:fabSize="normal" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/user_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_avatar"
+                android:layout_width="@dimen/icon_size_x_large"
+                android:layout_height="@dimen/icon_size_x_large"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/spacing_normal"
+                android:gravity="center"
+                android:src="@mipmap/user"
+                android:visibility="gone"
+                app:civ_border_color="@color/ivory"
+                app:civ_border_width="@dimen/divider_size" />
+
+            <LinearLayout style="@style/wrap_layout">
+
+                <com.journeyOS.base.widget.SettingSwitch
+                    android:id="@+id/auto_sync"
+                    style="@style/top_layout"
+                    android:theme="@style/CheckBox"
+                    app:settingIcon="@drawable/svg_daemon"
+                    app:settingSummary="@string/auto_sync_summary"
+                    app:settingTitle="@string/auto_sync" />
+
+                <View style="@style/bg_line" />
+
+                <com.journeyOS.base.widget.SettingView
+                    android:id="@+id/user_id"
+                    style="@style/mid_layout"
+                    app:settingIcon="@drawable/svg_menu_user"
+                    app:settingTextColor="@color/text_secondary_dark"
+                    app:settingTitle="@string/userid"
+                    app:showRightSummary="true" />
+
+                <View style="@style/bg_line" />
+
+                <com.journeyOS.base.widget.SettingView
+                    android:id="@+id/user_phone"
+                    style="@style/mid_layout"
+                    app:settingIcon="@drawable/svg_iphone_x"
+                    app:settingTextColor="@color/text_secondary_dark"
+                    app:settingTitle="@string/userphone"
+                    app:showRightSummary="true" />
+
+                <View style="@style/bg_line" />
+
+                <com.journeyOS.base.widget.SettingView
+                    android:id="@+id/user_email"
+                    style="@style/bottom_layout"
+                    app:settingIcon="@drawable/svg_email"
+                    app:settingTitle="@string/useremail"
+                    app:showRightSummary="true" />
+
             </LinearLayout>
-        </android.support.v7.widget.CardView>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/register_cv"
-            android:layout_alignEnd="@id/register_cv"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="-20dp"
-            android:src="@drawable/svg_login_clear"
-            android:transitionName="loginFab"
-            app:fabSize="normal" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/user_info"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/user_avatar"
-            android:layout_width="@dimen/icon_size_x_large"
-            android:layout_height="@dimen/icon_size_x_large"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/spacing_normal"
-            android:gravity="center"
-            android:src="@mipmap/user"
-            android:visibility="gone"
-            app:civ_border_color="@color/ivory"
-            app:civ_border_width="@dimen/divider_size" />
-
-        <LinearLayout style="@style/wrap_layout">
-
-            <com.journeyOS.base.widget.SettingSwitch
-                android:id="@+id/auto_sync"
-                style="@style/top_layout"
-                android:theme="@style/CheckBox"
-                app:settingIcon="@drawable/svg_daemon"
-                app:settingSummary="@string/auto_sync_summary"
-                app:settingTitle="@string/auto_sync" />
-
-            <View style="@style/bg_line" />
-
-            <com.journeyOS.base.widget.SettingView
-                android:id="@+id/user_id"
-                style="@style/mid_layout"
-                app:settingIcon="@drawable/svg_menu_user"
-                app:settingTextColor="@color/text_secondary_dark"
-                app:settingTitle="@string/userid"
-                app:showRightSummary="true" />
-
-            <View style="@style/bg_line" />
-
-            <com.journeyOS.base.widget.SettingView
-                android:id="@+id/user_phone"
-                style="@style/mid_layout"
-                app:settingIcon="@drawable/svg_iphone_x"
-                app:settingTextColor="@color/text_secondary_dark"
-                app:settingTitle="@string/userphone"
-                app:showRightSummary="true" />
-
-            <View style="@style/bg_line" />
-
-            <com.journeyOS.base.widget.SettingView
-                android:id="@+id/user_email"
-                style="@style/bottom_layout"
-                app:settingIcon="@drawable/svg_email"
-                app:settingTitle="@string/useremail"
-                app:showRightSummary="true" />
-
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

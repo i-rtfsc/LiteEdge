@@ -37,7 +37,7 @@ public class H extends Handler {
     public static final int MSG_EDGE_HIDING = BASE << 3;
     public static final int MSG_BARRAGE_START_SERVICE = BASE << 4;
     public static final int MSG_BARRAGE_NOTIFICATION = BASE << 5;
-    public static final int MSG_DLIDE_CLICK = BASE << 6;
+    public static final int MSG_SLIDE_CLICK = BASE << 6;
     public static final int MSG_DRAWER_RELEASE = BASE << 7;
 
     private H mH;
@@ -83,10 +83,10 @@ public class H extends Handler {
                 }
                 break;
             case MSG_BALL_SHOWING:
-                EdgeServiceManager.getDefault().showingOrHidingBall(true);
+                EdgeServiceManager.getDefault().showingBall(true);
                 break;
             case MSG_BALL_HIDING:
-                EdgeServiceManager.getDefault().showingOrHidingBall(false);
+                EdgeServiceManager.getDefault().showingBall(false);
                 break;
             case MSG_BARRAGE_START_SERVICE:
                 NotificationManager.getDefault().startNotificationService();
@@ -94,7 +94,7 @@ public class H extends Handler {
             case MSG_BARRAGE_NOTIFICATION:
                 NotificationManager.getDefault().handleNotification();
                 break;
-            case MSG_DLIDE_CLICK:
+            case MSG_SLIDE_CLICK:
                 SlidingDrawer.getDefault().onItemClick((int) msg.arg1);
                 break;
             case MSG_DRAWER_RELEASE:

@@ -28,6 +28,7 @@ import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.api.edge.IEdge;
 
 public class EdgeServiceManager {
     private static final String TAG = EdgeServiceManager.class.getSimpleName();
@@ -81,7 +82,9 @@ public class EdgeServiceManager {
 
             boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, Constant.BALL_DEFAULT);
             if (ball) {
-                showingOrHidingBall(true);
+//                避免出现两个悬浮球，
+//                showingBall(true);
+                CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(true);
             }
         }
 
@@ -94,7 +97,7 @@ public class EdgeServiceManager {
         }
     };
 
-    public void showingOrHidingBall(boolean isShowing) {
+    public void showingBall(boolean isShowing) {
         try {
             if (asInterface != null) asInterface.showingBall(isShowing);
         } catch (RemoteException e) {

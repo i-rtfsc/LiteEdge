@@ -45,6 +45,7 @@
 
     <string name="login_success">登录成功</string>
     <string name="login">登录</string>
+    <string name="please_login">请先登录</string>
     <string name="login_username">用户</string>
     <string name="login_password">密码</string>
     <string name="regiter_phone">手机号</string>
@@ -189,4 +190,25 @@
 
     <string name="push_version_update">更新版本</string>
     <string name="push_version_update_summary">给Android平台的终端推送更新版本信息</string>
+
+    <string name="pay_title">捐赠</string>
+    <string name="pay_summary">愿意支持开发者，可以通过捐赠请开发者吃一顿早饭。以下操作为真实金钱捐赠，如不小心支付请邮件开发者进行退款。</string>
+
+    <string name="pay_aliy_title">支付宝捐赠</string>
+    <string name="pay_tencent_mm_title">微信捐赠</string>
+
+    <string name="pay_tencent_mm_dialog_title">微信捐赠操作步骤</string>
+    <string name="pay_tencent_mm_dialog_message">"点击确定按钮后会跳转微信扫描二维码界面：\n\n 1. 点击右上角的菜单按钮\n\n 2. 点击'从相册选取二维码'\n\n 3. 选择第一张二维码图片即可\n\n"</string>
+
+    <string name="ball_settings">悬浮球及手势</string>
+    <string name="barrage_settings">弹幕</string>
+    <string name="barrage_style">弹幕样式</string>
+
+    <string name="perssion_title">权限</string>
+    <string name="perssion_summary">1. 浮窗权限必须申请，不然用不了悬浮球。\n2. 弹幕权限即为通知权限，申请后才能用弹幕消息的相关功能。\n3. 辅助权限是为了实现场景识别（如游戏场景等）以及实现各种点击等操作。\n</string>
+
+    <string name="device_manager_title">设备管理者</string>
+    <string name="device_manager_summary">因为Android的限制，在进程重启后辅助权限自动失效。申请设备管理者能保证:\n 1. 进程保活(非100%)\n 2. 辅助权限不自动失效\n申请设备管理者时程序会闪退一次，但依然能申请成功，望知。\n</string>
+
+
 </resources>

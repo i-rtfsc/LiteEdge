@@ -17,16 +17,13 @@
 package com.journeyOS.plugins.pay;
 
 import android.arch.lifecycle.MutableLiveData;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 
 import com.journeyOS.base.R;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.viewmodel.BaseViewModel;
 import com.journeyOS.plugins.pay.adapter.PayInfoData;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +31,6 @@ public class PayModel extends BaseViewModel {
     private static final String TAG = PayModel.class.getSimpleName();
     private Context mContext;
     private MutableLiveData<List<PayInfoData>> mPayInfoData = new MutableLiveData<>();
-
-    public static final String ALIPAY_PKG = "com.eg.android.AlipayGphone";
-    public static final String TENCENT_MM_PKG = "com.tencent.mm";
 
     public static final String ALIPAY_SCAN = "alipay_scan";
     public static final String ALIPAY_QRCODE = "alipay_qrcode";
@@ -65,57 +59,6 @@ public class PayModel extends BaseViewModel {
                 mContext.getString(R.string.wechat_scan), TENCENT_MM_SCAN));
 
         mPayInfoData.postValue(infoDatas);
-    }
-
-    public static Intent alipayScan() {
-        try {
-            String uri = "alipayqr://platformapi/startapp?saId=10000007";
-            Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
-            intent.setPackage(ALIPAY_PKG);
-            return intent;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static Intent alipayBarcode() {
-        try {
-            String uri = "alipayqr://platformapi/startapp?saId=20000056";
-            Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
-            intent.setPackage(ALIPAY_PKG);
-            return intent;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static Intent alipayCarcode() {
-        try {
-            String uri = "alipays://platformapi/startapp?appId=200011235&transparentTitle=auto&url=/www/offline_qrcode.html?cardType=ANT00001&source=shortCut&snapshot=no&canPullDown=NO&showOptionMenu=NO";
-            Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
-            intent.setPackage(ALIPAY_PKG);
-            return intent;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static Intent weChatScan() {
-        try {
-            Intent intent = new Intent();
-            intent.setComponent(new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI"));
-            intent.putExtra("LauncherUI.From.Scaner.Shortcut", true);
-            intent.setFlags(335544320);
-            intent.setAction("android.intent.action.VIEW");
-            intent.setPackage(TENCENT_MM_PKG);
-            return intent;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public MutableLiveData<List<PayInfoData>> getAllPayData() {

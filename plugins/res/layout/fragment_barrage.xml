@@ -14,41 +14,97 @@
   limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:settings="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_background"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:scrollbars="none">
 
-    <LinearLayout style="@style/wrap_layout">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.journeyOS.base.widget.SettingSwitch
-            android:id="@+id/barrage"
-            style="@style/top_layout"
-            android:theme="@style/CheckBox"
-            settings:settingIcon="@drawable/svg_barrage"
-            settings:settingTitle="@string/barrage_toogle" />
+        <LinearLayout style="@style/wrap_layout">
 
-        <View style="@style/bg_line" />
+            <TextView
+                style="@style/text_content_layout"
+                android:text="@string/barrage_settings" />
 
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/barrage_selector"
-            style="@style/bottom_layout"
-            settings:settingIcon="@drawable/svg_whitelist"
-            settings:settingTitle="@string/barrage_whitelist" />
+            <com.journeyOS.base.widget.SettingSwitch
+                android:id="@+id/barrage"
+                style="@style/top_layout"
+                android:theme="@style/CheckBox"
+                settings:settingIcon="@drawable/svg_barrage"
+                settings:settingTitle="@string/barrage_toogle" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_selector"
+                style="@style/bottom_layout"
+                settings:settingIcon="@drawable/svg_whitelist"
+                settings:settingTitle="@string/barrage_whitelist" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/wrap_layout">
+
+            <TextView
+                style="@style/text_content_layout"
+                android:text="@string/barrage_style" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_click"
+                style="@style/mid_layout"
+                settings:settingIcon="@drawable/svg_click"
+                settings:settingRightSummary="@string/barrage_click_not_feedback"
+                settings:settingTitle="@string/barrage_click_title" />
+
+            <View
+                style="@style/bg_line"
+                android:visibility="visible" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_title"
+                style="@style/mid_layout"
+                settings:settingIcon="@drawable/svg_title"
+                settings:settingRightSummary="@string/barrage_current_color"
+                settings:settingTitle="@string/barrage_title_color" />
+
+            <View
+                style="@style/bg_line"
+                android:visibility="visible" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_summary"
+                style="@style/mid_layout"
+                settings:settingIcon="@drawable/svg_content"
+                settings:settingRightSummary="@string/barrage_current_color"
+                settings:settingTitle="@string/barrage_summary_color" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_background"
+                style="@style/bottom_layout"
+                settings:settingIcon="@drawable/svg_background"
+                settings:settingRightSummary="@string/barrage_current_color"
+                settings:settingTitle="@string/barrage_background_color" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/wrap_layout">
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_test"
+                style="@style/single_layout"
+                settings:settingIcon="@drawable/svg_menu_barrage"
+                settings:settingTitle="@string/barrage_debug"
+                settings:showRight="false" />
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout style="@style/wrap_layout">
-
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/barrage_test"
-            style="@style/single_layout"
-            settings:settingIcon="@drawable/svg_menu_barrage"
-            settings:settingTitle="@string/barrage_debug"
-            settings:showRight="false" />
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

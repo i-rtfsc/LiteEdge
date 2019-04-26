@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 anqi.huang@outlook.com
+ * Copyright (c) 2019 anqi.huang@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,10 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.api.daemon;
+package com.journeyOS.base.widget.textview.base;
 
-import android.content.Context;
-
-import com.journeyOS.core.api.ICoreApi;
-
-public interface IAlive extends ICoreApi {
-    /**
-     * 启动1像素activity，主要为了进程保活
-     */
-    void keepAlive(Context context);
-
-    /**
-     * 关闭1像素activity
-     */
-    void destroy();
+public class CharacterDiffResult {
+    public char c;
+    public int fromIndex;
+    public int moveIndex;
 }

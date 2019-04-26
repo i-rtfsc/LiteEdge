@@ -48,7 +48,7 @@
 
         <activity
             android:name=".LearnActivity"
-            android:theme="@style/settings">
+            android:theme="@style/learn">
             <intent-filter>
                 <action android:name="com.journeyOS.plugins.LEARN" />
                 <category android:name="android.intent.category.DEFAULT" />

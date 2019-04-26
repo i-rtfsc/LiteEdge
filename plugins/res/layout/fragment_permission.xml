@@ -14,62 +14,82 @@
   limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:settings="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_background"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:scrollbars="none">
 
-    <LinearLayout style="@style/wrap_layout">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/overflow"
-            style="@style/top_layout"
-            settings:settingIcon="@drawable/svg_overflow"
-            settings:settingRightSummary=""
-            settings:settingTitle="@string/overflow" />
+        <LinearLayout style="@style/wrap_layout">
 
-        <View style="@style/bg_line" />
+            <TextView
+                style="@style/text_title_layout"
+                android:text="@string/perssion_title" />
 
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/notification"
-            style="@style/mid_layout"
-            settings:settingIcon="@drawable/svg_notification"
-            settings:settingRightSummary="@string/permission_off"
-            settings:settingTitle="@string/notification_permission" />
+            <TextView
+                style="@style/text_content_layout"
+                android:text="@string/perssion_summary" />
 
-        <View style="@style/bg_line" />
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/overflow"
+                style="@style/mid_layout"
+                settings:settingIcon="@drawable/svg_overflow"
+                settings:settingRightSummary=""
+                settings:settingTitle="@string/overflow" />
 
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/accessibility"
-            style="@style/bottom_layout"
-            settings:settingIcon="@drawable/svg_accessibility"
-            settings:settingRightSummary="@string/permission_off"
-            settings:settingTitle="@string/accessibility" />
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/notification"
+                style="@style/mid_layout"
+                settings:settingIcon="@drawable/svg_notification"
+                settings:settingRightSummary="@string/permission_off"
+                settings:settingTitle="@string/notification_permission" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/accessibility"
+                style="@style/bottom_layout"
+                settings:settingIcon="@drawable/svg_accessibility"
+                settings:settingRightSummary="@string/permission_off"
+                settings:settingTitle="@string/accessibility" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/wrap_layout">
+
+            <TextView
+                style="@style/text_title_layout"
+                android:text="@string/device_manager_title" />
+
+            <TextView
+                style="@style/text_content_layout"
+                android:text="@string/device_manager_summary" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/device_admin"
+                style="@style/mid_layout"
+                settings:settingIcon="@drawable/svg_device_admin"
+                settings:settingRightSummary="@string/permission_off"
+                settings:settingTitle="@string/device_admin" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/remove_device_admin"
+                style="@style/bottom_layout"
+                settings:settingIcon="@drawable/svg_remove_device_admin"
+                settings:settingTitle="@string/remove_device_admin" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout style="@style/wrap_layout">
-
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/device_admin"
-            style="@style/top_layout"
-            settings:settingIcon="@drawable/svg_device_admin"
-            settings:settingRightSummary="@string/permission_off"
-            settings:settingSummary="@string/device_admin_summary"
-            settings:settingTitle="@string/device_admin" />
-
-        <View style="@style/bg_line" />
-
-        <com.journeyOS.base.widget.SettingView
-            android:id="@+id/remove_device_admin"
-            style="@style/bottom_layout"
-            settings:settingIcon="@drawable/svg_remove_device_admin"
-            settings:settingSummary="@string/remove_device_admin_summary"
-            settings:settingTitle="@string/remove_device_admin" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

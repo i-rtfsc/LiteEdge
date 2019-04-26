@@ -37,6 +37,7 @@ import com.journeyOS.base.utils.BaseUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.base.widget.LocusLayoutManager;
+import com.journeyOS.base.widget.textview.RainbowTextView;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.edgeprovider.IEdgeLabProvider;
@@ -70,9 +71,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
     View mLayoutGroups;
     View mLayoutStatus;
 
-    TextView mStatusBarText1;
-    TextView mStatusBarText2;
-    TextView mStatusBarText3;
+    RainbowTextView mStatusBarText;
 
     //lab
     LocusLayoutManager mLayoutManager;
@@ -199,11 +198,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                 }
             });
         }
-
-        mStatusBarText1 = (TextView) findViewById(R.id.statusbar_text1);
-        mStatusBarText2 = (TextView) findViewById(R.id.statusbar_text2);
-        mStatusBarText3 = (TextView) findViewById(R.id.statusbar_text3);
-
+        mStatusBarText = (RainbowTextView) findViewById(R.id.statusbar_text);
         addOnAttachStateChangeListener(this);
     }
 
@@ -302,26 +297,25 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                 @Override
                 public void run() {
                     Weather weather = mListener.getWeather();
+                    final StringBuilder sb = new StringBuilder();
                     if (weather != null && weather.HeWeather6 != null) {
                         final Weather.HeWeather6Bean heWeather = weather.HeWeather6.get(0);
                         if (heWeather != null) {
-                            CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (heWeather.daily_forecast != null) {
-                                        Weather.HeWeather6Bean.DailyForecastBean daily = heWeather.daily_forecast.get(0);
-                                        Weather.HeWeather6Bean.BasicBean basic = heWeather.basic;
-                                        if (daily != null && basic != null) {
-                                            if (mStatusBarText1 != null) {
-                                                mStatusBarText1.setText(basic.location + "：" + daily.cond_txt_d);
-                                            }
-                                            if (mStatusBarText2 != null) {
-                                                mStatusBarText2.setText(daily.tmp_min + REGION + daily.tmp_max + TEMPERATURE);
-                                            }
-                                        }
-                                    }
+                            if (heWeather.daily_forecast != null) {
+                                Weather.HeWeather6Bean.DailyForecastBean daily = heWeather.daily_forecast.get(0);
+                                Weather.HeWeather6Bean.BasicBean basic = heWeather.basic;
+                                if (daily != null && basic != null) {
+                                    sb.append(basic.location)
+                                            .append("：")
+                                            .append(daily.cond_txt_d)
+                                            .append("    ")
+                                            .append(daily.tmp_min)
+                                            .append(REGION)
+                                            .append(daily.tmp_max)
+                                            .append(TEMPERATURE)
+                                            .append("    ");
                                 }
-                            });
+                            }
                         }
                     }
 
@@ -329,16 +323,17 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                     if (air != null && air.HeWeather6 != null) {
                         final Air.HeWeather6Bean.AirNowCityBean airNowCity = air.HeWeather6.get(0).air_now_city;
                         if (airNowCity != null) {
-                            CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (mStatusBarText3 != null) {
-                                        mStatusBarText3.setText(getContext().getString(R.string.weather_air_alty) + airNowCity.qlty);
-                                    }
-                                }
-                            });
+                            sb.append(getContext().getString(R.string.weather_air_alty))
+                                    .append(airNowCity.qlty);
                         }
                     }
+
+                    CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            mStatusBarText.setText(sb.toString());
+                        }
+                    });
                 }
             });
         }

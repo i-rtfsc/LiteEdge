@@ -14,45 +14,12 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.database.user;
+package com.journeyOS.base.widget.textview.base;
 
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.datatype.BmobGeoPoint;
+/**
+ * AnimationListener
+ */
 
-public class EdgeUser extends BmobUser {
-
-    /**
-     * 昵称
-     */
-    public String nickname;
-
-    /**
-     * 年龄
-     */
-    public Integer age;
-
-    /**
-     * 性别
-     */
-    public Integer gender;
-
-    /**
-     * 用户当前位置
-     */
-    public BmobGeoPoint address;
-
-
-    /**
-     * 头像
-     */
-    @Deprecated
-    public BmobFile avatar;
-
-    /**
-     * 头像网址
-     */
-    public String icon;
-
-    public String backUp;
+public interface AnimationListener {
+    void onAnimationEnd(HTextView hTextView);
 }

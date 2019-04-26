@@ -87,7 +87,7 @@
     <dimen name="textSize">27px</dimen>
     <dimen name="statusTextSize">10dp</dimen>
     <dimen name="status_bar_width">960px</dimen>
-    <dimen name="status_bar_height">144px</dimen>
+    <dimen name="status_bar_height">140px</dimen>
     <dimen name="child_text_drawable_padding">9px</dimen>
     <!-- Height of the battery icon in the status bar. -->
     <dimen name="status_bar_battery_icon_height">10dp</dimen>

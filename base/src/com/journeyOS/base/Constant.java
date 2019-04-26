@@ -28,6 +28,10 @@ public class Constant {
     //update weather time interval
     public static final long TIME_INTERVAL = 4 * 60 * 60 * 1000;
 
+    //SharedPreferences file(icon)
+    public static final boolean LOCAL_ICON = false;
+    public static final String SP_BIG_FILE = "big";
+    public static final String BIG_FILE_USER_ICON = "userIcon";
 
     //SharedPreferences KEY & default value
     public static final String DAEMON = "daemon";

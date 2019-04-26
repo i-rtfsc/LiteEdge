@@ -14,45 +14,20 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.database.user;
+package com.journeyOS.base.widget.textview.base;
 
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.datatype.BmobGeoPoint;
+import android.graphics.Canvas;
+import android.util.AttributeSet;
 
-public class EdgeUser extends BmobUser {
+/**
+ * interface used in HTextView
+ */
+public interface IHText {
+    void init(HTextView hTextView, AttributeSet attrs, int defStyle);
 
-    /**
-     * 昵称
-     */
-    public String nickname;
+    void animateText(CharSequence text);
 
-    /**
-     * 年龄
-     */
-    public Integer age;
+    void onDraw(Canvas canvas);
 
-    /**
-     * 性别
-     */
-    public Integer gender;
-
-    /**
-     * 用户当前位置
-     */
-    public BmobGeoPoint address;
-
-
-    /**
-     * 头像
-     */
-    @Deprecated
-    public BmobFile avatar;
-
-    /**
-     * 头像网址
-     */
-    public String icon;
-
-    public String backUp;
+    void setAnimationListener(AnimationListener listener);
 }

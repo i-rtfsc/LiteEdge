@@ -46,16 +46,6 @@
 
     <application android:allowBackup="true">
 
-        <activity
-            android:name=".daemon.AliveActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/OnePixelTheme">
-            <intent-filter>
-                <action android:name="com.journeyOS.core.daemon.keep_alive" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
         <service android:name="com.amap.api.location.APSService" />
         <meta-data
             android:name="com.amap.api.v2.apikey"

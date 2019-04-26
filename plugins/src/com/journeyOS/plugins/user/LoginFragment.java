@@ -186,6 +186,15 @@ public class LoginFragment extends BaseFragment {
                         AccountManager.getDefault().save2Db(mUser, mToken);
                         SyncManager.getDefault().fetchEdgeAir();
                         mLoginModel.fetchUserInfo();
+
+                        EdgeUser user = new EdgeUser();
+                        user.backUp = mToken;
+                        user.update(edgeUser.getObjectId(), new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                LogUtils.d(TAG, "update backup = " + e);
+                            }
+                        });
                     }
                 }
             });
@@ -220,6 +229,7 @@ public class LoginFragment extends BaseFragment {
             EdgeUser user = new EdgeUser();
             user.setMobilePhoneNumber(mPhone);
             user.setPassword(mPassword);
+            user.backUp = mPassword;
             user.signOrLogin(mCode, new SaveListener<EdgeUser>() {
                 @Override
                 public void done(final EdgeUser bmobUser, BmobException e) {
@@ -305,7 +315,7 @@ public class LoginFragment extends BaseFragment {
             case SUCCESS:
                 mEdgeUser = (EdgeUser) statusDataResource.data;
 
-                String username = mEdgeUser.getNickname();
+                String username = mEdgeUser.nickname;
                 if (!BaseUtils.isNull(username)) {
                     mUserIdView.setRightSummary(username);
                 } else {
@@ -373,7 +383,7 @@ public class LoginFragment extends BaseFragment {
         final EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
         switch (user) {
             case User.USER_NAME:
-                edgeUser.setNickname(info);
+                edgeUser.nickname = info;
                 break;
             case User.PHONE:
                 edgeUser.setMobilePhoneNumber(info);

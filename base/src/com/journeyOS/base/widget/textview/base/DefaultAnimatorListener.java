@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 anqi.huang@outlook.com
+ * Copyright (c) 2019 anqi.huang@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,31 +14,29 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.daemon;
+package com.journeyOS.base.widget.textview.base;
 
-import android.content.Context;
-
-import com.journeyOS.core.api.daemon.IAlive;
-import com.journeyOS.literouter.annotation.ARouterInject;
-
-@ARouterInject(api = IAlive.class)
-public class IAliveImpl implements IAlive {
-    private static final String TAG = IAliveImpl.class.getCanonicalName();
+import android.animation.Animator;
 
 
+public class DefaultAnimatorListener implements Animator.AnimatorListener {
     @Override
-    public void onCreate() {
-
+    public void onAnimationStart(Animator animation) {
+        // no-op
     }
 
     @Override
-    public void keepAlive(Context context) {
-        AliveActivity.navigationActivity(context);
+    public void onAnimationEnd(Animator animation) {
+        // no-op
     }
 
     @Override
-    public void destroy() {
-        AliveActivity.destroy();
+    public void onAnimationCancel(Animator animation) {
+        // no-op
     }
 
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+        // no-op
+    }
 }

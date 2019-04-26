@@ -54,7 +54,14 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         items.get(position).bindViewHolder(holder);
         views.put(position, holder.itemView);
+
+        if (position == getItemCount() - 1) {
+            if (listener != null) {
+                listener.onBindViewFinished();
+            }
+        }
     }
+
 
     @Override
     public int getItemCount() {
@@ -129,5 +136,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
 
     public interface OnItemSelectedListener {
         void onItemSelected(int position);
+
+        void onBindViewFinished();
     }
 }
