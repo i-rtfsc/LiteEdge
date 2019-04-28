@@ -164,7 +164,6 @@ public class MoreSelectorActivity extends BaseActivity {
 //        Pair<Fragment, Integer> appPair = new Pair<>(AppSelectorFragment.newInstance(this, sRotation, sDirection), R.string.selector_app);
 //        mAdapter.addFrag(appPair);
 
-
         Pair<Fragment, Integer> edgePair = new Pair<>(EdgeSelectorFragment.newInstance(this, sRotation, sDirection), R.string.selector_edge);
         mAdapter.addFrag(edgePair);
 

@@ -166,10 +166,10 @@ public class EdgeManager {
                                 AppUtils.startApp(mContext, config.packageName);
                                 if (mEdgeView != null) mEdgeView.hideEdgeView();
                             } else {
-                                CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, StateMachine.getEdgeDirection());
+                                CoreManager.getDefault().getImpl(IPlugins.class).navigationEdgeSelector(mContext, postion, StateMachine.getEdgeDirection());
                             }
                         } else {
-                            CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, StateMachine.getEdgeDirection());
+                            CoreManager.getDefault().getImpl(IPlugins.class).navigationEdgeSelector(mContext, postion, StateMachine.getEdgeDirection());
                         }
                     }
                 }
@@ -177,7 +177,8 @@ public class EdgeManager {
                 @Override
                 public void onItemLongClick(int postion) {
                     LogUtils.d(TAG, "on item long click = " + postion);
-                    CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, StateMachine.getEdgeDirection());
+                    CoreManager.getDefault().getImpl(IPlugins.class).navigationEdgeSelector(mContext, postion, StateMachine.getEdgeDirection());
+
                 }
 
                 @Override

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.plugins.app.adapter;
+package com.journeyOS.plugins.scene.adapter;
 
 import android.view.View;
 
@@ -25,25 +25,25 @@ import com.journeyOS.core.Messages;
 import com.journeyOS.literouter.Router;
 import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.R2;
-import com.journeyOS.plugins.app.AppSelectorFragment;
+import com.journeyOS.plugins.scene.SceneFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class AppHolder extends BaseViewHolder<AppInfoData> {
+public class SceneHolder extends BaseViewHolder<SceneInfoData> {
 
     @BindView(R2.id.app_item)
     SettingView mView;
 
-    AppInfoData mAppInfoData;
+    SceneInfoData mInfoData;
 
-    public AppHolder(View itemView, BaseRecyclerAdapter baseRecyclerAdapter) {
+    public SceneHolder(View itemView, BaseRecyclerAdapter baseRecyclerAdapter) {
         super(itemView, baseRecyclerAdapter);
     }
 
     @Override
-    public void updateItem(AppInfoData data, int position) {
-        mAppInfoData = data;
+    public void updateItem(SceneInfoData data, int position) {
+        mInfoData = data;
         mView.setIcon(data.drawable);
         mView.setTitle(data.appName);
     }
@@ -53,19 +53,15 @@ public class AppHolder extends BaseViewHolder<AppInfoData> {
         return R.layout.layout_app_item;
     }
 
-
     @OnClick({R2.id.app_item})
-    void listenerSwitch() {
+    void listenerClick() {
         Messages msg = new Messages();
-        if (AppSelectorFragment.FROM_EDGE == mAppInfoData.from) {
-            msg.what = Messages.MSG_ADD_ITEM;
-        } else if (AppSelectorFragment.FROM_GESTURE == mAppInfoData.from) {
-            msg.what = Messages.MSG_ADD_GESTURE_APP;
-        } else if (AppSelectorFragment.FROM_SCENE == mAppInfoData.from) {
-            msg.what = Messages.MSG_SCENE_SELECTOR_APP;
-            msg.arg1 = mAppInfoData.scene;
+        if (mInfoData.scene == SceneFragment.SCENE_GAME) {
+            msg.what = Messages.MSG_SCENE_REMOVE_GAME;
+        } else if (mInfoData.scene == SceneFragment.SCENE_VIDEO) {
+            msg.what = Messages.MSG_SCENE_REMOVE_VIDEO;
         }
-        msg.obj = mAppInfoData.packageName;
+        msg.obj = mInfoData.packageName;
         Router.getDefault().post(msg);
     }
 

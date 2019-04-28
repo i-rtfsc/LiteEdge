@@ -70,4 +70,9 @@ public abstract class BaseFragment extends Fragment implements BaseViewInit {
     protected void initDataObserver(Bundle savedInstanceState) {
     }
 
+    public void onMenuAdd() {
+    }
+
+    public void onFragmentResume() {
+    }
 }

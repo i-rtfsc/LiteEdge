@@ -26,19 +26,35 @@ import com.journeyOS.core.type.FingerDirection;
 
 public interface IPlugins extends ICoreApi {
     /**
-     * 启动选择app的activity
+     * 添加app到Edge
      *
      * @param context
      * @param postion   edge具体元素的位置
      * @param direction edge的方向
      */
-    void navigationSelectorActivity(Context context, int postion, EdgeDirection direction);
+    void navigationEdgeSelector(Context context, int postion, EdgeDirection direction);
+
+    /**
+     * 添加app到手势
+     *
+     * @param context
+     * @param rotation edge具体元素的位置
+     */
+    void navigationGestureSelector(Context context, int rotation, FingerDirection direction);
+
+    /**
+     * 添加app到场景
+     *
+     * @param context
+     * @param rotation edge具体元素的位置
+     */
+    void navigationSceneSelector(Context context, int scene);
 
     /**
      * 启动选择手势功能的的activity
      *
      * @param context
-     * @param rotation   屏幕的方向
+     * @param rotation  屏幕的方向
      * @param direction 手势的方向
      */
     void navigationMoreSelectorActivity(Context context, int rotation, FingerDirection direction);
@@ -107,4 +123,9 @@ public interface IPlugins extends ICoreApi {
      * 获取管理员Fragment
      */
     Fragment provideAdminFragment(Activity activity);
+
+    /**
+     * 获取实验室Fragment
+     */
+    Fragment provideSceneFragment(Activity activity, int scene);
 }

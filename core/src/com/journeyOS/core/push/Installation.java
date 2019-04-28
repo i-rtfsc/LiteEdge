@@ -23,4 +23,24 @@ import cn.bmob.v3.BmobInstallation;
 public class Installation extends BmobInstallation {
 
     public EdgeUser author;
+
+    /**
+     * 手机厂商
+     */
+    public String brand;
+
+    /**
+     * 手机型号
+     */
+    public String model;
+
+    /**
+     * 手机系统版本号
+     */
+    public String version;
+
+    /**
+     * 当前软件版本号
+     */
+    public String appVersion;
 }

@@ -61,13 +61,9 @@ public class Constant {
     public static final String BARRAGE_ICONO = "barrageIcon";
     public static final boolean BARRAGE_ICONO_DEFAULT = false;
 
-//    public static final String EDGE_LAB = "edgeLab";
-//    public static final boolean EDGE_LAB_DEFAULT = true;
-
     public static final String EDGE_CONUT = "edgeCount";
     public static final int EDGE_CONUT_DEFAULT = 7;
 
-    //    public static final int EDGE_STYLE_DINFINE = 6;
     public static final Map<Integer, Integer> sEdgeCountMap;
 
     static {
@@ -118,8 +114,11 @@ public class Constant {
     public static final String MUSIC_CONTROL_SHOW_BARRAGE = "mcsb";
     public static final boolean MUSIC_CONTROL_SHOW_BARRAGE_DEFAULT = false;
 
-    public static final String AUTO_HIDE_BALL = "autoHideBall";
-    public static final boolean AUTO_HIDE_BALL_DEFAULT = false;
+    public static final String AUTO_HIDE_BALL = "ahb";
+    public static final int AUTO_HIDE_BALL_NONE = 0;
+    public static final int AUTO_HIDE_BALL_DEFAULT = 0;
+    public static final int AUTO_HIDE_BALL_GAME = 0x01;
+    public static final int AUTO_HIDE_BALL_VIDEO = 0x02;
 
     public static final String DB_INITED = "dbInited";
     public static final String CITY_INITED = "cityInited";

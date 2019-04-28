@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package com.journeyOS.plugins.app.adapter;
+package com.journeyOS.plugins.scene.adapter;
 
 import android.graphics.drawable.Drawable;
 
 import com.journeyOS.base.adapter.BaseAdapterData;
 import com.journeyOS.plugins.R;
 
-public class AppInfoData implements BaseAdapterData {
+public class SceneInfoData implements BaseAdapterData {
 
     public Drawable drawable;
     public String appName;
     public String packageName;
-    public int from;
     public int scene;
 
     @Override

@@ -1,0 +1,41 @@
+<!--
+  ~ Copyright (c) 2019 anqi.huang@outlook.com
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+    <path
+        android:fillColor="@color/icon"
+        android:pathData="M512,1020C232,1020 4,792 4,512S232,4 512,4 1020,232 1020,512 792,1020 512,1020zM512,36C249.6,36 36,249.6 36,512s213.6,476 476,476 476,-213.6 476,-476S774.4,36 512,36z" />
+    <path
+        android:fillColor="@color/icon"
+        android:pathData="M512,828c-174.4,0 -316,-141.6 -316,-316S337.6,196 512,196s316,141.6 316,316 -141.6,316 -316,316zM512,212c-165.6,0 -300,134.4 -300,300s134.4,300 300,300 300,-134.4 300,-300S677.6,212 512,212z" />
+    <path
+        android:fillColor="@color/icon"
+        android:pathData="M512,628c-64,0 -116,-52 -116,-116S448,396 512,396 628,448 628,512 576,628 512,628zM512,412c-55.2,0 -100,44.8 -100,100S456.8,612 512,612 612,567.2 612,512 567.2,412 512,412z" />
+    <path
+        android:fillColor="@color/icon"
+        android:pathData="M512,1012c-4.8,0 -8,-3.2 -8,-8V20c0,-4.8 3.2,-8 8,-8s8,3.2 8,8v984c0,4.8 -3.2,8 -8,8z" />
+    <path
+        android:fillColor="@color/icon"
+        android:pathData="M1004,520H20c-4.8,0 -8,-3.2 -8,-8s3.2,-8 8,-8h984c4.8,0 8,3.2 8,8s-3.2,8 -8,8z" />
+    <path
+        android:fillColor="@color/icon"
+        android:pathData="M712.8,569.6c-4.8,0 -8,-3.2 -8,-8V462.4c0,-4.8 3.2,-8 8,-8s8,3.2 8,8v99.2c0,4 -4,8 -8,8zM901.6,569.6c-4.8,0 -8,-3.2 -8,-8V462.4c0,-4.8 3.2,-8 8,-8s8,3.2 8,8v99.2c0,4 -4,8 -8,8zM109.6,569.6c-4.8,0 -8,-3.2 -8,-8V462.4c0,-4.8 3.2,-8 8,-8s8,3.2 8,8v99.2c0,4 -4,8 -8,8zM297.6,569.6c-4.8,0 -8,-3.2 -8,-8V462.4c0,-4.8 3.2,-8 8,-8s8,3.2 8,8v99.2c0,4 -3.2,8 -8,8zM555.2,727.2H456c-4.8,0 -8,-3.2 -8,-8s3.2,-8 8,-8h99.2c4.8,0 8,3.2 8,8s-4,8 -8,8zM555.2,916H456c-4.8,0 -8,-3.2 -8,-8s3.2,-8 8,-8h99.2c4.8,0 8,3.2 8,8 0,4 -4,8 -8,8zM555.2,124H456c-4.8,0 -8,-3.2 -8,-8s3.2,-8 8,-8h99.2c4.8,0 8,3.2 8,8s-4,8 -8,8zM555.2,312.8H456c-4.8,0 -8,-3.2 -8,-8s3.2,-8 8,-8h99.2c4.8,0 8,3.2 8,8 0,4 -4,8 -8,8z" />
+</vector>

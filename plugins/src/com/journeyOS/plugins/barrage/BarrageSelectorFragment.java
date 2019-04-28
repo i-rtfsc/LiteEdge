@@ -86,7 +86,6 @@ public class BarrageSelectorFragment extends BaseFragment {
     }
 
     void onAllApps(final List<BarrageInfoData> infoData) {
-        LogUtils.d(TAG, "observer app info data = " + infoData);
         final LinearLayoutManager appLayoutManager = new LinearLayoutManager(mContext);
         mAllAppsView.setLayoutManager(appLayoutManager);
         mAllAppsAdapter = new BaseRecyclerAdapter(mContext);

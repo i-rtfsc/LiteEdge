@@ -20,15 +20,6 @@
     <application android:allowBackup="true">
 
         <activity
-            android:name=".SelectorActivity"
-            android:theme="@style/settings">
-            <intent-filter>
-                <action android:name="com.journeyOS.plugins.SELECTOR" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".MoreSelectorActivity"
             android:theme="@style/settings">
             <intent-filter>

@@ -17,11 +17,12 @@
 package com.journeyOS.edge.provider;
 
 
-import android.app.Activity;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.journeyOS.core.api.ui.IContainer;
 import com.journeyOS.edge.ui.activity.ContainerActivity;
+import com.journeyOS.edge.ui.activity.ContainerWithMenuActivity;
 import com.journeyOS.literouter.annotation.ARouterInject;
 
 @ARouterInject(api = IContainer.class)
@@ -33,7 +34,12 @@ public class ContainerImpl implements IContainer {
     }
 
     @Override
-    public void subActivity(Activity activity, Fragment fragment, String title) {
-        ContainerActivity.show(activity, fragment, title);
+    public void subActivity(Context context, Fragment fragment, String title) {
+        ContainerActivity.show(context, fragment, title);
+    }
+
+    @Override
+    public void subWithMenuActivity(Context context, Fragment fragment, String title) {
+        ContainerWithMenuActivity.show(context, fragment, title);
     }
 }

@@ -54,6 +54,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/base_AppTheme" />
 
+        <activity
+            android:name=".ui.activity.ContainerWithMenuActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/base_AppTheme" />
+
         <service
             android:name=".EdgeService"
             android:enabled="true"

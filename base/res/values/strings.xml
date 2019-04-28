@@ -145,7 +145,9 @@
     <string name="click">点击</string>
     <string name="click_long">长按</string>
     <string name="gesture_portrait">竖屏手势</string>
+    <string name="gesture_portrait_summary">自定义手机竖屏时拖拽悬浮球的手势</string>
     <string name="gesture_landscape">横屏手势</string>
+    <string name="gesture_landscape_summary">自定义手机横屏时拖拽悬浮球的手势</string>
     <string name="selector_app">选择应用</string>
     <string name="selector_edge">Edge</string>
     <string name="selector_action">全局动作</string>
@@ -186,7 +188,24 @@
     <string name="update_dialog_download">去下载</string>
 
     <string name="auto_hide_ball">自动隐藏悬浮球</string>
-    <string name="auto_hide_ball_summary">进入游戏时自动隐藏悬浮球</string>
+
+    <string name="game_scene">游戏</string>
+    <string name="game_scene_summary">进入游戏时自动隐藏悬浮球</string>
+    <string name="game_scene_revise">游戏场景</string>
+    <string name="game_scene_revise_summary">可添加遗漏的游戏到游戏场景列表中</string>
+
+    <string name="video_scene">视频</string>
+    <string name="video_scene_summary">进入视频时自动隐藏悬浮球</string>
+    <string name="video_scene_revise">视频场景</string>
+    <string name="video_scene_revise_summary">可添加遗漏的视频到视频场景列表中</string>
+
+    <string name="scene_add">添加</string>
+    <string name="scene_add_game">可添加遗漏的游戏到游戏列表</string>
+    <string name="scene_add_video">可添加遗漏的视频到视频列表</string>
+
+    <string name="longe_click_remove_app">"长按可从列表中移除"</string>
+    <string name="remove_app_title">"是否移除\"%s\""</string>
+    <string name="remove_app_message">"从场景识别列表中移除，不会卸载此该应用！"</string>
 
     <string name="push_version_update">更新版本</string>
     <string name="push_version_update_summary">给Android平台的终端推送更新版本信息</string>

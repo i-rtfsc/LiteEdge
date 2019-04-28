@@ -16,11 +16,12 @@
 
 package com.journeyOS.core.api.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.journeyOS.core.api.ICoreApi;
 
 public interface IContainer extends ICoreApi {
-    void subActivity(Activity activity, Fragment fragment, String title);
+    void subActivity(Context context, Fragment fragment, String title);
+    void subWithMenuActivity(Context context, Fragment fragment, String title);
 }

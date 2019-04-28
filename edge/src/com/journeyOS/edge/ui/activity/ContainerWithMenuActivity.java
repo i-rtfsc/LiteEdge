@@ -20,14 +20,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.base.BaseActivity;
+import com.journeyOS.core.base.BaseFragment;
 import com.journeyOS.edge.R;
+
+import java.util.List;
 
 import butterknife.BindView;
 
-public class ContainerActivity extends BaseActivity {
+public class ContainerWithMenuActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
@@ -35,7 +40,7 @@ public class ContainerActivity extends BaseActivity {
     private static String mTitle;
 
     public static void show(Context context, Fragment fragment, String title) {
-        Intent intent = new Intent(context, ContainerActivity.class);
+        Intent intent = new Intent(context, ContainerWithMenuActivity.class);
         mFragment = fragment;
         mTitle = title;
         context.startActivity(intent);
@@ -52,6 +57,43 @@ public class ContainerActivity extends BaseActivity {
         if (mFragment != null) {
             loadFragment(mFragment, mTitle);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+        for (Fragment f : fragmentList) {
+            if (f instanceof BaseFragment) {
+                ((BaseFragment) f).onFragmentResume();
+            }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.container, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        super.onOptionsItemSelected(menuItem);
+        switch (menuItem.getItemId()) {
+            case R.id.add:
+                List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+                for (Fragment f : fragmentList) {
+                    if (f instanceof BaseFragment) {
+                        ((BaseFragment) f).onMenuAdd();
+                    }
+                }
+                break;
+            default:
+                break;
+
+        }
+        return true;
     }
 
     void loadFragment(Fragment fragment, String title) {

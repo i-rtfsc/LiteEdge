@@ -22,11 +22,13 @@ import android.os.Environment;
 
 import com.facebook.stetho.Stetho;
 import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.utils.DeviceUtils;
 import com.journeyOS.base.utils.FileIOUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.AccountManager;
 import com.journeyOS.core.BuildConfig;
 import com.journeyOS.core.R;
+import com.journeyOS.core.Version;
 import com.journeyOS.core.database.user.EdgeUser;
 import com.journeyOS.core.push.Installation;
 import com.tencent.bugly.Bugly;
@@ -96,7 +98,7 @@ public class AppConfig {
                 .apply();
     }
 
-    private static void initBmob(Application context) {
+    private static void initBmob(final Application context) {
         Bmob.initialize(context, "6aa0fcc54f48025459d573c92e95870b");
         BmobInstallationManager.getInstance().initialize(new InstallationListener<BmobInstallation>() {
             @Override
@@ -105,17 +107,21 @@ public class AppConfig {
                     String objectId = bmobInstallation.getObjectId();
                     LogUtils.d("init bmob installation, objectId = [" + objectId + "]" +
                             ", installationId = [" + bmobInstallation.getInstallationId() + "]");
+                    Installation installation = new Installation();
                     if (AccountManager.getDefault().isLogin()) {
-                        Installation installation = new Installation();
                         EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
                         installation.author = edgeUser;
-                        installation.update(objectId, new UpdateListener() {
-                            @Override
-                            public void done(BmobException e) {
-                                LogUtils.d("update, e = " + e);
-                            }
-                        });
                     }
+                    installation.brand = DeviceUtils.getDeviceBrand();
+                    installation.model = DeviceUtils.getSystemModel();
+                    installation.version = DeviceUtils.getSystemVersion();
+                    installation.appVersion = Version.getVersionName(context);
+                    installation.update(objectId, new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            LogUtils.d("update, e = " + e);
+                        }
+                    });
                 } else {
                     LogUtils.e(e.getMessage());
                 }

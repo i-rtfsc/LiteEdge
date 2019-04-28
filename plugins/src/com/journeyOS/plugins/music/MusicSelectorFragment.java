@@ -100,7 +100,6 @@ public class MusicSelectorFragment extends BaseFragment implements RouterListene
     }
 
     void onAllApps(final List<MusicInfoData> appInfoData) {
-        LogUtils.d(TAG, "observer app info data = " + appInfoData);
         LinearLayoutManager appLayoutManager = new LinearLayoutManager(mContext);
         mAllAppsView.setLayoutManager(appLayoutManager);
         mAllAppsAdapter = new BaseRecyclerAdapter(mContext);
