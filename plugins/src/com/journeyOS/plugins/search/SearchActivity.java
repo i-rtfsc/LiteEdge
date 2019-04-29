@@ -35,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.journeyOS.base.adapter.BaseRecyclerAdapter;
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.BaseUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.base.widget.SideLetterBar;
@@ -77,13 +78,13 @@ public class SearchActivity extends BaseActivity {
 
     public static void navigationActivity(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
-        context.startActivity(intent);
+        AppUtils.startIntent(context, intent);
     }
 
     public static void navigationFromApplication(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        context.startActivity(intent);
+        AppUtils.startIntent(context, intent);
     }
 
     @Override

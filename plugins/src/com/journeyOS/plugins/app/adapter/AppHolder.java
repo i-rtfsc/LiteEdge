@@ -25,6 +25,7 @@ import com.journeyOS.core.Messages;
 import com.journeyOS.literouter.Router;
 import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.R2;
+import com.journeyOS.plugins.app.AppSelectorFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,8 +44,8 @@ public class AppHolder extends BaseViewHolder<AppInfoData> {
     @Override
     public void updateItem(AppInfoData data, int position) {
         mAppInfoData = data;
-        mView.setIcon(data.getDrawable());
-        mView.setTitle(data.getAppName());
+        mView.setIcon(data.drawable);
+        mView.setTitle(data.appName);
     }
 
     @Override
@@ -56,8 +57,15 @@ public class AppHolder extends BaseViewHolder<AppInfoData> {
     @OnClick({R2.id.app_item})
     void listenerSwitch() {
         Messages msg = new Messages();
-        msg.what = mAppInfoData.getToogle() ? Messages.MSG_ADD_ITEM : Messages.MSG_ADD_GESTURE_APP;
-        msg.obj = mAppInfoData.getPackageName();
+        if (AppSelectorFragment.FROM_EDGE == mAppInfoData.from) {
+            msg.what = Messages.MSG_ADD_ITEM;
+        } else if (AppSelectorFragment.FROM_GESTURE == mAppInfoData.from) {
+            msg.what = Messages.MSG_ADD_GESTURE_APP;
+        } else if (AppSelectorFragment.FROM_SCENE == mAppInfoData.from) {
+            msg.what = Messages.MSG_SCENE_SELECTOR_APP;
+            msg.arg1 = mAppInfoData.scene;
+        }
+        msg.obj = mAppInfoData.packageName;
         Router.getDefault().post(msg);
     }
 

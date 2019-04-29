@@ -23,49 +23,11 @@ import com.journeyOS.plugins.R;
 
 public class AppInfoData implements BaseAdapterData {
 
-    private Drawable mDrawable;
-    private String mAppName;
-    private String mPackageName;
-    private Boolean mToogle;
-
-    public AppInfoData(Drawable drawable, String appName, String packageName, Boolean toogle) {
-        this.mDrawable = drawable;
-        this.mAppName = appName;
-        this.mPackageName = packageName;
-        this.mToogle = toogle;
-    }
-
-    public Drawable getDrawable() {
-        return mDrawable;
-    }
-
-    public void setDrawable(Drawable drawable) {
-        this.mDrawable = drawable;
-    }
-
-    public String getAppName() {
-        return mAppName;
-    }
-
-    public void setAppName(String appName) {
-        this.mAppName = appName;
-    }
-
-    public String getPackageName() {
-        return mPackageName;
-    }
-
-    public void setPackageName(String packageName) {
-        this.mPackageName = packageName;
-    }
-
-    public Boolean getToogle() {
-        return mToogle;
-    }
-
-    public void setToogle(Boolean toogle) {
-        this.mToogle = toogle;
-    }
+    public Drawable drawable;
+    public String appName;
+    public String packageName;
+    public int from;
+    public int scene;
 
     @Override
     public int getContentViewId() {

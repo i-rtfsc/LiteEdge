@@ -20,7 +20,7 @@ import android.util.LruCache;
 
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
-import com.journeyOS.base.utils.DeviceUtils;
+import com.journeyOS.base.device.DeviceUtils;
 import com.journeyOS.base.utils.FileIOUtils;
 import com.journeyOS.base.utils.JsonHelper;
 import com.journeyOS.base.utils.LogUtils;

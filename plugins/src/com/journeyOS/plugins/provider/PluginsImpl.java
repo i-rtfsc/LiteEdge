@@ -21,19 +21,24 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.journeyOS.base.utils.AppUtils;
+import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.api.plugins.IPlugins;
+import com.journeyOS.core.api.ui.IContainer;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.type.FingerDirection;
 import com.journeyOS.literouter.annotation.ARouterInject;
 import com.journeyOS.plugins.LearnActivity;
 import com.journeyOS.plugins.MoreSelectorActivity;
-import com.journeyOS.plugins.SelectorActivity;
+import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.about.AboutFragment;
 import com.journeyOS.plugins.admin.AdminFragment;
+import com.journeyOS.plugins.app.AppSelectorFragment;
 import com.journeyOS.plugins.barrage.BarrageFragment;
 import com.journeyOS.plugins.gesture.GesturesFragment;
 import com.journeyOS.plugins.lab.LabFragment;
 import com.journeyOS.plugins.permission.PermissionFragment;
+import com.journeyOS.plugins.scene.SceneFragment;
 import com.journeyOS.plugins.search.SearchActivity;
 import com.journeyOS.plugins.settings.SettingsFragment;
 import com.journeyOS.plugins.user.LoginFragment;
@@ -47,11 +52,29 @@ public class PluginsImpl implements IPlugins {
 
     }
 
+    @Override
+    public void navigationEdgeSelector(Context context, int postion, EdgeDirection direction) {
+        Fragment fragment = AppSelectorFragment.newInstanceEdge(context, postion, direction);
+        CoreManager.getDefault().getImpl(IContainer.class).subActivity(context, fragment, context.getString(R.string.selector_app));
+        CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(true);
+    }
 
     @Override
-    public void navigationSelectorActivity(Context context, int postion, EdgeDirection direction) {
-//        SelectorActivity.navigationActivity(context, postion, direction);
-        SelectorActivity.navigationFromApplication(context, postion, direction);
+    public void navigationGestureSelector(Context context, int rotation, FingerDirection direction) {
+        Fragment fragment = AppSelectorFragment.newInstanceGesture(context, rotation, direction);
+        CoreManager.getDefault().getImpl(IContainer.class).subActivity(context, fragment, context.getString(R.string.selector_app));
+    }
+
+    @Override
+    public void navigationSceneSelector(Context context, int scene) {
+        Fragment fragment = AppSelectorFragment.newInstanceScene(context, scene);
+        String title = context.getString(R.string.add);
+        if (SceneFragment.SCENE_GAME == scene) {
+            title = title + context.getString(R.string.game_scene_revise);
+        } else if (SceneFragment.SCENE_VIDEO == scene) {
+            title = title + context.getString(R.string.video_scene_revise);
+        }
+        CoreManager.getDefault().getImpl(IContainer.class).subActivity(context, fragment, title);
     }
 
     @Override
@@ -117,6 +140,11 @@ public class PluginsImpl implements IPlugins {
     @Override
     public Fragment provideAdminFragment(Activity activity) {
         return AdminFragment.newInstance(activity);
+    }
+
+    @Override
+    public Fragment provideSceneFragment(Activity activity, int scene) {
+        return SceneFragment.newInstance(activity, scene);
     }
 
 }

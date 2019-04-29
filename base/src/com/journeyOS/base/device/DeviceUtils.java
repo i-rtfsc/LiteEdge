@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyOS.base.utils;
+package com.journeyOS.base.device;
 
 import java.util.Locale;
 

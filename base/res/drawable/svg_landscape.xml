@@ -1,17 +1,17 @@
 <!--
-  Copyright (c) 2019 anqi.huang@outlook.com
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
+  ~ Copyright (c) 2019 anqi.huang@outlook.com
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,5 +22,5 @@
     android:viewportHeight="1024">
     <path
         android:fillColor="@color/icon"
-        android:pathData="M1008,335.2 L1008,335.2l-160,144 0,0c-8.8,8 -20,12.8 -32,12.8 -26.4,0 -48,-21.6 -48,-48 0,-14.4 6.4,-26.4 16,-35.2l0,0 67.2,-60L560,348.8c0,0 0,0 0,0L464,348.8l0,0L352,348.8 48,348.8c-26.4,0 -48,-21.6 -48,-48 0,-26.4 21.6,-48 48,-48l124.8,0 0,0L416,252.8l0,0 208,0 0,0 227.2,0L784,192l0,0c-9.6,-8.8 -16,-21.6 -16,-35.2 0,-26.4 21.6,-48 48,-48 12,0 23.2,4.8 32,12.8l0,0 160,144 0,0c9.6,8.8 16,21.6 16,35.2C1024,314.4 1017.6,326.4 1008,335.2zM16,680.8 L16,680.8l160,-144 0,0c8.8,-8 20,-12.8 32,-12.8 26.4,0 48,21.6 48,48 0,14.4 -6.4,26.4 -16,35.2l0,0 -67.2,60L400,667.2l0,0 208,0 0,0 243.2,0 0,0L976,667.2c26.4,0 48,21.6 48,48 0,26.4 -21.6,48 -48,48L672,763.2 560,763.2c0,0 0,0 0,0L464,763.2l0,0L172.8,763.2 240,824l0,0c9.6,8.8 16,21.6 16,35.2 0,26.4 -21.6,48 -48,48 -12,0 -23.2,-4.8 -32,-12.8l0,0L16,752l0,0c-9.6,-8.8 -16,-21.6 -16,-35.2C0,701.6 6.4,689.6 16,680.8z" />
+        android:pathData="M930.91,767.61C1024,767.61 1024,674.66 1024,674.66L1024,349.34c0,0 0,-92.95 -93.09,-92.95L93.09,256.39C0,256.39 0,349.34 0,349.34l0,325.32c0,0 0,92.95 93.09,92.95L930.91,767.61zM938.77,465.53c25.65,0 46.47,20.82 46.47,46.47s-20.82,46.47 -46.47,46.47c-25.65,0 -46.47,-20.82 -46.47,-46.47S913.11,465.53 938.77,465.53zM116.18,302.87l743.58,0 0,418.26L116.18,721.13 116.18,302.87zM69.76,575.53c0,3.39 -4.6,6.18 -10.27,6.18l-2.74,0c-5.76,0 -10.27,-2.74 -10.27,-6.18l0,-127.06c0,-3.39 4.6,-6.18 10.27,-6.18l2.74,0c5.81,0 10.27,2.74 10.27,6.18C69.76,448.47 69.76,575.53 69.76,575.53z" />
 </vector>

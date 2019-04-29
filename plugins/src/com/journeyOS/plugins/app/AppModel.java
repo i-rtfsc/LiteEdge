@@ -18,14 +18,15 @@ package com.journeyOS.plugins.app;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.viewmodel.BaseViewModel;
+import com.journeyOS.i007Service.I007Manager;
 import com.journeyOS.plugins.app.adapter.AppInfoData;
+import com.journeyOS.plugins.scene.SceneFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +42,9 @@ public class AppModel extends BaseViewModel {
     }
 
     /**
-     * @param edge 添加到edge还是添加到ball手势
-     *             true: 添加到edge
-     *             false: ball手势
+     * @param from 添加到edge、ball手势、还是场景等。
      */
-    public void getAllApps(final boolean edge) {
+    public void getAllApps(final int from, final int scene) {
         CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
             @Override
             public void run() {
@@ -53,12 +52,29 @@ public class AppModel extends BaseViewModel {
                 LogUtils.d(TAG, "all apps = " + apps.size());
                 List<AppInfoData> appInfoDatas = new ArrayList<>();
                 for (String app : apps) {
+                    AppInfoData appInfoData = new AppInfoData();
                     String packageName = app;
-                    Boolean toggle = edge;
-                    Drawable drawable = AppUtils.getAppIcon(mContext, packageName);
-                    String label = AppUtils.getAppName(mContext, packageName);
-                    AppInfoData appInfoData = new AppInfoData(drawable, label, packageName, toggle);
-                    appInfoDatas.add(appInfoData);
+                    appInfoData.packageName = packageName;
+                    appInfoData.drawable = AppUtils.getAppIcon(mContext, packageName);
+                    appInfoData.appName = AppUtils.getAppName(mContext, packageName);
+                    appInfoData.from = from;
+                    appInfoData.scene = scene;
+
+                    if (AppSelectorFragment.FROM_SCENE == from) {
+                        if (SceneFragment.SCENE_GAME == scene) {
+                            boolean isGame = I007Manager.isGame(packageName);
+                            if (!isGame) {
+                                appInfoDatas.add(appInfoData);
+                            }
+                        } else if (SceneFragment.SCENE_VIDEO == scene) {
+                            boolean isVideo = I007Manager.isVideo(packageName);
+                            if (!isVideo) {
+                                appInfoDatas.add(appInfoData);
+                            }
+                        }
+                    } else {
+                        appInfoDatas.add(appInfoData);
+                    }
                 }
                 mAppInfoData.postValue(appInfoDatas);
             }

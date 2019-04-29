@@ -29,13 +29,46 @@
 
         <LinearLayout style="@style/wrap_layout">
 
+            <TextView
+                style="@style/text_content_layout"
+                android:text="@string/auto_hide_ball" />
+
             <com.journeyOS.base.widget.SettingSwitch
-                android:id="@+id/autoHide"
-                style="@style/single_layout"
+                android:id="@+id/autoHideInGame"
+                style="@style/mid_layout"
                 android:theme="@style/CheckBox"
-                settings:settingIcon="@drawable/svg_daemon"
-                settings:settingSummary="@string/auto_hide_ball_summary"
-                settings:settingTitle="@string/auto_hide_ball" />
+                settings:settingIcon="@drawable/svg_game"
+                settings:settingSummary="@string/game_scene_summary"
+                settings:settingTitle="@string/game_scene" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/gameScene"
+                style="@style/mid_layout"
+                settings:settingIcon="@drawable/svg_game_revise"
+                settings:settingSummary="@string/game_scene_revise_summary"
+                settings:settingTitle="@string/game_scene_revise" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingSwitch
+                android:id="@+id/autoHideInVideo"
+                style="@style/mid_layout"
+                android:theme="@style/CheckBox"
+                settings:settingIcon="@drawable/svg_video"
+                settings:settingSummary="@string/video_scene_summary"
+                settings:settingTitle="@string/video_scene" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/videoScene"
+                style="@style/bottom_layout"
+                settings:settingIcon="@drawable/svg_video_revise"
+                settings:settingSummary="@string/video_scene_revise_summary"
+                settings:settingTitle="@string/video_scene_revise" />
+
         </LinearLayout>
 
     </LinearLayout>

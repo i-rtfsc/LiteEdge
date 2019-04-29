@@ -37,10 +37,12 @@ import com.journeyOS.core.api.edgeprovider.IEdgeLabProvider;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.api.edgeprovider.IGestureProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
+import com.journeyOS.core.type.BallState;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.type.FingerDirection;
 import com.journeyOS.edge.utils.NotificationUtils;
 import com.journeyOS.edge.wm.BallManager;
+import com.journeyOS.i007Service.DataResource;
 import com.journeyOS.i007Service.DataResource.FACTORY;
 import com.journeyOS.i007Service.I007Manager;
 import com.journeyOS.i007Service.interfaces.II007Listener;
@@ -174,11 +176,7 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
         switch (factory) {
             case APP:
                 CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(true);
-                boolean autoHideBall = SpUtils.getInstant().getBoolean(Constant.AUTO_HIDE_BALL, Constant.AUTO_HIDE_BALL_DEFAULT);
-                if (autoHideBall) {
-                    boolean game = I007Manager.isGame(packageName);
-                    CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(!game);
-                }
+                handleScene(packageName);
                 break;
             case LCD:
                 boolean isScreenOn = I007Manager.isScreenOn(status);
@@ -200,6 +198,56 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
         } else {
             CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(false);
             I007Manager.keepAlive();
+        }
+    }
+
+    void handleScene(String packageName) {
+        //app类型
+        DataResource.APP appType = I007Manager.getAppType(packageName);
+        LogUtils.d(TAG, "handle scene changed, packageName = [" + packageName + "], scene = [" + appType + "]");
+        switch (appType) {
+            case GAME:
+                handleAutoHideBall(Constant.AUTO_HIDE_BALL_GAME);
+                break;
+            case VIDEO:
+                handleAutoHideBall(Constant.AUTO_HIDE_BALL_VIDEO);
+                break;
+            case DEFAULT:
+                handleAutoHideBall(Constant.AUTO_HIDE_BALL_NONE);
+                break;
+        }
+    }
+
+    void handleAutoHideBall(int type) {
+        //悬浮球总开关
+        boolean ball = SpUtils.getInstant().getBoolean(Constant.BALL, Constant.BALL_DEFAULT);
+        LogUtils.d(TAG, "handle auto hide ball, ball toogle = [" + ball + "]");
+        if (ball) {
+            BallState ballState = StateMachine.getBallState();
+            LogUtils.d(TAG, "handle auto hide ball, ball state = [" + ballState + "]");
+            if (type != 0) {
+                //当前悬浮球状态
+                if (BallState.HIDE == ballState) {
+                    return;
+                }
+                int flags = SpUtils.getInstant().getInt(Constant.AUTO_HIDE_BALL, Constant.AUTO_HIDE_BALL_DEFAULT);
+                LogUtils.d(TAG, "handle auto hide ball, scene = [" + flags + "]");
+                //游戏中自动关闭悬浮球
+                if ((flags & type) != 0) {
+                    LogUtils.d(TAG, "hide ball in game");
+                    CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(false);
+                }
+                //视频中自动关闭悬浮球
+                if ((flags & type) != 0) {
+                    LogUtils.d(TAG, "hide ball in video");
+                    CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(false);
+                }
+            } else {
+                if (BallState.HIDE == ballState) {
+                    LogUtils.d(TAG, "show ball in normal");
+                    CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(true);
+                }
+            }
         }
     }
 }

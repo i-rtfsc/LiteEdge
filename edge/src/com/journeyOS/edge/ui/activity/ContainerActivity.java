@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.edge.R;
@@ -31,14 +32,14 @@ public class ContainerActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    private static Fragment mFragment;
+    private static Fragment mFragment = null;
     private static String mTitle;
 
     public static void show(Context context, Fragment fragment, String title) {
         Intent intent = new Intent(context, ContainerActivity.class);
         mFragment = fragment;
         mTitle = title;
-        context.startActivity(intent);
+        AppUtils.startIntent(context, intent);
     }
 
     @Override
@@ -49,7 +50,9 @@ public class ContainerActivity extends BaseActivity {
     @Override
     public void initViews() {
         UIUtils.setStatusBarColor(this, this.getResources().getColor(R.color.colorPrimary));
-        loadFragment(mFragment, mTitle);
+        if (mFragment != null) {
+            loadFragment(mFragment, mTitle);
+        }
     }
 
     void loadFragment(Fragment fragment, String title) {

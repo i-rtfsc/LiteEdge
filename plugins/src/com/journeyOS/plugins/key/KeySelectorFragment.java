@@ -101,7 +101,6 @@ public class KeySelectorFragment extends BaseFragment implements RouterListener 
     }
 
     void onAllApps(final List<KeyInfoData> appInfoData) {
-        LogUtils.d(TAG, "observer app info data = " + appInfoData);
         LinearLayoutManager appLayoutManager = new LinearLayoutManager(mContext);
         mAllAppsView.setLayoutManager(appLayoutManager);
         mAllAppsAdapter = new BaseRecyclerAdapter(mContext);

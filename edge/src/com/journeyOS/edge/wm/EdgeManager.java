@@ -18,8 +18,6 @@ package com.journeyOS.edge.wm;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.PixelFormat;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -109,7 +107,11 @@ public class EdgeManager {
         }
         if (mLastEdgeView != mEdgeView || (mEdgeView != null && !mEdgeView.isShown())) {
             if (!mEdgeView.isAttachedToWindow()) {
-                mWm.addView(mEdgeView, getLayoutParams());
+                try {
+                    mWm.addView(mEdgeView, getLayoutParams());
+                } catch (Exception e) {
+                    LogUtils.e(TAG, "show edge exception = " + e);
+                }
             }
             if (mLastEdgeView != null && mLastEdgeView.isShown()) {
                 mLastEdgeView.hideEdgeView();
@@ -166,10 +168,10 @@ public class EdgeManager {
                                 AppUtils.startApp(mContext, config.packageName);
                                 if (mEdgeView != null) mEdgeView.hideEdgeView();
                             } else {
-                                CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, StateMachine.getEdgeDirection());
+                                CoreManager.getDefault().getImpl(IPlugins.class).navigationEdgeSelector(mContext, postion, StateMachine.getEdgeDirection());
                             }
                         } else {
-                            CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, StateMachine.getEdgeDirection());
+                            CoreManager.getDefault().getImpl(IPlugins.class).navigationEdgeSelector(mContext, postion, StateMachine.getEdgeDirection());
                         }
                     }
                 }
@@ -177,7 +179,8 @@ public class EdgeManager {
                 @Override
                 public void onItemLongClick(int postion) {
                     LogUtils.d(TAG, "on item long click = " + postion);
-                    CoreManager.getDefault().getImpl(IPlugins.class).navigationSelectorActivity(mContext, postion, StateMachine.getEdgeDirection());
+                    CoreManager.getDefault().getImpl(IPlugins.class).navigationEdgeSelector(mContext, postion, StateMachine.getEdgeDirection());
+
                 }
 
                 @Override
@@ -295,16 +298,8 @@ public class EdgeManager {
     }
 
     LayoutParams getLayoutParams() {
-        LayoutParams params = new LayoutParams();
-        if (Build.VERSION.SDK_INT >= 26) {
-            params.type = LayoutParams.TYPE_APPLICATION_OVERLAY;
-        } else {
-            params.type = LayoutParams.TYPE_TOAST;
-        }
-        params.format = PixelFormat.TRANSPARENT;
-        params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
-//                | LayoutParams.FLAG_NOT_FOCUSABLE
-                | LayoutParams.FLAG_LAYOUT_IN_SCREEN
+        LayoutParams params = WindowUitls.getBaseLayoutParams();
+        params.flags = params.flags
                 | LayoutParams.FLAG_SPLIT_TOUCH
                 | LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
         params.gravity = Gravity.LEFT | Gravity.TOP;

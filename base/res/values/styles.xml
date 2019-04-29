@@ -19,6 +19,7 @@
     <style name="OnePixelTheme" parent="android:Theme.Holo.Light.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
     <!-- Base application theme. -->
     <style name="base_AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -27,12 +28,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="toolbarNavigationButtonStyle">@style/base_ToolbarNavigationButtonStyle</item>
         <item name="android:itemBackground">@color/white</item>
-    </style>
-
-    <style name="base_BaseAppTheme" parent="base_AppTheme">
-        <item name="android:textColor">@color/text_primary</item>
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowBackground">@null</item>
+        <item name="android:windowAnimationStyle">@style/activityAnimation</item>
     </style>
 
     <style name="base_ToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
@@ -84,8 +80,8 @@
         <item name="android:backgroundDimAmount">0.5</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowBackground">@drawable/dialog_bg</item>
-        <!--<item name="android:colorBackground">@color/colorPrimary</item>-->
-        <!--<item name="android:textColor">@color/text_primary</item>-->
+        <!--<item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:textColor">@color/text_primary</item>-->
         <item name="colorAccent">@color/deeppink</item>
         <item name="textColorAlertDialogListItem">@color/text_primary_dark</item>
         <item name="android:textColorPrimary">@color/text_primary_dark</item>
@@ -95,6 +91,17 @@
         <item name="colorControlNormal">@color/text_primary_dark</item>
         <item name="colorControlActivated">@color/deeppink</item>
         <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+    </style>
+
+    <style name="activityAnimation" parent="@android:style/Animation">
+        <!--<item name="android:activityOpenEnterAnimation">@anim/push_right_in</item>-->
+        <!--<item name="android:activityOpenExitAnimation">@anim/push_left_out</item>-->
+        <!--<item name="android:activityCloseEnterAnimation">@anim/push_left_in</item>-->
+        <!--<item name="android:activityCloseExitAnimation">@anim/push_right_out</item>-->
+        <item name="android:activityOpenEnterAnimation">@null</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@null</item>
     </style>
 
     <style name="TextLabel" parent="Theme.AppCompat.Light.NoActionBar">

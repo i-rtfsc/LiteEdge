@@ -26,6 +26,9 @@ public class Messages extends RouterMsssage {
     public static final int MSG_ADD_GESTURE_KEY = BASE << 3;
     public static final int MSG_ADD_GESTURE_MUSIC = BASE << 4;
     public static final int MSG_ADD_GESTURE_EDGE = BASE << 5;
+    public static final int MSG_SCENE_REMOVE_GAME = BASE << 6;
+    public static final int MSG_SCENE_REMOVE_VIDEO = BASE << 7;
+    public static final int MSG_SCENE_SELECTOR_APP = BASE << 8;
 
     public int what;
 

@@ -109,6 +109,7 @@
                 style="@style/mid_layout"
                 android:theme="@style/CheckBox"
                 settings:settingIcon="@drawable/svg_portrait"
+                settings:settingSummary="@string/gesture_portrait_summary"
                 settings:settingTitle="@string/gesture_portrait" />
 
             <View style="@style/bg_line" />
@@ -117,6 +118,7 @@
                 android:id="@+id/landscape"
                 style="@style/bottom_layout"
                 settings:settingIcon="@drawable/svg_landscape"
+                settings:settingSummary="@string/gesture_landscape_summary"
                 settings:settingTitle="@string/gesture_landscape" />
 
         </LinearLayout>

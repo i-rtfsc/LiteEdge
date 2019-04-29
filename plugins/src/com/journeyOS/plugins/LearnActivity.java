@@ -91,7 +91,7 @@ public class LearnActivity extends BaseActivity {
     public static void navigationActivity(Context from) {
         try {
             Intent intent = new Intent(from, LearnActivity.class);
-            from.startActivity(intent);
+            AppUtils.startIntent(from, intent);
         } catch (ActivityNotFoundException e) {
             LogUtils.d(TAG, e);
         }
@@ -101,7 +101,7 @@ public class LearnActivity extends BaseActivity {
     public static void navigationFromApplication(Context from) {
         Intent intent = new Intent(from, LearnActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        from.startActivity(intent);
+        AppUtils.startIntent(from, intent);
         CoreManager.getDefault().getImpl(IEdge.class).hidingEdge(true);
     }
 
