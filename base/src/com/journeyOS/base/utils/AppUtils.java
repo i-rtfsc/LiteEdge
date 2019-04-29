@@ -16,6 +16,7 @@
 
 package com.journeyOS.base.utils;
 
+import android.app.ActivityOptions;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +28,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
+
+import com.journeyOS.base.R;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -126,48 +129,114 @@ public class AppUtils {
     }
 
     public static boolean startApp(Context context, Intent intent) {
-        if (BaseUtils.isNull(intent)) return false;
+        return startIntent(context, intent);
+    }
 
-        try {
-            context.startActivity(intent);
-            return true;
-        } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
+    public static boolean startAppInternal(Context context, Intent intent) {
+        return startIntentInternal(context, intent);
     }
 
     public static boolean startApp(Context context, String packageName) {
-        if (BaseUtils.isNull(packageName)) return false;
+        if (context == null || packageName == null) {
+            LogUtils.e("can't start null object!");
+            return false;
+        }
+
         PackageManager packageManager = context.getPackageManager();
         Intent intent = packageManager.getLaunchIntentForPackage(packageName);
         if (intent == null) {
-            //LogUtils.w(TAG, "startActivity() called with app not found!");
+            LogUtils.w("can't start null object!");
             return false;
         }
 
-        try {
-            context.startActivity(intent);
-            return true;
-        } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
+        return startIntent(context, intent);
+    }
+
+    public static boolean startAppInternal(Context context, String packageName) {
+        if (context == null || packageName == null) {
+            LogUtils.e("can't start null object!");
             return false;
         }
 
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(packageName);
+        if (intent == null) {
+            LogUtils.w("can't start null object!");
+            return false;
+        }
+
+        return startIntentInternal(context, intent);
     }
 
     public static boolean startUri(Context context, String uri) {
+        if (context == null || uri == null) {
+            LogUtils.e("can't start null object!");
+            return false;
+        }
+
         try {
             Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
-            context.startActivity(intent);
-            return true;
+            return startIntent(context, intent);
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public static boolean startUriInternal(Context context, String uri) {
+        if (context == null || uri == null) {
+            LogUtils.e("can't start null object!");
+            return false;
+        }
+
+        try {
+            Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            return startIntentInternal(context, intent);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean startIntent(Context context, Intent intent) {
+        if (context == null || intent == null) {
+            LogUtils.e("can't start null object!");
+            return false;
+        }
+
+        try {
+            if (isIntentAvailable(context, intent)) {
+                context.startActivity(intent, ActivityOptions.makeCustomAnimation(context, R.anim.activity_up_in, R.anim.activity_up_out).toBundle());
+            }
+            return true;
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static boolean startIntentInternal(Context context, Intent intent) {
+        if (context == null || intent == null) {
+            LogUtils.e("can't start null object!");
+            return false;
+        }
+
+        try {
+            if (isIntentAvailable(context, intent)) {
+                context.startActivity(intent, ActivityOptions.makeCustomAnimation(context, R.anim.activity_up_in, android.R.anim.fade_out).toBundle());
+            }
+            return true;
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean isIntentAvailable(Context context, Intent intent) {
+        if (intent == null) {
+            return false;
+        }
+        return context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).size() > 0;
     }
 
     public static boolean isPackageExisted(Context context, String targetPackage) {

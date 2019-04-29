@@ -22,7 +22,7 @@ import android.os.Environment;
 
 import com.facebook.stetho.Stetho;
 import com.journeyOS.base.persistence.SpUtils;
-import com.journeyOS.base.utils.DeviceUtils;
+import com.journeyOS.base.device.DeviceUtils;
 import com.journeyOS.base.utils.FileIOUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.AccountManager;

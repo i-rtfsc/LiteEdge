@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.edge.R;
@@ -38,7 +39,7 @@ public class ContainerActivity extends BaseActivity {
         Intent intent = new Intent(context, ContainerActivity.class);
         mFragment = fragment;
         mTitle = title;
-        context.startActivity(intent);
+        AppUtils.startIntent(context, intent);
     }
 
     @Override

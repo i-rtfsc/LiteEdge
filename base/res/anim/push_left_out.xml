@@ -14,15 +14,16 @@
   limitations under the License.
   -->
 
-<inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:insetLeft="8dp"
-    android:insetTop="8dp"
-    android:insetRight="8dp"
-    android:insetBottom="8dp">
+<set xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <shape android:shape="rectangle">
-        <corners android:radius="@dimen/settings_corners" />
-        <solid android:color="@color/dark_background" />
-    </shape>
+    <translate
+        android:duration="250"
+        android:fromXDelta="0%"
+        android:toXDelta="-100%" />
 
-</inset>
+    <alpha
+        android:duration="500"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.0" />
+
+</set>

@@ -25,6 +25,7 @@ import android.view.MenuItem;
 
 import com.journeyOS.base.utils.ActivityUtil;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.R;
 import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.literouter.Router;
 
@@ -35,6 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.activity_up_in, R.anim.activity_up_out);
         initBeforeView();
         setContentView(attachLayoutRes());
         ButterKnife.bind(this);
@@ -59,8 +61,13 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     }
 
     @Override
-    public void initBeforeView() {
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.activity_down_out);
+    }
 
+    @Override
+    public void initBeforeView() {
     }
 
     @Override

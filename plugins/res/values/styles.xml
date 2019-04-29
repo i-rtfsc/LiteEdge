@@ -39,6 +39,7 @@
         <item name="colorPrimary">@color/lightskyblue</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>
+        <item name="android:windowAnimationStyle">@style/activityAnimation</item>
     </style>
 
     <style name="learn" parent="Theme.AppCompat.Light.NoActionBar">
@@ -46,6 +47,7 @@
         <item name="colorPrimary">@color/lightskyblue</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>
+        <item name="android:windowAnimationStyle">@style/activityAnimation</item>
     </style>
 
     <style name="MenuTextStyle">

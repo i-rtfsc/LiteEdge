@@ -19,18 +19,24 @@ package com.journeyOS.core.permission;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.admin.DevicePolicyManager;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 
+import com.journeyOS.base.device.CommonUtils;
+import com.journeyOS.base.device.HuaweiUtils;
+import com.journeyOS.base.device.MeizuUtils;
+import com.journeyOS.base.device.MiuiUtils;
+import com.journeyOS.base.device.OppoUtils;
+import com.journeyOS.base.device.QikuUtils;
+import com.journeyOS.base.device.RomUtils;
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.core.CoreDeviceAdmin;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.R;
@@ -63,7 +69,6 @@ public class PermissionImpl implements IPermission {
         }
     }
 
-
     @Override
     public void onRequestPermissionsResult(BaseActivity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (activity.isFinishing() || activity.isDestroyed()) {
@@ -81,11 +86,27 @@ public class PermissionImpl implements IPermission {
 
     @Override
     public boolean canDrawOverlays(Context activity) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (!Settings.canDrawOverlays(activity)) {
-                return false;
+        if (Build.VERSION.SDK_INT < 23) {
+            if (RomUtils.checkIsMiuiRom()) {
+                return MiuiUtils.checkFloatWindowPermission(activity);
+            } else if (RomUtils.checkIsMeizuRom()) {
+                return MeizuUtils.checkFloatWindowPermission(activity);
+            } else if (RomUtils.checkIsHuaweiRom()) {
+                return HuaweiUtils.checkFloatWindowPermission(activity);
+            } else if (RomUtils.checkIs360Rom()) {
+                return QikuUtils.checkFloatWindowPermission(activity);
+            } else if (RomUtils.checkIsOppoRom()) {
+                return OppoUtils.checkFloatWindowPermission(activity);
+            }
+        } else {
+            if (RomUtils.checkIsMeizuRom()) {
+                return MeizuUtils.checkFloatWindowPermission(activity);
             } else {
-                return true;
+                if (!Settings.canDrawOverlays(activity)) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
         }
         return true;
@@ -107,31 +128,13 @@ public class PermissionImpl implements IPermission {
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            if (Build.VERSION.SDK_INT >= 23) {
-                                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                                activity.startActivity(intent);
-                            } else {
-                                try {
-                                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + activity.getPackageName()));
-                                    activity.startActivity(intent);
-                                } catch (ActivityNotFoundException e) {
-                                }
-                            }
+                            applyDevicePermission(activity);
                         }
                     })
                     .create();
             dialog.show();
         } else {
-            if (Build.VERSION.SDK_INT >= 23) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                activity.startActivity(intent);
-            } else {
-                try {
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + activity.getPackageName()));
-                    activity.startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                }
-            }
+            applyDevicePermission(activity);
         }
     }
 
@@ -166,23 +169,15 @@ public class PermissionImpl implements IPermission {
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            try {
-                                Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
-                                activity.startActivity(intent);
-                            } catch (ActivityNotFoundException e) {
-
-                            }
+                            Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+                            AppUtils.startIntentInternal(activity, intent);
                         }
                     })
                     .create();
             dialog.show();
         } else {
-            try {
-                Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
-                activity.startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-
-            }
+            Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+            AppUtils.startIntentInternal(activity, intent);
         }
     }
 
@@ -200,7 +195,7 @@ public class PermissionImpl implements IPermission {
                 CoreDeviceAdmin.getDefault().getComponentName(activity));
         intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,
                 activity.getString(R.string.device_admin_description));
-        activity.startActivity(intent);
+        AppUtils.startIntentInternal(activity, intent);
     }
 
     @Override
@@ -209,4 +204,21 @@ public class PermissionImpl implements IPermission {
         dpm.removeActiveAdmin(CoreDeviceAdmin.getDefault().getComponentName(activity));
     }
 
+    private void applyDevicePermission(Context activity) {
+        if (Build.VERSION.SDK_INT < 23) {
+            if (RomUtils.checkIsMiuiRom()) {
+                MiuiUtils.applyMiuiPermission(activity);
+            } else if (RomUtils.checkIsMeizuRom()) {
+                MeizuUtils.applyPermission(activity);
+            } else if (RomUtils.checkIsHuaweiRom()) {
+                HuaweiUtils.applyPermission(activity);
+            } else if (RomUtils.checkIs360Rom()) {
+                QikuUtils.applyPermission(activity);
+            } else if (RomUtils.checkIsOppoRom()) {
+                OppoUtils.applyOppoPermission(activity);
+            }
+        } else {
+            CommonUtils.commonROMPermissionApplyInternal(activity);
+        }
+    }
 }

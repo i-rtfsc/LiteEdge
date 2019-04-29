@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   Copyright (c) 2019 anqi.huang@outlook.com
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,15 +15,14 @@
   limitations under the License.
   -->
 
-<inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:insetLeft="8dp"
-    android:insetTop="8dp"
-    android:insetRight="8dp"
-    android:insetBottom="8dp">
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="140">
 
-    <shape android:shape="rectangle">
-        <corners android:radius="@dimen/settings_corners" />
-        <solid android:color="@color/dark_background" />
-    </shape>
-
-</inset>
+    <translate
+        android:fromYDelta="0"
+        android:interpolator="@anim/activity_out_interpolator"
+        android:toYDelta="80" />
+    <alpha
+        android:fromAlpha="1"
+        android:toAlpha="0" />
+</set>

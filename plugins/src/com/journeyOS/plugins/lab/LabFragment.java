@@ -18,13 +18,14 @@ package com.journeyOS.plugins.lab;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.widget.SettingSwitch;
 import com.journeyOS.base.widget.SettingView;
 import com.journeyOS.core.CoreManager;
-import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.plugins.IPlugins;
 import com.journeyOS.core.api.ui.IContainer;
 import com.journeyOS.core.base.BaseFragment;
@@ -34,6 +35,7 @@ import com.journeyOS.plugins.scene.SceneFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 
 public class LabFragment extends BaseFragment {
 
@@ -81,8 +83,14 @@ public class LabFragment extends BaseFragment {
     public void listenerAutoHideInGame() {
         int flags = SpUtils.getInstant().getInt(Constant.AUTO_HIDE_BALL, Constant.AUTO_HIDE_BALL_DEFAULT);
         if ((flags & Constant.AUTO_HIDE_BALL_GAME) == 0) {
-            mAutoHideInGame.setCheck(true);
-            SpUtils.getInstant().put(Constant.AUTO_HIDE_BALL, flags + Constant.AUTO_HIDE_BALL_GAME);
+            boolean isAccessibility = AppUtils.isServiceEnabled(mContext);
+            if (isAccessibility) {
+                mAutoHideInGame.setCheck(true);
+                SpUtils.getInstant().put(Constant.AUTO_HIDE_BALL, flags + Constant.AUTO_HIDE_BALL_GAME);
+            } else {
+                String message = mContext.getString(R.string.hasnot_permission) + mContext.getString(R.string.accessibility);
+                Toasty.warning(mContext, message, Toast.LENGTH_SHORT).show();
+            }
         } else {
             mAutoHideInGame.setCheck(false);
             SpUtils.getInstant().put(Constant.AUTO_HIDE_BALL, flags - Constant.AUTO_HIDE_BALL_GAME);
@@ -99,8 +107,14 @@ public class LabFragment extends BaseFragment {
     public void listenerAutoHideInVideo() {
         int flags = SpUtils.getInstant().getInt(Constant.AUTO_HIDE_BALL, Constant.AUTO_HIDE_BALL_DEFAULT);
         if ((flags & Constant.AUTO_HIDE_BALL_VIDEO) == 0) {
-            mAutoHideInVideo.setCheck(true);
-            SpUtils.getInstant().put(Constant.AUTO_HIDE_BALL, flags + Constant.AUTO_HIDE_BALL_VIDEO);
+            boolean isAccessibility = AppUtils.isServiceEnabled(mContext);
+            if (isAccessibility) {
+                mAutoHideInVideo.setCheck(true);
+                SpUtils.getInstant().put(Constant.AUTO_HIDE_BALL, flags + Constant.AUTO_HIDE_BALL_VIDEO);
+            } else {
+                String message = mContext.getString(R.string.hasnot_permission) + mContext.getString(R.string.accessibility);
+                Toasty.warning(mContext, message, Toast.LENGTH_SHORT).show();
+            }
         } else {
             mAutoHideInVideo.setCheck(false);
             SpUtils.getInstant().put(Constant.AUTO_HIDE_BALL, flags - Constant.AUTO_HIDE_BALL_VIDEO);

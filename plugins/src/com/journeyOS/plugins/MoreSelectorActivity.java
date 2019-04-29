@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
@@ -77,7 +78,7 @@ public class MoreSelectorActivity extends BaseActivity {
             Intent intent = new Intent(from, MoreSelectorActivity.class);
             intent.putExtra(EXTRA_ROTATION, rotation);
             intent.putExtra(EXTRA_DIRECTION, direction);
-            from.startActivity(intent);
+            AppUtils.startIntent(from, intent);
         } catch (ActivityNotFoundException e) {
             LogUtils.d(TAG, e);
         }
@@ -89,7 +90,7 @@ public class MoreSelectorActivity extends BaseActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(EXTRA_ROTATION, rotation);
         intent.putExtra(EXTRA_DIRECTION, direction);
-        from.startActivity(intent);
+        AppUtils.startIntent(from, intent);
     }
 
 

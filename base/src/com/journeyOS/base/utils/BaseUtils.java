@@ -68,7 +68,7 @@ public class BaseUtils {
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
-            context.startActivity(Intent.createChooser(intent, context.getString(R.string.open_in_market))
+            AppUtils.startIntentInternal(context, Intent.createChooser(intent, context.getString(R.string.open_in_market))
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             success = true;
         } catch (ActivityNotFoundException e) {
@@ -86,7 +86,7 @@ public class BaseUtils {
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
-            context.startActivity(Intent.createChooser(intent, context.getString(R.string.send_email))
+            AppUtils.startIntentInternal(context, Intent.createChooser(intent, context.getString(R.string.send_email))
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } catch (ActivityNotFoundException e) {
             Toasty.warning(context, context.getString(R.string.no_email_clients)).show();
@@ -98,7 +98,7 @@ public class BaseUtils {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setPackage("com.android.browser");
         try {
-            context.startActivity(intent);
+            AppUtils.startIntentInternal(context, intent);
         } catch (ActivityNotFoundException e) {
         }
     }

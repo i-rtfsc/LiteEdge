@@ -16,6 +16,7 @@
 
 package com.journeyOS.edge.ui.activity;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.core.base.BaseFragment;
@@ -43,7 +45,7 @@ public class ContainerWithMenuActivity extends BaseActivity {
         Intent intent = new Intent(context, ContainerWithMenuActivity.class);
         mFragment = fragment;
         mTitle = title;
-        context.startActivity(intent);
+        AppUtils.startIntent(context, intent);
     }
 
     @Override

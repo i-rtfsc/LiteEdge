@@ -17,8 +17,6 @@
 package com.journeyOS.edge.wm;
 
 import android.content.Context;
-import android.graphics.PixelFormat;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -81,12 +79,16 @@ public class BallManager {
                     CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
                         @Override
                         public void run() {
-                            mOv = new OutterView(mContext);
-                            mOv.setParams(params);
-                            mWm.addView(mOv, params);
-                            mOv.setVisibility(View.VISIBLE);
-                            LogUtils.d(TAG, "add ball to windows manager");
-                            mOv.setOnGestureListener(mGestureListener);
+                            try {
+                                mOv = new OutterView(mContext);
+                                mOv.setParams(params);
+                                mWm.addView(mOv, params);
+                                mOv.setVisibility(View.VISIBLE);
+                                LogUtils.d(TAG, "add ball to windows manager");
+                                mOv.setOnGestureListener(mGestureListener);
+                            } catch (Exception e) {
+                                LogUtils.e(TAG, "create ball exception = " + e);
+                            }
                         }
                     });
                 }
@@ -105,7 +107,11 @@ public class BallManager {
                     CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
                         @Override
                         public void run() {
-                            mWm.updateViewLayout(mOv, params);
+                            try {
+                                mWm.updateViewLayout(mOv, params);
+                            } catch (Exception e) {
+                                LogUtils.e(TAG, "update ball exception = " + e);
+                            }
                         }
                     });
                 }
@@ -153,16 +159,8 @@ public class BallManager {
     LayoutParams getLayoutParams(int ballSize) {
         int orientation = mContext.getResources().getConfiguration().orientation;
         Ball ball = CoreManager.getDefault().getImpl(IBallProvider.class).getConfig(orientation);
-        LayoutParams params = new WindowManager.LayoutParams();
-        if (Build.VERSION.SDK_INT >= 26) {
-            params.type = LayoutParams.TYPE_APPLICATION_OVERLAY;
-        } else {
-            params.type = LayoutParams.TYPE_TOAST;
-        }
-        params.format = PixelFormat.TRANSPARENT;
-        params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
-                | LayoutParams.FLAG_LAYOUT_IN_SCREEN
-                | LayoutParams.FLAG_NOT_FOCUSABLE;
+
+        LayoutParams params = WindowUitls.getBaseLayoutParams();
         params.gravity = Gravity.LEFT | Gravity.TOP;
         params.width = ballSize;
         params.height = ballSize;
