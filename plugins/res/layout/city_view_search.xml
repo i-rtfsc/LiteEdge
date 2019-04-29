@@ -51,8 +51,8 @@
         style="@style/city_MSV_ImageButton"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        app:srcCompat="@drawable/svg_trash"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:srcCompat="@drawable/svg_trash" />
 
     <View
         android:layout_width="match_parent"

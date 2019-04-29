@@ -17,33 +17,15 @@
 package com.journeyOS.barrage.control.speed;
 
 
-public final class RandomSpeedController implements SpeedController {
+public interface ISpeedController {
+    void setWidthPixels(int width);
 
-    private final static int RATE = 1000;
+    void setSpeed(int speed);
 
-    private static float MAX_SPEED = 3.5f;
+    float getSpeed();
 
-    private static float MIN_SPEED = 8.5f;
+    float getMaxSpeed();
 
-    private float width;
-
-    @Override
-    public void setWidthPixels(int width) {
-        this.width = width;
-    }
-
-    @Override
-    public float getSpeed() {
-        return (float) (((Math.random() * (MAX_SPEED - MIN_SPEED) + MIN_SPEED)) / RATE) * width;
-    }
-
-    public float getMaxSpeed() {
-        return MAX_SPEED;
-    }
-
-    public float getMinSpeed() {
-        return MIN_SPEED;
-    }
-
+    float getMinSpeed();
 
 }

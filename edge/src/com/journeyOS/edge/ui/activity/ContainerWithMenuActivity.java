@@ -16,7 +16,6 @@
 
 package com.journeyOS.edge.ui.activity;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -43,6 +42,7 @@ public class ContainerWithMenuActivity extends BaseActivity {
 
     public static void show(Context context, Fragment fragment, String title) {
         Intent intent = new Intent(context, ContainerWithMenuActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mFragment = fragment;
         mTitle = title;
         AppUtils.startIntent(context, intent);
@@ -58,17 +58,6 @@ public class ContainerWithMenuActivity extends BaseActivity {
         UIUtils.setStatusBarColor(this, this.getResources().getColor(R.color.colorPrimary));
         if (mFragment != null) {
             loadFragment(mFragment, mTitle);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
-        for (Fragment f : fragmentList) {
-            if (f instanceof BaseFragment) {
-                ((BaseFragment) f).onFragmentResume();
-            }
         }
     }
 

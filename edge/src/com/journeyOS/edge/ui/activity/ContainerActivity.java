@@ -37,6 +37,7 @@ public class ContainerActivity extends BaseActivity {
 
     public static void show(Context context, Fragment fragment, String title) {
         Intent intent = new Intent(context, ContainerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mFragment = fragment;
         mTitle = title;
         AppUtils.startIntent(context, intent);

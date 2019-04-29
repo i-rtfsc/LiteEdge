@@ -65,8 +65,8 @@
         android:id="@+id/city_header_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/common_dimen"
         android:paddingLeft="@dimen/common_dimen"
-        android:paddingRight="@dimen/side_letter_bar_width" />
+        android:paddingRight="@dimen/side_letter_bar_width"
+        android:paddingBottom="@dimen/common_dimen" />
 
 </LinearLayout>

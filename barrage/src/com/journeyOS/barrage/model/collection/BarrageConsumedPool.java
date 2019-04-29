@@ -19,7 +19,7 @@ package com.journeyOS.barrage.model.collection;
 import android.content.Context;
 import android.graphics.Canvas;
 
-import com.journeyOS.barrage.control.speed.SpeedController;
+import com.journeyOS.barrage.control.speed.ISpeedController;
 import com.journeyOS.barrage.model.BarrageModel;
 import com.journeyOS.barrage.model.channel.BarrageChannel;
 import com.journeyOS.barrage.model.painter.BarragePainter;
@@ -46,7 +46,7 @@ public final class BarrageConsumedPool {
 
     private BarrageChannel[] mChannels;
 
-    private SpeedController mSpeedController;
+    private ISpeedController mISpeedController;
 
     private Context context;
 
@@ -56,8 +56,8 @@ public final class BarrageConsumedPool {
         hide(false);
     }
 
-    public void setSpeedController(SpeedController mSpeedController) {
-        this.mSpeedController = mSpeedController;
+    public void setSpeedController(ISpeedController mISpeedController) {
+        this.mISpeedController = mISpeedController;
     }
 
     public void addPainter(BarragePainter painter, int key) {
@@ -160,7 +160,7 @@ public final class BarrageConsumedPool {
             BarrageChannel danMuChannel = new BarrageChannel();
             danMuChannel.width = width;
             danMuChannel.height = singleHeight;
-//            danMuChannel.speed = mSpeedController.getSpeed();
+            danMuChannel.speed = mISpeedController.getSpeed();
 
             danMuChannel.topY = i * singleHeight;
 //            danMuChannel.space = selectSpaceRandomly();

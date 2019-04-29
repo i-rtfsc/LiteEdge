@@ -20,8 +20,8 @@ import android.graphics.Canvas;
 import android.view.View;
 
 import com.journeyOS.barrage.control.dispatcher.BarrageDispatcher;
-import com.journeyOS.barrage.control.speed.RandomSpeedController;
 import com.journeyOS.barrage.control.speed.SpeedController;
+import com.journeyOS.barrage.control.speed.ISpeedController;
 import com.journeyOS.barrage.model.BarrageModel;
 import com.journeyOS.barrage.model.channel.BarragePoolManager;
 import com.journeyOS.barrage.model.painter.BarragePainter;
@@ -34,12 +34,12 @@ public final class BarrageController {
 
     private BarragePoolManager mManager;
     private BarrageDispatcher mDispatcher;
-    private SpeedController mSpeedController;
+    private ISpeedController mISpeedController;
     private boolean mChannelCreated = false;
 
     public BarrageController(View view) {
-        if (mSpeedController == null) {
-            mSpeedController = new RandomSpeedController();
+        if (mISpeedController == null) {
+            mISpeedController = new SpeedController();
         }
         if (mManager == null) {
             mManager = new BarragePoolManager(view.getContext(), (IBarrageParent) view);
@@ -60,9 +60,9 @@ public final class BarrageController {
         }
     }
 
-    public void setSpeedController(SpeedController speedController) {
-        if (speedController != null) {
-            this.mSpeedController = speedController;
+    public void setSpeedController(ISpeedController ISpeedController) {
+        if (ISpeedController != null) {
+            this.mISpeedController = ISpeedController;
         }
     }
 
@@ -100,8 +100,8 @@ public final class BarrageController {
 
     public void initChannels(Canvas canvas) {
         if (!mChannelCreated) {
-            mSpeedController.setWidthPixels(canvas.getWidth());
-            mManager.setSpeedController(mSpeedController);
+            mISpeedController.setWidthPixels(canvas.getWidth());
+            mManager.setSpeedController(mISpeedController);
             mManager.divide(canvas.getWidth(), canvas.getHeight());
             mChannelCreated = true;
         }

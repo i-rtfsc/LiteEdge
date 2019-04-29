@@ -37,6 +37,12 @@
                 settings:showRight="false" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="12dp"
+            android:background="@android:color/transparent" />
+
     </LinearLayout>
 
 </ScrollView>

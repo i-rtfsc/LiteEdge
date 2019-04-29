@@ -229,5 +229,27 @@
     <string name="device_manager_title">设备管理者</string>
     <string name="device_manager_summary">因为Android的限制，在进程重启后辅助权限自动失效。申请设备管理者能保证:\n 1. 进程保活(非100%)\n 2. 辅助权限不自动失效\n申请设备管理者时程序会闪退一次，但依然能申请成功，望知。\n</string>
 
+    <string name="level_1">1档</string>
+    <string name="level_2">2档</string>
+    <string name="level_3">3档</string>
+    <string name="level_4">4档</string>
+    <string name="level_5">5档</string>
+    <string name="level_6">6档</string>
+    <string name="level_7">7档</string>
+    <string name="level_8">8档</string>
+    <string name="level_9">9档</string>
+    <string name="level_10">10档</string>
+
+
+    <string name="barrage_speed_title">弹幕速度</string>
+    <string name="barrage_speed_summary">档位越高弹幕速度越快</string>
+    <string name="barrage_speed">速度</string>
+    <string name="barrage_speed_slow_xx">最慢</string>
+    <string name="barrage_speed_slow_x">很慢</string>
+    <string name="barrage_speed_slow">慢</string>
+    <string name="barrage_speed_default">默认</string>
+    <string name="barrage_speed_fast">快</string>
+    <string name="barrage_speed_fast_x">很快</string>
+    <string name="barrage_speed_fast_xx">最快</string>
 
 </resources>

@@ -18,10 +18,9 @@ package com.journeyOS.barrage.model.channel;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.journeyOS.barrage.control.dispatcher.IBarrageDispatcher;
-import com.journeyOS.barrage.control.speed.SpeedController;
+import com.journeyOS.barrage.control.speed.ISpeedController;
 import com.journeyOS.barrage.model.BarrageModel;
 import com.journeyOS.barrage.model.collection.BarrageConsumedPool;
 import com.journeyOS.barrage.model.collection.BarrageConsumer;
@@ -83,8 +82,8 @@ public class BarragePoolManager implements IBarragePoolManager {
     }
 
     @Override
-    public void setSpeedController(SpeedController speedController) {
-        mConsumedPool.setSpeedController(speedController);
+    public void setSpeedController(ISpeedController ISpeedController) {
+        mConsumedPool.setSpeedController(ISpeedController);
     }
 
     @Override
