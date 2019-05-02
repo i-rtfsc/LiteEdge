@@ -21,8 +21,9 @@ import android.content.Context;
 import android.os.Environment;
 
 import com.facebook.stetho.Stetho;
-import com.journeyOS.base.persistence.SpUtils;
+import com.google.android.gms.ads.MobileAds;
 import com.journeyOS.base.device.DeviceUtils;
+import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.FileIOUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.AccountManager;
@@ -49,6 +50,8 @@ public class AppConfig {
     private static final String APP_NAME = "edge";
     private static final String BUGLY_APPID = "6268c7a221";
 
+    private static final String ADMOB_APPID = "ca-app-pub-7876057690602353~3648682075";
+
     public static void initialize(Application context) {
         initANRWatch(context);
         initCrashReport(context);
@@ -56,6 +59,7 @@ public class AppConfig {
         initSharedPreference(context);
         initToastyConfig(context);
         initBmob(context);
+        initAd(context);
     }
 
     private static void initCrashReport(Context context) {
@@ -129,5 +133,9 @@ public class AppConfig {
         });
         // 启动推送服务
         BmobPush.startWork(context);
+    }
+
+    private static void initAd(Application context) {
+        MobileAds.initialize(context, ADMOB_APPID);
     }
 }

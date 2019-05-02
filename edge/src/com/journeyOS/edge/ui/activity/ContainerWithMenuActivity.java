@@ -23,10 +23,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdView;
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.core.base.BaseFragment;
+import com.journeyOS.edge.AdManager;
 import com.journeyOS.edge.R;
 
 import java.util.List;
@@ -34,8 +36,12 @@ import java.util.List;
 import butterknife.BindView;
 
 public class ContainerWithMenuActivity extends BaseActivity {
+    private static final String TAG = ContainerWithMenuActivity.class.getSimpleName();
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
+    @BindView(R.id.ad_view)
+    AdView adView;
 
     private static Fragment mFragment = null;
     private static String mTitle;
@@ -59,6 +65,7 @@ public class ContainerWithMenuActivity extends BaseActivity {
         if (mFragment != null) {
             loadFragment(mFragment, mTitle);
         }
+        AdManager.getDefault().loadAndListener(adView);
     }
 
     @Override
