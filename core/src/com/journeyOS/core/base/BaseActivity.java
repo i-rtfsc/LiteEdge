@@ -19,6 +19,7 @@ package com.journeyOS.core.base;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -28,6 +29,8 @@ import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.R;
 import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.literouter.Router;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -53,6 +56,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     @Override
     protected void onResume() {
         super.onResume();
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+        for (Fragment f : fragmentList) {
+            if (f instanceof BaseFragment) {
+                ((BaseFragment) f).onFragmentResume();
+            }
+        }
     }
 
     @Override

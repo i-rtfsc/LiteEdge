@@ -17,14 +17,14 @@
 package com.journeyOS.barrage.model.channel;
 
 import com.journeyOS.barrage.control.dispatcher.IBarrageDispatcher;
-import com.journeyOS.barrage.control.speed.SpeedController;
+import com.journeyOS.barrage.control.speed.ISpeedController;
 import com.journeyOS.barrage.model.BarrageModel;
 
 import java.util.List;
 
 
 interface IBarragePoolManager {
-    void setSpeedController(SpeedController speedController);
+    void setSpeedController(ISpeedController ISpeedController);
 
     void addBarrageView(int index, BarrageModel model);
 

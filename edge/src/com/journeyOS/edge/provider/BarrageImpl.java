@@ -32,6 +32,11 @@ public class BarrageImpl implements IBarrage {
     }
 
     @Override
+    public void removeBarrage() {
+        BarrageManager.getDefault().hideBarrage();
+    }
+
+    @Override
     public void sendBarrage() {
         BarrageManager.getDefault().sendBarrageTest();
     }

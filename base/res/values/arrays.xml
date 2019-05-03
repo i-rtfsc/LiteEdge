@@ -28,4 +28,18 @@
         <item>@string/barrage_click_ball</item>
         <item>@string/barrage_click_barrage</item>
     </array>
+
+    <array name="barrage_speed_array">
+        <item>@string/level_1</item>
+        <item>@string/level_2</item>
+        <item>@string/level_3</item>
+        <item>@string/level_4</item>
+        <item>@string/level_5</item>
+        <item>@string/level_6</item>
+        <item>@string/level_7</item>
+        <item>@string/level_8</item>
+        <item>@string/level_9</item>
+        <item>@string/level_10</item>
+    </array>
+
 </resources>

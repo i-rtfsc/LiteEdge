@@ -52,6 +52,9 @@ public class BarrageFragment extends BaseFragment {
     @BindView(R2.id.barrage_selector)
     SettingView mBarrageSelector;
 
+    @BindView(R2.id.barrage_speed)
+    SettingView mBarrageSpeed;
+
     @BindView(R2.id.barrage_click)
     SettingView mBarrageClick;
 
@@ -93,7 +96,7 @@ public class BarrageFragment extends BaseFragment {
             mBarrageSelector.setEnabled(false);
         }
 
-        mBarrageClick.setRightSummary(mContext.getString(Constant.sBarrageClickMap.get(SpUtils.getInstant().getInt(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT))));
+        mBarrageClick.setRightSummary(mContext.getResources().getStringArray(R.array.barrage_click_feedback_array)[SpUtils.getInstant().getInt(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT)]);
 
         int titleColor = SpUtils.getInstant().getInt(Constant.BARRAGE_TITLE_COLOR, Constant.BARRAGE_TITLE_COLOR_DEFAULT);
         if (titleColor == 0) {
@@ -112,6 +115,9 @@ public class BarrageFragment extends BaseFragment {
             backgroundColor = ContextCompat.getColor(mContext, R.color.divider_dark);
         }
         mBarrageBackground.setRightSummaryColor(backgroundColor);
+
+        int count = SpUtils.getInstant().getInt(Constant.BARRAGE_SPEED, Constant.BARRAGE_SPEED_DEFAULT) - 1;
+        mBarrageSpeed.setRightSummary(mContext.getResources().getStringArray(R.array.barrage_speed_array)[count]);
     }
 
     @OnClick({R2.id.barrage})
@@ -132,6 +138,33 @@ public class BarrageFragment extends BaseFragment {
         CoreManager.getDefault().getImpl(IContainer.class).subActivity(mContext, BarrageSelectorFragment.newInstance(mContext), mContext.getString(R.string.barrage_whitelist));
     }
 
+    @OnClick({R2.id.barrage_speed})
+    public void listenerSpeed() {
+        CoreManager.getDefault().getImpl(IBarrage.class).removeBarrage();
+
+        final String[] items = mContext.getResources().getStringArray(R.array.barrage_speed_array);
+        int item = SpUtils.getInstant().getInt(Constant.BARRAGE_SPEED, Constant.BARRAGE_SPEED_DEFAULT) - 1;
+
+        final AlertDialog dialog = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog)
+                .setTitle(R.string.barrage_speed_title)
+                .setSingleChoiceItems(items, item, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        SpUtils.getInstant().put(Constant.BARRAGE_SPEED, which + 1);
+                        mBarrageSpeed.setRightSummary(mContext.getResources().getStringArray(R.array.barrage_speed_array)[which]);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        dialog.show();
+    }
+
     @OnClick({R2.id.barrage_click})
     public void listenerClick() {
         final String[] items = mContext.getResources().getStringArray(R.array.barrage_click_feedback_array);
@@ -144,7 +177,7 @@ public class BarrageFragment extends BaseFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         SpUtils.getInstant().put(Constant.BARRAGE_CLICK, which);
-                        mBarrageClick.setRightSummary(mContext.getString(Constant.sBarrageClickMap.get(which)));
+                        mBarrageClick.setRightSummary(mContext.getResources().getStringArray(R.array.barrage_click_feedback_array)[which]);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

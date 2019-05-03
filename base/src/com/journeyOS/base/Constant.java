@@ -16,10 +16,6 @@
 
 package com.journeyOS.base;
 
-import android.util.ArrayMap;
-
-import java.util.Map;
-
 public class Constant {
     public static final boolean DEBUG = true;
 
@@ -64,27 +60,8 @@ public class Constant {
     public static final String EDGE_CONUT = "edgeCount";
     public static final int EDGE_CONUT_DEFAULT = 7;
 
-    public static final Map<Integer, Integer> sEdgeCountMap;
-
-    static {
-        sEdgeCountMap = new ArrayMap<>();
-        sEdgeCountMap.put(6, R.string.count_6);
-        sEdgeCountMap.put(7, R.string.count_7);
-        sEdgeCountMap.put(8, R.string.count_8);
-        sEdgeCountMap.put(9, R.string.count_9);
-    }
-
     public static final String BARRAGE_CLICK = "barrageClick";
     public static final int BARRAGE_CLICK_DEFAULT = 0;
-
-    public static final Map<Integer, Integer> sBarrageClickMap;
-
-    static {
-        sBarrageClickMap = new ArrayMap<>();
-        sBarrageClickMap.put(0, R.string.barrage_click_not_feedback);
-        sBarrageClickMap.put(1, R.string.barrage_click_ball);
-        sBarrageClickMap.put(2, R.string.barrage_click_barrage);
-    }
 
     public static final String INNER_BALL_COLOR = "innerBallColor";
     public static final int INNER_BALL_COLOR_DEFAULT = -16743937;
@@ -103,6 +80,9 @@ public class Constant {
 
     public static final String BARRAGE_BACKGROUND_COLOR = "barrageBackgroundColor";
     public static final int BARRAGE_BACKGROUND_COLOR_DEFAULT = 0;
+
+    public static final String BARRAGE_SPEED = "barrageSpeed";
+    public static final int BARRAGE_SPEED_DEFAULT = 3;
 
     public static final String PORTRAIT = "portrait";
     public static final int PORTRAIT_DEFAULT = 4;

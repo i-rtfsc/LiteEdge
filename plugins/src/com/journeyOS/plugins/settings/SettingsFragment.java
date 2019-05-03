@@ -24,7 +24,6 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
@@ -116,7 +115,7 @@ public class SettingsFragment extends BaseFragment {
         mItemText.setCheckedImmediately(itemText);
 
         int count = SpUtils.getInstant().getInt(Constant.EDGE_CONUT, Constant.EDGE_CONUT_DEFAULT);
-        mEdgeCount.setRightSummary(mContext.getString(Constant.sEdgeCountMap.get(count)));
+        mEdgeCount.setRightSummary(mContext.getResources().getStringArray(R.array.edge_count_array)[count - 6]);
 
         mBallSize.setProgress(SpUtils.getInstant().getInt(Constant.BALL_SIZE, Constant.BALL_SIZE_DEFAULT));
         mBallSize.setOnSeekChangeListener(new OnSeekChangeListener() {
@@ -215,7 +214,7 @@ public class SettingsFragment extends BaseFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         SpUtils.getInstant().put(Constant.EDGE_CONUT, which + 6);
-                        mEdgeCount.setRightSummary(mContext.getString(Constant.sEdgeCountMap.get(which + 6)));
+                        mEdgeCount.setRightSummary(mContext.getResources().getStringArray(R.array.edge_count_array)[which]);
 //                        setViewsEnabled((which + 6) != Constant.EDGE_STYLE_DINFINE);
                     }
                 })

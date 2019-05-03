@@ -57,6 +57,17 @@
                 android:text="@string/barrage_style" />
 
             <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_speed"
+                style="@style/mid_layout"
+                android:visibility="visible"
+                settings:settingIcon="@drawable/svg_run"
+                settings:settingRightSummary="@string/barrage_speed_default"
+                settings:settingSummary="@string/barrage_speed_summary"
+                settings:settingTitle="@string/barrage_speed_title" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
                 android:id="@+id/barrage_click"
                 style="@style/mid_layout"
                 settings:settingIcon="@drawable/svg_click"
@@ -106,5 +117,12 @@
                 settings:showRight="false" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="12dp"
+            android:background="@android:color/transparent" />
+
     </LinearLayout>
+
 </ScrollView>

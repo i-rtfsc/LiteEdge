@@ -39,6 +39,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.google.android.gms.ads.AdView;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.guide.LiteGuide;
 import com.journeyOS.base.guide.OnGuideClickListener;
@@ -57,6 +58,7 @@ import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.core.database.user.EdgeUser;
 import com.journeyOS.core.permission.IPermission;
+import com.journeyOS.edge.AdManager;
 import com.journeyOS.edge.EdgeServiceManager;
 import com.journeyOS.edge.H;
 import com.journeyOS.edge.R;
@@ -90,6 +92,9 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
+    @BindView(R.id.ad_view)
+    AdView adView;
 
     //@BindView(R.id.fragment_container)
     FrameLayout mContainer;
@@ -129,6 +134,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         UIUtils.setStatusBarColor(this, this.getResources().getColor(R.color.colorPrimary));
         setSupportActionBar(mToolbar);
         mContainer = findViewById(R.id.container);
+        AdManager.getDefault().loadAndListener(adView);
 
         EdgeServiceManager.getDefault().bindEgdeService();
     }
@@ -153,8 +159,8 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         SyncMarket.getDefault().get(new SyncMarket.onVersionObservable() {
             @Override
             public void onResult(boolean needUpdate, final String version, final String description) {
-                LogUtils.d(TAG, "sync market,  needUpdate = [" + needUpdate + "], version = [" + version + "], description = [" + description + "]");
                 if (needUpdate) {
+                    LogUtils.d(TAG, "sync market,  needUpdate = [" + needUpdate + "], version = [" + version + "], description = [" + description + "]");
                     CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
                         @Override
                         public void run() {

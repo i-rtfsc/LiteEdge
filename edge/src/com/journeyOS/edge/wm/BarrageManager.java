@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.journeyOS.barrage.BarrageParentView;
 import com.journeyOS.barrage.BarrageView;
+import com.journeyOS.barrage.control.speed.SpeedController;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.LogUtils;
@@ -87,7 +88,9 @@ public class BarrageManager {
         if (mRootView == null) {
             mRootView = (BarrageParentView) View.inflate(mContext, R.layout.barrage_layout, null);
             mBarrageView = (BarrageView) mRootView.findViewById(R.id.barrage);
-            mBarrageView.prepare();
+            SpeedController speedController = new SpeedController();
+            speedController.setSpeed(SpUtils.getInstant().getInt(Constant.BARRAGE_SPEED, Constant.BARRAGE_SPEED_DEFAULT));
+            mBarrageView.prepare(speedController);
 //            if (!mRootView.isAttachedToWindow()) {
 //                WindowManager.LayoutParams layoutParams = getLayoutParams();
 //                mWm.addView(mRootView, layoutParams);
@@ -109,15 +112,7 @@ public class BarrageManager {
 
             @Override
             public void onHiding() {
-                StateMachine.setBarrageState(BarrageState.HIDE);
-                LogUtils.d(TAG, "wann remove barrage view!");
-                if (mRootView != null && mRootView.isAttachedToWindow()) {
-                    mWm.removeView(mRootView);
-                    mBarrageHelper.release();
-                    mBarrageHelper = null;
-                    mRootView = null;
-                    isAttachedToWindow = false;
-                }
+                hideBarrage();
             }
         });
     }
@@ -183,6 +178,7 @@ public class BarrageManager {
         if (mRootView == null) {
             initBarrage();
         }
+
         Bitmap bitmap = UIUtils.drawableToBitmap(mContext.getResources().getDrawable(R.mipmap.user));
         Bitmap circleBitmap = UIUtils.getCircularBitmap(bitmap);
         sendBarrage(circleBitmap, "用户名", "弹幕消息测试~");
@@ -213,6 +209,18 @@ public class BarrageManager {
             if (mBarrageHelper != null) {
                 mBarrageHelper.addBarrage(barrageEntity, true);
             }
+        }
+    }
+
+    public void hideBarrage() {
+        StateMachine.setBarrageState(BarrageState.HIDE);
+        LogUtils.d(TAG, "wann remove barrage view!");
+        if (mRootView != null && mRootView.isAttachedToWindow()) {
+            mWm.removeView(mRootView);
+            mBarrageHelper.release();
+            mBarrageHelper = null;
+            mRootView = null;
+            isAttachedToWindow = false;
         }
     }
 

@@ -16,7 +16,6 @@
 
 package com.journeyOS.edge.ui.activity;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -24,10 +23,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdView;
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.base.BaseActivity;
 import com.journeyOS.core.base.BaseFragment;
+import com.journeyOS.edge.AdManager;
 import com.journeyOS.edge.R;
 
 import java.util.List;
@@ -35,14 +36,19 @@ import java.util.List;
 import butterknife.BindView;
 
 public class ContainerWithMenuActivity extends BaseActivity {
+    private static final String TAG = ContainerWithMenuActivity.class.getSimpleName();
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
+    @BindView(R.id.ad_view)
+    AdView adView;
 
     private static Fragment mFragment = null;
     private static String mTitle;
 
     public static void show(Context context, Fragment fragment, String title) {
         Intent intent = new Intent(context, ContainerWithMenuActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mFragment = fragment;
         mTitle = title;
         AppUtils.startIntent(context, intent);
@@ -59,17 +65,7 @@ public class ContainerWithMenuActivity extends BaseActivity {
         if (mFragment != null) {
             loadFragment(mFragment, mTitle);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
-        for (Fragment f : fragmentList) {
-            if (f instanceof BaseFragment) {
-                ((BaseFragment) f).onFragmentResume();
-            }
-        }
+        AdManager.getDefault().loadAndListener(adView);
     }
 
     @Override

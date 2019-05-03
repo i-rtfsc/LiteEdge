@@ -21,22 +21,29 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.gms.ads.AdView;
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.base.BaseActivity;
+import com.journeyOS.edge.AdManager;
 import com.journeyOS.edge.R;
 
 import butterknife.BindView;
 
 public class ContainerActivity extends BaseActivity {
+    private static final String TAG = ContainerActivity.class.getSimpleName();
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
+    @BindView(R.id.ad_view)
+    AdView adView;
 
     private static Fragment mFragment = null;
     private static String mTitle;
 
     public static void show(Context context, Fragment fragment, String title) {
         Intent intent = new Intent(context, ContainerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mFragment = fragment;
         mTitle = title;
         AppUtils.startIntent(context, intent);
@@ -53,6 +60,7 @@ public class ContainerActivity extends BaseActivity {
         if (mFragment != null) {
             loadFragment(mFragment, mTitle);
         }
+        AdManager.getDefault().loadAndListener(adView);
     }
 
     void loadFragment(Fragment fragment, String title) {

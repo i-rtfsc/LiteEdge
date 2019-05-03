@@ -65,6 +65,16 @@ public class PermissionFragment extends BaseFragment {
 
     @Override
     public void initViews() {
+        initPermissionViews();
+    }
+
+    @Override
+    public void onFragmentResume() {
+        super.onFragmentResume();
+        initPermissionViews();
+    }
+
+    private void initPermissionViews() {
         if (Build.VERSION.SDK_INT >= 23) {
             boolean canDrawOverlays = CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext);
             mOverflow.setRightSummary(mContext.getString(canDrawOverlays ? R.string.permission_on : R.string.permission_off));
