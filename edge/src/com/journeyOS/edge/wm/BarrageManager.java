@@ -17,8 +17,6 @@
 package com.journeyOS.edge.wm;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.Gravity;
@@ -32,6 +30,7 @@ import com.journeyOS.barrage.BarrageView;
 import com.journeyOS.barrage.control.speed.SpeedController;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.base.utils.UIUtils;
@@ -42,7 +41,6 @@ import com.journeyOS.core.type.BarrageState;
 import com.journeyOS.edge.R;
 import com.journeyOS.edge.barrage.BarrageEntity;
 import com.journeyOS.edge.barrage.BarrageHelper;
-import com.journeyOS.edge.music.MusicManager;
 import com.journeyOS.i007Service.core.notification.Notification;
 
 import es.dmoral.toasty.Toasty;
@@ -132,20 +130,24 @@ public class BarrageManager {
         barrageEntity.text = notification.getText();
 
         if (SpUtils.getInstant().getBoolean(Constant.BARRAGE_ICONO, Constant.BARRAGE_ICONO_DEFAULT)) {
-            int iconId = notification.extras.getInt(Notification.EXTRA_SMALL_ICON);
-            LogUtils.d(TAG, "get icon from notification, icon id = " + iconId);
-            if (iconId > 0) {
-                //https://stackoverflow.com/questions/40325307/how-to-get-an-image-from-another-apps-notification
-                //Resources resources = mContext.getPackageManager().getResourcesForApplication(notification.getPackageName());
-                try {
-                    Resources resources = mContext.getPackageManager().getResourcesForApplication(MusicManager.MUSIC_QQ);
-                    Drawable icon = resources.getDrawable(iconId);
-                    if (icon != null) {
-                        barrageEntity.avatar = UIUtils.getCircularBitmap(UIUtils.drawableToBitmap(icon));
-                    }
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
+//            int iconId = notification.extras.getInt(Notification.EXTRA_SMALL_ICON);
+//            LogUtils.d(TAG, "get icon from notification, icon id = " + iconId);
+//            if (iconId > 0) {
+//                //https://stackoverflow.com/questions/40325307/how-to-get-an-image-from-another-apps-notification
+//                //Resources resources = mContext.getPackageManager().getResourcesForApplication(notification.getPackageName());
+//                try {
+//                    Resources resources = mContext.getPackageManager().getResourcesForApplication(MusicManager.MUSIC_QQ);
+//                    Drawable icon = resources.getDrawable(iconId);
+//                    if (icon != null) {
+//                        barrageEntity.avatar = UIUtils.getCircularBitmap(UIUtils.drawableToBitmap(icon));
+//                    }
+//                } catch (PackageManager.NameNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+            Drawable icon = AppUtils.getAppIcon(mContext, notification.getPackageName());
+            if (icon != null) {
+                barrageEntity.avatar = UIUtils.getCircularBitmap(UIUtils.drawableToBitmap(icon));
             }
         }
 
