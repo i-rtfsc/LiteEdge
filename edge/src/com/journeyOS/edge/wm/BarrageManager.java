@@ -228,7 +228,7 @@ public class BarrageManager {
         LayoutParams params = WindowUitls.getBaseLayoutParams();
         params.flags = params.flags | LayoutParams.FLAG_SPLIT_TOUCH;
         params.gravity = Gravity.TOP;
-        params.y = UIUtils.getStatusBarHeight(mContext) / 4;
+        params.y = SpUtils.getInstant().getInt(Constant.BARRAGE_POSTION, Constant.BARRAGE_POSTION_DEFAULT);
         params.width = LayoutParams.MATCH_PARENT;
         params.height = 110;
         return params;

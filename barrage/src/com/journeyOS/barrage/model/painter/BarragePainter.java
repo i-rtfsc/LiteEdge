@@ -97,7 +97,7 @@ public class BarragePainter extends IBarragePainter {
         float x = model.getX() + model.marginLeft + model.avatarWidth / 2;
         float top = model.getY() + channel.height / 2;
 
-        sPaint.setColor(Color.WHITE);
+        sPaint.setColor(Color.TRANSPARENT);
         sPaint.setStyle(Paint.Style.STROKE);
         canvas.drawCircle((int) x, (int) top, model.avatarHeight / 2, sPaint);
     }

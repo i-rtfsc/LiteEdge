@@ -134,8 +134,8 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         UIUtils.setStatusBarColor(this, this.getResources().getColor(R.color.colorPrimary));
         setSupportActionBar(mToolbar);
         mContainer = findViewById(R.id.container);
+        AdManager.getDefault().loadInterstitialAd();
         AdManager.getDefault().loadAndListener(adView);
-
         EdgeServiceManager.getDefault().bindEgdeService();
     }
 
@@ -196,18 +196,11 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     protected void onResume() {
         super.onResume();
         getPermission();
-//        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
-//            SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
-//            SlidingDrawer.getDefault().setListener(this);
-//        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
-//            mHandler.sendEmptyMessageDelayed(H.MSG_DRAWER_RELEASE, 0);
-//        }
     }
 
     @Override

@@ -20,6 +20,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_background"
     android:fitsSystemWindows="true"
     android:gravity="center">
 
@@ -38,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:layout_centerHorizontal="true"
+        android:visibility="gone"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/banner_ad_unit_id" />
 
@@ -45,8 +47,7 @@
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/ad_view"
-        android:background="@color/main_background" />
+        android:layout_below="@id/ad_view" />
 
 </RelativeLayout>
 

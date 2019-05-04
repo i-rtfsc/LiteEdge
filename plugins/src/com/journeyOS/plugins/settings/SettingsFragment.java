@@ -24,6 +24,8 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
@@ -73,9 +75,6 @@ public class SettingsFragment extends BaseFragment {
     @BindView(R2.id.innerBall)
     SettingView mInnerBall;
 
-    @BindView(R2.id.ball_size)
-    IndicatorSeekBar mBallSize;
-
     static Activity mContext;
 
     public static Fragment newInstance(Activity activity) {
@@ -117,23 +116,6 @@ public class SettingsFragment extends BaseFragment {
         int count = SpUtils.getInstant().getInt(Constant.EDGE_CONUT, Constant.EDGE_CONUT_DEFAULT);
         mEdgeCount.setRightSummary(mContext.getResources().getStringArray(R.array.edge_count_array)[count - 6]);
 
-        mBallSize.setProgress(SpUtils.getInstant().getInt(Constant.BALL_SIZE, Constant.BALL_SIZE_DEFAULT));
-        mBallSize.setOnSeekChangeListener(new OnSeekChangeListener() {
-            @Override
-            public void onSeeking(SeekParams seekParams) {
-                CoreManager.getDefault().getImpl(IEdge.class).updateBallSize(seekParams.progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
-                SpUtils.getInstant().put(Constant.BALL_SIZE, seekBar.getProgress());
-            }
-        });
     }
 
     @OnClick({R2.id.daemon})
@@ -174,6 +156,44 @@ public class SettingsFragment extends BaseFragment {
         mBall.setCheck(!ball);
         SpUtils.getInstant().put(Constant.BALL, !ball);
         CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(!ball);
+    }
+
+    @OnClick({R2.id.ball_size})
+    public void listenerPostion() {
+        AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
+        buider.setTitle(R.string.ball_size);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_seekbar, null);
+        buider.setView(dialogView);
+        buider.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        IndicatorSeekBar seekBar = dialogView.findViewById(R.id.seekbar);
+        seekBar.setMin(50);
+        seekBar.setMax(200);
+        int progress = SpUtils.getInstant().getInt(Constant.BALL_SIZE, Constant.BALL_SIZE_DEFAULT);
+        seekBar.setProgress(progress);
+        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+                CoreManager.getDefault().getImpl(IEdge.class).updateBallSize(seekParams.progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                SpUtils.getInstant().put(Constant.BALL_SIZE, seekBar.getProgress());
+            }
+        });
+        buider.create().show();
     }
 
     @OnClick({R2.id.portrait})

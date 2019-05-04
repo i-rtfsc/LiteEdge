@@ -21,6 +21,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
@@ -28,6 +30,7 @@ import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.base.widget.SettingSwitch;
 import com.journeyOS.base.widget.SettingView;
 import com.journeyOS.core.CoreManager;
@@ -37,6 +40,9 @@ import com.journeyOS.core.base.BaseFragment;
 import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.R2;
+import com.warkiz.widget.IndicatorSeekBar;
+import com.warkiz.widget.OnSeekChangeListener;
+import com.warkiz.widget.SeekParams;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -51,6 +57,9 @@ public class BarrageFragment extends BaseFragment {
 
     @BindView(R2.id.barrage_selector)
     SettingView mBarrageSelector;
+
+    @BindView(R2.id.barrage_postion)
+    SettingView mBarragePostion;
 
     @BindView(R2.id.barrage_speed)
     SettingView mBarrageSpeed;
@@ -136,6 +145,46 @@ public class BarrageFragment extends BaseFragment {
     @OnClick({R2.id.barrage_selector})
     public void listenerBarrageSelector() {
         CoreManager.getDefault().getImpl(IContainer.class).subActivity(mContext, BarrageSelectorFragment.newInstance(mContext), mContext.getString(R.string.barrage_whitelist));
+    }
+
+    @OnClick({R2.id.barrage_postion})
+    public void listenerPostion() {
+        CoreManager.getDefault().getImpl(IBarrage.class).removeBarrage();
+
+        AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
+        buider.setTitle(R.string.barrage_postion_title);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_seekbar, null);
+        buider.setView(dialogView);
+        buider.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        IndicatorSeekBar seekBar = dialogView.findViewById(R.id.seekbar);
+        seekBar.setMin(0);
+        seekBar.setMax(UIUtils.getScreenHeight(mContext));
+        int progress = SpUtils.getInstant().getInt(Constant.BARRAGE_POSTION, Constant.BARRAGE_POSTION_DEFAULT);
+        seekBar.setProgress(progress);
+        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                SpUtils.getInstant().put(Constant.BARRAGE_POSTION, seekBar.getProgress());
+            }
+        });
+        buider.create().show();
     }
 
     @OnClick({R2.id.barrage_speed})

@@ -22,6 +22,7 @@ import android.view.View;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
@@ -58,13 +59,14 @@ public class AdManager {
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
                 LogUtils.d(TAG, "ad finishes loading");
             }
 
             @Override
             public void onAdFailedToLoad(int errorCode) {
                 LogUtils.d(TAG, "ad request fails, errorCode = [" + errorCode + "]");
-                adView.setVisibility(View.GONE);
+//                adView.setVisibility(View.GONE);
             }
 
             @Override
@@ -82,5 +84,35 @@ public class AdManager {
                 LogUtils.d(TAG, "user is about to return to the app after tapping on an ad.");
             }
         });
+    }
+
+    public void loadInterstitialAd() {
+        final InterstitialAd interstitialAd = new InterstitialAd(mContext);
+        interstitialAd.setAdUnitId(mContext.getString(R.string.interstitial_ad_unit_id));
+        AdRequest adRequest = new AdRequest.Builder().build();
+        interstitialAd.loadAd(adRequest);
+
+        LogUtils.d(TAG, "wanna show interstitial, is loading = [" + interstitialAd.isLoading() + "], is loaded = [" + interstitialAd.isLoaded() + "]");
+        if (!interstitialAd.isLoading() && !interstitialAd.isLoaded()) {
+            interstitialAd.loadAd(adRequest);
+        }
+
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                LogUtils.d(TAG, "interstitial ad finishes loading");
+                interstitialAd.show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                LogUtils.d(TAG, "interstitial ad request fails, errorCode = [" + errorCode + "]");
+            }
+
+            @Override
+            public void onAdClosed() {
+            }
+        });
+
     }
 }

@@ -240,6 +240,8 @@
     <string name="level_9">9档</string>
     <string name="level_10">10档</string>
 
+    <string name="barrage_postion_title">弹幕位置</string>
+    <string name="barrage_postion_summary">数字越小越靠屏幕顶部</string>
 
     <string name="barrage_speed_title">弹幕速度</string>
     <string name="barrage_speed_summary">档位越高弹幕速度越快</string>

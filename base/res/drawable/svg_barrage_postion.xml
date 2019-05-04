@@ -1,0 +1,29 @@
+<!--
+  Copyright (c) 2019 anqi.huang@outlook.com
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+    <path
+        android:fillColor="@color/icon"
+        android:pathData="M209.45,349.09h46.55v46.55H209.45zM302.55,349.09h302.55v46.55H302.55zM349.09,465.45h302.55v46.55H349.09zM256,465.45h46.55v46.55h-46.55z" />
+    <path
+        android:fillColor="@color/icon"
+        android:pathData="M728.44,211.78L155.93,211.78c-58.18,0 -107.05,46.55 -107.05,107.05v339.78c0,58.18 46.55,107.05 107.05,107.05h572.51c58.18,0 107.05,-48.87 107.05,-107.05L835.49,318.84c0,-58.18 -46.55,-107.05 -107.05,-107.05zM793.6,658.62c0,37.24 -30.25,65.16 -65.16,65.16L155.93,723.78c-37.24,0 -65.16,-30.25 -65.16,-65.16L90.76,318.84c0,-37.24 30.25,-65.16 65.16,-65.16h572.51c37.24,0 65.16,30.25 65.16,65.16v339.78z" />
+</vector>
