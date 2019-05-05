@@ -20,6 +20,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.google.android.gms.ads.AdView;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.type.EdgeDirection;
@@ -30,6 +31,7 @@ public class H extends Handler {
 
     public static final long EDGE_DELAY_TIME = 25;
     public static final long DELAY_TIME = 5 * 1000l;
+    public static final long AD_DELAY_TIME = 200;
 
     public static final int MSG_BALL_SHOWING = BASE << 0;
     public static final int MSG_BALL_HIDING = BASE << 1;
@@ -39,6 +41,8 @@ public class H extends Handler {
     public static final int MSG_BARRAGE_NOTIFICATION = BASE << 5;
     public static final int MSG_SLIDE_CLICK = BASE << 6;
     public static final int MSG_DRAWER_RELEASE = BASE << 7;
+    public static final int MSG_AD_BANNER = BASE << 8;
+    public static final int MSG_AD_INTERSTITIAL = BASE << 9;
 
     private H mH;
     private Context mContext;
@@ -99,6 +103,12 @@ public class H extends Handler {
                 break;
             case MSG_DRAWER_RELEASE:
                 SlidingDrawer.getDefault().releaseDrawer();
+                break;
+            case MSG_AD_BANNER:
+                AdManager.getDefault().loadAndListener((AdView) msg.obj);
+                break;
+            case MSG_AD_INTERSTITIAL:
+                AdManager.getDefault().loadInterstitialAd();
                 break;
             default:
                 break;

@@ -17,6 +17,7 @@
 package com.journeyOS.edge;
 
 import android.content.Context;
+import android.os.Message;
 import android.view.View;
 
 import com.google.android.gms.ads.AdListener;
@@ -25,11 +26,24 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
+import com.journeyOS.base.utils.TimeUtils;
 import com.journeyOS.core.CoreManager;
+
+import cn.bmob.v3.BmobInstallation;
+import cn.bmob.v3.BmobInstallationManager;
 
 public class AdManager {
     private static final String TAG = AdManager.class.getSimpleName();
     private Context mContext;
+
+    final H mHandler = H.getDefault().getHandler();
+
+    private static final int SHOW_BANNER_DAYS_DIFF = 1;
+    private static final int SHOW_INTERSTITIAL_DAYS_DIFF = 5;
+
+    private static final int REPEAT_MAX = 50;
+    private int mBannerCount = 0;
+    private int mInterstitialCount = 0;
 
     private AdManager() {
         mContext = CoreManager.getDefault().getContext();
@@ -47,11 +61,35 @@ public class AdManager {
     }
 
     public void loadAndListener(final AdView adView) {
+        BmobInstallation bmobInstallation = BmobInstallationManager.getInstance().getCurrentInstallation();
+        LogUtils.d(TAG, "current installation = [" + bmobInstallation + "]");
+        if (bmobInstallation != null) {
+            String createdTime = bmobInstallation.getCreatedAt();
+            LogUtils.d(TAG, "time = [" + createdTime + "]");
+            long daysDiff = TimeUtils.getDaysDiff(createdTime);
+            if (daysDiff < SHOW_BANNER_DAYS_DIFF) {
+                LogUtils.e(TAG, "new device don't need show banner ad");
+                return;
+            }
+        } else {
+            if (mHandler.hasMessages(H.MSG_AD_BANNER)) {
+                mHandler.removeMessages(H.MSG_AD_BANNER);
+            }
+            if (mBannerCount <= REPEAT_MAX) {
+                Message message = Message.obtain();
+                message.what = H.MSG_AD_BANNER;
+                message.obj = adView;
+                mBannerCount++;
+                mHandler.sendMessageDelayed(message, H.AD_DELAY_TIME);
+            }
+            return;
+        }
+
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
 
 //        adView.setAdSize(AdSize.SMART_BANNER);
-//        adView.setAdUnitId(mContext.getResources().getString(R.string.banner_ad_unit_id2));
+//        adView.setAdUnitId(mContext.getResources().getString(R.string.banner_ad_unit_id));
 
         // Start loading the ad in the background.
         adView.loadAd(adRequest);
@@ -87,6 +125,27 @@ public class AdManager {
     }
 
     public void loadInterstitialAd() {
+        BmobInstallation bmobInstallation = BmobInstallationManager.getInstance().getCurrentInstallation();
+        LogUtils.d(TAG, "current installation = [" + bmobInstallation + "]");
+        if (bmobInstallation != null) {
+            String createdTime = bmobInstallation.getCreatedAt();
+            LogUtils.d(TAG, "time = [" + createdTime + "]");
+            long daysDiff = TimeUtils.getDaysDiff(createdTime);
+            if (daysDiff < SHOW_INTERSTITIAL_DAYS_DIFF) {
+                LogUtils.e(TAG, "new device don't need show interstitial ad");
+                return;
+            }
+        } else {
+            if (mHandler.hasMessages(H.MSG_AD_INTERSTITIAL)) {
+                mHandler.removeMessages(H.MSG_AD_INTERSTITIAL);
+            }
+            if (mInterstitialCount <= REPEAT_MAX) {
+                mInterstitialCount++;
+                mHandler.sendEmptyMessageDelayed(H.MSG_AD_INTERSTITIAL, H.AD_DELAY_TIME);
+            }
+            return;
+        }
+
         final InterstitialAd interstitialAd = new InterstitialAd(mContext);
         interstitialAd.setAdUnitId(mContext.getString(R.string.interstitial_ad_unit_id));
         AdRequest adRequest = new AdRequest.Builder().build();

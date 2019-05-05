@@ -26,6 +26,7 @@ import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
@@ -44,8 +45,11 @@ import com.journeyOS.core.permission.IPermission;
 import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.R2;
 import com.warkiz.widget.IndicatorSeekBar;
+import com.warkiz.widget.IndicatorStayLayout;
+import com.warkiz.widget.IndicatorType;
 import com.warkiz.widget.OnSeekChangeListener;
 import com.warkiz.widget.SeekParams;
+import com.warkiz.widget.TickMarkType;
 
 import java.util.List;
 
@@ -114,7 +118,7 @@ public class SettingsFragment extends BaseFragment {
         mItemText.setCheckedImmediately(itemText);
 
         int count = SpUtils.getInstant().getInt(Constant.EDGE_CONUT, Constant.EDGE_CONUT_DEFAULT);
-        mEdgeCount.setRightSummary(mContext.getResources().getStringArray(R.array.edge_count_array)[count - 6]);
+        mEdgeCount.setRightSummary(String.valueOf(count));
 
     }
 
@@ -163,7 +167,7 @@ public class SettingsFragment extends BaseFragment {
         AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
         buider.setTitle(R.string.ball_size);
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.dialog_seekbar, null);
+        final View dialogView = inflater.inflate(R.layout.dialog_defined, null);
         buider.setView(dialogView);
         buider.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
@@ -172,11 +176,24 @@ public class SettingsFragment extends BaseFragment {
             }
         });
 
-        IndicatorSeekBar seekBar = dialogView.findViewById(R.id.seekbar);
-        seekBar.setMin(50);
-        seekBar.setMax(200);
+        LinearLayout linearLayout = dialogView.findViewById(R.id.rootLayout);
+
         int progress = SpUtils.getInstant().getInt(Constant.BALL_SIZE, Constant.BALL_SIZE_DEFAULT);
-        seekBar.setProgress(progress);
+        IndicatorSeekBar seekBar = IndicatorSeekBar.with(getContext())
+                .max(200)
+                .min(50)
+                .progress(progress)
+                .showTickMarksType(TickMarkType.OVAL)
+                .showIndicatorType(IndicatorType.CIRCULAR_BUBBLE)
+                .indicatorColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .thumbColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .trackProgressColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .build();
+
+        IndicatorStayLayout stayLayout = new IndicatorStayLayout(getContext());
+        stayLayout.attachTo(seekBar);
+        linearLayout.addView(stayLayout);
+
         seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
             public void onSeeking(SeekParams seekParams) {
@@ -225,27 +242,59 @@ public class SettingsFragment extends BaseFragment {
     @OnClick({R2.id.edge_count})
     public void listenerCount() {
         final String[] items = mContext.getResources().getStringArray(R.array.edge_count_array);
-        int item = SpUtils.getInstant().getInt(Constant.EDGE_CONUT, Constant.EDGE_CONUT_DEFAULT) - 6;
 
-        final AlertDialog dialog = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog)
-                .setTitle(mContext.getString(R.string.count))
-                .setSingleChoiceItems(items, item, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        SpUtils.getInstant().put(Constant.EDGE_CONUT, which + 6);
-                        mEdgeCount.setRightSummary(mContext.getResources().getStringArray(R.array.edge_count_array)[which]);
-//                        setViewsEnabled((which + 6) != Constant.EDGE_STYLE_DINFINE);
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-        dialog.show();
+        AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
+        buider.setTitle(R.string.count);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_defined, null);
+        buider.setView(dialogView);
+        buider.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        LinearLayout linearLayout = dialogView.findViewById(R.id.rootLayout);
+        int progress = SpUtils.getInstant().getInt(Constant.EDGE_CONUT, Constant.EDGE_CONUT_DEFAULT);
+        IndicatorSeekBar seekBar = IndicatorSeekBar.with(getContext())
+                .max(9)
+                .min(6)
+                .progress(progress)
+                .tickCount(4)
+                .showTickMarksType(TickMarkType.DIVIDER)
+                .tickMarksColor(mContext.getResources().getColor(R.color.red))
+                .tickTextsArray(items)
+                .showTickTexts(true)
+                .showIndicatorType(IndicatorType.CIRCULAR_BUBBLE)
+                .indicatorColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .thumbColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .trackProgressColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .build();
+
+        IndicatorStayLayout stayLayout = new IndicatorStayLayout(getContext());
+        stayLayout.attachTo(seekBar);
+        linearLayout.addView(stayLayout);
+
+        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                int progress = seekBar.getProgress();
+                SpUtils.getInstant().put(Constant.EDGE_CONUT, progress);
+                mEdgeCount.setRightSummary(String.valueOf(progress));
+            }
+        });
+        buider.create().show();
     }
 
     @OnClick({R2.id.innerBall})

@@ -17,10 +17,10 @@
 <resources>
     <array name="edge_count_array">
         <!--<item>@string/count_default</item>-->
-        <item>@string/count_6</item>
-        <item>@string/count_7</item>
-        <item>@string/count_8</item>
-        <item>@string/count_9</item>
+        <item>@string/number_6</item>
+        <item>@string/number_7</item>
+        <item>@string/number_8</item>
+        <item>@string/number_9</item>
     </array>
 
     <array name="barrage_click_feedback_array">
@@ -30,16 +30,16 @@
     </array>
 
     <array name="barrage_speed_array">
-        <item>@string/level_1</item>
-        <item>@string/level_2</item>
-        <item>@string/level_3</item>
-        <item>@string/level_4</item>
-        <item>@string/level_5</item>
-        <item>@string/level_6</item>
-        <item>@string/level_7</item>
-        <item>@string/level_8</item>
-        <item>@string/level_9</item>
-        <item>@string/level_10</item>
+        <item>@string/number_1</item>
+        <item>@string/number_2</item>
+        <item>@string/number_3</item>
+        <item>@string/number_4</item>
+        <item>@string/number_5</item>
+        <item>@string/number_6</item>
+        <item>@string/number_7</item>
+        <item>@string/number_8</item>
+        <item>@string/number_9</item>
+        <item>@string/number_10</item>
     </array>
 
 </resources>

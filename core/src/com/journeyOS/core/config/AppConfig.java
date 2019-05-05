@@ -111,7 +111,7 @@ public class AppConfig {
                     String objectId = bmobInstallation.getObjectId();
                     LogUtils.d("init bmob installation, objectId = [" + objectId + "]" +
                             ", installationId = [" + bmobInstallation.getInstallationId() + "]");
-                    Installation installation = new Installation();
+                    final Installation installation = new Installation();
                     if (AccountManager.getDefault().isLogin()) {
                         EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
                         installation.author = edgeUser;
