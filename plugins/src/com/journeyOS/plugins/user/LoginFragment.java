@@ -56,7 +56,6 @@ import butterknife.OnTextChanged;
 import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -139,12 +138,18 @@ public class LoginFragment extends BaseFragment {
 
             boolean daemon = SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT);
             mAutoSync.setCheckedImmediately(daemon);
-
         } else {
             mUserLayout.setVisibility(View.GONE);
             mRegisterLayout.setVisibility(View.GONE);
             smsButton.setEnabled(false);
+            AccountManager.getDefault().registerAccountChangedListener(mListener);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        AccountManager.getDefault().unregisterAccountChangedListener(mListener);
     }
 
     @Override
@@ -176,28 +181,7 @@ public class LoginFragment extends BaseFragment {
     @OnClick(R2.id.login)
     public void LoginClick(View view) {
         if (!BaseUtils.isNull(mUser) && !BaseUtils.isNull(mToken)) {
-            EdgeUser.loginByAccount(mUser, mToken, new LogInListener<EdgeUser>() {
-                @Override
-                public void done(final EdgeUser edgeUser, BmobException e) {
-                    if (e == null) {
-                        mUserLayout.setVisibility(View.VISIBLE);
-                        mLoginLayout.setVisibility(View.GONE);
-                        mRegisterLayout.setVisibility(View.GONE);
-                        AccountManager.getDefault().save2Db(mUser, mToken);
-                        SyncManager.getDefault().fetchEdgeAir();
-                        mLoginModel.fetchUserInfo();
-
-                        EdgeUser user = new EdgeUser();
-                        user.backUp = mToken;
-                        user.update(edgeUser.getObjectId(), new UpdateListener() {
-                            @Override
-                            public void done(BmobException e) {
-                                LogUtils.d(TAG, "update backup = " + e);
-                            }
-                        });
-                    }
-                }
-            });
+            AccountManager.getDefault().login(mUser, mToken);
         }
 
     }
@@ -234,7 +218,6 @@ public class LoginFragment extends BaseFragment {
                 @Override
                 public void done(final EdgeUser bmobUser, BmobException e) {
                     if (e == null) {
-                        AccountManager.getDefault().save2Db(mUser, mToken);
                         mUserLayout.setVisibility(View.VISIBLE);
                         SyncManager.getDefault().fetchEdgeAir();
                     }
@@ -423,4 +406,29 @@ public class LoginFragment extends BaseFragment {
             }
         });
     }
+
+    private final AccountManager.OnAccountListener mListener = new AccountManager.OnAccountListener() {
+        @Override
+        public void onLoginSuccess(EdgeUser edgeUser) {
+            mUserLayout.setVisibility(View.VISIBLE);
+            mLoginLayout.setVisibility(View.GONE);
+            mRegisterLayout.setVisibility(View.GONE);
+            SyncManager.getDefault().fetchEdgeAir();
+            mLoginModel.fetchUserInfo();
+
+            EdgeUser user = new EdgeUser();
+            user.backUp = mToken;
+            user.update(edgeUser.getObjectId(), new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                    LogUtils.d(TAG, "update backup = " + e);
+                }
+            });
+        }
+
+        @Override
+        public void onLogOutSuccess() {
+
+        }
+    };
 }

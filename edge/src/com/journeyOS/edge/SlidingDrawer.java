@@ -38,6 +38,7 @@ import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.base.utils.UIUtils;
+import com.journeyOS.core.AccountManager;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.ImageEngine;
 import com.journeyOS.core.api.thread.ICoreExecutors;
@@ -59,31 +60,16 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     private DrawerAdapter adapter;
     private SlidingRootNav slidingRootNav;
 
-    private String mUser = Constant.USER;
-    private String mContact = Constant.EMAIL;
-    private String mPhone = null;
-    private String mAvatar = null;
+    private String mUser;
+    private String mContact;
+    private String mPhone;
+    private String mAvatar;
 
     private final H mHandler = H.getDefault().getHandler();
 
 
     private SlidingDrawer() {
-        if (BmobUser.isLogin()) {
-            EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
-            mUser = edgeUser.nickname;
-            if (mUser == null || mUser == "") {
-                mUser = CoreManager.getDefault().getContext().getString(R.string.not_set);
-            }
-            mContact = edgeUser.getEmail();
-            mPhone = edgeUser.getMobilePhoneNumber();
-            if (mContact == null || mContact == "") {
-                mContact = edgeUser.getMobilePhoneNumber();
-            }
-            mAvatar = edgeUser.icon;
-            LogUtils.d(EdgeActivity.TAG, " user phone = " + mPhone);
-            LogUtils.d(EdgeActivity.TAG, " user contact = " + mContact);
-            LogUtils.d(EdgeActivity.TAG, " user avatar = " + mAvatar);
-        }
+        fetchUserInfo();
     }
 
     private static final Singleton<SlidingDrawer> gDefault = new Singleton<SlidingDrawer>() {
@@ -98,9 +84,6 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     }
 
     public void initDrawer(Activity context, Bundle bundle, Toolbar toolbar) {
-//        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(context)) {
-//            releaseDrawer();
-//        }
         mContext = context;
         slidingRootNav = new SlidingRootNavBuilder(mContext)
                 .withToolbarMenuToggle(toolbar)
@@ -138,12 +121,37 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         list.setAdapter(adapter);
         adapter.setSelected(Constant.MENU_SETTINGS);
 
+        initUserInfo();
+    }
+
+    private void fetchUserInfo() {
+        mUser = mContact = mPhone = mAvatar = CoreManager.getDefault().getContext().getString(R.string.not_set);
+        if (AccountManager.getDefault().isLogin()) {
+            EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+            mUser = edgeUser.nickname;
+            if (mUser == null || mUser == "") {
+                mUser = CoreManager.getDefault().getContext().getString(R.string.not_set);
+            }
+            mContact = edgeUser.getEmail();
+            mPhone = edgeUser.getMobilePhoneNumber();
+            if (mContact == null || mContact == "") {
+                mContact = edgeUser.getMobilePhoneNumber();
+            }
+            mAvatar = edgeUser.icon;
+            LogUtils.d(EdgeActivity.TAG, " user phone = " + mPhone);
+            LogUtils.d(EdgeActivity.TAG, " user contact = " + mContact);
+            LogUtils.d(EdgeActivity.TAG, " user avatar = " + mAvatar);
+        }
+    }
+
+    public void initUserInfo() {
+        fetchUserInfo();
         ((TextView) mContext.findViewById(R.id.user)).setText(mUser);
         ((TextView) mContext.findViewById(R.id.email)).setText(mContact);
         final ImageView icon = ((ImageView) mContext.findViewById(R.id.user_avatar));
 
         if (mAvatar != null) {
-            ImageEngine.load(CoreManager.getDefault().getContext(), mAvatar, icon, R.mipmap.user);
+            ImageEngine.load(CoreManager.getDefault().getContext(), mAvatar, icon, R.drawable.svg_avatar);
         } else {
             if (Constant.LOCAL_ICON) {
                 CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {

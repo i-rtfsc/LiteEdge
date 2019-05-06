@@ -19,6 +19,7 @@ package com.journeyOS.edge;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.ads.AdView;
 import com.journeyOS.base.utils.Singleton;
@@ -105,10 +106,18 @@ public class H extends Handler {
                 SlidingDrawer.getDefault().releaseDrawer();
                 break;
             case MSG_AD_BANNER:
-                AdManager.getDefault().loadAndListener((AdView) msg.obj);
+                if (AdManager.OLD_INTERFACE) {
+                    AdManager.getDefault().loadAdBanner((AdView) msg.obj);
+                } else {
+                    AdManager.getDefault().loadBannerAd((LinearLayout) msg.obj);
+                }
                 break;
             case MSG_AD_INTERSTITIAL:
-                AdManager.getDefault().loadInterstitialAd();
+                if (AdManager.OLD_INTERFACE) {
+                    AdManager.getDefault().loadAdInterstitial();
+                } else {
+                    AdManager.getDefault().loadInterstitial();
+                }
                 break;
             default:
                 break;

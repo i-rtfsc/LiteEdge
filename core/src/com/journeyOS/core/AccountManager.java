@@ -16,8 +16,6 @@
 
 package com.journeyOS.core;
 
-import android.os.Build;
-
 import com.journeyOS.base.utils.BaseUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
@@ -26,12 +24,17 @@ import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.user.EdgeUser;
 import com.journeyOS.core.database.user.User;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
 
 public class AccountManager {
     private static final String TAG = AccountManager.class.getSimpleName();
-    private final static boolean DEBUG = "eng".equals(Build.TYPE) || "userdebug".equals(Build.TYPE);
+//    private final static boolean DEBUG = "eng".equals(Build.TYPE) || "userdebug".equals(Build.TYPE);
+
+    private static List<OnAccountListener> mListeners = new CopyOnWriteArrayList<OnAccountListener>();
 
     private AccountManager() {
     }
@@ -47,23 +50,32 @@ public class AccountManager {
         return gDefault.get();
     }
 
-
     public void login() {
         CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
             @Override
             public void run() {
                 User user = CoreManager.getDefault().getImpl(IUserProvider.class).getCurrentAccount();
                 if (!BaseUtils.isNull(user)) {
-                    EdgeUser.loginByAccount(user.userId, user.token, new LogInListener<User>() {
+                    login(user.userId, user.token);
+                }
+            }
+        });
+    }
+
+    public void login(String userId, String token) {
+        EdgeUser.loginByAccount(userId, token, new LogInListener<EdgeUser>() {
+            @Override
+            public void done(final EdgeUser edgeUser, BmobException e) {
+                if (e == null) {
+                    LogUtils.d(TAG, "login success");
+                    CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
                         @Override
-                        public void done(User user, BmobException e) {
-                            if (e == null) {
-                                LogUtils.d(TAG, "login success");
-                            } else {
-                                LogUtils.d(TAG, "login error = " + e.getMessage());
-                            }
+                        public void run() {
+                            loginSuccess(edgeUser);
                         }
                     });
+                } else {
+                    LogUtils.d(TAG, "login error = " + e.getMessage());
                 }
             }
         });
@@ -77,21 +89,41 @@ public class AccountManager {
         return EdgeUser.isLogin();
     }
 
-    //just for debug
-    public void save2Db(final String userId, final String password) {
-        if (!DEBUG) {
-            LogUtils.e(TAG, "can't save user password!!!");
-            return;
+    public void loginSuccess(EdgeUser edgeUser) {
+        for (OnAccountListener listener : mListeners) {
+            listener.onLoginSuccess(edgeUser);
         }
-        CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
-            @Override
-            public void run() {
-                User user = new User();
-                user.userId = userId;
-                user.userName = userId;
-                user.token = password;
-                CoreManager.getDefault().getImpl(IUserProvider.class).insertOrUpdateUser(user);
-            }
-        });
+    }
+
+    public void logOutSuccess() {
+        for (OnAccountListener listener : mListeners) {
+            listener.onLogOutSuccess();
+        }
+    }
+
+    public void registerAccountChangedListener(OnAccountListener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException("listener should not be null");
+        }
+
+        if (!mListeners.contains(listener)) {
+            mListeners.add(listener);
+        }
+    }
+
+    public void unregisterAccountChangedListener(OnAccountListener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException("listener should not be null");
+        }
+
+        if (mListeners.contains(listener)) {
+            mListeners.remove(listener);
+        }
+    }
+
+    public interface OnAccountListener {
+        void onLoginSuccess(EdgeUser edgeUser);
+
+        void onLogOutSuccess();
     }
 }

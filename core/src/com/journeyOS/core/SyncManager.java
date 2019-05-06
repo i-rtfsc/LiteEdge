@@ -63,7 +63,7 @@ public class SyncManager {
     }
 
     public void sync() {
-        if (BmobUser.isLogin()
+        if (AccountManager.getDefault().isLogin()
                 && SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT)) {
             EdgeBean bean = new EdgeBean();
             List<EdgeBean.Edge> edges = new ArrayList<>();
@@ -113,7 +113,7 @@ public class SyncManager {
     }
 
     public void fetchEdgeAir() {
-        if (BmobUser.isLogin()
+        if (AccountManager.getDefault().isLogin()
                 && SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT)) {
             EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
             BmobQuery<EdgeAir> edgeAirQuery = new BmobQuery<>();
@@ -192,7 +192,7 @@ public class SyncManager {
     }
 
     public void syncGesture() {
-        if (BmobUser.isLogin()
+        if (AccountManager.getDefault().isLogin()
                 && SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT)) {
             GestureBean gestureBean = new GestureBean();
             List<GestureBean.Gesture> gestures = new ArrayList<>();
