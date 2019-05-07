@@ -55,4 +55,21 @@ public class EdgeUser extends BmobUser {
     public String icon;
 
     public String backUp;
+
+    /**
+     * 管理员权限
+     */
+    public boolean manager;
+
+    /**
+     * vip用户
+     * 后续可能会做高级功能，只有购买后才能使用高级功能
+     */
+    public boolean vip;
+
+    /**
+     * 去广告截止时间
+     */
+    public long skipAdTime;
+
 }

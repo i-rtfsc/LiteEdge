@@ -151,6 +151,11 @@ public class BarrageFragment extends BaseFragment {
         CoreManager.getDefault().getImpl(IContainer.class).subActivity(mContext, BarrageSelectorFragment.newInstance(mContext), mContext.getString(R.string.barrage_whitelist));
     }
 
+    @OnClick({R2.id.barrage_filter})
+    public void listenerBarrageFilter() {
+        CoreManager.getDefault().getImpl(IContainer.class).subActivity(mContext, BarrageFliterFragment.newInstance(mContext), mContext.getString(R.string.barrage_filter));
+    }
+
     @OnClick({R2.id.barrage_postion})
     public void listenerPostion() {
         CoreManager.getDefault().getImpl(IBarrage.class).removeBarrage();

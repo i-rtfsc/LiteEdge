@@ -32,21 +32,14 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <LinearLayout
-        android:id="@+id/ad_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical"
-        android:visibility="gone" />
-
     <com.google.android.gms.ads.AdView
         android:id="@+id/ad_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ad_container"
+        android:layout_below="@id/toolbar"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/common_dimen_small"
+        android:layout_marginBottom="@dimen/common_dimen_small"
         android:visibility="gone"
         app:adSize="SMART_BANNER"
         app:adUnitId="@string/banner_ad_unit_id" />
@@ -55,7 +48,7 @@
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/ad_container" />
+        android:layout_below="@id/ad_view" />
 
 </RelativeLayout>
 

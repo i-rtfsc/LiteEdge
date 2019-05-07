@@ -50,8 +50,6 @@ import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.BmobUser;
-
 public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
 
     private Activity mContext;
@@ -105,10 +103,11 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         items.add(createItemFor(Constant.MENU_ABOUT));
         items.add(createItemFor(Constant.MENU_LEARN));
         //新增管理员选项
-        //手机号Constant.PHONE、Constant.PHONE_TEST或者DEBUG版本都认为是管理员
-        if (Constant.PHONE.equals(mPhone)
-                || Constant.PHONE_TEST.equals(mPhone)
-                || BuildConfig.DEBUG) {
+
+        EdgeUser edgeUser = AccountManager.getDefault().getCurrentUser();
+        boolean isManager = (edgeUser != null ? edgeUser.manager : false);
+        LogUtils.d(EdgeActivity.TAG, " user is manager = " + isManager);
+        if (isManager || BuildConfig.DEBUG) {
             items.add(createItemFor(Constant.MENU_ADMIN));
         }
 
@@ -126,8 +125,8 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
 
     private void fetchUserInfo() {
         mUser = mContact = mPhone = mAvatar = CoreManager.getDefault().getContext().getString(R.string.not_set);
-        if (AccountManager.getDefault().isLogin()) {
-            EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+        EdgeUser edgeUser = AccountManager.getDefault().getCurrentUser();
+        if (edgeUser != null) {
             mUser = edgeUser.nickname;
             if (mUser == null || mUser == "") {
                 mUser = CoreManager.getDefault().getContext().getString(R.string.not_set);

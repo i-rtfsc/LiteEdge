@@ -16,6 +16,8 @@
 
 package com.journeyOS.base.utils;
 
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,5 +62,28 @@ public class TimeUtils {
         long daysDiff = TimeUnit.MILLISECONDS.toDays(msDiff);
         LogUtils.d(TAG, "get days diff = [" + daysDiff + "]");
         return daysDiff;
+    }
+
+
+    public static long getNetTime() {
+        URL url = null;//取得资源对象
+        try {
+            url = new URL("http://www.baidu.com");
+            URLConnection uc = url.openConnection();//生成连接对象
+            uc.connect(); //发出连接
+            return uc.getDate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return getLocalTime();
+        }
+    }
+
+    public static long getLocalTime() {
+        try {
+            return System.currentTimeMillis();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 1557158400000l;
     }
 }

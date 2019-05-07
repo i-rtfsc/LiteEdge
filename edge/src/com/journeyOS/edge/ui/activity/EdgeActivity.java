@@ -41,7 +41,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.google.android.gms.ads.AdView;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.guide.LiteGuide;
 import com.journeyOS.base.guide.OnGuideClickListener;
@@ -99,9 +98,6 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     @BindView(R.id.ad_container)
     LinearLayout adContainer;
 
-    @BindView(R.id.ad_view)
-    AdView mAdView;
-
     //@BindView(R.id.fragment_container)
     FrameLayout mContainer;
 
@@ -143,13 +139,8 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
             Intent intent = new Intent(this, NotificationListenerService.class);
             startService(intent);
         }
-        if (AdManager.OLD_INTERFACE) {
-            AdManager.getDefault().loadAdInterstitial();
-            AdManager.getDefault().loadAdBanner(mAdView);
-        } else {
-            AdManager.getDefault().loadInterstitial();
-            AdManager.getDefault().loadBannerAd(adContainer);
-        }
+        AdManager.getDefault().loadInterstitial();
+        AdManager.getDefault().loadBannerAd(adContainer);
     }
 
     @Override
@@ -208,9 +199,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     @Override
     protected void onResume() {
         super.onResume();
-        if (!AdManager.OLD_INTERFACE) {
-            AdManager.getDefault().onResume();
-        }
+        AdManager.getDefault().onResume();
         getPermission();
         AccountManager.getDefault().registerAccountChangedListener(mListener);
     }
@@ -218,9 +207,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     @Override
     protected void onPause() {
         super.onPause();
-        if (!AdManager.OLD_INTERFACE) {
-            AdManager.getDefault().onPause();
-        }
+        AdManager.getDefault().onPause();
         AccountManager.getDefault().registerAccountChangedListener(mListener);
     }
 
@@ -228,10 +215,8 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     protected void initDataObserver(Bundle savedInstanceState) {
         super.initDataObserver(savedInstanceState);
         mBundle = savedInstanceState;
-//        if (CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
         SlidingDrawer.getDefault().setListener(this);
         SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
-//        }
     }
 
     @Override
@@ -273,7 +258,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                         }
                     });
                 } else {
-                    final EdgeUser remoteUser = BmobUser.getCurrentUser(EdgeUser.class);
+                    final EdgeUser remoteUser = AccountManager.getDefault().getCurrentUser();
                     if (remoteUser != null) {
                         if (remoteUser.icon != null) {
                             final String[] deletePaths = new String[1];

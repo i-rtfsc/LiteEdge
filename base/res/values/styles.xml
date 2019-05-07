@@ -29,6 +29,7 @@
         <item name="toolbarNavigationButtonStyle">@style/base_ToolbarNavigationButtonStyle</item>
         <item name="android:itemBackground">@color/white</item>
         <item name="android:windowAnimationStyle">@style/activityAnimation</item>
+        <item name="buttonStyle">@style/buttonStyle</item>
     </style>
 
     <style name="base_ToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
@@ -108,4 +109,10 @@
         <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
         <item name="colorControlActivated">#FFCC00</item>
     </style>
+
+    <style name="buttonStyle" parent="android:Widget.Material.Button">
+        <item name="android:background">@drawable/material_button</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
 </resources>

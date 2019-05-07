@@ -96,7 +96,6 @@ public class BaseUtils {
     public static void openBrowser(@NonNull Context context, @NonNull String url) {
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.setPackage("com.android.browser");
         try {
             AppUtils.startIntentInternal(context, intent);
         } catch (ActivityNotFoundException e) {

@@ -109,7 +109,7 @@ public class AppConfig {
                             ", installationId = [" + bmobInstallation.getInstallationId() + "]");
                     final Installation installation = new Installation();
                     if (AccountManager.getDefault().isLogin()) {
-                        EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+                        EdgeUser edgeUser = AccountManager.getDefault().getCurrentUser();
                         installation.author = edgeUser;
                     }
                     installation.brand = DeviceUtils.getDeviceBrand();

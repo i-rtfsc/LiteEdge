@@ -27,6 +27,7 @@ import com.journeyOS.core.database.user.User;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
 
@@ -36,7 +37,12 @@ public class AccountManager {
 
     private static List<OnAccountListener> mListeners = new CopyOnWriteArrayList<OnAccountListener>();
 
+    private EdgeUser mCurrentUser;
+
     private AccountManager() {
+        if (isLogin()) {
+            mCurrentUser = BmobUser.getCurrentUser(EdgeUser.class);
+        }
     }
 
     private static final Singleton<AccountManager> gDefault = new Singleton<AccountManager>() {
@@ -67,6 +73,7 @@ public class AccountManager {
             @Override
             public void done(final EdgeUser edgeUser, BmobException e) {
                 if (e == null) {
+                    mCurrentUser = edgeUser;
                     LogUtils.d(TAG, "login success");
                     CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
                         @Override
@@ -87,6 +94,16 @@ public class AccountManager {
 
     public boolean isLogin() {
         return EdgeUser.isLogin();
+    }
+
+    public EdgeUser getCurrentUser() {
+        if (mCurrentUser == null) {
+            if (isLogin()) {
+                mCurrentUser = BmobUser.getCurrentUser(EdgeUser.class);
+            }
+        }
+
+        return mCurrentUser;
     }
 
     public void loginSuccess(EdgeUser edgeUser) {

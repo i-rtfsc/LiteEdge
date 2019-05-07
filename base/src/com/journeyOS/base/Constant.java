@@ -87,6 +87,9 @@ public class Constant {
     public static final String BARRAGE_SPEED = "barrageSpeed";
     public static final int BARRAGE_SPEED_DEFAULT = 3;
 
+    public static final String BARRAGE_FLITER = "barrageFliter";
+    public static final String BARRAGE_FLITER_DEFAULT = null;
+
     public static final String PORTRAIT = "portrait";
     public static final int PORTRAIT_DEFAULT = 4;
 

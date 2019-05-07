@@ -43,9 +43,18 @@
 
             <com.journeyOS.base.widget.SettingView
                 android:id="@+id/barrage_selector"
-                style="@style/bottom_layout"
+                style="@style/mid_layout"
                 settings:settingIcon="@drawable/svg_whitelist"
                 settings:settingTitle="@string/barrage_whitelist" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_filter"
+                style="@style/bottom_layout"
+                settings:settingIcon="@drawable/svg_label"
+                settings:settingSummary="@string/barrage_filter_summary"
+                settings:settingTitle="@string/barrage_filter" />
 
         </LinearLayout>
 

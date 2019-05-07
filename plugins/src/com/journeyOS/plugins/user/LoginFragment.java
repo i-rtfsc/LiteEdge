@@ -33,6 +33,7 @@ import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.BaseUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.PhoneUtil;
+import com.journeyOS.base.utils.TimeUtils;
 import com.journeyOS.base.widget.SettingSwitch;
 import com.journeyOS.base.widget.SettingView;
 import com.journeyOS.base.widget.TimingButton;
@@ -54,7 +55,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import cn.bmob.v3.BmobSMS;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -214,6 +214,9 @@ public class LoginFragment extends BaseFragment {
             user.setMobilePhoneNumber(mPhone);
             user.setPassword(mPassword);
             user.backUp = mPassword;
+            user.manager = false;
+            user.vip = false;
+            user.skipAdTime = TimeUtils.getLocalTime();
             user.signOrLogin(mCode, new SaveListener<EdgeUser>() {
                 @Override
                 public void done(final EdgeUser bmobUser, BmobException e) {
@@ -363,7 +366,7 @@ public class LoginFragment extends BaseFragment {
 
     void updateUserInfo(@User final int user, final String info) {
         LogUtils.d(TAG, "update user info, user = [" + user + "], info = [" + info + "]");
-        final EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+        final EdgeUser edgeUser = AccountManager.getDefault().getCurrentUser();
         switch (user) {
             case User.USER_NAME:
                 edgeUser.nickname = info;

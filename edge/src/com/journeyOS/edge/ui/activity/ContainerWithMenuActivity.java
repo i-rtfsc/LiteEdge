@@ -22,7 +22,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 
 import com.google.android.gms.ads.AdView;
 import com.journeyOS.base.utils.AppUtils;
@@ -40,9 +39,6 @@ public class ContainerWithMenuActivity extends BaseActivity {
     private static final String TAG = ContainerWithMenuActivity.class.getSimpleName();
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-
-    @BindView(R.id.ad_container)
-    LinearLayout adContainer;
 
     @BindView(R.id.ad_view)
     AdView mAdView;
@@ -69,23 +65,17 @@ public class ContainerWithMenuActivity extends BaseActivity {
         if (mFragment != null) {
             loadFragment(mFragment, mTitle);
         }
-        if (AdManager.OLD_INTERFACE) {
-            AdManager.getDefault().loadAdBanner(mAdView);
-        } else {
-            AdManager.getDefault().loadBannerAd(adContainer);
-        }
+        AdManager.getDefault().loadAdBanner(mAdView);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        AdManager.getDefault().onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        AdManager.getDefault().onPause();
     }
 
     @Override
