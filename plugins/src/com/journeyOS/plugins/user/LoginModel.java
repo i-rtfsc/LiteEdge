@@ -19,6 +19,7 @@ package com.journeyOS.plugins.user;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.journeyOS.base.utils.LogUtils;
+import com.journeyOS.core.AccountManager;
 import com.journeyOS.core.StatusDataResource;
 import com.journeyOS.core.database.user.EdgeUser;
 import com.journeyOS.core.viewmodel.BaseViewModel;
@@ -47,7 +48,7 @@ public class LoginModel extends BaseViewModel {
             @Override
             public void done(BmobUser user, BmobException e) {
                 if (e == null) {
-                    EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+                    EdgeUser edgeUser = AccountManager.getDefault().getCurrentUser();
                     mUserInfo.postValue(StatusDataResource.success(edgeUser));
                 } else {
                     LogUtils.e(TAG, "fetch user info error = " + e.getMessage());

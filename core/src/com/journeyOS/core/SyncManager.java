@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -63,7 +62,7 @@ public class SyncManager {
     }
 
     public void sync() {
-        if (BmobUser.isLogin()
+        if (AccountManager.getDefault().isLogin()
                 && SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT)) {
             EdgeBean bean = new EdgeBean();
             List<EdgeBean.Edge> edges = new ArrayList<>();
@@ -84,7 +83,7 @@ public class SyncManager {
             bean.edge = edges;
 
             EdgeAir edgeAir = new EdgeAir();
-            EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+            EdgeUser edgeUser = AccountManager.getDefault().getCurrentUser();
             edgeAir.author = edgeUser;
             edgeAir.config = JsonHelper.toJson(bean);
             if (Constant.DEBUG) LogUtils.d(TAG, "sync config = " + edgeAir.config);
@@ -113,9 +112,9 @@ public class SyncManager {
     }
 
     public void fetchEdgeAir() {
-        if (BmobUser.isLogin()
+        if (AccountManager.getDefault().isLogin()
                 && SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT)) {
-            EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+            EdgeUser edgeUser = AccountManager.getDefault().getCurrentUser();
             BmobQuery<EdgeAir> edgeAirQuery = new BmobQuery<>();
             edgeAirQuery.addWhereEqualTo(AUTHOR, edgeUser);
             edgeAirQuery.findObjects(new FindListener<EdgeAir>() {
@@ -192,7 +191,7 @@ public class SyncManager {
     }
 
     public void syncGesture() {
-        if (BmobUser.isLogin()
+        if (AccountManager.getDefault().isLogin()
                 && SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT)) {
             GestureBean gestureBean = new GestureBean();
             List<GestureBean.Gesture> gestures = new ArrayList<>();
@@ -219,7 +218,7 @@ public class SyncManager {
             gestureBean.gestures = gestures;
 
             EdgeAir edgeAir = new EdgeAir();
-            EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+            EdgeUser edgeUser = AccountManager.getDefault().getCurrentUser();
             edgeAir.author = edgeUser;
             edgeAir.gestures = JsonHelper.toJson(gestureBean);
             if (Constant.DEBUG) LogUtils.d(TAG, "sync config = " + edgeAir.config);

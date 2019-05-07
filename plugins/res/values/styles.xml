@@ -35,16 +35,15 @@
         <item name="android:paddingRight">@dimen/search_icon_padding</item>
     </style>
 
-    <style name="settings" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/lightskyblue</item>
+    <style name="settings" parent="base_AppTheme">
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>
         <item name="android:windowAnimationStyle">@style/activityAnimation</item>
     </style>
 
-    <style name="learn" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <style name="learn" parent="base_AppTheme">
         <item name="android:windowFullscreen">true</item>
-        <item name="colorPrimary">@color/lightskyblue</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>
         <item name="android:windowAnimationStyle">@style/activityAnimation</item>

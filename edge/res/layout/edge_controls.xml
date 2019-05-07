@@ -93,6 +93,7 @@
             app:isb_max="300"
             app:isb_min="0"
             app:isb_seek_smoothly="true"
+            app:isb_show_indicator="circular_bubble"
             app:isb_thumb_color="@color/colorPrimary"
             app:isb_track_progress_color="@color/colorPrimary" />
 
@@ -121,6 +122,7 @@
             app:isb_indicator_color="@color/colorPrimary"
             app:isb_min="100"
             app:isb_seek_smoothly="true"
+            app:isb_show_indicator="circular_bubble"
             app:isb_thumb_color="@color/colorPrimary"
             app:isb_track_progress_color="@color/colorPrimary" />
 
@@ -148,6 +150,7 @@
             android:layout_height="wrap_content"
             app:isb_indicator_color="@color/colorPrimary"
             app:isb_seek_smoothly="true"
+            app:isb_show_indicator="circular_bubble"
             app:isb_thumb_color="@color/colorPrimary"
             app:isb_track_progress_color="@color/colorPrimary" />
 

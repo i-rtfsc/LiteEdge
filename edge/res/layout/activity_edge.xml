@@ -15,10 +15,10 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_background"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -32,22 +32,22 @@
         app:theme="@style/ToolbarTheme"
         app:titleTextAppearance="@style/ToolbarTitle" />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/ad_view"
+    <LinearLayout
+        android:id="@+id/ad_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:layout_centerHorizontal="true"
-        android:background="@color/divider_secondary_dark"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id" />
+        android:layout_marginTop="@dimen/common_dimen_small"
+        android:layout_marginBottom="@dimen/common_dimen_small"
+        android:orientation="vertical"
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/ad_view"
-        android:background="@color/divider_secondary_dark" />
+        android:layout_below="@id/ad_container" />
 
 </LinearLayout>
 

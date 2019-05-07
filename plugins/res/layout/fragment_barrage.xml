@@ -18,7 +18,6 @@
     xmlns:settings="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_background"
     android:fitsSystemWindows="true"
     android:scrollbars="none">
 
@@ -44,9 +43,18 @@
 
             <com.journeyOS.base.widget.SettingView
                 android:id="@+id/barrage_selector"
-                style="@style/bottom_layout"
+                style="@style/mid_layout"
                 settings:settingIcon="@drawable/svg_whitelist"
                 settings:settingTitle="@string/barrage_whitelist" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_filter"
+                style="@style/bottom_layout"
+                settings:settingIcon="@drawable/svg_label"
+                settings:settingSummary="@string/barrage_filter_summary"
+                settings:settingTitle="@string/barrage_filter" />
 
         </LinearLayout>
 
@@ -57,9 +65,17 @@
                 android:text="@string/barrage_style" />
 
             <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_postion"
+                style="@style/mid_layout"
+                settings:settingIcon="@drawable/svg_barrage_postion"
+                settings:settingSummary="@string/barrage_postion_summary"
+                settings:settingTitle="@string/barrage_postion_title" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
                 android:id="@+id/barrage_speed"
                 style="@style/mid_layout"
-                android:visibility="visible"
                 settings:settingIcon="@drawable/svg_run"
                 settings:settingRightSummary="@string/barrage_speed_default"
                 settings:settingSummary="@string/barrage_speed_summary"

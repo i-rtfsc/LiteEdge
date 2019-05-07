@@ -15,6 +15,17 @@
   -->
 
 <resources>
+    <string name="number_1" translatable="false">1</string>
+    <string name="number_2" translatable="false">2</string>
+    <string name="number_3" translatable="false">3</string>
+    <string name="number_4" translatable="false">4</string>
+    <string name="number_5" translatable="false">5</string>
+    <string name="number_6" translatable="false">6</string>
+    <string name="number_7" translatable="false">7</string>
+    <string name="number_8" translatable="false">8</string>
+    <string name="number_9" translatable="false">9</string>
+    <string name="number_10" translatable="false">10</string>
+
     <string name="app_name">Edge</string>
     <string name="daemon">守护进程</string>
     <string name="exclude">自动隐藏</string>
@@ -87,6 +98,8 @@
     <string name="barrage_toogle">弹幕</string>
     <string name="barrage_debug">弹幕测试</string>
     <string name="barrage_whitelist">弹幕白名单</string>
+    <string name="barrage_filter">弹幕过滤</string>
+    <string name="barrage_filter_summary">自定义包含关键字时不出现弹幕</string>
     <string name="notification_permission">弹幕权限</string>
 
     <string name="radius_format">弧度: %1$d</string>
@@ -97,10 +110,6 @@
 
     <string name="count">Edge数量</string>
     <string name="count_default">默认</string>
-    <string name="count_6">6</string>
-    <string name="count_7">7</string>
-    <string name="count_8">8</string>
-    <string name="count_9">9</string>
 
     <string name="count_summary">设置Edge数量，建议设置7~8个</string>
     <string name="statusbar_debug">Edge状态栏</string>
@@ -229,17 +238,8 @@
     <string name="device_manager_title">设备管理者</string>
     <string name="device_manager_summary">因为Android的限制，在进程重启后辅助权限自动失效。申请设备管理者能保证:\n 1. 进程保活(非100%)\n 2. 辅助权限不自动失效\n申请设备管理者时程序会闪退一次，但依然能申请成功，望知。\n</string>
 
-    <string name="level_1">1档</string>
-    <string name="level_2">2档</string>
-    <string name="level_3">3档</string>
-    <string name="level_4">4档</string>
-    <string name="level_5">5档</string>
-    <string name="level_6">6档</string>
-    <string name="level_7">7档</string>
-    <string name="level_8">8档</string>
-    <string name="level_9">9档</string>
-    <string name="level_10">10档</string>
-
+    <string name="barrage_postion_title">弹幕位置</string>
+    <string name="barrage_postion_summary">数字越小越靠屏幕顶部</string>
 
     <string name="barrage_speed_title">弹幕速度</string>
     <string name="barrage_speed_summary">档位越高弹幕速度越快</string>
@@ -251,5 +251,7 @@
     <string name="barrage_speed_fast">快</string>
     <string name="barrage_speed_fast_x">很快</string>
     <string name="barrage_speed_fast_xx">最快</string>
+
+    <string name="barrage_filter_add_hint">添加关键字</string>
 
 </resources>

@@ -29,6 +29,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -38,8 +39,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
-import com.google.android.gms.ads.AdView;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.guide.LiteGuide;
 import com.journeyOS.base.guide.OnGuideClickListener;
@@ -49,6 +50,7 @@ import com.journeyOS.base.utils.BitmapUtils;
 import com.journeyOS.base.utils.FileIOUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.UIUtils;
+import com.journeyOS.core.AccountManager;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.SyncMarket;
 import com.journeyOS.core.api.edgeprovider.IAppProvider;
@@ -93,8 +95,8 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @BindView(R.id.ad_view)
-    AdView adView;
+    @BindView(R.id.ad_container)
+    LinearLayout adContainer;
 
     //@BindView(R.id.fragment_container)
     FrameLayout mContainer;
@@ -122,11 +124,6 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
             }
         });
 
-        boolean barrage = SpUtils.getInstant().getBoolean(Constant.BARRAGE, Constant.BARRAGE_DEFAULT);
-//        if (barrage) {
-        Intent intent = new Intent(this, NotificationListenerService.class);
-        startService(intent);
-//        }
     }
 
     @Override
@@ -134,9 +131,16 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
         UIUtils.setStatusBarColor(this, this.getResources().getColor(R.color.colorPrimary));
         setSupportActionBar(mToolbar);
         mContainer = findViewById(R.id.container);
-        AdManager.getDefault().loadAndListener(adView);
+        PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = pm.isScreenOn();
+        if (isScreenOn) {
+            EdgeServiceManager.getDefault().bindEgdeService();
 
-        EdgeServiceManager.getDefault().bindEgdeService();
+            Intent intent = new Intent(this, NotificationListenerService.class);
+            startService(intent);
+        }
+        AdManager.getDefault().loadInterstitial();
+        AdManager.getDefault().loadBannerAd(adContainer);
     }
 
     @Override
@@ -195,29 +199,24 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
     @Override
     protected void onResume() {
         super.onResume();
+        AdManager.getDefault().onResume();
         getPermission();
-//        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
-//            SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
-//            SlidingDrawer.getDefault().setListener(this);
-//        }
+        AccountManager.getDefault().registerAccountChangedListener(mListener);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        if (!CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
-//            mHandler.sendEmptyMessageDelayed(H.MSG_DRAWER_RELEASE, 0);
-//        }
+        AdManager.getDefault().onPause();
+        AccountManager.getDefault().registerAccountChangedListener(mListener);
     }
 
     @Override
     protected void initDataObserver(Bundle savedInstanceState) {
         super.initDataObserver(savedInstanceState);
         mBundle = savedInstanceState;
-//        if (CoreManager.getDefault().getImpl(IPermission.class).isAdminActive(mContext)) {
         SlidingDrawer.getDefault().setListener(this);
         SlidingDrawer.getDefault().initDrawer(this, mBundle, mToolbar);
-//        }
     }
 
     @Override
@@ -259,7 +258,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                         }
                     });
                 } else {
-                    final EdgeUser remoteUser = BmobUser.getCurrentUser(EdgeUser.class);
+                    final EdgeUser remoteUser = AccountManager.getDefault().getCurrentUser();
                     if (remoteUser != null) {
                         if (remoteUser.icon != null) {
                             final String[] deletePaths = new String[1];
@@ -292,7 +291,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                                                 public void onSuccess(List<BmobFile> files, List<String> urls) {
                                                     LogUtils.d(TAG, "success, urls = [" + urls + "]");
                                                     if (urls != null && urls.size() > 0) {
-                                                        if (BmobUser.isLogin()) {
+                                                        if (AccountManager.getDefault().isLogin()) {
                                                             EdgeUser edgeUser = new EdgeUser();
                                                             edgeUser.icon = urls.get(0);
                                                             edgeUser.update(remoteUser.getObjectId(), new UpdateListener() {
@@ -347,8 +346,10 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
 
     @Override
     public void onUpdateUserIcon() {
-        if (!BmobUser.isLogin()) {
+        if (!AccountManager.getDefault().isLogin()) {
             Toasty.warning(mContext, mContext.getResources().getString(R.string.please_login)).show();
+            handleItemSelected(Constant.MENU_USER);
+            SlidingDrawer.getDefault().closeMenu(true);
             return;
         }
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -526,4 +527,16 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
             handleItemSelected(index - 1);
         }
     }
+
+    AccountManager.OnAccountListener mListener = new AccountManager.OnAccountListener() {
+        @Override
+        public void onLoginSuccess(EdgeUser edgeUser) {
+            SlidingDrawer.getDefault().initUserInfo();
+        }
+
+        @Override
+        public void onLogOutSuccess() {
+
+        }
+    };
 }

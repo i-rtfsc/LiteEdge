@@ -55,7 +55,7 @@ public class Constant {
     public static final boolean USE_CACHE_DEFAULT = true;
 
     public static final String BARRAGE_ICONO = "barrageIcon";
-    public static final boolean BARRAGE_ICONO_DEFAULT = false;
+    public static final boolean BARRAGE_ICONO_DEFAULT = true;
 
     public static final String EDGE_CONUT = "edgeCount";
     public static final int EDGE_CONUT_DEFAULT = 7;
@@ -81,8 +81,14 @@ public class Constant {
     public static final String BARRAGE_BACKGROUND_COLOR = "barrageBackgroundColor";
     public static final int BARRAGE_BACKGROUND_COLOR_DEFAULT = 0;
 
+    public static final String BARRAGE_POSTION = "barragePostion";
+    public static final int BARRAGE_POSTION_DEFAULT = 100;
+
     public static final String BARRAGE_SPEED = "barrageSpeed";
     public static final int BARRAGE_SPEED_DEFAULT = 3;
+
+    public static final String BARRAGE_FLITER = "barrageFliter";
+    public static final String BARRAGE_FLITER_DEFAULT = null;
 
     public static final String PORTRAIT = "portrait";
     public static final int PORTRAIT_DEFAULT = 4;

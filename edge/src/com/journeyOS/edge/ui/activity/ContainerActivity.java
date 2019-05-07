@@ -36,7 +36,7 @@ public class ContainerActivity extends BaseActivity {
     Toolbar mToolbar;
 
     @BindView(R.id.ad_view)
-    AdView adView;
+    AdView mAdView;
 
     private static Fragment mFragment = null;
     private static String mTitle;
@@ -60,7 +60,17 @@ public class ContainerActivity extends BaseActivity {
         if (mFragment != null) {
             loadFragment(mFragment, mTitle);
         }
-        AdManager.getDefault().loadAndListener(adView);
+        AdManager.getDefault().loadAdBanner(mAdView);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     void loadFragment(Fragment fragment, String title) {

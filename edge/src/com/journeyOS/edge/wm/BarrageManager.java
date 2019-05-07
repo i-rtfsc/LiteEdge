@@ -17,8 +17,6 @@
 package com.journeyOS.edge.wm;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.Gravity;
@@ -32,6 +30,9 @@ import com.journeyOS.barrage.BarrageView;
 import com.journeyOS.barrage.control.speed.SpeedController;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
+import com.journeyOS.base.utils.AppUtils;
+import com.journeyOS.base.utils.Base64Util;
+import com.journeyOS.base.utils.JsonHelper;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.base.utils.UIUtils;
@@ -42,8 +43,9 @@ import com.journeyOS.core.type.BarrageState;
 import com.journeyOS.edge.R;
 import com.journeyOS.edge.barrage.BarrageEntity;
 import com.journeyOS.edge.barrage.BarrageHelper;
-import com.journeyOS.edge.music.MusicManager;
 import com.journeyOS.i007Service.core.notification.Notification;
+
+import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
@@ -117,6 +119,16 @@ public class BarrageManager {
         });
     }
 
+    public void sendBarrageTest() {
+        if (mRootView == null) {
+            initBarrage();
+        }
+
+        Bitmap bitmap = UIUtils.drawableToBitmap(mContext.getResources().getDrawable(R.mipmap.user));
+        Bitmap circleBitmap = UIUtils.getCircularBitmap(bitmap);
+        sendBarrage(circleBitmap, "用户名", "弹幕消息测试~");
+    }
+
     public void sendBarrage(Notification notification) {
         StateMachine.setBarrageState(BarrageState.SHOW);
         setPackageName(notification.getPackageName());
@@ -132,20 +144,24 @@ public class BarrageManager {
         barrageEntity.text = notification.getText();
 
         if (SpUtils.getInstant().getBoolean(Constant.BARRAGE_ICONO, Constant.BARRAGE_ICONO_DEFAULT)) {
-            int iconId = notification.extras.getInt(Notification.EXTRA_SMALL_ICON);
-            LogUtils.d(TAG, "get icon from notification, icon id = " + iconId);
-            if (iconId > 0) {
-                //https://stackoverflow.com/questions/40325307/how-to-get-an-image-from-another-apps-notification
-                //Resources resources = mContext.getPackageManager().getResourcesForApplication(notification.getPackageName());
-                try {
-                    Resources resources = mContext.getPackageManager().getResourcesForApplication(MusicManager.MUSIC_QQ);
-                    Drawable icon = resources.getDrawable(iconId);
-                    if (icon != null) {
-                        barrageEntity.avatar = UIUtils.getCircularBitmap(UIUtils.drawableToBitmap(icon));
-                    }
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
+//            int iconId = notification.extras.getInt(Notification.EXTRA_SMALL_ICON);
+//            LogUtils.d(TAG, "get icon from notification, icon id = " + iconId);
+//            if (iconId > 0) {
+//                //https://stackoverflow.com/questions/40325307/how-to-get-an-image-from-another-apps-notification
+//                //Resources resources = mContext.getPackageManager().getResourcesForApplication(notification.getPackageName());
+//                try {
+//                    Resources resources = mContext.getPackageManager().getResourcesForApplication(MusicManager.MUSIC_QQ);
+//                    Drawable icon = resources.getDrawable(iconId);
+//                    if (icon != null) {
+//                        barrageEntity.avatar = UIUtils.getCircularBitmap(UIUtils.drawableToBitmap(icon));
+//                    }
+//                } catch (PackageManager.NameNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+            Drawable icon = AppUtils.getAppIcon(mContext, notification.getPackageName());
+            if (icon != null) {
+                barrageEntity.avatar = UIUtils.getCircularBitmap(UIUtils.drawableToBitmap(icon));
             }
         }
 
@@ -153,6 +169,14 @@ public class BarrageManager {
     }
 
     public void sendBarrage(BarrageEntity barrageEntity) {
+        if (barrageEntity != null) {
+            boolean isSkip = skipBarrage(barrageEntity.name, barrageEntity.text);
+            if (isSkip) {
+                LogUtils.i(TAG, "skip this barrage!");
+                return;
+            }
+        }
+
         if (mRootView == null) {
             initBarrage();
         }
@@ -174,17 +198,13 @@ public class BarrageManager {
         }
     }
 
-    public void sendBarrageTest() {
-        if (mRootView == null) {
-            initBarrage();
+    public void sendBarrage(Bitmap bitmap, String name, String text) {
+        boolean isSkip = skipBarrage(name, text);
+        if (isSkip) {
+            LogUtils.i(TAG, "skip this barrage!");
+            return;
         }
 
-        Bitmap bitmap = UIUtils.drawableToBitmap(mContext.getResources().getDrawable(R.mipmap.user));
-        Bitmap circleBitmap = UIUtils.getCircularBitmap(bitmap);
-        sendBarrage(circleBitmap, "用户名", "弹幕消息测试~");
-    }
-
-    public void sendBarrage(Bitmap bitmap, String name, String text) {
         if (mRootView == null) {
             initBarrage();
         }
@@ -212,6 +232,26 @@ public class BarrageManager {
         }
     }
 
+    public boolean skipBarrage(String name, String text) {
+        boolean isSkip = false;
+        String json = SpUtils.getInstant().getString(Constant.BARRAGE_FLITER, Constant.BARRAGE_FLITER_DEFAULT);
+        if (json != null) {
+            List<String> fliters = JsonHelper.fromJson(Base64Util.fromBase64(json), List.class);
+            for (String fliter : fliters) {
+                if (name != null && name.toLowerCase().contains(fliter.toLowerCase())) {
+                    isSkip = true;
+                    break;
+                }
+
+                if (text != null && text.toLowerCase().contains(fliter.toLowerCase())) {
+                    isSkip = true;
+                    break;
+                }
+            }
+        }
+        return isSkip;
+    }
+
     public void hideBarrage() {
         StateMachine.setBarrageState(BarrageState.HIDE);
         LogUtils.d(TAG, "wann remove barrage view!");
@@ -228,7 +268,7 @@ public class BarrageManager {
         LayoutParams params = WindowUitls.getBaseLayoutParams();
         params.flags = params.flags | LayoutParams.FLAG_SPLIT_TOUCH;
         params.gravity = Gravity.TOP;
-        params.y = UIUtils.getStatusBarHeight(mContext) / 4;
+        params.y = SpUtils.getInstant().getInt(Constant.BARRAGE_POSTION, Constant.BARRAGE_POSTION_DEFAULT);
         params.width = LayoutParams.MATCH_PARENT;
         params.height = 110;
         return params;

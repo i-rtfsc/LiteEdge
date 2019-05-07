@@ -21,7 +21,6 @@ import android.content.Context;
 import android.os.Environment;
 
 import com.facebook.stetho.Stetho;
-import com.google.android.gms.ads.MobileAds;
 import com.journeyOS.base.device.DeviceUtils;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.FileIOUtils;
@@ -50,8 +49,6 @@ public class AppConfig {
     private static final String APP_NAME = "edge";
     private static final String BUGLY_APPID = "6268c7a221";
 
-    private static final String ADMOB_APPID = "ca-app-pub-7876057690602353~3648682075";
-
     public static void initialize(Application context) {
         initANRWatch(context);
         initCrashReport(context);
@@ -59,7 +56,6 @@ public class AppConfig {
         initSharedPreference(context);
         initToastyConfig(context);
         initBmob(context);
-        initAd(context);
     }
 
     private static void initCrashReport(Context context) {
@@ -111,9 +107,9 @@ public class AppConfig {
                     String objectId = bmobInstallation.getObjectId();
                     LogUtils.d("init bmob installation, objectId = [" + objectId + "]" +
                             ", installationId = [" + bmobInstallation.getInstallationId() + "]");
-                    Installation installation = new Installation();
+                    final Installation installation = new Installation();
                     if (AccountManager.getDefault().isLogin()) {
-                        EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+                        EdgeUser edgeUser = AccountManager.getDefault().getCurrentUser();
                         installation.author = edgeUser;
                     }
                     installation.brand = DeviceUtils.getDeviceBrand();
@@ -135,7 +131,4 @@ public class AppConfig {
         BmobPush.startWork(context);
     }
 
-    private static void initAd(Application context) {
-        MobileAds.initialize(context, ADMOB_APPID);
-    }
 }
