@@ -95,7 +95,7 @@ public final class BarrageHelper {
         if (entity.type == BarrageEntity.BARRAGE_TYPE_USERCHAT) {
             // 图像
             if (entity.avatar != null) {
-                int avatarSize = DimensionUtil.dpToPx(mContext, 30);
+                int avatarSize = DimensionUtil.dpToPx(mContext, SpUtils.getInstant().getInt(Constant.BARRAGE_AVATAR_SIZE, Constant.BARRAGE_AVATAR_SIZE_DEFAULT));
                 barrageModel.avatarWidth = avatarSize;
                 barrageModel.avatarHeight = avatarSize;
                 barrageModel.avatar = entity.avatar;
@@ -112,7 +112,7 @@ public final class BarrageHelper {
                 }
                 spannableString.setSpan(new ForegroundColorSpan(nameColor), 0, name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                barrageModel.textSize = DimensionUtil.spToPx(mContext, 14);
+                barrageModel.textSize = DimensionUtil.spToPx(mContext, SpUtils.getInstant().getInt(Constant.BARRAGE_TEXT_SIZE, Constant.BARRAGE_TEXT_SIZE_DEFAULT));
                 int textColor = SpUtils.getInstant().getInt(Constant.BARRAGE_SUMMARY_COLOR, Constant.BARRAGE_SUMMARY_COLOR_DEFAULT);
                 if (textColor == 0) {
                     textColor = ContextCompat.getColor(mContext, R.color.lavender);
@@ -129,10 +129,10 @@ public final class BarrageHelper {
 
                 barrageModel.textBackground = ContextCompat.getDrawable(mContext, R.drawable.corners);
                 barrageModel.textBackground.setColorFilter(backgroundColor, PorterDuff.Mode.SRC);
-                barrageModel.textBackgroundMarginLeft = DimensionUtil.dpToPx(mContext, 15);
-                barrageModel.textBackgroundPaddingTop = DimensionUtil.dpToPx(mContext, 3);
-                barrageModel.textBackgroundPaddingBottom = DimensionUtil.dpToPx(mContext, 3);
-                barrageModel.textBackgroundPaddingRight = DimensionUtil.dpToPx(mContext, 15);
+                barrageModel.textBackgroundMarginLeft = DimensionUtil.dpToPx(mContext, 10);
+                barrageModel.textBackgroundPaddingTop = DimensionUtil.dpToPx(mContext, 2);
+                barrageModel.textBackgroundPaddingBottom = DimensionUtil.dpToPx(mContext, 2);
+                barrageModel.textBackgroundPaddingRight = DimensionUtil.dpToPx(mContext, 12);
 
                 barrageModel.enableTouch(true);
                 barrageModel.setOnTouchCallBackListener(new OnBarrageTouchListener() {

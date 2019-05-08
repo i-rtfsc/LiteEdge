@@ -18,6 +18,7 @@ package com.journeyOS.core.database.music;
 
 import cn.bmob.v3.BmobObject;
 
+@Deprecated
 public class MusicAir extends BmobObject {
 
     public String packageName;

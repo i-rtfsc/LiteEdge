@@ -68,6 +68,7 @@
                 android:id="@+id/barrage_postion"
                 style="@style/mid_layout"
                 settings:settingIcon="@drawable/svg_barrage_postion"
+                settings:settingRightSummary=""
                 settings:settingSummary="@string/barrage_postion_summary"
                 settings:settingTitle="@string/barrage_postion_title" />
 
@@ -84,15 +85,22 @@
             <View style="@style/bg_line" />
 
             <com.journeyOS.base.widget.SettingView
-                android:id="@+id/barrage_click"
+                android:id="@+id/barrage_avatar_size"
                 style="@style/mid_layout"
-                settings:settingIcon="@drawable/svg_click"
-                settings:settingRightSummary="@string/barrage_click_not_feedback"
-                settings:settingTitle="@string/barrage_click_title" />
+                settings:settingIcon="@drawable/svg_avatar"
+                settings:settingRightSummary=""
+                settings:settingTitle="@string/barrage_avatar_size" />
 
-            <View
-                style="@style/bg_line"
-                android:visibility="visible" />
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_text_size"
+                style="@style/mid_layout"
+                settings:settingIcon="@drawable/svg_big_little"
+                settings:settingRightSummary=""
+                settings:settingTitle="@string/barrage_text_size" />
+
+            <View style="@style/bg_line" />
 
             <com.journeyOS.base.widget.SettingView
                 android:id="@+id/barrage_title"
@@ -116,10 +124,19 @@
 
             <com.journeyOS.base.widget.SettingView
                 android:id="@+id/barrage_background"
-                style="@style/bottom_layout"
+                style="@style/mid_layout"
                 settings:settingIcon="@drawable/svg_background"
                 settings:settingRightSummary="@string/barrage_current_color"
                 settings:settingTitle="@string/barrage_background_color" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_click"
+                style="@style/bottom_layout"
+                settings:settingIcon="@drawable/svg_click"
+                settings:settingRightSummary="@string/barrage_click_not_feedback"
+                settings:settingTitle="@string/barrage_click_title" />
 
         </LinearLayout>
 

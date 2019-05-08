@@ -42,7 +42,7 @@ import com.journeyOS.core.CoreManager;
 import com.journeyOS.edge.R;
 import com.journeyOS.edge.wm.BarrageManager;
 
-
+@Deprecated
 public class NeteaseMusic {
     private static final String TAG = NeteaseMusic.class.getSimpleName();
 

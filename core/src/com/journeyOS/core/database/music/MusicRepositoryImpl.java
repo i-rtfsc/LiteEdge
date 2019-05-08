@@ -24,6 +24,7 @@ import com.journeyOS.core.database.DBHelper;
 import com.journeyOS.core.database.EdgeDatabase;
 import com.journeyOS.literouter.annotation.ARouterInject;
 
+@Deprecated
 @ARouterInject(api = IMusicProvider.class)
 public class MusicRepositoryImpl implements IMusicProvider {
     private static final String TAG = MusicRepositoryImpl.class.getSimpleName();

@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.journeyOS.barrage.BarrageParentView;
 import com.journeyOS.barrage.BarrageView;
 import com.journeyOS.barrage.control.speed.SpeedController;
+import com.journeyOS.barrage.model.utils.DimensionUtil;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.AppUtils;
@@ -270,7 +271,7 @@ public class BarrageManager {
         params.gravity = Gravity.TOP;
         params.y = SpUtils.getInstant().getInt(Constant.BARRAGE_POSTION, Constant.BARRAGE_POSTION_DEFAULT);
         params.width = LayoutParams.MATCH_PARENT;
-        params.height = 110;
+        params.height = (int) (1.5 * DimensionUtil.dpToPx(mContext, SpUtils.getInstant().getInt(Constant.BARRAGE_AVATAR_SIZE, Constant.BARRAGE_AVATAR_SIZE_DEFAULT)));
         return params;
     }
 

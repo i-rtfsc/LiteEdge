@@ -84,7 +84,7 @@ public class BarragePainter extends IBarragePainter {
     }
 
     protected void drawAvatar(BarrageModel model, Canvas canvas, BarrageChannel channel) {
-        float top = (int) (model.getY()) + channel.height / 2 - model.avatarHeight / 2;
+        float top = (int) (model.getY());
         float x = model.getX() + model.marginLeft;
 
         sRectF.set((int) x, top,
@@ -95,7 +95,7 @@ public class BarragePainter extends IBarragePainter {
 
     protected void drawAvatarStrokes(BarrageModel model, Canvas canvas, BarrageChannel channel) {
         float x = model.getX() + model.marginLeft + model.avatarWidth / 2;
-        float top = model.getY() + channel.height / 2;
+        float top = model.getY() + model.avatarHeight / 2;
 
         sPaint.setColor(Color.TRANSPARENT);
         sPaint.setStyle(Paint.Style.STROKE);
@@ -103,7 +103,7 @@ public class BarragePainter extends IBarragePainter {
     }
 
     protected void drawLevel(BarrageModel model, Canvas canvas, BarrageChannel channel) {
-        float top = (int) (model.getY()) + channel.height / 2 - model.levelBitmapHeight / 2;
+        float top = (int) (model.getY()) + model.avatarHeight / 2 - model.levelBitmapHeight / 2;
 
         float x = model.getX()
                 + model.marginLeft
@@ -126,7 +126,7 @@ public class BarragePainter extends IBarragePainter {
         sPaint.setStyle(Paint.Style.FILL);
 
         float top = (int) model.getY()
-                + channel.height / 2
+                + model.avatarHeight / 2
                 - sPaint.ascent() / 2
                 - sPaint.descent() / 2;
 
@@ -162,7 +162,7 @@ public class BarragePainter extends IBarragePainter {
                 + model.textMarginLeft;
 
         float top = (int) (model.getY())
-                + channel.height / 2
+                + model.avatarHeight / 2
                 - staticLayout.getHeight() / 2;
 
         canvas.save();
@@ -183,7 +183,7 @@ public class BarragePainter extends IBarragePainter {
                 + model.textBackgroundPaddingBottom;
 
         float top = model.getY()
-                + (channel.height - textBackgroundHeight) / 2;
+                + (model.avatarHeight - textBackgroundHeight) / 2;
 
         float x = model.getX()
                 + model.marginLeft

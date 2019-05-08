@@ -18,6 +18,7 @@ package com.journeyOS.edge.music;
 
 import android.graphics.drawable.Drawable;
 
+@Deprecated
 public class MusicInfo {
     private String mPackageName = "";
     private String mName = "";

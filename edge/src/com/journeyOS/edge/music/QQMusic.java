@@ -42,6 +42,7 @@ import com.journeyOS.core.CoreManager;
 import com.journeyOS.edge.R;
 import com.journeyOS.edge.wm.BarrageManager;
 
+@Deprecated
 public class QQMusic {
     private static final String TAG = QQMusic.class.getSimpleName();
 

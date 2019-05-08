@@ -68,6 +68,12 @@ public class BarrageFragment extends BaseFragment {
     @BindView(R2.id.barrage_speed)
     SettingView mBarrageSpeed;
 
+    @BindView(R2.id.barrage_avatar_size)
+    SettingView mBarrageAvatarSize;
+
+    @BindView(R2.id.barrage_text_size)
+    SettingView mBarrageTextSize;
+
     @BindView(R2.id.barrage_click)
     SettingView mBarrageClick;
 
@@ -129,8 +135,17 @@ public class BarrageFragment extends BaseFragment {
         }
         mBarrageBackground.setRightSummaryColor(backgroundColor);
 
+        int postion = SpUtils.getInstant().getInt(Constant.BARRAGE_POSTION, Constant.BARRAGE_POSTION_DEFAULT);
+        mBarragePostion.setRightSummary(String.valueOf(postion));
+
         int count = SpUtils.getInstant().getInt(Constant.BARRAGE_SPEED, Constant.BARRAGE_SPEED_DEFAULT);
         mBarrageSpeed.setRightSummary(String.valueOf(count));
+
+        int avatarSize = SpUtils.getInstant().getInt(Constant.BARRAGE_AVATAR_SIZE, Constant.BARRAGE_AVATAR_SIZE_DEFAULT);
+        mBarrageAvatarSize.setRightSummary(String.valueOf(avatarSize));
+
+        int textSize = SpUtils.getInstant().getInt(Constant.BARRAGE_TEXT_SIZE, Constant.BARRAGE_TEXT_SIZE_DEFAULT);
+        mBarrageTextSize.setRightSummary(String.valueOf(textSize));
     }
 
     @OnClick({R2.id.barrage})
@@ -203,7 +218,9 @@ public class BarrageFragment extends BaseFragment {
 
             @Override
             public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
-                SpUtils.getInstant().put(Constant.BARRAGE_POSTION, seekBar.getProgress());
+                int postion = seekBar.getProgress();
+                SpUtils.getInstant().put(Constant.BARRAGE_POSTION, postion);
+                mBarragePostion.setRightSummary(String.valueOf(postion));
             }
         });
         buider.create().show();
@@ -265,6 +282,114 @@ public class BarrageFragment extends BaseFragment {
                 int progress = seekBar.getProgress();
                 SpUtils.getInstant().put(Constant.BARRAGE_SPEED, progress);
                 mBarrageSpeed.setRightSummary(String.valueOf(progress));
+            }
+        });
+        buider.create().show();
+    }
+
+    @OnClick({R2.id.barrage_avatar_size})
+    public void listenerAvatarSize() {
+        CoreManager.getDefault().getImpl(IBarrage.class).removeBarrage();
+
+        AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
+        buider.setTitle(R.string.barrage_avatar_size);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_defined, null);
+        buider.setView(dialogView);
+        buider.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        LinearLayout linearLayout = dialogView.findViewById(R.id.rootLayout);
+
+        int progress = SpUtils.getInstant().getInt(Constant.BARRAGE_AVATAR_SIZE, Constant.BARRAGE_AVATAR_SIZE_DEFAULT);
+        IndicatorSeekBar seekBar = IndicatorSeekBar.with(getContext())
+                .max(40)
+                .min(30)
+                .progress(progress)
+                .showTickMarksType(TickMarkType.OVAL)
+                .showIndicatorType(IndicatorType.CIRCULAR_BUBBLE)
+                .indicatorColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .thumbColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .trackProgressColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .build();
+
+        IndicatorStayLayout stayLayout = new IndicatorStayLayout(getContext());
+        stayLayout.attachTo(seekBar);
+        linearLayout.addView(stayLayout);
+
+        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                int avatarSize = seekBar.getProgress();
+                SpUtils.getInstant().put(Constant.BARRAGE_AVATAR_SIZE, avatarSize);
+                mBarrageAvatarSize.setRightSummary(String.valueOf(avatarSize));
+            }
+        });
+        buider.create().show();
+    }
+
+    @OnClick({R2.id.barrage_text_size})
+    public void listenerTextSize() {
+        CoreManager.getDefault().getImpl(IBarrage.class).removeBarrage();
+
+        AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
+        buider.setTitle(R.string.barrage_text_size);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_defined, null);
+        buider.setView(dialogView);
+        buider.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        LinearLayout linearLayout = dialogView.findViewById(R.id.rootLayout);
+
+        int progress = SpUtils.getInstant().getInt(Constant.BARRAGE_TEXT_SIZE, Constant.BARRAGE_TEXT_SIZE_DEFAULT);
+        IndicatorSeekBar seekBar = IndicatorSeekBar.with(getContext())
+                .max(25)
+                .min(15)
+                .progress(progress)
+                .showTickMarksType(TickMarkType.OVAL)
+                .showIndicatorType(IndicatorType.CIRCULAR_BUBBLE)
+                .indicatorColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .thumbColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .trackProgressColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .build();
+
+        IndicatorStayLayout stayLayout = new IndicatorStayLayout(getContext());
+        stayLayout.attachTo(seekBar);
+        linearLayout.addView(stayLayout);
+
+        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                int textSize = seekBar.getProgress();
+                SpUtils.getInstant().put(Constant.BARRAGE_TEXT_SIZE, textSize);
+                mBarrageTextSize.setRightSummary(String.valueOf(textSize));
             }
         });
         buider.create().show();

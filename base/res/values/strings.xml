@@ -253,5 +253,6 @@
     <string name="barrage_speed_fast_xx">最快</string>
 
     <string name="barrage_filter_add_hint">添加关键字</string>
-
+    <string name="barrage_avatar_size">弹幕头像大小</string>
+    <string name="barrage_text_size">弹幕字体大小</string>
 </resources>

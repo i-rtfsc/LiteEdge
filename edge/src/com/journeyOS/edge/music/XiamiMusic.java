@@ -54,6 +54,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 
+@Deprecated
 public class XiamiMusic {
     private static final String TAG = XiamiMusic.class.getSimpleName();
 

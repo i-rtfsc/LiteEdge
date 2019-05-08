@@ -82,10 +82,16 @@ public class Constant {
     public static final int BARRAGE_BACKGROUND_COLOR_DEFAULT = 0;
 
     public static final String BARRAGE_POSTION = "barragePostion";
-    public static final int BARRAGE_POSTION_DEFAULT = 100;
+    public static final int BARRAGE_POSTION_DEFAULT = 21;
 
     public static final String BARRAGE_SPEED = "barrageSpeed";
     public static final int BARRAGE_SPEED_DEFAULT = 3;
+
+    public static final String BARRAGE_AVATAR_SIZE = "barrageAvatarSize";
+    public static final int BARRAGE_AVATAR_SIZE_DEFAULT = 35;
+
+    public static final String BARRAGE_TEXT_SIZE = "barrageTextSize";
+    public static final int BARRAGE_TEXT_SIZE_DEFAULT = 15;
 
     public static final String BARRAGE_FLITER = "barrageFliter";
     public static final String BARRAGE_FLITER_DEFAULT = null;

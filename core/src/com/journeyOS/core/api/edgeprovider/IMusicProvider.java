@@ -20,6 +20,7 @@ package com.journeyOS.core.api.edgeprovider;
 import com.journeyOS.core.api.ICoreApi;
 import com.journeyOS.core.database.music.Music;
 
+@Deprecated
 public interface IMusicProvider extends ICoreApi {
 
     /**
@@ -45,7 +46,7 @@ public interface IMusicProvider extends ICoreApi {
     void deleteMusic(Music music);
 
     /**
-     * 删除全部悬浮球的配置
+     * 删除全部音乐的配置
      */
     void deleteAll();
 }

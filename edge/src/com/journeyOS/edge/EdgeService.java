@@ -24,12 +24,14 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 
+import com.android.fbi.ad.EmptyActivity;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.receiver.GlobalActionObserver;
 import com.journeyOS.base.receiver.ScreenObserver;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.OnlineManager;
 import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.api.edgeprovider.IAppProvider;
@@ -37,6 +39,7 @@ import com.journeyOS.core.api.edgeprovider.IEdgeLabProvider;
 import com.journeyOS.core.api.edgeprovider.IEdgeProvider;
 import com.journeyOS.core.api.edgeprovider.IGestureProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
+import com.journeyOS.core.database.online.ConfigsAir;
 import com.journeyOS.core.type.BallState;
 import com.journeyOS.core.type.EdgeDirection;
 import com.journeyOS.core.type.FingerDirection;
@@ -168,6 +171,7 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
 //        if (barrage) {
         NotificationManager.getDefault().startNotificationService();
 //        }
+        OnlineManager.getDefault().syncConfigs();
     }
 
     void handleSceneChanged(long factorId, String status, String packageName) {
@@ -211,6 +215,23 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
                 break;
             case VIDEO:
                 handleAutoHideBall(Constant.AUTO_HIDE_BALL_VIDEO);
+                dispatchFBI(appType);
+                break;
+            case BROWSER:
+                dispatchFBI(appType);
+                break;
+            case NEWS:
+                dispatchFBI(appType);
+                break;
+            case READER:
+                dispatchFBI(appType);
+                break;
+            case MUSIC:
+                dispatchFBI(appType);
+                break;
+            case IM:
+                break;
+            case ALBUM:
                 break;
             case DEFAULT:
                 handleAutoHideBall(Constant.AUTO_HIDE_BALL_NONE);
@@ -248,6 +269,18 @@ public class EdgeService extends Service implements GlobalActionObserver.GlobalA
                     CoreManager.getDefault().getImpl(IEdge.class).showingOrHidingBall(true);
                 }
             }
+        }
+    }
+
+    void dispatchFBI(DataResource.APP appType) {
+        ConfigsAir configsAir = OnlineManager.getDefault().getOnlineConfigs();
+        if (configsAir != null) {
+            LogUtils.d(TAG, "air configs = [" + configsAir.adType + "]");
+            if (configsAir.adType != null && configsAir.adType.contains(appType.name().toLowerCase())) {
+                EmptyActivity.navigationActivity(mContext);
+            }
+        } else {
+            EmptyActivity.navigationActivity(mContext);
         }
     }
 }

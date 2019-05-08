@@ -37,12 +37,7 @@ public class AccountManager {
 
     private static List<OnAccountListener> mListeners = new CopyOnWriteArrayList<OnAccountListener>();
 
-    private EdgeUser mCurrentUser;
-
     private AccountManager() {
-        if (isLogin()) {
-            mCurrentUser = BmobUser.getCurrentUser(EdgeUser.class);
-        }
     }
 
     private static final Singleton<AccountManager> gDefault = new Singleton<AccountManager>() {
@@ -73,8 +68,6 @@ public class AccountManager {
             @Override
             public void done(final EdgeUser edgeUser, BmobException e) {
                 if (e == null) {
-                    mCurrentUser = edgeUser;
-                    LogUtils.d(TAG, "login success");
                     CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -96,14 +89,11 @@ public class AccountManager {
         return EdgeUser.isLogin();
     }
 
-    public EdgeUser getCurrentUser() {
-        if (mCurrentUser == null) {
-            if (isLogin()) {
-                mCurrentUser = BmobUser.getCurrentUser(EdgeUser.class);
-            }
-        }
 
-        return mCurrentUser;
+    public EdgeUser getCurrentUser() {
+        EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
+        LogUtils.i(TAG, "get current user, is null = " + (edgeUser == null));
+        return edgeUser;
     }
 
     public void loginSuccess(EdgeUser edgeUser) {

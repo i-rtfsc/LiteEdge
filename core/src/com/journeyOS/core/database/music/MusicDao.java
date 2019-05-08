@@ -26,6 +26,7 @@ import com.journeyOS.core.database.DBConfigs;
 
 import java.util.List;
 
+@Deprecated
 @Dao
 public interface MusicDao {
 

@@ -14,27 +14,19 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.database.music;
+package com.journeyOS.core.database.online;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.support.annotation.NonNull;
+import cn.bmob.v3.BmobObject;
 
-import com.journeyOS.core.database.DBConfigs;
-
-@Deprecated
-@Entity(tableName = DBConfigs.MUSIC_TABLE, primaryKeys = {DBConfigs.MUSIC_PACKAGE})
-public class Music {
-
-    @NonNull
-    @ColumnInfo(name = DBConfigs.MUSIC_PACKAGE)
-    public String packageName = "";
+/**
+ * 不区分用户，所有的设备都通过云配置
+ */
+public class ConfigsAir extends BmobObject {
 
     /**
-     * json
-     * @ com.journeyOS.core.database.music.MusicConfig
+     *
      */
-    @ColumnInfo(name = DBConfigs.MUSIC_CONFIG)
-    public String config;
+    public String adType;
+
 
 }
