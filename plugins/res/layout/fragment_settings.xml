@@ -81,33 +81,6 @@
                 settings:settingIcon="@drawable/svg_big_little"
                 settings:settingTitle="@string/ball_size" />
 
-
-            <!--<LinearLayout-->
-                <!--style="@style/mid_layout"-->
-                <!--android:layout_height="48dp">-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginLeft="12dp"-->
-                    <!--android:text="@string/ball_size"-->
-                    <!--android:textColor="#ff717171"-->
-                    <!--android:textSize="14dp" />-->
-
-                <!--<com.warkiz.widget.IndicatorSeekBar-->
-                    <!--android:id="@+id/ball_size"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--app:isb_indicator_color="@color/colorPrimary"-->
-                    <!--app:isb_max="200"-->
-                    <!--app:isb_min="50"-->
-                    <!--app:isb_progress="175"-->
-                    <!--app:isb_seek_smoothly="true"-->
-                    <!--app:isb_thumb_color="@color/colorPrimary"-->
-                    <!--app:isb_track_progress_color="@color/colorPrimary" />-->
-
-            <!--</LinearLayout>-->
-
             <View style="@style/bg_line" />
 
             <com.journeyOS.base.widget.SettingView

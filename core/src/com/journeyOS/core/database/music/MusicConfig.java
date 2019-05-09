@@ -18,6 +18,7 @@ package com.journeyOS.core.database.music;
 
 import java.util.List;
 
+@Deprecated
 public class MusicConfig {
 
     public List<Config> configs;

@@ -19,18 +19,23 @@ package com.journeyOS.edge;
 import android.content.Context;
 import android.content.Intent;
 
+import com.journeyOS.base.Constant;
+import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.AppUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.GlobalType;
+import com.journeyOS.core.StateMachine;
 import com.journeyOS.core.api.edge.IEdge;
 import com.journeyOS.core.api.edgeprovider.IGestureProvider;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.database.gesture.Gesture;
 import com.journeyOS.core.pay.PayManager;
+import com.journeyOS.core.type.BarrageState;
 import com.journeyOS.core.type.FingerDirection;
 import com.journeyOS.edge.music.MusicManager;
+import com.journeyOS.edge.wm.BarrageManager;
 import com.journeyOS.i007Service.core.accessibility.AccessibilityManager;
 import com.journeyOS.plugins.pay.PayModel;
 
@@ -57,6 +62,19 @@ public class Dispatcher {
 
     public void handleGestureDirection(final FingerDirection fingerDirection) {
         LogUtils.d(TAG, "gesture fingerDirection = " + fingerDirection);
+
+        boolean barrageClick = SpUtils.getInstant().getBoolean(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT);
+        if (barrageClick) {
+            String packageName = BarrageManager.getDefault().getPackageName();
+            if (BarrageState.SHOW == StateMachine.getBarrageState()
+                    && packageName != null) {
+                if (FingerDirection.CLICK == fingerDirection) {
+                    AppUtils.startApp(mContext, packageName);
+                    return;
+                }
+            }
+        }
+
         final int orientation = mContext.getResources().getConfiguration().orientation;
         CoreManager.getDefault().getImpl(ICoreExecutors.class).diskIOThread().execute(new Runnable() {
             @Override

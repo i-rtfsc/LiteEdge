@@ -17,7 +17,7 @@
 package com.journeyOS.core.weather;
 
 import com.journeyOS.base.Constant;
-import com.journeyOS.base.utils.Base64Util;
+import com.journeyOS.base.utils.Base64Utils;
 import com.journeyOS.base.utils.JsonHelper;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.core.AppHttpClient;
@@ -54,7 +54,7 @@ public class FetchWeatherImpl implements IFetchWeather {
                     String config = weatherDb.weather;
                     if (config != null) {
                         LogUtils.d(TAG, "get weather from database.");
-                        return JsonHelper.fromJson(Base64Util.fromBase64(config), Weather.class);
+                        return JsonHelper.fromJson(Base64Utils.fromBase64(config), Weather.class);
                     }
                 }
             }
@@ -62,7 +62,7 @@ public class FetchWeatherImpl implements IFetchWeather {
 
         try {
             LogUtils.d(TAG, "get weather from network.");
-            Call<Weather> weatherCall = mWsa.getWeather(Base64Util.fromBase64(WEATHER_KEY), city);
+            Call<Weather> weatherCall = mWsa.getWeather(Base64Utils.fromBase64(WEATHER_KEY), city);
             Response<Weather> response = weatherCall.execute();
             if (response.isSuccessful()) {
                 final Weather weather = response.body();
@@ -76,7 +76,7 @@ public class FetchWeatherImpl implements IFetchWeather {
                             weatherDb = new com.journeyOS.core.database.weather.Weather();
                             weatherDb.cityId = city;
                         }
-                        weatherDb.weather = Base64Util.toBase64(JsonHelper.toJson(weather));
+                        weatherDb.weather = Base64Utils.toBase64(JsonHelper.toJson(weather));
                         weatherDb.time = String.valueOf(System.currentTimeMillis());
                         CoreManager.getDefault().getImpl(IWeatherProvider.class).saveWeather(weatherDb);
                     }
@@ -103,7 +103,7 @@ public class FetchWeatherImpl implements IFetchWeather {
                     String config = weatherDb.air;
                     if (config != null) {
                         LogUtils.d(TAG, "get air weather from database.");
-                        return JsonHelper.fromJson(Base64Util.fromBase64(config), Air.class);
+                        return JsonHelper.fromJson(Base64Utils.fromBase64(config), Air.class);
                     }
                 }
             }
@@ -111,7 +111,7 @@ public class FetchWeatherImpl implements IFetchWeather {
 
         try {
             LogUtils.d(TAG, "get air weather from network.");
-            Call<Air> airCall = mWsa.getAqi(Base64Util.fromBase64(WEATHER_KEY), city);
+            Call<Air> airCall = mWsa.getAqi(Base64Utils.fromBase64(WEATHER_KEY), city);
             Response<Air> response = airCall.execute();
             if (response.isSuccessful()) {
                 final Air air = response.body();
@@ -125,7 +125,7 @@ public class FetchWeatherImpl implements IFetchWeather {
                             weatherDb = new com.journeyOS.core.database.weather.Weather();
                             weatherDb.cityId = city;
                         }
-                        weatherDb.air = Base64Util.toBase64(JsonHelper.toJson(air));
+                        weatherDb.air = Base64Utils.toBase64(JsonHelper.toJson(air));
                         weatherDb.time = String.valueOf(System.currentTimeMillis());
                         CoreManager.getDefault().getImpl(IWeatherProvider.class).saveWeather(weatherDb);
                     }

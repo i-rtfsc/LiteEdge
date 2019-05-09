@@ -14,27 +14,21 @@
  * limitations under the License.
  */
 
-package com.journeyOS.core.database.music;
+package com.journeyOS.base.barrage;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.support.annotation.NonNull;
+import android.graphics.Bitmap;
 
-import com.journeyOS.core.database.DBConfigs;
+public class BarrageModel {
+    public final static int RIGHT_TO_LEFT = 1;
+    public final static int LEFT_TO_RIGHT = 2;
 
-@Deprecated
-@Entity(tableName = DBConfigs.MUSIC_TABLE, primaryKeys = {DBConfigs.MUSIC_PACKAGE})
-public class Music {
+    public final static int POSTION_FULL = 1;
+    public final static int POSTION_TOP = 2;
+    public final static int POSTION_MIDDLE = 3;
+    public final static int POSTION_BOTTOM = 4;
 
-    @NonNull
-    @ColumnInfo(name = DBConfigs.MUSIC_PACKAGE)
-    public String packageName = "";
-
-    /**
-     * json
-     * @ com.journeyOS.core.database.music.MusicConfig
-     */
-    @ColumnInfo(name = DBConfigs.MUSIC_CONFIG)
-    public String config;
-
+    public Bitmap avatar;
+    public String title;
+    public String content;
+    public BarrageController controller;
 }

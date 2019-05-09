@@ -32,7 +32,7 @@ import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.BaseUtils;
 import com.journeyOS.base.utils.LogUtils;
-import com.journeyOS.base.utils.PhoneUtil;
+import com.journeyOS.base.utils.PhoneUtils;
 import com.journeyOS.base.utils.TimeUtils;
 import com.journeyOS.base.widget.SettingSwitch;
 import com.journeyOS.base.widget.SettingView;
@@ -44,7 +44,6 @@ import com.journeyOS.core.SyncManager;
 import com.journeyOS.core.api.thread.ICoreExecutors;
 import com.journeyOS.core.base.BaseFragment;
 import com.journeyOS.core.database.user.EdgeUser;
-import com.journeyOS.core.viewmodel.ModelProvider;
 import com.journeyOS.plugins.R;
 import com.journeyOS.plugins.R2;
 
@@ -107,7 +106,7 @@ public class LoginFragment extends BaseFragment {
     String mUser = null;
     String mToken = null;
 
-    LoginModel mLoginModel;
+    //    LoginModel mLoginModel;
     EdgeUser mEdgeUser;
 
     final Observer<StatusDataResource> userInfoObserver = new Observer<StatusDataResource>() {
@@ -138,6 +137,8 @@ public class LoginFragment extends BaseFragment {
 
             boolean daemon = SpUtils.getInstant().getBoolean(Constant.AUTO_SYNC, Constant.AUTO_SYNC_DEFAULT);
             mAutoSync.setCheckedImmediately(daemon);
+
+            handleUserInfoObserver(StatusDataResource.success(AccountManager.getDefault().getCurrentUser()));
         } else {
             mUserLayout.setVisibility(View.GONE);
             mRegisterLayout.setVisibility(View.GONE);
@@ -155,10 +156,9 @@ public class LoginFragment extends BaseFragment {
     @Override
     protected void initDataObserver(Bundle savedInstanceState) {
         super.initDataObserver(savedInstanceState);
-        mLoginModel = ModelProvider.getModel(this, LoginModel.class);
-        mLoginModel.fetchUserInfo();
-
-        mLoginModel.getUserInfo().observe(this, userInfoObserver);
+//        mLoginModel = ModelProvider.getModel(this, LoginModel.class);
+//        mLoginModel.fetchUserInfo();
+//        mLoginModel.getUserInfo().observe(this, userInfoObserver);
     }
 
     @OnClick(R2.id.fab_register)
@@ -195,7 +195,7 @@ public class LoginFragment extends BaseFragment {
 
     @OnClick(R2.id.smsButton)
     public void smsButtonStart(View view) {
-        if (PhoneUtil.isMobile(mPhone)) {
+        if (PhoneUtils.isMobile(mPhone)) {
             BmobSMS.requestSMSCode(mPhone, "", new QueryListener<Integer>() {
                 @Override
                 public void done(Integer smsId, BmobException e) {
@@ -209,7 +209,7 @@ public class LoginFragment extends BaseFragment {
 
     @OnClick(R2.id.register)
     public void registerClick(View view) {
-        if (PhoneUtil.isMobile(mPhone) && !BaseUtils.isNull(mPassword) && !BaseUtils.isNull(mCode)) {
+        if (PhoneUtils.isMobile(mPhone) && !BaseUtils.isNull(mPassword) && !BaseUtils.isNull(mCode)) {
             EdgeUser user = new EdgeUser();
             user.setMobilePhoneNumber(mPhone);
             user.setPassword(mPassword);
@@ -232,7 +232,7 @@ public class LoginFragment extends BaseFragment {
     @OnTextChanged(value = R2.id.register_username, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     void registerPhoneChanged(Editable s) {
         String phone = s.toString();
-        boolean isPhone = PhoneUtil.isMobile(phone);
+        boolean isPhone = PhoneUtils.isMobile(phone);
         if (isPhone) {
             mPhone = phone;
             smsButton.setEnabled(true);
@@ -398,7 +398,6 @@ public class LoginFragment extends BaseFragment {
                                     mEmailView.setRightSummary(info);
                                     break;
                             }
-
                             Toasty.info(mActivity, mContext.getString(R.string.set_success));
                         } else {
                             Toasty.error(mActivity, e.getMessage());
@@ -417,10 +416,14 @@ public class LoginFragment extends BaseFragment {
             mLoginLayout.setVisibility(View.GONE);
             mRegisterLayout.setVisibility(View.GONE);
             SyncManager.getDefault().fetchEdgeAir();
-            mLoginModel.fetchUserInfo();
-
+//            mLoginModel.fetchUserInfo();
+            handleUserInfoObserver(StatusDataResource.success(AccountManager.getDefault().getCurrentUser()));
             EdgeUser user = new EdgeUser();
             user.backUp = mToken;
+            //save old data
+            user.vip = edgeUser.vip;
+            user.manager = edgeUser.manager;
+            user.skipAdTime = edgeUser.skipAdTime;
             user.update(edgeUser.getObjectId(), new UpdateListener() {
                 @Override
                 public void done(BmobException e) {

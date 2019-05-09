@@ -16,6 +16,7 @@
 
 package com.journeyOS.edge.music;
 
+@Deprecated
 public interface MusicAction {
     void run() throws Exception;
 }

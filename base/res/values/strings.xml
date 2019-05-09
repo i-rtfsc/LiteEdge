@@ -121,7 +121,8 @@
     <string name="inner_ball_color_title">悬浮球颜色</string>
     <string name="inner_ball_color_summary">可设置悬浮球的颜色</string>
 
-    <string name="barrage_click_title">弹幕消息点击手势</string>
+    <string name="barrage_click_title">快捷进入弹幕源</string>
+    <string name="barrage_click_summary">点击悬浮球进入弹幕消息源\n弹幕消失后恢复点击手势功能</string>
     <string name="barrage_click_dialog_title">出现弹幕消息时点击将进入到来消息的应用</string>
     <string name="barrage_click_not_feedback">无</string>
     <string name="barrage_click_ball">悬浮球</string>
@@ -242,7 +243,7 @@
     <string name="barrage_postion_summary">数字越小越靠屏幕顶部</string>
 
     <string name="barrage_speed_title">弹幕速度</string>
-    <string name="barrage_speed_summary">档位越高弹幕速度越快</string>
+    <string name="barrage_speed_summary">数字越大弹幕速度越快</string>
     <string name="barrage_speed">速度</string>
     <string name="barrage_speed_slow_xx">最慢</string>
     <string name="barrage_speed_slow_x">很慢</string>
@@ -253,5 +254,15 @@
     <string name="barrage_speed_fast_xx">最快</string>
 
     <string name="barrage_filter_add_hint">添加关键字</string>
+    <string name="barrage_avatar_size">弹幕头像大小</string>
+    <string name="barrage_text_size">弹幕字体大小</string>
+    <string name="barrage_direction_title">弹幕方向</string>
+    <string name="barrage_direction_summary">弹幕在屏幕中的移动方向</string>
+    <string name="barrage_direction_right_2_left">右到左</string>
+    <string name="barrage_direction_left_2_right">左到右</string>
 
+    <string name="barrage_postion_full">全屏</string>
+    <string name="barrage_postion_top">上屏</string>
+    <string name="barrage_postion_middle">中屏</string>
+    <string name="barrage_postion_bottom">下屏</string>
 </resources>

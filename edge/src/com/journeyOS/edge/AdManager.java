@@ -54,7 +54,6 @@ public class AdManager {
     private int mInterstitialCount = 0;
 
     private AdView mAdView;
-    private InterstitialAd mInterstitialAd;
 
     private AdManager() {
         mContext = CoreManager.getDefault().getContext();
@@ -150,7 +149,6 @@ public class AdManager {
                 return;
             }
 
-
         } else {
             boolean isSkip = skipAd();
             if (isSkip) {
@@ -169,12 +167,6 @@ public class AdManager {
         }
 
         initInterstitial();
-
-        LogUtils.d(TAG, "wanna show interstitial, is loading = [" + mInterstitialAd.isLoading() + "], is loaded = [" + mInterstitialAd.isLoaded() + "]");
-        if (!mInterstitialAd.isLoading() && !mInterstitialAd.isLoaded()) {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mInterstitialAd.loadAd(adRequest);
-        }
     }
 
     public void onResume() {
@@ -259,30 +251,34 @@ public class AdManager {
     }
 
     private void initInterstitial() {
-        if (mInterstitialAd == null) {
-            mInterstitialAd = new InterstitialAd(mContext);
-            mInterstitialAd.setAdUnitId(mContext.getString(R.string.interstitial_ad_unit_id));
-            mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    LogUtils.d(TAG, "interstitial ad finishes loading");
-                    CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            mInterstitialAd.show();
-                        }
-                    });
-                }
+        final InterstitialAd interstitialAd = new InterstitialAd(mContext);
+        interstitialAd.setAdUnitId(mContext.getString(R.string.interstitial_ad_unit_id));
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                LogUtils.d(TAG, "interstitial ad finishes loading");
+                CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        interstitialAd.show();
+                    }
+                });
+            }
 
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    LogUtils.d(TAG, "interstitial ad request fails, errorCode = [" + errorCode + "]");
-                }
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                LogUtils.d(TAG, "interstitial ad request fails, errorCode = [" + errorCode + "]");
+            }
 
-                @Override
-                public void onAdClosed() {
-                }
-            });
+            @Override
+            public void onAdClosed() {
+            }
+        });
+
+        LogUtils.d(TAG, "wanna show interstitial, is loading = [" + interstitialAd.isLoading() + "], is loaded = [" + interstitialAd.isLoaded() + "]");
+        if (!interstitialAd.isLoading() && !interstitialAd.isLoaded()) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            interstitialAd.loadAd(adRequest);
         }
     }
 

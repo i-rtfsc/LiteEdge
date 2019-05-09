@@ -24,7 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
-import com.journeyOS.base.utils.ActivityUtil;
+import com.journeyOS.base.utils.ActivityUtils;
 import com.journeyOS.core.CoreManager;
 import com.journeyOS.core.R;
 import com.journeyOS.core.permission.IPermission;
@@ -46,7 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         Router.getDefault().register(this);
         initViews();
         initDataObserver(savedInstanceState);
-        ActivityUtil.getInstance().addActivity(this);
+        ActivityUtils.getInstance().addActivity(this);
     }
 
     protected void initDataObserver(Bundle savedInstanceState) {
@@ -90,14 +90,14 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ActivityUtil.getInstance().removeActivity(this);
+        ActivityUtils.getInstance().removeActivity(this);
         Router.getDefault().unregister(this);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            ActivityUtil.getInstance().removeActivity(this);
+            ActivityUtils.getInstance().removeActivity(this);
             this.finish();
         }
         return super.onKeyDown(keyCode, event);

@@ -32,7 +32,7 @@ import android.widget.TextView;
 
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
-import com.journeyOS.base.utils.AnimationUtil;
+import com.journeyOS.base.utils.AnimationUtils;
 import com.journeyOS.base.utils.BaseUtils;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.UIUtils;
@@ -377,7 +377,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
         view.animate()
                 .alpha(1f)
                 .setDuration(360)
-                .setInterpolator(AnimationUtil.getEaseInterpolator())
+                .setInterpolator(AnimationUtils.getEaseInterpolator())
                 .setListener(null)
                 .start();
     }
@@ -388,7 +388,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                 .alpha(0f)
                 .setDuration(360)
                 .setStartDelay(45)
-                .setInterpolator(AnimationUtil.getEaseOutInterpolator()).setListener(new AnimatorListenerAdapter() {
+                .setInterpolator(AnimationUtils.getEaseOutInterpolator()).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -406,7 +406,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                 .scaleX(1f)
                 .scaleY(1f)
                 .setDuration(360)
-                .setInterpolator(AnimationUtil.getShowCurveResistanceInterpolator());
+                .setInterpolator(AnimationUtils.getShowCurveResistanceInterpolator());
         if (isLandscape) {
             view.setTranslationY(-mIconGroupHeight);
             view.animate()
@@ -433,7 +433,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                 .scaleX(0.6f)
                 .scaleY(0.6f)
                 .setDuration(360)
-                .setInterpolator(AnimationUtil.getHideCurveInterpolator());
+                .setInterpolator(AnimationUtils.getHideCurveInterpolator());
         if (isLandscape) {
             view.setTranslationY(0f);
             view.animate()
@@ -469,7 +469,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                 .scaleX(1f)
                 .setDuration(360)
                 .setStartDelay(45)
-                .setInterpolator(AnimationUtil.getEaseInterpolator())
+                .setInterpolator(AnimationUtils.getEaseInterpolator())
                 .start();
         if (isLandscape) {
             view.setTranslationY(-mStatusBarHeight);
@@ -498,7 +498,7 @@ public class EdgeView extends RelativeLayout implements View.OnClickListener, Vi
                 .translationY(-mStatusBarHeight)
                 .alpha(0.1f)
                 .setDuration(240)
-                .setInterpolator(AnimationUtil.getHideCurveInterpolator())
+                .setInterpolator(AnimationUtils.getHideCurveInterpolator())
                 .start();
         if (isLandscape) {
             view.setTranslationY(0f);

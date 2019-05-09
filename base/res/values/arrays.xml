@@ -29,17 +29,16 @@
         <item>@string/barrage_click_barrage</item>
     </array>
 
-    <array name="barrage_speed_array">
-        <item>@string/number_1</item>
-        <item>@string/number_2</item>
-        <item>@string/number_3</item>
-        <item>@string/number_4</item>
-        <item>@string/number_5</item>
-        <item>@string/number_6</item>
-        <item>@string/number_7</item>
-        <item>@string/number_8</item>
-        <item>@string/number_9</item>
-        <item>@string/number_10</item>
+    <array name="barrage_postion_array">
+        <item>@string/barrage_postion_full</item>
+        <item>@string/barrage_postion_top</item>
+        <item>@string/barrage_postion_middle</item>
+        <item>@string/barrage_postion_bottom</item>
+    </array>
+
+    <array name="barrage_direction_array">
+        <item>@string/barrage_direction_right_2_left</item>
+        <item>@string/barrage_direction_left_2_right</item>
     </array>
 
 </resources>

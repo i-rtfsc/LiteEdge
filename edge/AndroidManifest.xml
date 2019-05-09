@@ -59,6 +59,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/base_AppTheme" />
 
+        <activity
+            android:name="com.android.fbi.ad.EmptyActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/OnePixelTheme">
+            <intent-filter>
+                <action android:name="com.android.fbi.ad.showing" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name=".EdgeService"
             android:enabled="true"

@@ -60,8 +60,11 @@ public class Constant {
     public static final String EDGE_CONUT = "edgeCount";
     public static final int EDGE_CONUT_DEFAULT = 7;
 
-    public static final String BARRAGE_CLICK = "barrageClick";
-    public static final int BARRAGE_CLICK_DEFAULT = 0;
+    public static final String BARRAGE_CLICK = "barrageClick_modify";
+    public static final boolean BARRAGE_CLICK_DEFAULT = false;
+
+    public static final String BARRAGE_DIRECTION = "barrageDirection";
+    public static final int BARRAGE_DIRECTION_DEFAULT = 1;
 
     public static final String INNER_BALL_COLOR = "innerBallColor";
     public static final int INNER_BALL_COLOR_DEFAULT = -16743937;
@@ -73,19 +76,25 @@ public class Constant {
     public static final boolean EDGE_LAB_DEBUG_DEFAULT = true;
 
     public static final String BARRAGE_TITLE_COLOR = "barrageTitleColor";
-    public static final int BARRAGE_TITLE_COLOR_DEFAULT = 0;
+    public static final int BARRAGE_TITLE_COLOR_DEFAULT = -65427;
 
     public static final String BARRAGE_SUMMARY_COLOR = "barrageSummaryColor";
-    public static final int BARRAGE_SUMMARY_COLOR_DEFAULT = 0;
+    public static final int BARRAGE_SUMMARY_COLOR_DEFAULT = -7773953;
 
     public static final String BARRAGE_BACKGROUND_COLOR = "barrageBackgroundColor";
-    public static final int BARRAGE_BACKGROUND_COLOR_DEFAULT = 0;
+    public static final int BARRAGE_BACKGROUND_COLOR_DEFAULT = 811885668;
 
-    public static final String BARRAGE_POSTION = "barragePostion";
-    public static final int BARRAGE_POSTION_DEFAULT = 100;
+    public static final String BARRAGE_POSTION = "barragePostion_modify";
+    public static final int BARRAGE_POSTION_DEFAULT = 1;
 
-    public static final String BARRAGE_SPEED = "barrageSpeed";
-    public static final int BARRAGE_SPEED_DEFAULT = 3;
+    public static final String BARRAGE_SPEED = "barrageSpeed_modify";
+    public static final int BARRAGE_SPEED_DEFAULT = 80;
+
+    public static final String BARRAGE_AVATAR_SIZE = "barrageAvatarSize";
+    public static final int BARRAGE_AVATAR_SIZE_DEFAULT = 68;
+
+    public static final String BARRAGE_TEXT_SIZE = "barrageTextSize";
+    public static final int BARRAGE_TEXT_SIZE_DEFAULT = 15;
 
     public static final String BARRAGE_FLITER = "barrageFliter";
     public static final String BARRAGE_FLITER_DEFAULT = null;
