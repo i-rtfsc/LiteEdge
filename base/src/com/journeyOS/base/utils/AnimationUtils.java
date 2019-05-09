@@ -21,7 +21,7 @@ import android.os.Build;
 import android.view.animation.PathInterpolator;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class AnimationUtil {
+public class AnimationUtils {
 
     public static PathInterpolator getShowCurveMagneticInterpolator() {
         return new PathInterpolator(0.94f, 0.21f, 0.68f, 0.92f);

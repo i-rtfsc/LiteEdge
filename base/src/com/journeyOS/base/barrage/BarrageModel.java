@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 
-package com.journeyOS.barrage.view;
+package com.journeyOS.base.barrage;
 
+import android.graphics.Bitmap;
 
-public interface OnBarrageViewTouchListener {
+public class BarrageModel {
+    public final static int RIGHT_TO_LEFT = 1;
+    public final static int LEFT_TO_RIGHT = 2;
 
-    boolean onTouch(float x, float y);
+    public final static int POSTION_FULL = 1;
+    public final static int POSTION_TOP = 2;
+    public final static int POSTION_MIDDLE = 3;
+    public final static int POSTION_BOTTOM = 4;
 
-    void release();
-
+    public Bitmap avatar;
+    public String title;
+    public String content;
+    public BarrageController controller;
 }

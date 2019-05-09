@@ -32,7 +32,7 @@ import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
 import com.journeyOS.base.utils.BaseUtils;
 import com.journeyOS.base.utils.LogUtils;
-import com.journeyOS.base.utils.PhoneUtil;
+import com.journeyOS.base.utils.PhoneUtils;
 import com.journeyOS.base.utils.TimeUtils;
 import com.journeyOS.base.widget.SettingSwitch;
 import com.journeyOS.base.widget.SettingView;
@@ -195,7 +195,7 @@ public class LoginFragment extends BaseFragment {
 
     @OnClick(R2.id.smsButton)
     public void smsButtonStart(View view) {
-        if (PhoneUtil.isMobile(mPhone)) {
+        if (PhoneUtils.isMobile(mPhone)) {
             BmobSMS.requestSMSCode(mPhone, "", new QueryListener<Integer>() {
                 @Override
                 public void done(Integer smsId, BmobException e) {
@@ -209,7 +209,7 @@ public class LoginFragment extends BaseFragment {
 
     @OnClick(R2.id.register)
     public void registerClick(View view) {
-        if (PhoneUtil.isMobile(mPhone) && !BaseUtils.isNull(mPassword) && !BaseUtils.isNull(mCode)) {
+        if (PhoneUtils.isMobile(mPhone) && !BaseUtils.isNull(mPassword) && !BaseUtils.isNull(mCode)) {
             EdgeUser user = new EdgeUser();
             user.setMobilePhoneNumber(mPhone);
             user.setPassword(mPassword);
@@ -232,7 +232,7 @@ public class LoginFragment extends BaseFragment {
     @OnTextChanged(value = R2.id.register_username, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     void registerPhoneChanged(Editable s) {
         String phone = s.toString();
-        boolean isPhone = PhoneUtil.isMobile(phone);
+        boolean isPhone = PhoneUtils.isMobile(phone);
         if (isPhone) {
             mPhone = phone;
             smsButton.setEnabled(true);

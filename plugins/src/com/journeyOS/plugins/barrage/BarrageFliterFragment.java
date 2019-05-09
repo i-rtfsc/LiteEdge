@@ -25,7 +25,7 @@ import android.widget.EditText;
 
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
-import com.journeyOS.base.utils.Base64Util;
+import com.journeyOS.base.utils.Base64Utils;
 import com.journeyOS.base.utils.JsonHelper;
 import com.journeyOS.base.widget.LabelTextView;
 import com.journeyOS.core.base.BaseFragment;
@@ -76,9 +76,9 @@ public class BarrageFliterFragment extends BaseFragment {
             labels.add("M/S");
             labels.add("K/S");
             labels.add("B/S");
-            SpUtils.getInstant().put(Constant.BARRAGE_FLITER, Base64Util.toBase64(JsonHelper.toJson(labels)));
+            SpUtils.getInstant().put(Constant.BARRAGE_FLITER, Base64Utils.toBase64(JsonHelper.toJson(labels)));
         } else {
-            labels = JsonHelper.fromJson(Base64Util.fromBase64(fliter), List.class);
+            labels = JsonHelper.fromJson(Base64Utils.fromBase64(fliter), List.class);
         }
     }
 
@@ -90,7 +90,7 @@ public class BarrageFliterFragment extends BaseFragment {
             public void onClick(int index, View v, String s) {
                 labels.remove(index);
                 mLabel.setLabels(labels);
-                SpUtils.getInstant().put(Constant.BARRAGE_FLITER, Base64Util.toBase64(JsonHelper.toJson(labels)));
+                SpUtils.getInstant().put(Constant.BARRAGE_FLITER, Base64Utils.toBase64(JsonHelper.toJson(labels)));
             }
         });
     }
@@ -112,7 +112,7 @@ public class BarrageFliterFragment extends BaseFragment {
             labels.add(label);
             mLabel.setLabels(labels);
             mEditText.setText("");
-            SpUtils.getInstant().put(Constant.BARRAGE_FLITER, Base64Util.toBase64(JsonHelper.toJson(labels)));
+            SpUtils.getInstant().put(Constant.BARRAGE_FLITER, Base64Utils.toBase64(JsonHelper.toJson(labels)));
         }
     }
 

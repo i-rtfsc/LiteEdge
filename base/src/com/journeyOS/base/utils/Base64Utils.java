@@ -4,7 +4,7 @@ import android.util.Base64;
 
 import java.io.UnsupportedEncodingException;
 
-public class Base64Util {
+public class Base64Utils {
     /**
      * @param message the message to be encoded
      * @return the enooded from of the message

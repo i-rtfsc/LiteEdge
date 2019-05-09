@@ -22,13 +22,13 @@ import android.os.Process;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityUtil {
+public class ActivityUtils {
     private List<Activity> activityList = new ArrayList<>();
-    private static ActivityUtil instance;
+    private static ActivityUtils instance;
 
-    public static synchronized ActivityUtil getInstance() {
+    public static synchronized ActivityUtils getInstance() {
         if (null == instance) {
-            instance = new ActivityUtil();
+            instance = new ActivityUtils();
         }
         return instance;
     }

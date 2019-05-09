@@ -31,7 +31,6 @@ import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.journeyOS.base.Constant;
 import com.journeyOS.base.persistence.SpUtils;
-import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.base.widget.SettingSwitch;
 import com.journeyOS.base.widget.SettingView;
 import com.journeyOS.core.CoreManager;
@@ -78,7 +77,7 @@ public class BarrageFragment extends BaseFragment {
     SettingView mBarrageTextSize;
 
     @BindView(R2.id.barrage_click)
-    SettingView mBarrageClick;
+    SettingSwitch mBarrageClick;
 
     @BindView(R2.id.barrage_title)
     SettingView mBarrageTitle;
@@ -120,7 +119,7 @@ public class BarrageFragment extends BaseFragment {
 
         mBarrageDirection.setRightSummary(mContext.getResources().getStringArray(R.array.barrage_direction_array)[SpUtils.getInstant().getInt(Constant.BARRAGE_DIRECTION, Constant.BARRAGE_DIRECTION_DEFAULT) - 1]);
 
-        mBarrageClick.setRightSummary(mContext.getResources().getStringArray(R.array.barrage_click_feedback_array)[SpUtils.getInstant().getInt(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT)]);
+        mBarrageClick.setCheckedImmediately(SpUtils.getInstant().getBoolean(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT));
 
         int titleColor = SpUtils.getInstant().getInt(Constant.BARRAGE_TITLE_COLOR, Constant.BARRAGE_TITLE_COLOR_DEFAULT);
         if (titleColor == 0) {
@@ -141,7 +140,8 @@ public class BarrageFragment extends BaseFragment {
         mBarrageBackground.setRightSummaryColor(backgroundColor);
 
         int postion = SpUtils.getInstant().getInt(Constant.BARRAGE_POSTION, Constant.BARRAGE_POSTION_DEFAULT);
-        mBarragePostion.setRightSummary(String.valueOf(postion));
+        final String[] postionItems = mContext.getResources().getStringArray(R.array.barrage_postion_array);
+        mBarragePostion.setRightSummary(postionItems[postion - 1]);
 
         int count = SpUtils.getInstant().getInt(Constant.BARRAGE_SPEED, Constant.BARRAGE_SPEED_DEFAULT);
         mBarrageSpeed.setRightSummary(String.valueOf(count));
@@ -178,8 +178,6 @@ public class BarrageFragment extends BaseFragment {
 
     @OnClick({R2.id.barrage_direction})
     public void listenerDirection() {
-        CoreManager.getDefault().getImpl(IBarrage.class).removeBarrage();
-
         final String[] items = mContext.getResources().getStringArray(R.array.barrage_direction_array);
         int item = SpUtils.getInstant().getInt(Constant.BARRAGE_DIRECTION, Constant.BARRAGE_DIRECTION_DEFAULT) - 1;
 
@@ -205,8 +203,7 @@ public class BarrageFragment extends BaseFragment {
 
     @OnClick({R2.id.barrage_postion})
     public void listenerPostion() {
-        CoreManager.getDefault().getImpl(IBarrage.class).removeBarrage();
-
+        final String[] items = mContext.getResources().getStringArray(R.array.barrage_postion_array);
         AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
         buider.setTitle(R.string.barrage_postion_title);
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -222,68 +219,12 @@ public class BarrageFragment extends BaseFragment {
         LinearLayout linearLayout = dialogView.findViewById(R.id.rootLayout);
 
         int progress = SpUtils.getInstant().getInt(Constant.BARRAGE_POSTION, Constant.BARRAGE_POSTION_DEFAULT);
-        IndicatorSeekBar seekBar = IndicatorSeekBar.with(getContext())
-                .max(UIUtils.getScreenHeight(mContext))
-                .min(0)
-                .progress(progress)
-                .showTickMarksType(TickMarkType.OVAL)
-                .showIndicatorType(IndicatorType.CIRCULAR_BUBBLE)
-                .indicatorColor(mContext.getResources().getColor(R.color.colorPrimary))
-                .thumbColor(mContext.getResources().getColor(R.color.colorPrimary))
-                .trackProgressColor(mContext.getResources().getColor(R.color.colorPrimary))
-                .build();
-
-        IndicatorStayLayout stayLayout = new IndicatorStayLayout(getContext());
-        stayLayout.attachTo(seekBar);
-        linearLayout.addView(stayLayout);
-
-        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
-            @Override
-            public void onSeeking(SeekParams seekParams) {
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
-                int postion = seekBar.getProgress();
-                SpUtils.getInstant().put(Constant.BARRAGE_POSTION, postion);
-                mBarragePostion.setRightSummary(String.valueOf(postion));
-            }
-        });
-        buider.create().show();
-    }
-
-    @OnClick({R2.id.barrage_speed})
-    public void listenerSpeed() {
-        CoreManager.getDefault().getImpl(IBarrage.class).removeBarrage();
-
-        final String[] items = mContext.getResources().getStringArray(R.array.barrage_speed_array);
-        AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
-        buider.setTitle(R.string.barrage_speed_title);
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.dialog_defined, null);
-        buider.setView(dialogView);
-        buider.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        LinearLayout linearLayout = dialogView.findViewById(R.id.rootLayout);
-
-        int progress = SpUtils.getInstant().getInt(Constant.BARRAGE_SPEED, Constant.BARRAGE_SPEED_DEFAULT);
 
         IndicatorSeekBar seekBar = IndicatorSeekBar.with(getContext())
-                .max(10)
+                .max(4)
                 .min(1)
                 .progress(progress)
-                .tickCount(10)
+                .tickCount(4)
                 .showTickMarksType(TickMarkType.DIVIDER)
                 .tickMarksColor(mContext.getResources().getColor(R.color.red))
                 .tickTextsArray(items)
@@ -312,8 +253,62 @@ public class BarrageFragment extends BaseFragment {
             @Override
             public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
                 int progress = seekBar.getProgress();
-                SpUtils.getInstant().put(Constant.BARRAGE_SPEED, progress);
-                mBarrageSpeed.setRightSummary(String.valueOf(progress));
+                SpUtils.getInstant().put(Constant.BARRAGE_POSTION, progress);
+                mBarragePostion.setRightSummary(items[progress - 1]);
+            }
+        });
+        buider.create().show();
+
+    }
+
+    @OnClick({R2.id.barrage_speed})
+    public void listenerSpeed() {
+        AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
+        buider.setTitle(R.string.barrage_speed_title);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_defined, null);
+        buider.setView(dialogView);
+        buider.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        LinearLayout linearLayout = dialogView.findViewById(R.id.rootLayout);
+
+        int progress = SpUtils.getInstant().getInt(Constant.BARRAGE_SPEED, Constant.BARRAGE_SPEED_DEFAULT);
+        IndicatorSeekBar seekBar = IndicatorSeekBar.with(getContext())
+                .max(150)
+                .min(0)
+                .progress(progress)
+                .showTickMarksType(TickMarkType.OVAL)
+                .showIndicatorType(IndicatorType.CIRCULAR_BUBBLE)
+                .indicatorColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .thumbColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .trackProgressColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .build();
+
+        IndicatorStayLayout stayLayout = new IndicatorStayLayout(getContext());
+        stayLayout.attachTo(seekBar);
+        linearLayout.addView(stayLayout);
+
+        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                int postion = seekBar.getProgress();
+                SpUtils.getInstant().put(Constant.BARRAGE_SPEED, postion);
+                mBarrageSpeed.setRightSummary(String.valueOf(postion));
             }
         });
         buider.create().show();
@@ -321,8 +316,6 @@ public class BarrageFragment extends BaseFragment {
 
     @OnClick({R2.id.barrage_avatar_size})
     public void listenerAvatarSize() {
-        CoreManager.getDefault().getImpl(IBarrage.class).removeBarrage();
-
         AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
         buider.setTitle(R.string.barrage_avatar_size);
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -339,8 +332,8 @@ public class BarrageFragment extends BaseFragment {
 
         int progress = SpUtils.getInstant().getInt(Constant.BARRAGE_AVATAR_SIZE, Constant.BARRAGE_AVATAR_SIZE_DEFAULT);
         IndicatorSeekBar seekBar = IndicatorSeekBar.with(getContext())
-                .max(40)
-                .min(30)
+                .max(100)
+                .min(50)
                 .progress(progress)
                 .showTickMarksType(TickMarkType.OVAL)
                 .showIndicatorType(IndicatorType.CIRCULAR_BUBBLE)
@@ -375,8 +368,6 @@ public class BarrageFragment extends BaseFragment {
 
     @OnClick({R2.id.barrage_text_size})
     public void listenerTextSize() {
-        CoreManager.getDefault().getImpl(IBarrage.class).removeBarrage();
-
         AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
         buider.setTitle(R.string.barrage_text_size);
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -429,27 +420,9 @@ public class BarrageFragment extends BaseFragment {
 
     @OnClick({R2.id.barrage_click})
     public void listenerClick() {
-        final String[] items = mContext.getResources().getStringArray(R.array.barrage_click_feedback_array);
-        int item = SpUtils.getInstant().getInt(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT);
-
-        final AlertDialog dialog = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog)
-                .setTitle(mContext.getString(R.string.barrage_click_dialog_title))
-                .setSingleChoiceItems(items, item, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        SpUtils.getInstant().put(Constant.BARRAGE_CLICK, which);
-                        mBarrageClick.setRightSummary(mContext.getResources().getStringArray(R.array.barrage_click_feedback_array)[which]);
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
-        dialog.show();
+        boolean barrageClick = SpUtils.getInstant().getBoolean(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT);
+        mBarrageClick.setCheck(!barrageClick);
+        SpUtils.getInstant().put(Constant.BARRAGE_CLICK, !barrageClick);
     }
 
     @OnClick({R2.id.barrage_title})

@@ -14,13 +14,7 @@
   limitations under the License.
   -->
 
-<com.journeyOS.barrage.BarrageParentView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <com.journeyOS.barrage.BarrageView
-        android:id="@+id/barrage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-</com.journeyOS.barrage.BarrageParentView>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="300dp" />
+    <solid android:color="#d4969696" />
+</shape>

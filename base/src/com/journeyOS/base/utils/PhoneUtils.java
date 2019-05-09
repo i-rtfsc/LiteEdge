@@ -16,7 +16,7 @@
 
 package com.journeyOS.base.utils;
 
-public class PhoneUtil {
+public class PhoneUtils {
 //    /*  2019年1月已知
 //     * 中国电信号段 133,149,153,173,174,177,180,181,189,199
 //     * 中国联通号段 130,131,132,145,146,155,156,166,175,176,185,186

@@ -14,20 +14,10 @@
  * limitations under the License.
  */
 
-package com.journeyOS.barrage.model.painter;
+package com.journeyOS.base.barrage;
 
-import com.journeyOS.barrage.model.BarrageModel;
-import com.journeyOS.barrage.model.channel.BarrageChannel;
+public interface OnBarrageStateChangeListener {
+    void onBarrageAttachedToWindow();
 
-public class L2RPainter extends BarragePainter {
-
-    @Override
-    protected void layout(BarrageModel model, BarrageChannel channel) {
-        if (model.getX() >= (channel.width + model.getWidth())) {
-            model.setAlive(false);
-            return;
-        }
-        model.setStartPositionX(model.getX() + model.getSpeed() * (1 + 0.5f));
-    }
-
+    void onBarrageDetachedFromWindow();
 }
