@@ -62,6 +62,9 @@ public class BarrageFragment extends BaseFragment {
     @BindView(R2.id.barrage_selector)
     SettingView mBarrageSelector;
 
+    @BindView(R2.id.barrage_direction)
+    SettingView mBarrageDirection;
+
     @BindView(R2.id.barrage_postion)
     SettingView mBarragePostion;
 
@@ -114,6 +117,8 @@ public class BarrageFragment extends BaseFragment {
         if (!barrage) {
             mBarrageSelector.setEnabled(false);
         }
+
+        mBarrageDirection.setRightSummary(mContext.getResources().getStringArray(R.array.barrage_direction_array)[SpUtils.getInstant().getInt(Constant.BARRAGE_DIRECTION, Constant.BARRAGE_DIRECTION_DEFAULT) - 1]);
 
         mBarrageClick.setRightSummary(mContext.getResources().getStringArray(R.array.barrage_click_feedback_array)[SpUtils.getInstant().getInt(Constant.BARRAGE_CLICK, Constant.BARRAGE_CLICK_DEFAULT)]);
 
@@ -169,6 +174,33 @@ public class BarrageFragment extends BaseFragment {
     @OnClick({R2.id.barrage_filter})
     public void listenerBarrageFilter() {
         CoreManager.getDefault().getImpl(IContainer.class).subActivity(mContext, BarrageFliterFragment.newInstance(mContext), mContext.getString(R.string.barrage_filter));
+    }
+
+    @OnClick({R2.id.barrage_direction})
+    public void listenerDirection() {
+        CoreManager.getDefault().getImpl(IBarrage.class).removeBarrage();
+
+        final String[] items = mContext.getResources().getStringArray(R.array.barrage_direction_array);
+        int item = SpUtils.getInstant().getInt(Constant.BARRAGE_DIRECTION, Constant.BARRAGE_DIRECTION_DEFAULT) - 1;
+
+        final AlertDialog dialog = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog)
+                .setTitle(mContext.getString(R.string.barrage_click_dialog_title))
+                .setSingleChoiceItems(items, item, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        SpUtils.getInstant().put(Constant.BARRAGE_DIRECTION, which + 1);
+                        mBarrageDirection.setRightSummary(mContext.getResources().getStringArray(R.array.barrage_direction_array)[which]);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        dialog.show();
     }
 
     @OnClick({R2.id.barrage_postion})

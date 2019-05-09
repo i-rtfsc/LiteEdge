@@ -255,4 +255,8 @@
     <string name="barrage_filter_add_hint">添加关键字</string>
     <string name="barrage_avatar_size">弹幕头像大小</string>
     <string name="barrage_text_size">弹幕字体大小</string>
+    <string name="barrage_direction_title">弹幕方向</string>
+    <string name="barrage_direction_summary">弹幕在屏幕中的移动方向</string>
+    <string name="barrage_direction_right_2_left">右到左</string>
+    <string name="barrage_direction_left_2_right">左到右</string>
 </resources>

@@ -95,7 +95,7 @@ public class BarragePainter extends IBarragePainter {
 
     protected void drawAvatarStrokes(BarrageModel model, Canvas canvas, BarrageChannel channel) {
         float x = model.getX() + model.marginLeft + model.avatarWidth / 2;
-        float top = model.getY() + model.avatarHeight / 2;
+        float top = model.getY();
 
         sPaint.setColor(Color.TRANSPARENT);
         sPaint.setStyle(Paint.Style.STROKE);

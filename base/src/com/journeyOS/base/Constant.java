@@ -63,6 +63,9 @@ public class Constant {
     public static final String BARRAGE_CLICK = "barrageClick";
     public static final int BARRAGE_CLICK_DEFAULT = 0;
 
+    public static final String BARRAGE_DIRECTION = "barrageDirection";
+    public static final int BARRAGE_DIRECTION_DEFAULT = 1;
+
     public static final String INNER_BALL_COLOR = "innerBallColor";
     public static final int INNER_BALL_COLOR_DEFAULT = -16743937;
 

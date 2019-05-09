@@ -42,4 +42,9 @@
         <item>@string/number_10</item>
     </array>
 
+    <array name="barrage_direction_array">
+        <item>@string/barrage_direction_right_2_left</item>
+        <item>@string/barrage_direction_left_2_right</item>
+    </array>
+
 </resources>

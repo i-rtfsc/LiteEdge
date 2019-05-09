@@ -88,8 +88,10 @@ public final class BarrageHelper {
 
     private BarrageModel createBarrageView(final BarrageEntity entity) {
         final BarrageModel barrageModel = new BarrageModel();
-        barrageModel.setDisplayType(BarrageModel.RIGHT_TO_LEFT);
-        barrageModel.setPriority(BarrageModel.NORMAL);
+        //barrageModel.setDisplayType(BarrageModel.RIGHT_TO_LEFT);
+        int direction = SpUtils.getInstant().getInt(Constant.BARRAGE_DIRECTION, Constant.BARRAGE_DIRECTION_DEFAULT);
+        barrageModel.setDisplayType(direction);
+        barrageModel.setPriority(BarrageModel.SYSTEM);
         barrageModel.marginLeft = DimensionUtil.dpToPx(mContext, 30);
 
         if (entity.type == BarrageEntity.BARRAGE_TYPE_USERCHAT) {
