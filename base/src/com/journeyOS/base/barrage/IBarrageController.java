@@ -29,6 +29,16 @@ public interface IBarrageController {
     float getSpeed();
 
     /**
+     * 设置弹幕移动方向
+     */
+    void setDirection(int direction);
+
+    /**
+     * 获取弹幕移动方向
+     */
+    int getDirection();
+
+    /**
      * 设置弹幕位置
      */
     void setPostion(int postion);

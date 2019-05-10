@@ -64,8 +64,10 @@ public class BarrageDispatcher implements Runnable {
                     mBarrageIndex = 0;
                 }
                 if (!running) {
-                    for (OnBarrageStateChangeListener listener : mListeners) {
-                        listener.onBarrageAttachedToWindow();
+                    if (mBarrageNum == 1) {
+                        for (OnBarrageStateChangeListener listener : mListeners) {
+                            listener.onBarrageAttachedToWindow();
+                        }
                     }
                     mHandler.post(this);
                 }

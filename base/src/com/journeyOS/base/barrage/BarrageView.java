@@ -28,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.journeyOS.base.R;
-import com.journeyOS.base.utils.AnimationUtils;
 import com.journeyOS.base.utils.UIUtils;
 
 public class BarrageView {
@@ -51,6 +50,7 @@ public class BarrageView {
 
     private long mStartTime = 0;
 
+    private int mDirection;
     private float mSpeed;
 
     public BarrageView(Context context) {
@@ -66,8 +66,8 @@ public class BarrageView {
         mBackground = (GradientDrawable) mLayout.getBackground();
 
         mAnimation = new AlphaAnimation(0, 1f);
-        mAnimation.setDuration(800);
-        mAnimation.setInterpolator(AnimationUtils.getEaseInterpolator());
+        mAnimation.setDuration(1000);
+//        mAnimation.setInterpolator(AnimationUtils.getEaseInterpolator());
         mAnimation.setFillAfter(true);
         mAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -130,8 +130,8 @@ public class BarrageView {
                     break;
             }
 
+            mDirection = controller.getDirection();
             mSpeed = controller.getSpeed();
-
             mBackground.setColor(controller.getBackgroundColor());
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(controller.getAvatarSize(), controller.getAvatarSize());
             layoutParams.gravity = Gravity.CENTER_VERTICAL;
@@ -149,11 +149,20 @@ public class BarrageView {
     public boolean move() {
         if (availiable) {
             long time = (System.currentTimeMillis() - mStartTime) / 1;
-            float posX = mScreenWidth - time * mSpeed / 200f;
+            if (BarrageModel.RIGHT_TO_LEFT == mDirection) {
+                float posX = mScreenWidth - time * mSpeed / 200f;
 
-            mLayout.setX(posX);
-            if (mLayout.getWidth() > 0 && posX < -mLayout.getWidth()) {
-                availiable = false;
+                mLayout.setX(posX);
+                if (mLayout.getWidth() > 0 && posX < -mLayout.getWidth()) {
+                    availiable = false;
+                }
+            } else if (BarrageModel.LEFT_TO_RIGHT == mDirection) {
+                float posX = time * mSpeed / 200f - mScreenWidth;
+
+                mLayout.setX(posX);
+                if (mLayout.getWidth() > 0 && posX > mScreenWidth) {
+                    availiable = false;
+                }
             }
         }
         return availiable;

@@ -67,15 +67,12 @@
             <com.journeyOS.base.widget.SettingView
                 android:id="@+id/barrage_direction"
                 style="@style/mid_layout"
-                android:visibility="gone"
                 settings:settingIcon="@drawable/svg_slide_left_right"
                 settings:settingRightSummary=""
                 settings:settingSummary="@string/barrage_direction_summary"
                 settings:settingTitle="@string/barrage_direction_title" />
 
-            <View
-                style="@style/bg_line"
-                android:visibility="gone" />
+            <View style="@style/bg_line" />
 
             <com.journeyOS.base.widget.SettingView
                 android:id="@+id/barrage_postion"
@@ -121,9 +118,7 @@
                 settings:settingRightSummary="@string/barrage_current_color"
                 settings:settingTitle="@string/barrage_title_color" />
 
-            <View
-                style="@style/bg_line"
-                android:visibility="visible" />
+            <View style="@style/bg_line" />
 
             <com.journeyOS.base.widget.SettingView
                 android:id="@+id/barrage_summary"
@@ -159,6 +154,7 @@
                 android:id="@+id/barrage_test"
                 style="@style/single_layout"
                 settings:settingIcon="@drawable/svg_menu_barrage"
+                settings:settingSummary="@string/barrage_debug_summary"
                 settings:settingTitle="@string/barrage_debug"
                 settings:showRight="false" />
         </LinearLayout>

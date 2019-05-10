@@ -97,6 +97,7 @@
 
     <string name="barrage_toogle">弹幕</string>
     <string name="barrage_debug">弹幕测试</string>
+    <string name="barrage_debug_summary">连续点击有惊喜</string>
     <string name="barrage_whitelist">弹幕白名单</string>
     <string name="barrage_filter">弹幕过滤</string>
     <string name="barrage_filter_summary">自定义包含关键字时不出现弹幕</string>

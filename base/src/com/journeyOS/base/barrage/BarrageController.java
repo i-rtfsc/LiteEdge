@@ -17,7 +17,9 @@
 package com.journeyOS.base.barrage;
 
 public final class BarrageController implements IBarrageController {
+
     private float mSpeed = 80;
+    private int mDirection = BarrageModel.RIGHT_TO_LEFT;
     private int mPostion = BarrageModel.POSTION_TOP;
     private int mAvatarSize = 68;
     private int mTextSize = 15;
@@ -33,6 +35,16 @@ public final class BarrageController implements IBarrageController {
     @Override
     public float getSpeed() {
         return mSpeed;
+    }
+
+    @Override
+    public void setDirection(int direction) {
+        mDirection = direction;
+    }
+
+    @Override
+    public int getDirection() {
+        return mDirection;
     }
 
     @Override

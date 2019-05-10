@@ -122,10 +122,9 @@ public class BarrageManager implements OnBarrageStateChangeListener {
             Bitmap bitmap = UIUtils.drawableToBitmap(drawable);
             circleBitmap = UIUtils.getCircularBitmap(bitmap);
         }
-        sendBarrage(circleBitmap, notification.getTitle(), notification.getTitle());
+        sendBarrage(circleBitmap, notification.getTitle(), notification.getText());
         setPackageName(notification.getPackageName());
     }
-
 
     public void sendBarrage(Bitmap bitmap, String name, String text) {
         boolean isSkip = skipBarrage(name, text);
@@ -183,6 +182,7 @@ public class BarrageManager implements OnBarrageStateChangeListener {
         barrageModel.content = content;
         BarrageController controller = new BarrageController();
         controller.setPostion(SpUtils.getInstant().getInt(Constant.BARRAGE_POSTION, Constant.BARRAGE_POSTION_DEFAULT));
+        controller.setDirection(SpUtils.getInstant().getInt(Constant.BARRAGE_DIRECTION, Constant.BARRAGE_DIRECTION_DEFAULT));
         controller.setSpeed(SpUtils.getInstant().getInt(Constant.BARRAGE_SPEED, Constant.BARRAGE_SPEED_DEFAULT));
         controller.setAvatarSize(SpUtils.getInstant().getInt(Constant.BARRAGE_AVATAR_SIZE, Constant.BARRAGE_AVATAR_SIZE_DEFAULT));
         controller.setTextSize(SpUtils.getInstant().getInt(Constant.BARRAGE_TEXT_SIZE, Constant.BARRAGE_TEXT_SIZE_DEFAULT));

@@ -182,7 +182,7 @@ public class BarrageFragment extends BaseFragment {
         int item = SpUtils.getInstant().getInt(Constant.BARRAGE_DIRECTION, Constant.BARRAGE_DIRECTION_DEFAULT) - 1;
 
         final AlertDialog dialog = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog)
-                .setTitle(mContext.getString(R.string.barrage_click_dialog_title))
+                .setTitle(mContext.getString(R.string.barrage_direction_title))
                 .setSingleChoiceItems(items, item, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
