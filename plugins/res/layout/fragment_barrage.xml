@@ -138,6 +138,15 @@
 
             <View style="@style/bg_line" />
 
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_background_style"
+                style="@style/mid_layout"
+                settings:settingIcon="@drawable/svg_barrage_background_style"
+                settings:settingSummary="@string/barrage_background_style_smarry"
+                settings:settingTitle="@string/barrage_background_style" />
+
+            <View style="@style/bg_line" />
+
             <com.journeyOS.base.widget.SettingSwitch
                 android:id="@+id/barrage_click"
                 style="@style/bottom_layout"

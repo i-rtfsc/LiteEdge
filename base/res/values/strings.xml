@@ -266,4 +266,13 @@
     <string name="barrage_postion_top">上屏</string>
     <string name="barrage_postion_middle">中屏</string>
     <string name="barrage_postion_bottom">下屏</string>
+
+    <string name="barrage_background_style">弹幕背景形状</string>
+    <string name="barrage_background_style_smarry">可自定义弹幕背景四个边角的形状</string>
+    <string name="barrage_background_bottom_left_radius">左下角</string>
+    <string name="barrage_background_bottom_right_radius">右下角</string>
+    <string name="barrage_background_top_left_radius">左上角</string>
+    <string name="barrage_background_top_right_radius">右上角</string>
+
+
 </resources>

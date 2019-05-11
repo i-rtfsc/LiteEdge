@@ -110,7 +110,7 @@ public class BarrageManager implements OnBarrageStateChangeListener {
 
         Bitmap bitmap = UIUtils.drawableToBitmap(mContext.getResources().getDrawable(R.mipmap.user));
         Bitmap circleBitmap = UIUtils.getCircularBitmap(bitmap);
-        sendBarrage(circleBitmap, "用户名", "弹幕消息测试~");
+        sendBarrage(circleBitmap, "用户名", "弹幕消息超长测试11111222223333344444555556666677777888889999900000111111~");
     }
 
     public void sendBarrage(Notification notification) {
@@ -189,6 +189,19 @@ public class BarrageManager implements OnBarrageStateChangeListener {
         controller.setTextTitleColor(SpUtils.getInstant().getInt(Constant.BARRAGE_TITLE_COLOR, Constant.BARRAGE_TITLE_COLOR_DEFAULT));
         controller.setTextContentColor(SpUtils.getInstant().getInt(Constant.BARRAGE_SUMMARY_COLOR, Constant.BARRAGE_SUMMARY_COLOR_DEFAULT));
         controller.setBackgroundColor(SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_COLOR, Constant.BARRAGE_BACKGROUND_COLOR_DEFAULT));
+
+        float[] radii = {
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_TOP_LEFT, Constant.BARRAGE_BACKGROUND_TOP_LEFT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_TOP_LEFT, Constant.BARRAGE_BACKGROUND_TOP_LEFT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_TOP_RIGHT, Constant.BARRAGE_BACKGROUND_TOP_RIGHT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_TOP_RIGHT, Constant.BARRAGE_BACKGROUND_TOP_RIGHT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_BOTTOM_RIGHT, Constant.BARRAGE_BACKGROUND_BOTTOM_RIGHT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_BOTTOM_RIGHT, Constant.BARRAGE_BACKGROUND_BOTTOM_RIGHT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_BOTTOM_LEFT, Constant.BARRAGE_BACKGROUND_BOTTOM_LEFT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_BOTTOM_LEFT, Constant.BARRAGE_BACKGROUND_BOTTOM_LEFT_DEFAULT)
+        };
+        controller.setBackgroundRadius(radii);
+
         barrageModel.controller = controller;
         return barrageModel;
     }

@@ -13,9 +13,9 @@ def initVersion() {
     gradle.ext.targetVersion = 27
     gradle.ext.minSdkVersion = 22
     gradle.ext.supportVersion = '27.1.0'
-    gradle.ext.versionCode = 42
+    gradle.ext.versionCode = 43
     //为了检查更新，versionName最后一个.后面的数字为versionCode的数字
-    gradle.ext.versionName = '1.2.1.42'
+    gradle.ext.versionName = '1.2.1.43'
 
     //base
     gradle.ext.constraint_layout = '1.0.2'

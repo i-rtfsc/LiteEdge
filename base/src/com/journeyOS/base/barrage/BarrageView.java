@@ -133,6 +133,9 @@ public class BarrageView {
             mDirection = controller.getDirection();
             mSpeed = controller.getSpeed();
             mBackground.setColor(controller.getBackgroundColor());
+            mBackground.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+            mBackground.setCornerRadii(controller.getBackgroundRadius());
+
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(controller.getAvatarSize(), controller.getAvatarSize());
             layoutParams.gravity = Gravity.CENTER_VERTICAL;
             mImageViewIcon.setLayoutParams(layoutParams);

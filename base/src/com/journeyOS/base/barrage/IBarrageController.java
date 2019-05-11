@@ -98,4 +98,13 @@ public interface IBarrageController {
      */
     int getBackgroundColor();
 
+    /**
+     * 设置背景四个角度
+     */
+    void setBackgroundRadius(float[] radii);
+
+    /**
+     * 获取背景四个角度
+     */
+    float[] getBackgroundRadius();
 }

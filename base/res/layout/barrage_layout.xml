@@ -37,7 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="@dimen/common_dimen_min"
-        android:maxLines="1"
         android:textColor="@color/textColor" />
 
     <TextView
@@ -46,7 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/common_dimen_min"
-        android:maxLines="1"
         android:textColor="@color/textColor" />
 
 </LinearLayout>

@@ -518,6 +518,100 @@ public class BarrageFragment extends BaseFragment {
                 .show();
     }
 
+    @OnClick({R2.id.barrage_background_style})
+    public void listenerBarrageBackgroundStyle() {
+        AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
+        buider.setTitle(R.string.barrage_background_style);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_barrage_background, null);
+        buider.setView(dialogView);
+        buider.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        //top left
+        IndicatorSeekBar topLeftSeekbar = dialogView.findViewById(R.id.top_left_radius);
+        int topLeftProgress = SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_TOP_LEFT, Constant.BARRAGE_BACKGROUND_TOP_LEFT_DEFAULT);
+        topLeftSeekbar.setProgress(topLeftProgress);
+        topLeftSeekbar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                SpUtils.getInstant().put(Constant.BARRAGE_BACKGROUND_TOP_LEFT, seekBar.getProgress());
+            }
+        });
+
+        //top right
+        IndicatorSeekBar topRightSeekbar = dialogView.findViewById(R.id.top_right_radius);
+        int topRightProgress = SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_TOP_RIGHT, Constant.BARRAGE_BACKGROUND_TOP_RIGHT_DEFAULT);
+        topRightSeekbar.setProgress(topRightProgress);
+        topRightSeekbar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                SpUtils.getInstant().put(Constant.BARRAGE_BACKGROUND_TOP_RIGHT, seekBar.getProgress());
+            }
+        });
+        //bottom right
+        IndicatorSeekBar bottomRightSeekbar = dialogView.findViewById(R.id.bottom_right_radius);
+        int bottomRightProgress = SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_BOTTOM_RIGHT, Constant.BARRAGE_BACKGROUND_BOTTOM_RIGHT_DEFAULT);
+        bottomRightSeekbar.setProgress(bottomRightProgress);
+        bottomRightSeekbar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                SpUtils.getInstant().put(Constant.BARRAGE_BACKGROUND_BOTTOM_RIGHT, seekBar.getProgress());
+            }
+        });
+        //bottom left
+        IndicatorSeekBar bottomLeftSeekbar = dialogView.findViewById(R.id.bottom_left_radius);
+        int bottomLeftProgress = SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_BOTTOM_LEFT, Constant.BARRAGE_BACKGROUND_BOTTOM_LEFT_DEFAULT);
+        bottomLeftSeekbar.setProgress(bottomLeftProgress);
+        bottomLeftSeekbar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                SpUtils.getInstant().put(Constant.BARRAGE_BACKGROUND_BOTTOM_LEFT, seekBar.getProgress());
+            }
+        });
+        buider.create().show();
+    }
+
     @OnClick({R2.id.barrage_test})
     public void listenerBarrageTest() {
         if (!CoreManager.getDefault().getImpl(IPermission.class).canDrawOverlays(mContext)) {
