@@ -178,6 +178,9 @@ public class BarrageManager implements OnBarrageStateChangeListener {
     private BarrageModel getBarrageModel(Bitmap bitmap, String title, String content) {
         BarrageModel barrageModel = new BarrageModel();
         barrageModel.avatar = bitmap;
+        if (title != null && title.length() > 10) {
+            title = title.substring(0, 9);
+        }
         barrageModel.title = title;
         barrageModel.content = content;
         BarrageController controller = new BarrageController();

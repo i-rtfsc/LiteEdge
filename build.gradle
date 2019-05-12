@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0'
-        classpath 'com.antfortune.freeline:gradle:0.8.7'
+//        classpath 'com.antfortune.freeline:gradle:0.8.7'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.4.0'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.51'
         classpath 'com.novoda:bintray-release:0.8.1'
