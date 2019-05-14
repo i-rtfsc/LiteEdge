@@ -26,7 +26,9 @@ public final class BarrageController implements IBarrageController {
     private int mTitleColor = -65427;
     private int mContentColor = -7773953;
     private int mBackgroundColor = 811885668;
-    float[] mRadii = {200f, 200f, 120f, 120f, 100f, 200f, 50f, 50f};
+    private float[] mRadii = {200f, 200f, 120f, 120f, 100f, 200f, 50f, 50f};
+    private int mStrokeWidth = 3;
+    private int mStrokeColor = -16743681;
 
     @Override
     public void setSpeed(float speed) {
@@ -116,5 +118,25 @@ public final class BarrageController implements IBarrageController {
     @Override
     public float[] getBackgroundRadius() {
         return mRadii;
+    }
+
+    @Override
+    public void setStrokeWidth(int width) {
+        mStrokeWidth = width;
+    }
+
+    @Override
+    public int getStrokeWidth() {
+        return mStrokeWidth;
+    }
+
+    @Override
+    public void setStrokeColor(int color) {
+        mStrokeColor = color;
+    }
+
+    @Override
+    public int getStrokeColor() {
+        return mStrokeColor;
     }
 }

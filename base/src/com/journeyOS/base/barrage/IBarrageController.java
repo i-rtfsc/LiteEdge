@@ -107,4 +107,24 @@ public interface IBarrageController {
      * 获取背景四个角度
      */
     float[] getBackgroundRadius();
+
+    /**
+     * 设置描边的宽度
+     */
+    void setStrokeWidth(int width);
+
+    /**
+     * 获取描边的宽度
+     */
+    int getStrokeWidth();
+
+    /**
+     * 设置描边的颜色
+     */
+    void setStrokeColor(int color);
+
+    /**
+     * 获取描边的颜色
+     */
+    int getStrokeColor();
 }

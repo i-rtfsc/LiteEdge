@@ -274,5 +274,9 @@
     <string name="barrage_background_top_left_radius">左上角</string>
     <string name="barrage_background_top_right_radius">右上角</string>
 
+    <string name="barrage_background_stroke_width">描边宽度</string>
+    <string name="barrage_background_stroke_width_summary">弹幕背景形状描边宽度</string>
+    <string name="barrage_background_stroke_color">描边颜色</string>
+    <string name="barrage_background_stroke_color_summary">弹幕背景形状描边颜色</string>
 
 </resources>

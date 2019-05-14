@@ -93,9 +93,14 @@ public class Constant {
     public static final String BARRAGE_BACKGROUND_BOTTOM_LEFT = "barrageBgBottomLeft";
     public static final int BARRAGE_BACKGROUND_BOTTOM_LEFT_DEFAULT = 50;
 
-
     public static final String BARRAGE_BACKGROUND_COLOR = "barrageBackgroundColor";
     public static final int BARRAGE_BACKGROUND_COLOR_DEFAULT = 811885668;
+
+    public static final String BARRAGE_BACKGROUND_STROKE_WIDTH = "bgsw";
+    public static final int BARRAGE_BACKGROUND_STROKE_WIDTH_DEFAULT = 3;
+
+    public static final String BARRAGE_BACKGROUND_STROKE_COLOR = "bgsc";
+    public static final int BARRAGE_BACKGROUND_STROKE_COLOR_DEFAULT = -16743681;
 
     public static final String BARRAGE_POSTION = "barragePostion_modify";
     public static final int BARRAGE_POSTION_DEFAULT = 1;

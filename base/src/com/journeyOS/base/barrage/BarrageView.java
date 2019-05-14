@@ -135,6 +135,8 @@ public class BarrageView {
             mBackground.setColor(controller.getBackgroundColor());
             mBackground.setGradientType(GradientDrawable.LINEAR_GRADIENT);
             mBackground.setCornerRadii(controller.getBackgroundRadius());
+            mBackground.setCornerRadii(controller.getBackgroundRadius());
+            mBackground.setStroke(controller.getStrokeWidth(), controller.getStrokeColor());
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(controller.getAvatarSize(), controller.getAvatarSize());
             layoutParams.gravity = Gravity.CENTER_VERTICAL;

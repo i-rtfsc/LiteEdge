@@ -147,6 +147,26 @@
 
             <View style="@style/bg_line" />
 
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_background_stroke_width"
+                style="@style/mid_layout"
+                settings:settingIcon="@drawable/svg_barrage_background_style"
+                settings:settingRightSummary=""
+                settings:settingSummary="@string/barrage_background_stroke_width_summary"
+                settings:settingTitle="@string/barrage_background_stroke_width" />
+
+            <View style="@style/bg_line" />
+
+            <com.journeyOS.base.widget.SettingView
+                android:id="@+id/barrage_background_stroke_color"
+                style="@style/mid_layout"
+                settings:settingIcon="@drawable/svg_barrage_background_style"
+                settings:settingRightSummary="@string/barrage_current_color"
+                settings:settingSummary="@string/barrage_background_stroke_color_summary"
+                settings:settingTitle="@string/barrage_background_stroke_color" />
+
+            <View style="@style/bg_line" />
+
             <com.journeyOS.base.widget.SettingSwitch
                 android:id="@+id/barrage_click"
                 style="@style/bottom_layout"

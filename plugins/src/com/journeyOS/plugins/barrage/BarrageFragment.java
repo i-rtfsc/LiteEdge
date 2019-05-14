@@ -88,6 +88,12 @@ public class BarrageFragment extends BaseFragment {
     @BindView(R2.id.barrage_background)
     SettingView mBarrageBackground;
 
+    @BindView(R2.id.barrage_background_stroke_width)
+    SettingView mBarrageBackgroundStrokeWidth;
+
+    @BindView(R2.id.barrage_background_stroke_color)
+    SettingView mBarrageBackgroundStrokeColor;
+
     @BindView(R2.id.barrage_test)
     SettingView mBarrageTest;
 
@@ -138,6 +144,12 @@ public class BarrageFragment extends BaseFragment {
             backgroundColor = ContextCompat.getColor(mContext, R.color.divider_dark);
         }
         mBarrageBackground.setRightSummaryColor(backgroundColor);
+
+        int strokeWidth = SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_STROKE_WIDTH, Constant.BARRAGE_BACKGROUND_STROKE_WIDTH_DEFAULT);
+        mBarrageBackgroundStrokeWidth.setRightSummary(String.valueOf(strokeWidth));
+
+        int strokeColor = SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_STROKE_COLOR, Constant.BARRAGE_BACKGROUND_STROKE_COLOR_DEFAULT);
+        mBarrageBackgroundStrokeColor.setRightSummaryColor(strokeColor);
 
         int postion = SpUtils.getInstant().getInt(Constant.BARRAGE_POSTION, Constant.BARRAGE_POSTION_DEFAULT);
         final String[] postionItems = mContext.getResources().getStringArray(R.array.barrage_postion_array);
@@ -610,6 +622,89 @@ public class BarrageFragment extends BaseFragment {
             }
         });
         buider.create().show();
+    }
+
+    @OnClick({R2.id.barrage_background_stroke_width})
+    public void listenerBarrageStrokeWidth() {
+        AlertDialog.Builder buider = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog);
+        buider.setTitle(R.string.barrage_background_stroke_width);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_defined, null);
+        buider.setView(dialogView);
+        buider.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        LinearLayout linearLayout = dialogView.findViewById(R.id.rootLayout);
+
+        int progress = SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_STROKE_WIDTH, Constant.BARRAGE_BACKGROUND_STROKE_WIDTH_DEFAULT);
+        IndicatorSeekBar seekBar = IndicatorSeekBar.with(getContext())
+                .max(10)
+                .min(1)
+                .progress(progress)
+                .showTickMarksType(TickMarkType.OVAL)
+                .showIndicatorType(IndicatorType.CIRCULAR_BUBBLE)
+                .indicatorColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .thumbColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .trackProgressColor(mContext.getResources().getColor(R.color.colorPrimary))
+                .build();
+
+        IndicatorStayLayout stayLayout = new IndicatorStayLayout(getContext());
+        stayLayout.attachTo(seekBar);
+        linearLayout.addView(stayLayout);
+
+        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                int width = seekBar.getProgress();
+                SpUtils.getInstant().put(Constant.BARRAGE_BACKGROUND_STROKE_WIDTH, width);
+                mBarrageBackgroundStrokeWidth.setRightSummary(String.valueOf(width));
+            }
+        });
+        buider.create().show();
+    }
+
+    @OnClick({R2.id.barrage_background_stroke_color})
+    public void listenerBarrageStrokeColor() {
+        ColorPickerDialogBuilder
+                .with(mContext, R.style.CornersAlertDialog)
+                .setTitle(mContext.getString(R.string.barrage_background_stroke_color))
+                .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                .density(9)
+                .noSliders()
+                .showLightnessSlider(true)
+                .setOnColorSelectedListener(new OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(int selectedColor) {
+                    }
+                })
+                .setPositiveButton(android.R.string.ok, new ColorPickerClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                        SpUtils.getInstant().put(Constant.BARRAGE_BACKGROUND_STROKE_COLOR, selectedColor);
+                        mBarrageBackgroundStrokeColor.setRightSummaryColor(selectedColor);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .build()
+                .show();
     }
 
     @OnClick({R2.id.barrage_test})

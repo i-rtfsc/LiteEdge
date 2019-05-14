@@ -205,6 +205,9 @@ public class BarrageManager implements OnBarrageStateChangeListener {
         };
         controller.setBackgroundRadius(radii);
 
+        controller.setStrokeWidth(SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_STROKE_WIDTH, Constant.BARRAGE_BACKGROUND_STROKE_WIDTH_DEFAULT));
+        controller.setStrokeColor(SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_STROKE_COLOR, Constant.BARRAGE_BACKGROUND_STROKE_COLOR_DEFAULT));
+
         barrageModel.controller = controller;
         return barrageModel;
     }
