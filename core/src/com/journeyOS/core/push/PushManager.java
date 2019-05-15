@@ -16,12 +16,17 @@
 
 package com.journeyOS.core.push;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.journeyOS.base.utils.JsonHelper;
 import com.journeyOS.base.utils.LogUtils;
 import com.journeyOS.base.utils.Singleton;
+import com.journeyOS.base.utils.UIUtils;
 import com.journeyOS.core.CoreManager;
+import com.journeyOS.core.R;
 import com.journeyOS.core.Version;
 import com.journeyOS.core.api.barrage.IBarrage;
 import com.journeyOS.core.api.thread.ICoreExecutors;
@@ -34,7 +39,7 @@ import cn.bmob.v3.listener.PushListener;
 
 public class PushManager {
     private static final String TAG = PushManager.class.getSimpleName();
-
+    private static final String APP_WEBSITE = "https://www.coolapk.com/apk/com.journeyOS.edge";
     private static final String DEVICE_TYPE = "deviceType";
     private static final String DEVICE = "android";
 
@@ -61,12 +66,13 @@ public class PushManager {
         query.addWhereEqualTo(DEVICE_TYPE, DEVICE);
         //给指定设备推送，这个是我的三星手机
         //query.addWhereEqualTo("installationId", "F5D67F11B04236B432A2CE98FFAFB3A3");
+        //query.addWhereEqualTo("installationId", BmobInstallationManager.getInstallationId());
         bmobPushManager.setQuery(query);
         PushMessage message = new PushMessage();
         message.what = PushMessage.MSG_CHECK_UPDATE;
         message.versionCode = Version.getVersionCode(mContext);
-        message.title = "Edge已经更新";
-        message.msg = "请到酷安市场更新或者通过酷安网站[https://www.coolapk.com/apk/com.journeyOS.edge]下载";
+        message.title = "Edge新版本";
+        message.msg = "打开酷安或者浏览器并粘贴即可下载！";
         String json = JsonHelper.toJson(message);
         LogUtils.d(TAG, "notify all devices update edge = " + json);
         bmobPushManager.pushMessage(json, new PushListener() {
@@ -116,7 +122,13 @@ public class PushManager {
         CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
             @Override
             public void run() {
-                CoreManager.getDefault().getImpl(IBarrage.class).sendBarrage(null, message.title, message.msg);
+                ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText(null, APP_WEBSITE);
+                cm.setPrimaryClip(clip);
+
+                Bitmap bitmap = UIUtils.drawableToBitmap(mContext.getResources().getDrawable(R.drawable.svg_core_ball));
+                Bitmap circleBitmap = UIUtils.getCircularBitmap(bitmap);
+                CoreManager.getDefault().getImpl(IBarrage.class).sendBarrage(circleBitmap, message.title, message.msg, false);
             }
         });
     }

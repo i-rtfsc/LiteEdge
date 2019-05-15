@@ -109,7 +109,7 @@ public class MusicManager {
             if (metadata.album != null) {
                 album = UIUtils.getCircularBitmap(metadata.album);
             }
-            BarrageManager.getDefault().sendBarrage(album, metadata.singer, metadata.title);
+            BarrageManager.getDefault().sendBarrage(album, metadata.singer, metadata.title, true);
             showBarrage = false;
         }
     }

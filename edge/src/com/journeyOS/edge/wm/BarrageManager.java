@@ -110,7 +110,7 @@ public class BarrageManager implements OnBarrageStateChangeListener {
 
         Bitmap bitmap = UIUtils.drawableToBitmap(mContext.getResources().getDrawable(R.mipmap.user));
         Bitmap circleBitmap = UIUtils.getCircularBitmap(bitmap);
-        sendBarrage(circleBitmap, "用户名", "弹幕消息超长测试11111222223333344444555556666677777888889999900000111111~");
+        sendBarrage(circleBitmap, "用户名", "弹幕消息超长测试11111222223333344444555556666677777888889999900000111111~", true);
     }
 
     public void sendBarrage(Notification notification) {
@@ -122,15 +122,17 @@ public class BarrageManager implements OnBarrageStateChangeListener {
             Bitmap bitmap = UIUtils.drawableToBitmap(drawable);
             circleBitmap = UIUtils.getCircularBitmap(bitmap);
         }
-        sendBarrage(circleBitmap, notification.getTitle(), notification.getText());
+        sendBarrage(circleBitmap, notification.getTitle(), notification.getText(), true);
         setPackageName(notification.getPackageName());
     }
 
-    public void sendBarrage(Bitmap bitmap, String name, String text) {
-        boolean isSkip = skipBarrage(name, text);
-        if (isSkip) {
-            LogUtils.i(TAG, "skip this barrage!");
-            return;
+    public void sendBarrage(Bitmap bitmap, String name, String text, boolean checkSkip) {
+        if (checkSkip) {
+            boolean isSkip = skipBarrage(name, text);
+            if (isSkip) {
+                LogUtils.i(TAG, "skip this barrage!");
+                return;
+            }
         }
 
         if (mRootView == null) {

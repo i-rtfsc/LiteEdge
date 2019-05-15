@@ -308,7 +308,7 @@ public class NeteaseMusic {
                 circleBitmap = UIUtils.getCircularBitmap(bitmap);
             }
 
-            BarrageManager.getDefault().sendBarrage(circleBitmap, mMusicInfo.getSinger(), mMusicInfo.getName() + mContext.getString(R.string.gesture_control_music));
+            BarrageManager.getDefault().sendBarrage(circleBitmap, mMusicInfo.getSinger(), mMusicInfo.getName() + mContext.getString(R.string.gesture_control_music), true);
         }
         return mMusicInfo;
     }

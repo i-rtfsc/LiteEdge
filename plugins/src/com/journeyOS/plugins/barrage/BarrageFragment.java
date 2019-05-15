@@ -446,6 +446,7 @@ public class BarrageFragment extends BaseFragment {
                 .density(9)
                 .noSliders()
                 .showLightnessSlider(true)
+                .showAlphaSlider(true)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
@@ -476,6 +477,7 @@ public class BarrageFragment extends BaseFragment {
                 .density(9)
                 .noSliders()
                 .showLightnessSlider(true)
+                .showAlphaSlider(true)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
@@ -506,6 +508,7 @@ public class BarrageFragment extends BaseFragment {
                 .density(9)
                 .noSliders()
                 .showLightnessSlider(true)
+                .showAlphaSlider(true)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
@@ -686,6 +689,7 @@ public class BarrageFragment extends BaseFragment {
                 .density(9)
                 .noSliders()
                 .showLightnessSlider(true)
+                .showAlphaSlider(true)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
