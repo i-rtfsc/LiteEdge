@@ -180,7 +180,6 @@ public class EdgeManager {
                 public void onItemLongClick(int postion) {
                     LogUtils.d(TAG, "on item long click = " + postion);
                     CoreManager.getDefault().getImpl(IPlugins.class).navigationEdgeSelector(mContext, postion, StateMachine.getEdgeDirection());
-
                 }
 
                 @Override
