@@ -80,7 +80,7 @@ dependencies {
 
     api "de.hdodenhof:circleimageview:$gradle.circleimageview"
 
-    api "com.amap.api:location:latest.integration"
+    api "com.amap.api:location:$gradle.amap"
 
     debugApi "com.squareup.leakcanary:leakcanary-android:$gradle.leakcanary"
     releaseApi "com.squareup.leakcanary:leakcanary-android-no-op:$gradle.leakcanary"
