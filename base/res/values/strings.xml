@@ -97,6 +97,7 @@
 
     <string name="barrage_toogle">弹幕</string>
     <string name="barrage_debug">弹幕测试</string>
+    <string name="barrage_debug_summary">连续点击有惊喜</string>
     <string name="barrage_whitelist">弹幕白名单</string>
     <string name="barrage_filter">弹幕过滤</string>
     <string name="barrage_filter_summary">自定义包含关键字时不出现弹幕</string>
@@ -265,4 +266,17 @@
     <string name="barrage_postion_top">上屏</string>
     <string name="barrage_postion_middle">中屏</string>
     <string name="barrage_postion_bottom">下屏</string>
+
+    <string name="barrage_background_style">弹幕背景形状</string>
+    <string name="barrage_background_style_smarry">可自定义弹幕背景四个边角的形状</string>
+    <string name="barrage_background_bottom_left_radius">左下角</string>
+    <string name="barrage_background_bottom_right_radius">右下角</string>
+    <string name="barrage_background_top_left_radius">左上角</string>
+    <string name="barrage_background_top_right_radius">右上角</string>
+
+    <string name="barrage_background_stroke_width">描边宽度</string>
+    <string name="barrage_background_stroke_width_summary">弹幕背景形状描边宽度</string>
+    <string name="barrage_background_stroke_color">描边颜色</string>
+    <string name="barrage_background_stroke_color_summary">弹幕背景形状描边颜色</string>
+
 </resources>

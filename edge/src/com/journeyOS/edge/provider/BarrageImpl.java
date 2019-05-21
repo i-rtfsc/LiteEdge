@@ -42,7 +42,7 @@ public class BarrageImpl implements IBarrage {
     }
 
     @Override
-    public void sendBarrage(Bitmap bitmap, String name, String text) {
-        BarrageManager.getDefault().sendBarrage(bitmap, name, text);
+    public void sendBarrage(Bitmap bitmap, String name, String text, boolean checkSkip) {
+        BarrageManager.getDefault().sendBarrage(bitmap, name, text, checkSkip);
     }
 }

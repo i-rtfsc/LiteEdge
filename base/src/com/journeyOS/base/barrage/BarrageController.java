@@ -17,13 +17,18 @@
 package com.journeyOS.base.barrage;
 
 public final class BarrageController implements IBarrageController {
+
     private float mSpeed = 80;
+    private int mDirection = BarrageModel.RIGHT_TO_LEFT;
     private int mPostion = BarrageModel.POSTION_TOP;
     private int mAvatarSize = 68;
     private int mTextSize = 15;
     private int mTitleColor = -65427;
     private int mContentColor = -7773953;
     private int mBackgroundColor = 811885668;
+    private float[] mRadii = {200f, 200f, 120f, 120f, 100f, 200f, 50f, 50f};
+    private int mStrokeWidth = 3;
+    private int mStrokeColor = -16743681;
 
     @Override
     public void setSpeed(float speed) {
@@ -33,6 +38,16 @@ public final class BarrageController implements IBarrageController {
     @Override
     public float getSpeed() {
         return mSpeed;
+    }
+
+    @Override
+    public void setDirection(int direction) {
+        mDirection = direction;
+    }
+
+    @Override
+    public int getDirection() {
+        return mDirection;
     }
 
     @Override
@@ -93,5 +108,35 @@ public final class BarrageController implements IBarrageController {
     @Override
     public int getBackgroundColor() {
         return mBackgroundColor;
+    }
+
+    @Override
+    public void setBackgroundRadius(float[] radii) {
+        mRadii = radii;
+    }
+
+    @Override
+    public float[] getBackgroundRadius() {
+        return mRadii;
+    }
+
+    @Override
+    public void setStrokeWidth(int width) {
+        mStrokeWidth = width;
+    }
+
+    @Override
+    public int getStrokeWidth() {
+        return mStrokeWidth;
+    }
+
+    @Override
+    public void setStrokeColor(int color) {
+        mStrokeColor = color;
+    }
+
+    @Override
+    public int getStrokeColor() {
+        return mStrokeColor;
     }
 }

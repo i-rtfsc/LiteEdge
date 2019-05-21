@@ -22,6 +22,8 @@ import com.journeyOS.core.api.ICoreApi;
 
 public interface IBarrage extends ICoreApi {
     void removeBarrage();
+
     void sendBarrage();
-    void sendBarrage(Bitmap bitmap, String name, String text);
+
+    void sendBarrage(Bitmap bitmap, String name, String text, boolean checkSkip);
 }

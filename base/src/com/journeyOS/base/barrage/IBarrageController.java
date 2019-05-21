@@ -29,6 +29,16 @@ public interface IBarrageController {
     float getSpeed();
 
     /**
+     * 设置弹幕移动方向
+     */
+    void setDirection(int direction);
+
+    /**
+     * 获取弹幕移动方向
+     */
+    int getDirection();
+
+    /**
      * 设置弹幕位置
      */
     void setPostion(int postion);
@@ -88,4 +98,33 @@ public interface IBarrageController {
      */
     int getBackgroundColor();
 
+    /**
+     * 设置背景四个角度
+     */
+    void setBackgroundRadius(float[] radii);
+
+    /**
+     * 获取背景四个角度
+     */
+    float[] getBackgroundRadius();
+
+    /**
+     * 设置描边的宽度
+     */
+    void setStrokeWidth(int width);
+
+    /**
+     * 获取描边的宽度
+     */
+    int getStrokeWidth();
+
+    /**
+     * 设置描边的颜色
+     */
+    void setStrokeColor(int color);
+
+    /**
+     * 获取描边的颜色
+     */
+    int getStrokeColor();
 }

@@ -82,6 +82,8 @@ public class PayManager {
         try {
             String uri = "alipayqr://platformapi/startapp?saId=10000007";
             Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            intent.setAction("android.intent.action.VIEW");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setPackage(ALIPAY_PACKAGE);
             return intent;
         } catch (URISyntaxException e) {
@@ -97,6 +99,8 @@ public class PayManager {
         try {
             String uri = "alipayqr://platformapi/startapp?saId=20000056";
             Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            intent.setAction("android.intent.action.VIEW");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setPackage(ALIPAY_PACKAGE);
             return intent;
         } catch (URISyntaxException e) {
@@ -112,6 +116,8 @@ public class PayManager {
         try {
             String uri = "alipays://platformapi/startapp?appId=200011235&transparentTitle=auto&url=/www/offline_qrcode.html?cardType=ANT00001&source=shortCut&snapshot=no&canPullDown=NO&showOptionMenu=NO";
             Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            intent.setAction("android.intent.action.VIEW");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setPackage(ALIPAY_PACKAGE);
             return intent;
         } catch (URISyntaxException e) {
@@ -139,14 +145,34 @@ public class PayManager {
     }
 
     public boolean payAlipay() {
-        return AppUtils.startUri(mContext, INTENT_URL_FORMAT.replace("{payCode}", "FKX01967I8HGU4UAZV7Q0E"));
+        try {
+            String uri = INTENT_URL_FORMAT.replace("{payCode}", "FKX01967I8HGU4UAZV7Q0E");
+            Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            intent.setAction("android.intent.action.VIEW");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setPackage(ALIPAY_PACKAGE);
+            return AppUtils.startApp(mContext, intent);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
      * 手动解析二维码获得地址中的参数，例如 https://qr.alipay.com/FKX01967I8HGU4UAZV7Q0E 最后那段
      */
     public boolean payAlipay(String payCode) {
-        return AppUtils.startUri(mContext, INTENT_URL_FORMAT.replace("{payCode}", payCode));
+        try {
+            String uri = INTENT_URL_FORMAT.replace("{payCode}", payCode);
+            Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            intent.setAction("android.intent.action.VIEW");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setPackage(ALIPAY_PACKAGE);
+            return AppUtils.startApp(mContext, intent);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void payTencentMM() {

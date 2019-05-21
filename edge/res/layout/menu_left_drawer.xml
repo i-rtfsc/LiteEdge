@@ -36,7 +36,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/spacing_normal"
             android:gravity="center"
-            android:src="@mipmap/user"
+            android:src="@drawable/svg_avatar"
             app:civ_border_color="@color/ivory"
             app:civ_border_width="@dimen/divider_size" />
 
@@ -52,14 +52,17 @@
                 android:id="@+id/user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:textColor="@color/icon" />
 
             <TextView
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:textColor="@color/colorPrimary90" />
         </LinearLayout>
+
     </RelativeLayout>
 
 

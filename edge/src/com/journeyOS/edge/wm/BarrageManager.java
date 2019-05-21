@@ -110,7 +110,7 @@ public class BarrageManager implements OnBarrageStateChangeListener {
 
         Bitmap bitmap = UIUtils.drawableToBitmap(mContext.getResources().getDrawable(R.mipmap.user));
         Bitmap circleBitmap = UIUtils.getCircularBitmap(bitmap);
-        sendBarrage(circleBitmap, "用户名", "弹幕消息测试~");
+        sendBarrage(circleBitmap, "用户名", "弹幕消息超长测试11111222223333344444555556666677777888889999900000111111~", true);
     }
 
     public void sendBarrage(Notification notification) {
@@ -122,16 +122,17 @@ public class BarrageManager implements OnBarrageStateChangeListener {
             Bitmap bitmap = UIUtils.drawableToBitmap(drawable);
             circleBitmap = UIUtils.getCircularBitmap(bitmap);
         }
-        sendBarrage(circleBitmap, notification.getTitle(), notification.getTitle());
+        sendBarrage(circleBitmap, notification.getTitle(), notification.getText(), true);
         setPackageName(notification.getPackageName());
     }
 
-
-    public void sendBarrage(Bitmap bitmap, String name, String text) {
-        boolean isSkip = skipBarrage(name, text);
-        if (isSkip) {
-            LogUtils.i(TAG, "skip this barrage!");
-            return;
+    public void sendBarrage(Bitmap bitmap, String name, String text, boolean checkSkip) {
+        if (checkSkip) {
+            boolean isSkip = skipBarrage(name, text);
+            if (isSkip) {
+                LogUtils.i(TAG, "skip this barrage!");
+                return;
+            }
         }
 
         if (mRootView == null) {
@@ -179,16 +180,36 @@ public class BarrageManager implements OnBarrageStateChangeListener {
     private BarrageModel getBarrageModel(Bitmap bitmap, String title, String content) {
         BarrageModel barrageModel = new BarrageModel();
         barrageModel.avatar = bitmap;
+        if (title != null && title.length() > 10) {
+            title = title.substring(0, 9);
+        }
         barrageModel.title = title;
         barrageModel.content = content;
         BarrageController controller = new BarrageController();
         controller.setPostion(SpUtils.getInstant().getInt(Constant.BARRAGE_POSTION, Constant.BARRAGE_POSTION_DEFAULT));
+        controller.setDirection(SpUtils.getInstant().getInt(Constant.BARRAGE_DIRECTION, Constant.BARRAGE_DIRECTION_DEFAULT));
         controller.setSpeed(SpUtils.getInstant().getInt(Constant.BARRAGE_SPEED, Constant.BARRAGE_SPEED_DEFAULT));
         controller.setAvatarSize(SpUtils.getInstant().getInt(Constant.BARRAGE_AVATAR_SIZE, Constant.BARRAGE_AVATAR_SIZE_DEFAULT));
         controller.setTextSize(SpUtils.getInstant().getInt(Constant.BARRAGE_TEXT_SIZE, Constant.BARRAGE_TEXT_SIZE_DEFAULT));
         controller.setTextTitleColor(SpUtils.getInstant().getInt(Constant.BARRAGE_TITLE_COLOR, Constant.BARRAGE_TITLE_COLOR_DEFAULT));
         controller.setTextContentColor(SpUtils.getInstant().getInt(Constant.BARRAGE_SUMMARY_COLOR, Constant.BARRAGE_SUMMARY_COLOR_DEFAULT));
         controller.setBackgroundColor(SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_COLOR, Constant.BARRAGE_BACKGROUND_COLOR_DEFAULT));
+
+        float[] radii = {
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_TOP_LEFT, Constant.BARRAGE_BACKGROUND_TOP_LEFT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_TOP_LEFT, Constant.BARRAGE_BACKGROUND_TOP_LEFT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_TOP_RIGHT, Constant.BARRAGE_BACKGROUND_TOP_RIGHT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_TOP_RIGHT, Constant.BARRAGE_BACKGROUND_TOP_RIGHT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_BOTTOM_RIGHT, Constant.BARRAGE_BACKGROUND_BOTTOM_RIGHT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_BOTTOM_RIGHT, Constant.BARRAGE_BACKGROUND_BOTTOM_RIGHT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_BOTTOM_LEFT, Constant.BARRAGE_BACKGROUND_BOTTOM_LEFT_DEFAULT),
+                (float) SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_BOTTOM_LEFT, Constant.BARRAGE_BACKGROUND_BOTTOM_LEFT_DEFAULT)
+        };
+        controller.setBackgroundRadius(radii);
+
+        controller.setStrokeWidth(SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_STROKE_WIDTH, Constant.BARRAGE_BACKGROUND_STROKE_WIDTH_DEFAULT));
+        controller.setStrokeColor(SpUtils.getInstant().getInt(Constant.BARRAGE_BACKGROUND_STROKE_COLOR, Constant.BARRAGE_BACKGROUND_STROKE_COLOR_DEFAULT));
+
         barrageModel.controller = controller;
         return barrageModel;
     }
