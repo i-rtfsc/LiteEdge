@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'com.mob.sdk'
 
 android {
     compileSdkVersion gradle.compileSdkVersion
@@ -63,4 +64,12 @@ dependencies {
 
     annotationProcessor "com.journeyOS:literouter-compiler:$gradle.literouter_compiler"
     annotationProcessor "com.jakewharton:butterknife-compiler:$gradle.butterknife"
+}
+
+MobSDK {
+    appKey "2b324e53dd839"
+    appSecret "17dbfebdc95b61d31390568e24b47d44"
+    SMSSDK {
+        gui false
+    }
 }

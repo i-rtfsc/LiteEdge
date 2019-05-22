@@ -4,6 +4,8 @@ buildscript {
         jcenter()
         google()
         maven { url 'https://jitpack.io' }
+        maven { url "https://raw.github.com/bmob/bmob-android-sdk/master" }
+        maven { url 'http://mvn.mob.com/android' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0'
@@ -13,6 +15,8 @@ buildscript {
         classpath 'com.novoda:bintray-release:0.8.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+//        classpath "com.mob.sdk:MobSDK:2018.0319.1724"
+        classpath 'com.mob.sdk:MobSDK:+'
     }
 }
 
@@ -22,6 +26,7 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
         maven { url "https://raw.github.com/bmob/bmob-android-sdk/master" }
+        maven { url 'http://mvn.mob.com/android' }
     }
 }
 
@@ -30,5 +35,5 @@ task clean(type: Delete) {
 }
 
 subprojects {
-    task allDeps(type:DependencyReportTask) {}
+    task allDeps(type: DependencyReportTask) {}
 }
