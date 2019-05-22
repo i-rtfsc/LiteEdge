@@ -73,7 +73,6 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import butterknife.BindView;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DeleteBatchListener;
@@ -292,7 +291,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
                                                     LogUtils.d(TAG, "success, urls = [" + urls + "]");
                                                     if (urls != null && urls.size() > 0) {
                                                         if (AccountManager.getDefault().isLogin()) {
-                                                            EdgeUser edgeUser = new EdgeUser();
+                                                            EdgeUser edgeUser = AccountManager.getDefault().getCurrentUser();
                                                             edgeUser.icon = urls.get(0);
                                                             edgeUser.update(remoteUser.getObjectId(), new UpdateListener() {
                                                                 @Override
