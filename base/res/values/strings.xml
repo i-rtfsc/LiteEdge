@@ -279,4 +279,9 @@
     <string name="barrage_background_stroke_color">描边颜色</string>
     <string name="barrage_background_stroke_color_summary">弹幕背景形状描边颜色</string>
 
+    <string name="logout">退出账号</string>
+    <string name="logout_message">确定真的退出吗?</string>
+    <string name="phone_registered">该手机已经被注册</string>
+    <string name="sms_code_error">验证码错误</string>
+    <string name="get_code_error">获取验证码异常，请重新获取</string>
 </resources>

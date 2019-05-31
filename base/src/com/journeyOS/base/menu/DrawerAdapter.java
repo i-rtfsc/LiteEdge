@@ -68,6 +68,23 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         return items.size();
     }
 
+    public List<DrawerItem> getItems() {
+        return items;
+    }
+
+    public void updateItems(List<DrawerItem> items) {
+        if (this.items != null && this.items.size() > 0) {
+            this.items.clear();
+        }
+        this.items.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void updateItem(DrawerItem item) {
+        items.add(item);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemViewType(int position) {
         return viewTypes.get(items.get(position).getClass());

@@ -47,6 +47,12 @@ public class TimingButton extends Button {
         mTimeCount.start();
     }
 
+    public void finish() {
+        if (mTimeCount != null) {
+            mTimeCount.onFinish();
+        }
+    }
+
     @Override
     protected void onVisibilityChanged(View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);

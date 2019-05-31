@@ -535,7 +535,7 @@ public class EdgeActivity extends BaseActivity implements SlidingDrawer.OnItemSe
 
         @Override
         public void onLogOutSuccess() {
-
+            SlidingDrawer.getDefault().initNoneUserInfo();
         }
     };
 }
