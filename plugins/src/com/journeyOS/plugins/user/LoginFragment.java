@@ -230,6 +230,10 @@ public class LoginFragment extends BaseFragment {
                         if (result == SMSSDK.RESULT_COMPLETE) {
 //                            smsButton.start();
                         } else {
+                            if (smsButton != null) {
+                                smsButton.finish();
+                            }
+                            Toasty.error(mContext, mContext.getResources().getString(R.string.get_code_error)).show();
                             LogUtils.d(TAG, " get verification code error, = " + data);
                             ((Throwable) data).printStackTrace();
                         }
@@ -258,11 +262,12 @@ public class LoginFragment extends BaseFragment {
                                         });
                                         SyncManager.getDefault().fetchEdgeAir();
                                     } else {
-                                        Toasty.error(mContext, "该手机已经注册").show();
+                                        Toasty.error(mContext, mContext.getResources().getString(R.string.phone_registered)).show();
                                     }
                                 }
                             });
                         } else {
+                            Toasty.error(mContext, mContext.getResources().getString(R.string.sms_code_error)).show();
                             LogUtils.d(TAG, "submit verification code error, = " + data);
                             ((Throwable) data).printStackTrace();
                         }
@@ -377,6 +382,27 @@ public class LoginFragment extends BaseFragment {
                 Toasty.info(mActivity, mContext.getString(R.string.has_been_set));
             }
         }
+    }
+
+    @OnClick({R2.id.logout})
+    public void listenerLogout() {
+        final AlertDialog dialog = new AlertDialog.Builder(mContext, R.style.CornersAlertDialog)
+                .setTitle(R.string.logout)
+                .setMessage(R.string.logout_message)
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        AccountManager.getDefault().logOut();
+                    }
+                })
+                .create();
+        dialog.show();
     }
 
     void handleUserInfoObserver(final StatusDataResource statusDataResource) {
@@ -514,7 +540,9 @@ public class LoginFragment extends BaseFragment {
 
         @Override
         public void onLogOutSuccess() {
-
+            mUserLayout.setVisibility(View.GONE);
+            mLoginLayout.setVisibility(View.VISIBLE);
+            mRegisterLayout.setVisibility(View.GONE);
         }
     };
 }

@@ -29,6 +29,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FetchUserInfoListener;
 import cn.bmob.v3.listener.LogInListener;
 
 public class AccountManager {
@@ -68,6 +69,7 @@ public class AccountManager {
             @Override
             public void done(final EdgeUser edgeUser, BmobException e) {
                 if (e == null) {
+                    updateUserCache();
                     CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -82,18 +84,38 @@ public class AccountManager {
     }
 
     public void logOut() {
+        LogUtils.w(TAG, "log out");
         EdgeUser.logOut();
+        CoreManager.getDefault().getImpl(ICoreExecutors.class).mainThread().execute(new Runnable() {
+            @Override
+            public void run() {
+                logOutSuccess();
+            }
+        });
     }
 
     public boolean isLogin() {
         return EdgeUser.isLogin();
     }
 
-
     public EdgeUser getCurrentUser() {
+        updateUserCache();
         EdgeUser edgeUser = BmobUser.getCurrentUser(EdgeUser.class);
         LogUtils.i(TAG, "get current user, is null = " + (edgeUser == null));
         return edgeUser;
+    }
+
+    private void updateUserCache() {
+        BmobUser.fetchUserInfo(new FetchUserInfoListener<BmobUser>() {
+            @Override
+            public void done(BmobUser user, BmobException e) {
+                if (e == null) {
+                    LogUtils.i(TAG, "更新用户本地缓存信息成功");
+                } else {
+                    LogUtils.i(TAG, "更新用户本地缓存信息失败");
+                }
+            }
+        });
     }
 
     public void loginSuccess(EdgeUser edgeUser) {

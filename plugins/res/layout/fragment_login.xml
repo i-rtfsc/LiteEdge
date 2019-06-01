@@ -387,10 +387,18 @@
 
                 <com.journeyOS.base.widget.SettingView
                     android:id="@+id/user_email"
-                    style="@style/bottom_layout"
+                    style="@style/mid_layout"
                     app:settingIcon="@drawable/svg_email"
                     app:settingTitle="@string/useremail"
                     app:showRightSummary="true" />
+
+                <View style="@style/bg_line" />
+
+                <com.journeyOS.base.widget.SettingView
+                    android:id="@+id/logout"
+                    style="@style/bottom_layout"
+                    app:settingIcon="@drawable/svg_logout"
+                    app:settingTitle="@string/logout" />
 
             </LinearLayout>
 

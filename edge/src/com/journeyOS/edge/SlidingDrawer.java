@@ -22,6 +22,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,8 +64,12 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     private String mPhone;
     private String mAvatar;
 
-    private final H mHandler = H.getDefault().getHandler();
+    private boolean isAdded = false;
+    private final static int COUNTS = 5;
+    long[] mHints = new long[COUNTS];
+    private final static long DURATION = 3 * 1000;
 
+    private final H mHandler = H.getDefault().getHandler();
 
     private SlidingDrawer() {
         fetchUserInfo();
@@ -94,23 +99,15 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         screenIcons = loadScreenIcons();
         screenTitles = loadScreenTitles();
 
-        List<DrawerItem> items = new ArrayList<>();
-        items.add(createItemFor(Constant.MENU_USER));
-        items.add(createItemFor(Constant.MENU_PERMISSION));
-        items.add(createItemFor(Constant.MENU_SETTINGS).setChecked(true));
-        items.add(createItemFor(Constant.MENU_BARRAGE));
-        items.add(createItemFor(Constant.MENU_LAB));
-        items.add(createItemFor(Constant.MENU_ABOUT));
-        items.add(createItemFor(Constant.MENU_LEARN));
+        List<DrawerItem> items = initItems();
         //新增管理员选项
-
         EdgeUser edgeUser = AccountManager.getDefault().getCurrentUser();
         boolean isManager = (edgeUser != null ? edgeUser.manager : false);
-        LogUtils.d(EdgeActivity.TAG, " user is manager = " + isManager);
+        LogUtils.d(EdgeActivity.TAG, "user is manager = [" + isManager + "], has been added = [" + isAdded + "]");
         if (isManager || BuildConfig.DEBUG) {
             items.add(createItemFor(Constant.MENU_ADMIN));
+            isAdded = true;
         }
-
         adapter = new DrawerAdapter(items);
         adapter.setListener(this);
 
@@ -121,6 +118,19 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
         adapter.setSelected(Constant.MENU_SETTINGS);
 
         initUserInfo();
+    }
+
+    private List<DrawerItem> initItems() {
+        List<DrawerItem> items = new ArrayList<>();
+        items.add(createItemFor(Constant.MENU_USER));
+        items.add(createItemFor(Constant.MENU_PERMISSION));
+        items.add(createItemFor(Constant.MENU_SETTINGS).setChecked(true));
+        items.add(createItemFor(Constant.MENU_BARRAGE));
+        items.add(createItemFor(Constant.MENU_LAB));
+        items.add(createItemFor(Constant.MENU_ABOUT));
+        items.add(createItemFor(Constant.MENU_LEARN));
+
+        return items;
     }
 
     private void fetchUserInfo() {
@@ -179,6 +189,25 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
                 }
             }
         });
+
+        mContext.findViewById(R.id.layout_user_info).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startManager();
+            }
+        });
+    }
+
+    public void initNoneUserInfo() {
+        mUser = mContact = mPhone = mAvatar = CoreManager.getDefault().getContext().getString(R.string.not_set);
+        ((TextView) mContext.findViewById(R.id.user)).setText(mUser);
+        ((TextView) mContext.findViewById(R.id.email)).setText(mContact);
+        ((ImageView) mContext.findViewById(R.id.user_avatar)).setBackgroundResource(R.drawable.svg_avatar);
+
+        List<DrawerItem> items = initItems();
+        if (adapter != null) {
+            adapter.updateItems(items);
+        }
     }
 
     public void setUserAvatar(Bitmap bitmap) {
@@ -261,6 +290,29 @@ public class SlidingDrawer implements DrawerAdapter.OnItemSelectedListener {
     public void closeMenu(boolean isAnimator) {
         if (slidingRootNav != null) {
             slidingRootNav.closeMenu(isAnimator);
+        }
+    }
+
+    private void startManager() {
+        if (!isAdded) {
+            System.arraycopy(mHints, 1, mHints, 0, mHints.length - 1);
+            mHints[mHints.length - 1] = SystemClock.uptimeMillis();
+            if (mHints[0] >= (SystemClock.uptimeMillis() - DURATION)) {
+                if (adapter != null) {
+                    List<DrawerItem> items = adapter.getItems();
+                    DrawerItem item = createItemFor(Constant.MENU_ADMIN);
+                    if (!items.contains(item)) {//something wrong
+                        //新增管理员选项
+                        EdgeUser edgeUser = AccountManager.getDefault().getCurrentUser();
+                        boolean isManager = (edgeUser != null ? edgeUser.manager : false);
+                        LogUtils.d(EdgeActivity.TAG, "user is manager = [" + isManager + "], has been added = [" + isAdded + "]");
+                        if (isManager || BuildConfig.DEBUG) {
+                            adapter.updateItem(item);
+                            isAdded = true;
+                        }
+                    }
+                }
+            }
         }
     }
 
